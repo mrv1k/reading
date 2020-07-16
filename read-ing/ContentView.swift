@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  read-ing
-//
-//  Created by Viktor Khotimchenko on 2020-07-15.
-//  Copyright © 2020 mrv1k. All rights reserved.
-//
-
 import SwiftUI
 
 struct ContentView: View {
