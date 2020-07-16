@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,9 @@
 		5723958024BEF28A007DC1E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5723957F24BEF28A007DC1E5 /* Assets.xcassets */; };
 		5723958324BEF28A007DC1E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */; };
 		5723958624BEF28A007DC1E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5723958424BEF28A007DC1E5 /* LaunchScreen.storyboard */; };
+		5723958E24C0212E007DC1E5 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958D24C0212E007DC1E5 /* BookView.swift */; };
+		5723959024C021A8007DC1E5 /* BookListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookListView.swift */; };
+		5783688524C04A9700FE1233 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783688324C0430200FE1233 /* Book.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5723958524BEF28A007DC1E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5723958724BEF28A007DC1E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5723958D24C0212E007DC1E5 /* BookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
+		5723958F24C021A7007DC1E5 /* BookListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListView.swift; sourceTree = "<group>"; };
+		5783688324C0430200FE1233 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +62,12 @@
 		5723957824BEF289007DC1E5 /* read-ing */ = {
 			isa = PBXGroup;
 			children = (
+				5783688224C042E700FE1233 /* Models */,
 				5723957924BEF289007DC1E5 /* AppDelegate.swift */,
 				5723957B24BEF289007DC1E5 /* SceneDelegate.swift */,
 				5723957D24BEF289007DC1E5 /* ContentView.swift */,
+				5723958D24C0212E007DC1E5 /* BookView.swift */,
+				5723958F24C021A7007DC1E5 /* BookListView.swift */,
 				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
 				5723958424BEF28A007DC1E5 /* LaunchScreen.storyboard */,
 				5723958724BEF28A007DC1E5 /* Info.plist */,
@@ -73,6 +82,14 @@
 				5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5783688224C042E700FE1233 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5783688324C0430200FE1233 /* Book.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,7 +128,7 @@
 				};
 			};
 			buildConfigurationList = 5723957124BEF289007DC1E5 /* Build configuration list for PBXProject "read-ing" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -148,7 +165,10 @@
 			files = (
 				5723957A24BEF289007DC1E5 /* AppDelegate.swift in Sources */,
 				5723957C24BEF289007DC1E5 /* SceneDelegate.swift in Sources */,
+				5783688524C04A9700FE1233 /* Book.swift in Sources */,
+				5723959024C021A8007DC1E5 /* BookListView.swift in Sources */,
 				5723957E24BEF289007DC1E5 /* ContentView.swift in Sources */,
+				5723958E24C0212E007DC1E5 /* BookView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +315,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.mrv1k.read-ing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -314,7 +334,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.mrv1k.read-ing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
