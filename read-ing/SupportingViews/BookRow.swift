@@ -8,9 +8,9 @@ struct BookRow: View {
             Text(book.title)
                 .lineLimit(1)
             Spacer()
-            Text(book.author)
+//            Text(book.author) // FIXME
             Spacer()
-            Text(book.pageCount)
+            Text(String(book.pageCount))
         }.multilineTextAlignment(.leading)
     }
 }
