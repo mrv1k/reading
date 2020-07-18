@@ -1,26 +1,22 @@
 import SwiftUI
 
-struct BookView: View {
-
-    @State var title: String = "Title"
-    @State var author: String = "Author"
-    @State var pageCount: String = "1000"
-
-//    @State var book: Book
+struct BookDetail: View {
+    @State var book: Book
     
     var body: some View {
         NavigationView {
             Form {
-                TextField("", text: $title)
+                TextField("", text: $book.title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("", text: $author)
+                TextField("", text: $book.author)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("", text: $pageCount)
+                TextField("", text: $book.pageCount)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)
 
+
                 Button("Add book") {
-                    print("mek")
+                    print("Add book")
                 }
                 .foregroundColor(.white)
                 .padding()
@@ -32,13 +28,8 @@ struct BookView: View {
     }
 }
 
-struct BookView_Previews: PreviewProvider {
+struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        BookView()
-//        BookView(book: Book(
-//            title: "Crime and Punishment",
-//            author: "Dostoevsky",
-//            pageCount: 600
-//            ))
+        BookDetail(book: sampleBookList[0])
     }
 }
