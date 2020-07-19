@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         // ex let contentView
-        let rootView = BookList(books: sampleBookList)
+        let rootView = BookList(books: sampleBookArray)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

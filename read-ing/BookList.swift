@@ -18,6 +18,6 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        BookList(books: sampleBookList)
+        BookList(books: sampleBookArray)
     }
 }

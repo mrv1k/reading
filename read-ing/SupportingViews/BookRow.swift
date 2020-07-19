@@ -19,7 +19,7 @@ struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             List {
-                BookRow(book: sampleBookList[0])
+                BookRow(book: sampleBookArray[0])
             }
 //             placeholders to make single row item style
 //            match list style
