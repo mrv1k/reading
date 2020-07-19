@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 struct Book: Identifiable {
     let id: Int
@@ -7,12 +6,6 @@ struct Book: Identifiable {
     var subtitle: String?
     var authors: [String]
     var pageCount: Int
-    var image: Image?
+    var image: String?
     var isEbook = false
 }
-
-//types of images
-//Image
-//CGImage
-//UIImage
-//CIImage
