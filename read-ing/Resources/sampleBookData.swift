@@ -34,7 +34,7 @@ let book3 = Book(
 let sampleBookArray = [book0, book1, book2, book3]
 
 let sampleBookWith = [
-    "1000_pages": book0,
+    "minimum": book0,
     "subtitle": book1,
     "everything": book2,
     "2_authors": book3,

@@ -26,7 +26,12 @@ struct BookDetail: View {
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        BookDetail(book: sampleBookWith["everything"]!)
-//        BookDetail(book: sampleBookWith["2_authors"]!)
+        Group {
+            BookDetail(book: sampleBookWith["everything"]!)
+
+            NavigationView {
+                BookDetail(book: sampleBookWith["2_authors"]!)
+            }
+        }
     }
 }

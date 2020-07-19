@@ -7,11 +7,14 @@ struct BookList: View {
         NavigationView {
             List {
                 ForEach(books) { book in
-                    BookRow(book: book)
+                    NavigationLink(destination: BookDetail(book: book)) {
+                        BookRow(book: book)
+                    }
                 }
             }
             .navigationBarItems(trailing: Button("Add") {})
             .navigationBarTitle("Books", displayMode: .inline)
+
         }
     }
 }
