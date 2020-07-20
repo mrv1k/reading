@@ -1,56 +1,70 @@
 import SwiftUI
 
 struct BookCreate: View {
-    @State var title = ""
-    @State var authors = ""
-    @State var pageCount = ""
-    //    @State var subtitle: String?
-    //    @State var image: Image?
-    //    @State var isEbook: Bool
+    @State private var image: Image?
+    @State private var title = ""
+    @State private var subtitle: String?
+    @State private var authors = ""
+    @State private var pageCount = ""
 
-    //    @State var fields = [
-    //        "title": "",
-    //        "authors": "",
-    //        "pageCount": "",
-    //    ]
+    var hasEmptyRequiredField: Bool {
+        title.isEmpty || authors.isEmpty || pageCount.isEmpty
+    }
 
     var body: some View {
         Form {
-            TextField("Title", text: $title)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            //                if title is long, propose subtitle?
-            //                try to guess the subtitle based on punctuation
-            TextField("Author", text: $authors)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            TextField(
-                "Pages",
-                text: $pageCount,
-                onEditingChanged: { (isEditing: Bool) in
-                    print("onEditingChanged", isEditing)
-            },
-                onCommit: {
-                    print("onCommit", self.pageCount)
-            })
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.numberPad)
-
-
-            Button("Add book") {
-                print("Add book")
+            Section(header: Text("COVER")) {
+                Text("Image Placeholder")
+//                Image(image!)
             }
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.blue)
-            .cornerRadius(5.0)
+
+            Section(header: Text("INFORMATION")) {
+                TextField("Title", text: $title)
+
+                //            if subtitle != nil {
+                //                Text(subtitle!)
+                //            }
+
+                TextField("Author(s)", text: $authors)
+
+                TextField("Pages", text: $pageCount)
+                    .keyboardType(.numberPad)
+            }
+
+            Section {
+                Button(action: {
+                    print("add", self.pageCount)
+
+                    guard let pageCount = Int(self.pageCount) else {
+                        return
+                    }
+
+//                    guard let authors = self.authors.components(separatedBy: ",") else {
+//                        return
+//                    }
+
+                    let book = Book(
+                        id: sampleBookArray.count - 1,
+                        title: self.title,
+                        authors: [self.authors],
+                        pageCount: pageCount
+                    )
+                    sampleBookArray.append(book)
+                }) {
+                    Text("Save")
+                }
+            }
+        .disabled(hasEmptyRequiredField)
         }
-        .navigationBarItems(leading: Button("Back") {})
-        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarTitle("Add a book", displayMode: .inline)
     }
 }
 
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
-        BookCreate()
+        Group {
+            PreviewWithNavigation(anyView: AnyView(BookCreate()))
+            BookCreate()
+        }
     }
 }
