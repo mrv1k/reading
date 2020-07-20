@@ -29,9 +29,9 @@ struct BookDetail_Previews: PreviewProvider {
         Group {
             BookDetail(book: sampleBookWith["everything"]!)
 
-            NavigationView {
-                BookDetail(book: sampleBookWith["2_authors"]!)
-            }
+            PreviewWithNavigation(
+                anyView: AnyView(BookDetail(book: sampleBookWith["everything"]!))
+            )
         }
     }
 }

@@ -14,7 +14,6 @@ struct BookList: View {
             }
             .navigationBarItems(trailing: Button("Add") {})
             .navigationBarTitle("Books", displayMode: .inline)
-
         }
     }
 }

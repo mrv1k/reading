@@ -7,13 +7,13 @@ struct BookCreate: View {
     //    @State var subtitle: String?
     //    @State var image: Image?
     //    @State var isEbook: Bool
-    
+
     //    @State var fields = [
     //        "title": "",
     //        "authors": "",
     //        "pageCount": "",
     //    ]
-    
+
     var body: some View {
         Form {
             TextField("Title", text: $title)
@@ -34,8 +34,8 @@ struct BookCreate: View {
             })
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
-            
-            
+
+
             Button("Add book") {
                 print("Add book")
             }
