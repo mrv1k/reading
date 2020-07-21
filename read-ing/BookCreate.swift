@@ -14,8 +14,10 @@ struct BookCreate: View {
     var body: some View {
         Form {
             Section(header: Text("COVER")) {
-                Text("Image Placeholder")
-//                Image(image!)
+                VStack(alignment: .center) {
+                    Divider()
+                    BookCover()
+                }
             }
 
             Section(header: Text("INFORMATION")) {
@@ -50,6 +52,8 @@ struct BookCreate: View {
                         pageCount: pageCount
                     )
                     sampleBookArray.append(book)
+//                    print(selection)
+
                 }) {
                     Text("Save")
                 }

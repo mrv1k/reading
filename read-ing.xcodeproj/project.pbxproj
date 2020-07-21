@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5708D84524C7096F002635BB /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708D84424C7096F002635BB /* BookCover.swift */; };
 		5715C62324C364E4006709C5 /* BookCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5715C62224C364E4006709C5 /* BookCreate.swift */; };
 		5723957A24BEF289007DC1E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723957924BEF289007DC1E5 /* AppDelegate.swift */; };
 		5723957C24BEF289007DC1E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723957B24BEF289007DC1E5 /* SceneDelegate.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5708D84424C7096F002635BB /* BookCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
 		5715C62224C364E4006709C5 /* BookCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCreate.swift; sourceTree = "<group>"; };
 		5723957624BEF289007DC1E5 /* read-ing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "read-ing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5723957924BEF289007DC1E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				578B08D824C1737D00500C41 /* BookRow.swift */,
+				5708D84424C7096F002635BB /* BookCover.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
 				5723957A24BEF289007DC1E5 /* AppDelegate.swift in Sources */,
 				5723957C24BEF289007DC1E5 /* SceneDelegate.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
