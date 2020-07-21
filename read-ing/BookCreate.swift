@@ -36,17 +36,17 @@ struct BookCreate: View {
                     print("add", self.pageCount)
 
                     guard let pageCount = Int(self.pageCount) else {
+//                        pageCountField is invalid
                         return
                     }
 
-//                    guard let authors = self.authors.components(separatedBy: ",") else {
-//                        return
-//                    }
+                    var authors = self.authors.components(separatedBy: ", ")
+                    authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
                     let book = Book(
                         id: sampleBookArray.count - 1,
                         title: self.title,
-                        authors: [self.authors],
+                        authors: authors,
                         pageCount: pageCount
                     )
                     sampleBookArray.append(book)
