@@ -1,18 +1,31 @@
 import SwiftUI
 
 struct BookList: View {
-    var books: [Book]
+//    @State private var books: [Book] = sampleBookArray
+    @EnvironmentObject private var userData: UserData
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(books) { book in
-                    NavigationLink(destination: BookDetail(book: book)) {
+                ForEach(userData.books) { book in
+                    NavigationLink(
+                        destination: BookDetail(book: book)
+                    ) {
                         BookRow(book: book)
+                            .environmentObject(self.userData)
                     }
                 }
+
+                Button(action: {
+                    print(self.userData.books)
+                    print(self.userData.books.count, sampleBookArray.count)
+                }) {
+                    Text("Log")
+                }
             }
-            .navigationBarItems(trailing: Button("Add") {})
+            .navigationBarItems(trailing: NavigationLink(destination: BookCreate()) {
+                Text("Add")
+            })
             .navigationBarTitle("Books", displayMode: .inline)
         }
     }
@@ -20,6 +33,7 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        BookList(books: sampleBookArray)
+        BookList()
+            .environmentObject(UserData())
     }
 }

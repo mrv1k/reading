@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BookDetail: View {
+    @Environment(\.presentationMode) private var isActive
     let book: Book
 
     var body: some View {
@@ -19,6 +20,12 @@ struct BookDetail: View {
 
             Text(String(book.pageCount) + " pages")
 
+            Button(action: {
+                self.isActive.wrappedValue.dismiss()
+            }) {
+                Text("OK")
+            }
+
 //            Text("isEbook \(book.isEbook ? "true" : "false")")
         }
     }
@@ -27,11 +34,14 @@ struct BookDetail: View {
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BookDetail(book: sampleBookWith["everything"]!)
+            BookDetail(
+                book: sampleBookWith["everything"]!
+            )
 
             PreviewWithNavigation(
                 anyView: AnyView(BookDetail(book: sampleBookWith["everything"]!))
             )
         }
+        .environmentObject(UserData())
     }
 }

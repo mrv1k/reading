@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct BookCreate: View {
+    @Environment(\.presentationMode) private var isActive
+    @EnvironmentObject var userData: UserData
+
     @State private var image: Image?
     @State private var title = ""
     @State private var subtitle: String?
@@ -35,8 +38,6 @@ struct BookCreate: View {
 
             Section {
                 Button(action: {
-                    print("add", self.pageCount)
-
                     guard let pageCount = Int(self.pageCount) else {
 //                        pageCountField is invalid
                         return
@@ -46,14 +47,16 @@ struct BookCreate: View {
                     authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
                     let book = Book(
-                        id: sampleBookArray.count - 1,
+                        id: sampleBookArray.count,
                         title: self.title,
                         authors: authors,
                         pageCount: pageCount
                     )
-                    sampleBookArray.append(book)
-//                    print(selection)
+                    self.userData.books.append(book)
+                    print(book)
 
+//                    add another or
+                    self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")
                 }
@@ -70,5 +73,6 @@ struct BookCreate_Previews: PreviewProvider {
             PreviewWithNavigation(anyView: AnyView(BookCreate()))
             BookCreate()
         }
+        .environmentObject(UserData())
     }
 }
