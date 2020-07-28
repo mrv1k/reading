@@ -47,7 +47,7 @@ struct BookCreate: View {
                     authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
                     let book = Book(
-                        id: sampleBookArray.count,
+                        id: self.userData.books.count,
                         title: self.title,
                         authors: authors,
                         pageCount: pageCount
