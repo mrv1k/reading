@@ -72,18 +72,18 @@
 		5723957824BEF289007DC1E5 /* read-ing */ = {
 			isa = PBXGroup;
 			children = (
+				5723958724BEF28A007DC1E5 /* Info.plist */,
 				5723957924BEF289007DC1E5 /* AppDelegate.swift */,
-				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
 				5715C62224C364E4006709C5 /* BookCreate.swift */,
 				5723958D24C0212E007DC1E5 /* BookDetail.swift */,
 				5723958F24C021A7007DC1E5 /* BookList.swift */,
-				5723958724BEF28A007DC1E5 /* Info.plist */,
+				5723957B24BEF289007DC1E5 /* SceneDelegate.swift */,
+				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
 				5723958424BEF28A007DC1E5 /* LaunchScreen.storyboard */,
 				5783688224C042E700FE1233 /* Models */,
-				57413BE624C571C6009B461F /* PreviewHelpers */,
 				5723958124BEF28A007DC1E5 /* Preview Content */,
+				57413BE624C571C6009B461F /* PreviewHelpers */,
 				578B08DB24C1772800500C41 /* Resources */,
-				5723957B24BEF289007DC1E5 /* SceneDelegate.swift */,
 				578B08DA24C174D300500C41 /* SupportingViews */,
 			);
 			path = "read-ing";
