@@ -17,14 +17,6 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            List {
-                BookRow(book: sampleBookArray[0])
-            }
-//             placeholders to make single row item style
-//            match list style
-            .navigationBarItems(trailing: Button("x") {})
-            .navigationBarTitle("x", displayMode: .inline)
-        }
+        BookRow(book: SeedData.shared.book1())
     }
 }
