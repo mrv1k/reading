@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  read-ing
+//  reading
 //
 //  Created by Viktor Khotimchenko on 2020-07-15.
 //  Copyright © 2020 mrv1k. All rights reserved.
@@ -23,10 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        // let contentView = ContentView().environment(\.managedObjectContext, context)
+        // SeedData.shared.book1()
+        // SeedData.shared.book2()
+
         let rootView = BookList()
             .environment(\.managedObjectContext, context)
-            .environmentObject(UserData())
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
