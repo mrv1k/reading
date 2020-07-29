@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct BookCreate: View {
+    @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.presentationMode) private var isActive
-    @EnvironmentObject var userData: UserData
 
     @State private var image: Image?
     @State private var title = ""
@@ -26,9 +26,9 @@ struct BookCreate: View {
             Section(header: Text("INFORMATION")) {
                 TextField("Title", text: $title)
 
-                //            if subtitle != nil {
-                //                Text(subtitle!)
-                //            }
+                // if subtitle != nil {
+                //     Text(subtitle!)
+                // }
 
                 TextField("Author(s)", text: $authors)
 
@@ -38,29 +38,34 @@ struct BookCreate: View {
 
             Section {
                 Button(action: {
-                    guard let pageCount = Int(self.pageCount) else {
-//                        pageCountField is invalid
+                    guard let pageCount = Int16(self.pageCount) else {
+                       // pageCountField is invalid
                         return
                     }
 
-                    var authors = self.authors.components(separatedBy: ", ")
-                    authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
+                    // var authors = self.authors.components(separatedBy: ", ")
+                    // authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
-                    let book = Book(
-                        id: self.userData.books.count,
-                        title: self.title,
-                        authors: authors,
-                        pageCount: pageCount
-                    )
-                    self.userData.books.append(book)
-                    print(book)
+                    let book = Book(context: self.managedObjectContext)
+                    book.id = UUID()
+                    book.title = self.title
+                    book.authors = self.authors
+                    book.pageCount = pageCount
 
-//                    add another or
+                    do {
+                        try self.managedObjectContext.save()
+                        print("saved", book)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+
+                   // add another or
                     self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")
                 }
             }
+            
         .disabled(hasEmptyRequiredField)
         }
         .navigationBarTitle("Add a book", displayMode: .inline)
@@ -69,10 +74,8 @@ struct BookCreate: View {
 
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            PreviewWithNavigation(anyView: AnyView(BookCreate()))
-            BookCreate()
-        }
-        .environmentObject(UserData())
+        let context = SeedData.shared.context
+        BookCreate()
+            .environment(\.managedObjectContext, context)
     }
 }
