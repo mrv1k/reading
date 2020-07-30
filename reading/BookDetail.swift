@@ -36,17 +36,7 @@ struct BookDetail: View {
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        return BookDetail(book: SeedData.shared.book1())
+        BookDetail(book: SeedData.shared.book1())
             .environment(\.managedObjectContext, SeedData.shared.context)
-        // Group {
-        //     BookDetail(
-        //         book: sampleBookWith["everything"]!
-        //     )
-        //
-        //     PreviewWithNavigation(
-        //         anyView: AnyView(BookDetail(book: sampleBookWith["everything"]!))
-        //     )
-        // }
-        // .environment(\.managedObjectContext, context)
     }
 }

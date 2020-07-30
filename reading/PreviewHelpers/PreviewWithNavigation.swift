@@ -1,31 +1,30 @@
 import SwiftUI
 
-struct PreviewWithNavigation: View {
-    var anyView: AnyView
-
-    var backButton = Button(action: {}) {
+struct PreviewWithNavigation<Content: View>: View {
+    let backButton = Button(action: { print("preview back click") }) {
         Image(systemName: "chevron.left")
     }
 
+    let viewBuilder: () -> Content
+
     var body: some View {
         NavigationView {
-            anyView
-            .navigationBarItems(leading: Button(action: {}) {
-                HStack {
-                    Image(systemName: "chevron.left")
-                    Text("%title%")
-                }
-            })
+            viewBuilder()
+                .navigationBarItems(leading: backButton)
         }
     }
 }
 
 struct PreviewWithNavigation_Previews: PreviewProvider {
+    // use to preview views that are nested inside NavigationView
     static var previews: some View {
-        PreviewWithNavigation(
-            anyView: AnyView(
-                BookDetail(book: sampleBookWith["everything"]!)
-            )
-        )
+        Group {
+            PreviewWithNavigation {
+                BookCreate_Previews.previews
+            }
+            PreviewWithNavigation {
+                BookDetail_Previews.previews
+            }
+        }
     }
 }
