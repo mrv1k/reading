@@ -17,9 +17,10 @@ struct BookCreate: View {
     var body: some View {
         Form {
             Section(header: Text("COVER")) {
-                VStack(alignment: .center) {
-                    Divider()
+                HStack {
+                    Spacer()
                     BookCover()
+                    Spacer()
                 }
             }
 
@@ -39,7 +40,7 @@ struct BookCreate: View {
             Section {
                 Button(action: {
                     guard let pageCount = Int16(self.pageCount) else {
-                       // pageCountField is invalid
+                        // pageCountField is invalid
                         return
                     }
 
@@ -59,14 +60,14 @@ struct BookCreate: View {
                         print(error.localizedDescription)
                     }
 
-                   // add another or
+                    // add another or
                     self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")
+                        .frame(maxWidth: .infinity)
                 }
             }
-            
-        .disabled(hasEmptyRequiredField)
+            .disabled(hasEmptyRequiredField)
         }
         .navigationBarTitle("Add a book", displayMode: .inline)
     }
@@ -74,8 +75,7 @@ struct BookCreate: View {
 
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
-        let context = SeedData.shared.context
         BookCreate()
-            .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, SeedData.shared.context)
     }
 }
