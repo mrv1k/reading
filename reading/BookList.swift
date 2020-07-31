@@ -48,11 +48,9 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        // for some unknown reason doesnt work with SeedData.shared.context
-        // let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let _ = SeedData.shared.makeBookList()
 
-        BookList()
+        return BookList()
             .environment(\.managedObjectContext, SeedData.shared.moc)
-            // .environment(\.managedObjectContext, moc)
     }
 }

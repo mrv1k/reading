@@ -17,49 +17,53 @@ class SeedData {
         self.moc = moc
     }
 
-    private func minimum(book: Book) {
-        book.title = "Crime and Punishment"
-        book.authors = "Fyodor Dostoyevsky"
-        book.pageCount = Int16(449)
-    }
-
-    // "Shoe Dog: A Memoir by the Creator of NIKE"
-    private func everything(book: Book) {
-        book.title = "Shoe Dog"
-        book.subtitle = "A Memoir by the Creator of NIKE"
-        book.authors = "Phil Knight"
-        book.pageCount = Int16(400)
-    }
-
-    private func subtitle(book: Book) {
-        book.title = "The Swift Programming Language"
-        book.subtitle = "(Swift 5.2 Edition)"
-        book.authors = "Apple Inc., Elppa Cin."
-        book.pageCount = Int16(500)
-    }
-
     func makeBook(with data: BookData, save: Bool = false) -> Book {
         let book = Book(context: moc)
         book.id = UUID()
 
         switch data {
         case .minimum:
-            minimum(book: book)
-        case .everything:
-            everything(book: book)
+            book.title = "Crime and Punishment"
+            book.authors = "Fyodor Dostoyevsky"
+            book.pageCount = Int16(449)
         case .subtitle:
-            subtitle(book: book)
+            book.title = "Shoe Dog"
+            book.subtitle = "A Memoir by the Creator of NIKE"
+            book.authors = "Phil Knight"
+            book.pageCount = Int16(400)
+        case .everything:
+            book.title = "The Swift Programming Language"
+            book.subtitle = "(Swift 5.2 Edition)"
+            book.authors = "Apple Inc., Second Author Example"
+            book.pageCount = Int16(500)
+            // book.image
         }
 
         if save {
-            do {
-                try moc.save()
-            } catch {
-                print(error)
+            moc.performAndWait {
+                do {
+                    try moc.save()
+                } catch {
+                    print(error)
+                }
             }
         }
         return book
     }
 
-    // TODO make seed book list
+    func makeBookList(save: Bool = false) {
+        let _ = makeBook(with: .minimum)
+        let _ = makeBook(with: .subtitle)
+        let _ = makeBook(with: .everything)
+
+        moc.performAndWait {
+            if save {
+                do {
+                    try moc.save()
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
 }
