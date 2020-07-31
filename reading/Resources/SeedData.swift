@@ -4,20 +4,23 @@ import CoreData
 
 class SeedData {
     static let shared = SeedData()
-    let context: NSManagedObjectContext
+    let moc: NSManagedObjectContext
 
     private init() {
-        self.context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        guard let moc = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
+            fatalError("Unable to read managed object context.")
+        }
+        self.moc = moc
     }
 
     func book1() -> Book {
-        let book = Book(context: context)
+        let book = Book(context: moc)
         book.id = UUID()
         book.title = "Crime and Punishment"
         book.authors = "Fyodor Dostoyevsky"
         book.pageCount = Int16(1000)
         do {
-            try context.save()
+            try moc.save()
         } catch {
             print(error)
         }
@@ -26,14 +29,14 @@ class SeedData {
 
     // "Shoe Dog: A Memoir by the Creator of NIKE"
     func book2() -> Book {
-        let book = Book(context: context)
+        let book = Book(context: moc)
         book.id = UUID()
         book.title = "Shoe Dog"
         book.subtitle = "A Memoir by the Creator of NIKE"
         book.authors = "Phil Knight"
         book.pageCount = Int16(400)
         do {
-            try context.save()
+            try moc.save()
         } catch {
             print(error)
         }
