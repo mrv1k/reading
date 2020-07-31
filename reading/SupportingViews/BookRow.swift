@@ -8,7 +8,7 @@ struct BookRow: View {
             Text(book.title)
                 .lineLimit(1)
             Spacer()
-//            Text(book.author) // FIXME
+            Text(book.authors)
             Spacer()
             Text(String(book.pageCount))
         }.multilineTextAlignment(.leading)
@@ -17,6 +17,6 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        BookRow(book: SeedData.shared.book1())
+        BookRow(book: SeedData.shared.makeBook(with: .minimum))
     }
 }

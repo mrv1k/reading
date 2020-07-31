@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BookDetail: View {
-    @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.managedObjectContext) private var moc
     @Environment(\.presentationMode) private var isActive
     let book: Book
 
@@ -19,7 +19,6 @@ struct BookDetail: View {
             }
 
             Text("by " + book.authors)
-            // Text("by " + book.authors.joined(separator: ", "))
 
             Text(String(book.pageCount) + " pages")
 
@@ -28,15 +27,13 @@ struct BookDetail: View {
             }) {
                 Text("Up to BookList")
             }
-
-//            Text("isEbook \(book.isEbook ? "true" : "false")")
         }
     }
 }
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        BookDetail(book: SeedData.shared.book1())
-            .environment(\.managedObjectContext, SeedData.shared.context)
+        BookDetail(book: SeedData.shared.makeBook(with: .minimum))
+            .environment(\.managedObjectContext, SeedData.shared.moc)
     }
 }

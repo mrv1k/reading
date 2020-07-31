@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BookCreate: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) private var isActive
 
     @State private var image: Image?
@@ -47,14 +47,14 @@ struct BookCreate: View {
                     // var authors = self.authors.components(separatedBy: ", ")
                     // authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
-                    let book = Book(context: self.managedObjectContext)
+                    let book = Book(context: self.moc)
                     book.id = UUID()
                     book.title = self.title
                     book.authors = self.authors
                     book.pageCount = pageCount
 
                     do {
-                        try self.managedObjectContext.save()
+                        try self.moc.save()
                         print("saved", book)
                     } catch {
                         print(error.localizedDescription)
@@ -76,6 +76,6 @@ struct BookCreate: View {
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
         BookCreate()
-            .environment(\.managedObjectContext, SeedData.shared.context)
+            .environment(\.managedObjectContext, SeedData.shared.moc)
     }
 }
