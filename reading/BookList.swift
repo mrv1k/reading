@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BookList: View {
-    @Environment(\.managedObjectContext) var context
+    @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Book.entity(), sortDescriptors: [])
 
     var books: FetchedResults<Book>
@@ -16,17 +16,31 @@ struct BookList: View {
                         BookRow(book: book)
                     }
                 }
+                .onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        self.moc.delete(self.books[index])
+                    }
+                })
 
-                // Button(action: {
-                //     print(self.userData.books)
-                //     print(self.userData.books.count, sampleBookArray.count)
-                // }) {
-                //     Text("Log")
-                // }
+                Button(action: {
+                    print(self.books)
+                    print("FetchedBooks", self.books.count)
+                    self.moc.perform {
+                        do {
+                            try self.moc.save()
+                            print("saved")
+                        } catch {
+                            print("failed save")
+                            print(error)
+                        }
+                    }
+                }) {
+                    Text("Save & Log")
+                }
             }
-            .navigationBarItems(trailing: NavigationLink(destination: BookCreate()) {
-                Text("Add")
-            })
+            .navigationBarItems(
+                leading: EditButton(),
+                trailing: NavigationLink(destination: BookCreate()) { Text("Add") })
             .navigationBarTitle("Books", displayMode: .inline)
         }
     }
@@ -34,8 +48,11 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        BookList()
-            .environment(\.managedObjectContext, SeedData.shared.context)
+        // for some unknown reason doesnt work with SeedData.shared.context
+        // let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+        BookList()
+            .environment(\.managedObjectContext, SeedData.shared.moc)
+            // .environment(\.managedObjectContext, moc)
     }
 }
