@@ -1,10 +1,12 @@
 import SwiftUI
+import CoreData
 
 struct BookList: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: Book.entity(), sortDescriptors: [])
-
-    var books: FetchedResults<Book>
+    @FetchRequest(
+        entity: Book.entity(),
+        sortDescriptors: []
+    ) var books: FetchedResults<Book>
 
     var body: some View {
         NavigationView {
@@ -22,21 +24,47 @@ struct BookList: View {
                     }
                 })
 
+                Button(action: { try! self.moc.save() }) {
+                    Text("Save")
+                }
+
                 Button(action: {
-                    print(self.books)
-                    print("FetchedBooks", self.books.count)
-                    self.moc.perform {
-                        do {
-                            try self.moc.save()
-                            print("saved")
-                        } catch {
-                            print("failed save")
-                            print(error)
-                        }
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                    deleteRequest.resultType = .resultTypeObjectIDs
+
+                    do {
+                        let context = self.moc
+                        let result = try context.execute(
+                            deleteRequest
+                        )
+
+                        guard
+                            let deleteResult = result as? NSBatchDeleteResult,
+                            let ids = deleteResult.result as? [NSManagedObjectID]
+                        else { return }
+
+                        let changes = [NSDeletedObjectsKey: ids]
+                        NSManagedObjectContext.mergeChanges(
+                            fromRemoteContextSave: changes,
+                            into: [context]
+                        )
+                    } catch {
+                        print(error as Any)
                     }
                 }) {
-                    Text("Save & Log")
+                    Text("Delete All")
                 }
+
+                Button(action: {
+                    print("FetchedBooks", self.books.count)
+                    if moc.hasChanges {
+                        print("hasChanges!")
+                    }
+                }) {
+                    Text("Log")
+                }
+
             }
             .navigationBarItems(
                 leading: EditButton(),
@@ -48,9 +76,12 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
+        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
         let _ = SeedData.shared.makeBookList()
+        // let _ = SeedData.shared.deleteBookList()
 
         return BookList()
-            .environment(\.managedObjectContext, SeedData.shared.moc)
+            .environment(\.managedObjectContext, moc)
     }
 }
