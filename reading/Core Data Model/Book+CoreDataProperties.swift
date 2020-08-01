@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-07-29.
+//  Created by Viktor Khotimchenko on 2020-08-01.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 
-extension Book: Identifiable {
+extension Book {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Book> {
         return NSFetchRequest<Book>(entityName: "Book")
@@ -23,5 +23,9 @@ extension Book: Identifiable {
     @NSManaged public var pageCount: Int16
     @NSManaged public var subtitle: String?
     @NSManaged public var title: String
+
+}
+
+extension Book : Identifiable {
 
 }
