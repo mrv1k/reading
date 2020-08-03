@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-08-01.
+//  Created by Viktor Khotimchenko on 2020-08-03.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -19,13 +19,14 @@ extension Book {
 
     @NSManaged public var authors: String
     @NSManaged public var id: UUID
-    @NSManaged public var image: Data?
     @NSManaged public var pageCount: Int16
-    @NSManaged public var subtitle: String?
     @NSManaged public var title: String
+    @NSManaged public var createdAt: Date
 
 }
 
 extension Book : Identifiable {
 
 }
+
+
