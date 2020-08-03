@@ -5,7 +5,7 @@ struct BookList: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(
         entity: Book.entity(),
-        sortDescriptors: []
+        sortDescriptors: [NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)]
     ) var books: FetchedResults<Book>
 
     var body: some View {
@@ -57,10 +57,11 @@ struct BookList: View {
                 }
 
                 Button(action: {
-                    print("FetchedBooks", self.books.count)
+                    print("FetchedBooks", books.count)
                     if moc.hasChanges {
                         print("hasChanges!")
                     }
+                    print(books)
                 }) {
                     Text("Log")
                 }
