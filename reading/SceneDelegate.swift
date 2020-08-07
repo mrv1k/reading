@@ -25,6 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Unable to read managed object context.")
         }
 
+        let _ = SeedData.shared.makeBookList(seedOnce: true, save: true)
+
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
         let rootView = BookList()

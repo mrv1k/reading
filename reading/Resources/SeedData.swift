@@ -9,7 +9,6 @@ class SeedData {
 
     static let shared = SeedData()
     let moc: NSManagedObjectContext
-    var counter = 0
 
     init() {
         guard let moc = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
@@ -21,8 +20,6 @@ class SeedData {
     func makeBook(with data: BookData, save: Bool = false) -> Book {
         let book = Book(context: moc)
         book.id = UUID()
-        print("make book #", counter)
-        counter += 1
 
         switch data {
         case .minimum:
@@ -36,7 +33,7 @@ class SeedData {
         case .everything:
             book.title = "The Swift Programming Language (Swift 5.2 Edition)"
             book.authors = "Apple Inc., Second Author Example"
-            book.pageCount = Int16(counter) // 500
+            book.pageCount = Int16(500)
         // book.image
         }
 
@@ -50,11 +47,28 @@ class SeedData {
         return book
     }
 
-    func makeBookList(save: Bool = false) {
+    fileprivate func countBooks() -> Int {
+        do {
+            return try moc.count(for: Book.fetchRequest())
+        } catch {
+            fatalError("book count failed")
+        }
+    }
+
+    fileprivate func makeBooksBatch() {
         let _ = makeBook(with: .minimum)
         let _ = makeBook(with: .subtitle)
         let _ = makeBook(with: .everything)
+    }
 
+    func makeBookList(seedOnce: Bool = false, save: Bool = false) {
+        if seedOnce {
+            if countBooks() == 0 {
+                makeBooksBatch()
+            }
+        } else {
+            makeBooksBatch()
+        }
 
         if save {
             do {
@@ -100,10 +114,12 @@ class SeedData {
             print(error as Any)
         }
 
-        // do {
-        //     try moc.execute(deleteRequest)
-        // } catch let error as NSError {
-        //     print(error)
+        // public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+        //     batchDeleteRequest.resultType = .resultTypeObjectIDs
+        //     let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+        //     let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+        //     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
         // }
     }
 }
+
