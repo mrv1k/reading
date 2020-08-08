@@ -26,7 +26,16 @@ extension Book {
 }
 
 extension Book : Identifiable {
+    // sort by createdAt, alphabetic
+    static var defaultSortDescriptors: [NSSortDescriptor] {
+        return [
+            NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
+        ]
+    }
 
+    // static var sortedFetchRequest: NSFetchRequest<Book> {
+    //     let request: NSFetchRequest<Book> = Book.fetchRequest()
+    //     request.sortDescriptors = Book.defaultSortDescriptors
+    //     return request
+    // }
 }
-
-

@@ -3,6 +3,13 @@ import SwiftUI
 struct BookRow: View {
     var book: Book
 
+    var createdAt: String {
+        let formatter = DateFormatter()
+        // yyyy-MM-dd 
+        formatter.dateFormat = "HH:mm:ss.SSS"
+        return formatter.string(from: book.createdAt)
+    }
+
     var body: some View {
         // Image("swift_book_cover")
         //     .resizable()
@@ -18,6 +25,8 @@ struct BookRow: View {
                 .fontWeight(.light)
             Text("Page count: \(book.pageCount)")
                 .font(.footnote)
+
+            Text(createdAt)
 
         }
         .multilineTextAlignment(.leading)

@@ -5,7 +5,7 @@ struct BookList: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(
         entity: Book.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)]
+        sortDescriptors: Book.defaultSortDescriptors
     ) var books: FetchedResults<Book>
 
     var body: some View {
@@ -22,6 +22,7 @@ struct BookList: View {
                     for index in indexSet {
                         self.moc.delete(self.books[index])
                     }
+                    // TODO: figure out how & when to save after delete without a button
                 })
 
                 Button(action: { try! self.moc.save() }) {
