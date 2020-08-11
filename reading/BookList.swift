@@ -8,6 +8,8 @@ struct BookList: View {
         sortDescriptors: Book.defaultSortDescriptors
     ) var books: FetchedResults<Book>
 
+    @State private var selection = ""
+
     var body: some View {
         NavigationView {
             List {
@@ -22,51 +24,38 @@ struct BookList: View {
                     for index in indexSet {
                         self.moc.delete(self.books[index])
                     }
+                    do {
+                        try self.moc.save()
+                        print("saved")
+                    } catch {
+                        print("couldnt save after delete")
+                    }
                     // TODO: figure out how & when to save after delete without a button
                 })
 
-                Button(action: { try! self.moc.save() }) {
-                    Text("Save")
-                }
 
-                Button(action: {
-                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
-                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                    deleteRequest.resultType = .resultTypeObjectIDs
+                Picker(selection: $selection, label:
+                    Text("Sort by"),
+                    content: {
+                        Text("Recent").tag(0)
+                        Text("Title").tag(1)
+                        Text("Author").tag(2)
+                }).pickerStyle(SegmentedPickerStyle())
 
-                    do {
-                        let context = self.moc
-                        let result = try context.execute(
-                            deleteRequest
-                        )
-
-                        guard
-                            let deleteResult = result as? NSBatchDeleteResult,
-                            let ids = deleteResult.result as? [NSManagedObjectID]
-                        else { return }
-
-                        let changes = [NSDeletedObjectsKey: ids]
-                        NSManagedObjectContext.mergeChanges(
-                            fromRemoteContextSave: changes,
-                            into: [context]
-                        )
-                    } catch {
-                        print(error as Any)
+                HStack {
+                    Button(action: {
+                        try! self.moc.save()
+                    }) {
+                        Text("Save")
                     }
-                }) {
-                    Text("Delete All")
-                }
+                    .buttonStyle(BorderlessButtonStyle())
 
-                Button(action: {
-                    print("FetchedBooks", books.count)
-                    if moc.hasChanges {
-                        print("hasChanges!")
-                    }
-                    print(books)
-                }) {
-                    Text("Log")
+                    Button(action: {
+                        SeedData.shared.deleteBookList()
+                    }, label: {
+                        Text("DeleteAll")
+                    }).buttonStyle(BorderlessButtonStyle())
                 }
-
             }
             .navigationBarItems(
                 leading: EditButton(),
