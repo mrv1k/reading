@@ -1,14 +1,36 @@
 import SwiftUI
+import Foundation
 import CoreData
 
 struct BookList: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(
-        entity: Book.entity(),
-        sortDescriptors: Book.defaultSortDescriptors
-    ) var books: FetchedResults<Book>
 
-    @State private var selection = ""
+    // @FetchRequest(fetchRequest: NSFetchRequest<Book>(entityName: "Book"))
+    // @FetchRequest(
+    //     entity: Book.entity(),
+    //     sortDescriptors: [Book.alphabeticAuthors]
+    // ) var books: FetchedResults<Book>
+
+    enum Sort: String, CaseIterable, Identifiable {
+        var id: String { self.rawValue }
+        case recent, author, title
+    }
+
+    var sortsMap = [
+        Sort.recent: Book.creationOrder,
+        Sort.title: Book.alpahbeticTitle,
+        Sort.author: Book.alphabeticAuthors
+    ]
+
+    var books: [Book] {
+        Book.fetchWithSort(
+            moc: moc,
+            sort: sortsMap[selectedSort]!
+        )
+    }
+
+    @State private var selectedSort: Sort = .title
+    // TODO: make last sort persistent
 
     var body: some View {
         NavigationView {
@@ -24,23 +46,15 @@ struct BookList: View {
                     for index in indexSet {
                         self.moc.delete(self.books[index])
                     }
-                    do {
-                        try self.moc.save()
-                        print("saved")
-                    } catch {
-                        print("couldnt save after delete")
-                    }
-                    // TODO: figure out how & when to save after delete without a button
+                    // TODO: figure out when to save
                 })
 
-
-                Picker(selection: $selection, label:
-                    Text("Sort by"),
-                    content: {
-                        Text("Recent").tag(0)
-                        Text("Title").tag(1)
-                        Text("Author").tag(2)
-                }).pickerStyle(SegmentedPickerStyle())
+                Picker("Sorting", selection: $selectedSort) {
+                    ForEach(Sort.allCases) {
+                        Text($0.rawValue.capitalized).tag($0)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
 
                 HStack {
                     Button(action: {
@@ -69,7 +83,7 @@ struct BookList_Previews: PreviewProvider {
     static var previews: some View {
         let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-        let _ = SeedData.shared.makeBookList(seedOnce: true)
+        SeedData.shared.makeBookList(seedOnce: true)
 
         return BookList()
             .environment(\.managedObjectContext, moc)
