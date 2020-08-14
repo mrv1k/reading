@@ -26,11 +26,38 @@ extension Book {
 }
 
 extension Book : Identifiable {
-    // sort by createdAt, alphabetic
-    static var defaultSortDescriptors: [NSSortDescriptor] {
-        return [
-            NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
-        ]
+    static var alpahbeticTitle: NSSortDescriptor {
+        return NSSortDescriptor(
+            key: "title",
+            ascending: true,
+            selector: #selector(NSString.localizedStandardCompare(_:))
+        )
+    }
+
+    static var creationOrder: NSSortDescriptor {
+        return NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
+    }
+
+    static var alphabeticAuthors: NSSortDescriptor {
+        return NSSortDescriptor(
+            key: "authors",
+            ascending: true,
+            selector: #selector(NSString.localizedStandardCompare(_:))
+        )
+    }
+
+    public class func fetchWithSort(moc: NSManagedObjectContext, sort: NSSortDescriptor) -> [Book] {
+        let request: NSFetchRequest<Book> = Book.fetchRequest()
+        request.sortDescriptors = [sort]
+
+        do {
+            let result = try moc.fetch(request)
+            print(result, type(of: result))
+            return result
+        } catch {
+            print("f")
+            return []
+        }
     }
 
     // static var sortedFetchRequest: NSFetchRequest<Book> {
