@@ -1,10 +1,10 @@
 import Foundation
-import SwiftUI
+import UIKit
 import CoreData
 
 class SeedData {
     enum BookData: CaseIterable {
-        case minimum, everything, subtitle
+        case minimum, everything, subtitle, titleA, titleZ
     }
 
     static let shared = SeedData()
@@ -19,7 +19,6 @@ class SeedData {
 
     func makeBook(with data: BookData, save: Bool = false) -> Book {
         let book = Book(context: moc)
-        book.id = UUID()
 
         switch data {
         case .minimum:
@@ -34,7 +33,14 @@ class SeedData {
             book.title = "The Swift Programming Language (Swift 5.2 Edition)"
             book.authors = "Apple Inc., Second Author Example"
             book.pageCount = Int16(500)
-        // book.image
+        case .titleA:
+            book.title = "Zorro"
+            book.authors = "Isabel Allende, Margaret Sayers Peden (Translator)"
+            book.pageCount = Int16(677)
+        case .titleZ:
+            book.title = "Animal Farm"
+            book.authors = "George Orwell"
+            book.pageCount = Int16(122)
         }
 
         if save {
@@ -55,19 +61,13 @@ class SeedData {
         }
     }
 
-    fileprivate func makeBooksBatch() {
-        let _ = makeBook(with: .minimum)
-        let _ = makeBook(with: .subtitle)
-        let _ = makeBook(with: .everything)
-    }
-
     func makeBookList(seedOnce: Bool = false, save: Bool = false) {
-        if seedOnce {
-            if countBooks() == 0 {
-                makeBooksBatch()
-            }
-        } else {
-            makeBooksBatch()
+        if seedOnce && countBooks() != 0 {
+            return
+        }
+
+        for seed in BookData.allCases {
+            let _ = makeBook(with: seed)
         }
 
         if save {
@@ -89,7 +89,7 @@ class SeedData {
         // }
 
         // https://stackoverflow.com/questions/1383598/core-data-quickest-way-to-delete-all-instances-of-an-entity
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Book")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         deleteRequest.resultType = .resultTypeObjectIDs
@@ -122,4 +122,3 @@ class SeedData {
         // }
     }
 }
-
