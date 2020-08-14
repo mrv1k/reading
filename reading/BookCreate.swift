@@ -48,7 +48,6 @@ struct BookCreate: View {
                     // authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
 
                     let book = Book(context: self.moc)
-                    book.id = UUID()
                     book.title = self.title
                     book.authors = self.authors
                     book.pageCount = pageCount
