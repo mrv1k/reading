@@ -9,40 +9,45 @@
 import SwiftUI
 
 struct BookSortMenu: View {
-    enum Sort: String, CaseIterable, Identifiable {
-        var id: String { self.rawValue }
-        case recent = "Recent"
-        case title = "Title"
-        case author = "Author"
+    @Binding var sortDescriptor: NSSortDescriptor
+
+    enum Sort: String, CaseIterable {
+        case recent, title, author
     }
-    @State var displayingSort = false
-    @State var selectedSort: Sort = .recent
+
+    var sortMap = [
+        Sort.recent: Book.creationOrder,
+        Sort.title: Book.alpahbeticTitle,
+        Sort.author: Book.alphabeticAuthors
+    ]
+
+    @State private var isOpen = false
+    @State private var sort: Sort = .title
+
+    var buttons: [ActionSheet.Button] {
+        var buttons: [ActionSheet.Button] = []
+        for sort in Sort.allCases {
+            buttons.append(.default(
+                Text(sort.rawValue.capitalized),
+                action: { self.sort = sort } ))
+        }
+        buttons.append(.cancel())
+        return buttons
+
+    }
 
     var sortSheet: ActionSheet {
         ActionSheet(
             title: Text("Sort by:"),
-            buttons: [
-                .default(Text(Sort.recent.rawValue), action: {
-                    self.selectedSort = .recent
-                }),
-                .default(Text(Sort.title.rawValue), action: {
-                    self.selectedSort = .title
-                }),
-                .default(Text(Sort.author.rawValue), action: {
-                    self.selectedSort = .author
-                }),
-                .cancel({
-                    // reset to last sort
-                })
-            ]
+            buttons: buttons
         )
     }
 
     var body: some View {
-        Button("Sort by: \(selectedSort.rawValue)") {
-            self.displayingSort = true
+        Button("Sort by: \(sort.rawValue.capitalized)") {
+            self.isOpen = true
         }
-        .actionSheet(isPresented: $displayingSort) { () -> ActionSheet in
+        .actionSheet(isPresented: $isOpen) {
             self.sortSheet
         }
     }
@@ -50,7 +55,16 @@ struct BookSortMenu: View {
 
 struct BookSortMenu_Previews: PreviewProvider {
     static var previews: some View {
-        BookSortMenu()
-            .previewLayout(.sizeThatFits)
+        LivePreviewWrapper()
+    }
+
+    // "Live Previews" https://stackoverflow.com/a/59626213
+    struct LivePreviewWrapper: View {
+        @State private var sortDescriptor: NSSortDescriptor = Book.alpahbeticTitle
+
+        var body: some View {
+            BookSortMenu(sortDescriptor: $sortDescriptor)
+                .previewLayout(.sizeThatFits)
+        }
     }
 }

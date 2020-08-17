@@ -20,6 +20,7 @@
 		5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958D24C0212E007DC1E5 /* BookDetail.swift */; };
 		5723959024C021A8007DC1E5 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookList.swift */; };
 		57413BE824C57210009B461F /* PreviewWithNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57413BE724C57210009B461F /* PreviewWithNavigation.swift */; };
+		57888C9B24E9AB3A007B248B /* BookSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57888C9A24E9AB3A007B248B /* BookSortMenu.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		5723958D24C0212E007DC1E5 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		5723958F24C021A7007DC1E5 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		57413BE724C57210009B461F /* PreviewWithNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWithNavigation.swift; sourceTree = "<group>"; };
+		57888C9A24E9AB3A007B248B /* BookSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSortMenu.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,6 +81,7 @@
 				5715C62224C364E4006709C5 /* BookCreate.swift */,
 				5723958D24C0212E007DC1E5 /* BookDetail.swift */,
 				5723958F24C021A7007DC1E5 /* BookList.swift */,
+				57888C9A24E9AB3A007B248B /* BookSortMenu.swift */,
 				57C97BFE24D051D000398FA9 /* Core Data Model */,
 				5723958724BEF28A007DC1E5 /* Info.plist */,
 				5723958424BEF28A007DC1E5 /* LaunchScreen.storyboard */,
@@ -214,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
+				57888C9B24E9AB3A007B248B /* BookSortMenu.swift in Sources */,
 				5723957A24BEF289007DC1E5 /* AppDelegate.swift in Sources */,
 				5723957C24BEF289007DC1E5 /* SceneDelegate.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,

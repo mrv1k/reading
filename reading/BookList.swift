@@ -11,30 +11,24 @@ struct BookList: View {
     //     sortDescriptors: [Book.alphabeticAuthors]
     // ) var books: FetchedResults<Book>
 
-    enum Sort: String, CaseIterable, Identifiable {
-        var id: String { self.rawValue }
-        case recent, author, title
-    }
-
-    var sortsMap = [
-        Sort.recent: Book.creationOrder,
-        Sort.title: Book.alpahbeticTitle,
-        Sort.author: Book.alphabeticAuthors
-    ]
+    @State private var sortDescriptor: NSSortDescriptor = Book.alpahbeticTitle
+    // fixme
 
     var books: [Book] {
         Book.fetchWithSort(
             moc: moc,
-            sort: sortsMap[selectedSort]!
+            sort: sortDescriptor
         )
     }
 
-    @State private var selectedSort: Sort = .title
-    // TODO: make last sort persistent
+
+    // TODO: make sort persistent
 
     var body: some View {
         NavigationView {
             List {
+                BookSortMenu(sortDescriptor: $sortDescriptor)
+
                 ForEach(books) { book in
                     NavigationLink(
                         destination: BookDetail(book: book)
@@ -48,13 +42,6 @@ struct BookList: View {
                     }
                     // TODO: figure out when to save
                 })
-
-                Picker("Sorting", selection: $selectedSort) {
-                    ForEach(Sort.allCases) {
-                        Text($0.rawValue.capitalized).tag($0)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
 
                 HStack {
                     Button(action: {
@@ -73,8 +60,13 @@ struct BookList: View {
             }
             .navigationBarItems(
                 leading: EditButton(),
-                trailing: NavigationLink(destination: BookCreate()) { Text("Add") })
+                trailing: NavigationLink(destination: BookCreate()) {
+                     Image(systemName: "plus")
+                }
+            )
             .navigationBarTitle("Books", displayMode: .inline)
+
+
         }
     }
 }
