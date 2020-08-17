@@ -11,8 +11,8 @@ struct BookList: View {
     //     sortDescriptors: [Book.alphabeticAuthors]
     // ) var books: FetchedResults<Book>
 
-    @State private var sortDescriptor: NSSortDescriptor = Book.alpahbeticTitle
-    // fixme
+    @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
+    // TODO: make sort persistent
 
     var books: [Book] {
         Book.fetchWithSort(
@@ -20,9 +20,6 @@ struct BookList: View {
             sort: sortDescriptor
         )
     }
-
-
-    // TODO: make sort persistent
 
     var body: some View {
         NavigationView {

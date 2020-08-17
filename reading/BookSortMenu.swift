@@ -15,11 +15,17 @@ struct BookSortMenu: View {
         case recent, title, author
     }
 
-    var sortMap = [
-        Sort.recent: Book.creationOrder,
-        Sort.title: Book.alpahbeticTitle,
-        Sort.author: Book.alphabeticAuthors
-    ]
+    // TODO: alphabetical not alphabetic or alpahbetic, in any case alpha is redundant, remove
+    var selectedDescriptor: NSSortDescriptor {
+        switch sort {
+        case .recent:
+            return Book.sortByCreationDate
+        case .author:
+            return Book.sortByAuthors
+        case .title:
+            return Book.sortByTitle
+        }
+    }
 
     @State private var isOpen = false
     @State private var sort: Sort = .title
@@ -27,20 +33,18 @@ struct BookSortMenu: View {
     var buttons: [ActionSheet.Button] {
         var buttons: [ActionSheet.Button] = []
         for sort in Sort.allCases {
-            buttons.append(.default(
-                Text(sort.rawValue.capitalized),
-                action: { self.sort = sort } ))
+            buttons.append(
+                .default(
+                    Text(sort.rawValue.capitalized),
+                    action: {
+                        self.sort = sort
+                        self.sortDescriptor = self.selectedDescriptor
+                })
+            )
         }
         buttons.append(.cancel())
         return buttons
 
-    }
-
-    var sortSheet: ActionSheet {
-        ActionSheet(
-            title: Text("Sort by:"),
-            buttons: buttons
-        )
     }
 
     var body: some View {
@@ -48,7 +52,10 @@ struct BookSortMenu: View {
             self.isOpen = true
         }
         .actionSheet(isPresented: $isOpen) {
-            self.sortSheet
+            ActionSheet(
+                title: Text("Sort by:"),
+                buttons: buttons
+            )
         }
     }
 }
@@ -60,7 +67,7 @@ struct BookSortMenu_Previews: PreviewProvider {
 
     // "Live Previews" https://stackoverflow.com/a/59626213
     struct LivePreviewWrapper: View {
-        @State private var sortDescriptor: NSSortDescriptor = Book.alpahbeticTitle
+        @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
 
         var body: some View {
             BookSortMenu(sortDescriptor: $sortDescriptor)

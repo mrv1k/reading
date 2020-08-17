@@ -26,7 +26,7 @@ extension Book {
 }
 
 extension Book : Identifiable {
-    static var alpahbeticTitle: NSSortDescriptor {
+    static var sortByTitle: NSSortDescriptor {
         return NSSortDescriptor(
             key: "title",
             ascending: true,
@@ -34,11 +34,11 @@ extension Book : Identifiable {
         )
     }
 
-    static var creationOrder: NSSortDescriptor {
+    static var sortByCreationDate: NSSortDescriptor {
         return NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
     }
 
-    static var alphabeticAuthors: NSSortDescriptor {
+    static var sortByAuthors: NSSortDescriptor {
         return NSSortDescriptor(
             key: "authors",
             ascending: true,
