@@ -11,27 +11,41 @@ import SwiftUI
 struct BookSortMenu: View {
     enum Sort: String, CaseIterable, Identifiable {
         var id: String { self.rawValue }
-        case recent, author, title
+        case recent = "Recent"
+        case title = "Title"
+        case author = "Author"
+    }
+    @State var displayingSort = false
+    @State var selectedSort: Sort = .recent
+
+    var sortSheet: ActionSheet {
+        ActionSheet(
+            title: Text("Sort by:"),
+            buttons: [
+                .default(Text(Sort.recent.rawValue), action: {
+                    self.selectedSort = .recent
+                }),
+                .default(Text(Sort.title.rawValue), action: {
+                    self.selectedSort = .title
+                }),
+                .default(Text(Sort.author.rawValue), action: {
+                    self.selectedSort = .author
+                }),
+                .cancel({
+                    // reset to last sort
+                })
+            ]
+        )
     }
 
     var body: some View {
-        List {
-            Section(header:
-                Text("Sort by:")
-                    .frame(maxWidth: .infinity, alignment: .center)
-            ) {
-                ForEach(Sort.allCases) { sort in
-                    Button(action: { print("mek") }) {
-                        Text(sort.rawValue.capitalized)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                }
-            }
+        Button("Sort by: \(selectedSort.rawValue)") {
+            self.displayingSort = true
         }
-        .listStyle(GroupedListStyle())
-        .environment(\.horizontalSizeClass, .regular)
+        .actionSheet(isPresented: $displayingSort) { () -> ActionSheet in
+            self.sortSheet
+        }
     }
-
 }
 
 struct BookSortMenu_Previews: PreviewProvider {
