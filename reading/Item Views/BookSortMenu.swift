@@ -36,6 +36,9 @@ struct BookSortMenu: View {
                 .default(
                     Text(sort.rawValue.capitalized),
                     action: {
+                        guard self.sort != sort else {
+                            return
+                        }
                         self.sort = sort
                         self.sortDescriptor = self.selectedDescriptor
                 })
