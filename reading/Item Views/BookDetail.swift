@@ -1,22 +1,17 @@
 import SwiftUI
 
 struct BookDetail: View {
-    @Environment(\.managedObjectContext) private var moc
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) private var isActive
     let book: Book
 
     var body: some View {
         VStack {
-            if book.image != nil {
-                Text("image")
-                // Image(book.image!)
-            }
+            // if book.image != nil {
+            //     Text("image")
+            // }
 
             Text(book.title)
-
-            if book.subtitle != nil {
-                Text(book.subtitle!)
-            }
 
             Text("by " + book.authors)
 

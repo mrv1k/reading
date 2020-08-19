@@ -26,7 +26,7 @@ struct BookRow: View {
             Text("Page count: \(book.pageCount)")
                 .font(.footnote)
 
-            Text(createdAt)
+            // Text(createdAt)
 
         }
         .multilineTextAlignment(.leading)

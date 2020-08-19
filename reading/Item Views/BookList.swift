@@ -12,8 +12,9 @@ struct BookList: View {
     // ) var books: FetchedResults<Book>
 
     @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
-    // TODO: make sort persistent
+    // TODO: make last selected sort persistent
 
+    // fixme: recalculated even when the same sort was selected
     var books: [Book] {
         Book.fetchWithSort(
             moc: moc,

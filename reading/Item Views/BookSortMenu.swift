@@ -15,7 +15,6 @@ struct BookSortMenu: View {
         case recent, title, author
     }
 
-    // TODO: alphabetical not alphabetic or alpahbetic, in any case alpha is redundant, remove
     var selectedDescriptor: NSSortDescriptor {
         switch sort {
         case .recent:
