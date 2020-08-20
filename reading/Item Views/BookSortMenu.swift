@@ -16,7 +16,7 @@ struct BookSortMenu: View {
     }
 
     var selectedDescriptor: NSSortDescriptor {
-        switch sort {
+        switch currentSort {
         case .recent:
             return Book.sortByCreationDate
         case .author:
@@ -26,31 +26,51 @@ struct BookSortMenu: View {
         }
     }
 
+    @State private var currentSort: Sort
     @State private var isOpen = false
-    @State private var sort: Sort = .title
+
+    init(initialSortDescriptor descriptor: Binding<NSSortDescriptor>) {
+        self._sortDescriptor = descriptor
+
+        var initialSort: Sort
+        switch descriptor.wrappedValue {
+        case Book.sortByCreationDate:
+            initialSort = .recent
+        case Book.sortByAuthors:
+            initialSort = .author
+        case Book.sortByTitle:
+            initialSort = .title
+        default:
+            initialSort = .author
+            #if DEBUG
+            fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
+            #endif
+        }
+
+        _currentSort = State(initialValue: initialSort)
+    }
 
     var buttons: [ActionSheet.Button] {
-        var buttons: [ActionSheet.Button] = []
-        for sort in Sort.allCases {
+        var buttons = [ActionSheet.Button]()
+        for selectedSort in Sort.allCases {
             buttons.append(
                 .default(
-                    Text(sort.rawValue.capitalized),
+                    Text(selectedSort.rawValue.capitalized),
                     action: {
-                        guard self.sort != sort else {
+                        guard self.currentSort != selectedSort else {
                             return
                         }
-                        self.sort = sort
+                        self.currentSort = selectedSort
                         self.sortDescriptor = self.selectedDescriptor
                 })
             )
         }
         buttons.append(.cancel())
         return buttons
-
     }
 
     var body: some View {
-        Button("Sort by: \(sort.rawValue.capitalized)") {
+        Button("Sort by: \(currentSort.rawValue.capitalized)") {
             self.isOpen = true
         }
         .actionSheet(isPresented: $isOpen) {
@@ -72,7 +92,7 @@ struct BookSortMenu_Previews: PreviewProvider {
         @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
 
         var body: some View {
-            BookSortMenu(sortDescriptor: $sortDescriptor)
+            BookSortMenu(initialSortDescriptor: $sortDescriptor)
                 .previewLayout(.sizeThatFits)
         }
     }
