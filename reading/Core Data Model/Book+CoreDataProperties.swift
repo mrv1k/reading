@@ -52,7 +52,8 @@ extension Book : Identifiable {
 
         do {
             let result = try moc.fetch(request)
-            print(result, type(of: result))
+            // print(result)
+            print(type(of: result), result.count)
             return result
         } catch {
             print("f")

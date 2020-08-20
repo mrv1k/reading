@@ -53,7 +53,7 @@ struct BookCreate: View {
                     book.pageCount = pageCount
 
                     do {
-                        try self.moc.save()
+                        try self.moc.saveOnChanges()
                         print("saved", book)
                     } catch {
                         print(error.localizedDescription)
