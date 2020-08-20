@@ -5,27 +5,26 @@ import CoreData
 struct BookList: View {
     @Environment(\.managedObjectContext) var moc
 
-    // @FetchRequest(fetchRequest: NSFetchRequest<Book>(entityName: "Book"))
     // @FetchRequest(
     //     entity: Book.entity(),
-    //     sortDescriptors: [Book.alphabeticAuthors]
+    //     sortDescriptors: [Book.sortByAuthors]
     // ) var books: FetchedResults<Book>
 
-    @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
     // TODO: make last selected sort persistent
+    @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors
 
-    // fixme: recalculated even when the same sort was selected
+    // @State var books: [Book] = []
     var books: [Book] {
         Book.fetchWithSort(
-            moc: moc,
-            sort: sortDescriptor
+            moc: self.moc,
+            sort: self.sortDescriptor
         )
     }
 
     var body: some View {
         NavigationView {
             List {
-                BookSortMenu(sortDescriptor: $sortDescriptor)
+                BookSortMenu(initialSortDescriptor: $sortDescriptor)
 
                 ForEach(books) { book in
                     NavigationLink(
@@ -38,12 +37,13 @@ struct BookList: View {
                     for index in indexSet {
                         self.moc.delete(self.books[index])
                     }
+                    // FIXME: doesn't work with computed sorting
                     // TODO: figure out when to save
                 })
 
                 HStack {
                     Button(action: {
-                        try! self.moc.save()
+                        try! self.moc.saveOnChanges()
                     }) {
                         Text("Save")
                     }
@@ -63,8 +63,6 @@ struct BookList: View {
                 }
             )
             .navigationBarTitle("Books", displayMode: .inline)
-
-
         }
     }
 }
