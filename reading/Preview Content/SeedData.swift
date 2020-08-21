@@ -34,13 +34,13 @@ class SeedData {
             book.authors = "Apple Inc., Second Author Example"
             book.pageCount = Int16(500)
         case .titleA:
-            book.title = "Zorro"
-            book.authors = "Isabel Allende, Margaret Sayers Peden (Translator)"
-            book.pageCount = Int16(677)
-        case .titleZ:
             book.title = "Animal Farm"
             book.authors = "George Orwell"
             book.pageCount = Int16(122)
+        case .titleZ:
+            book.title = "Zorro"
+            book.authors = "Isabel Allende, Margaret Sayers Peden (Translator)"
+            book.pageCount = Int16(677)
         }
 
         if save {

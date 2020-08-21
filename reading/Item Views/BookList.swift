@@ -11,7 +11,7 @@ struct BookList: View {
     var body: some View {
         NavigationView {
             List {
-                BookSortMenu(initialSortDescriptor: $sortDescriptor)
+                BookListSortMenu(initialSortDescriptor: $sortDescriptor)
                 BookListSorted(sortDescriptor: sortDescriptor)
 
                 HStack {

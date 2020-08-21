@@ -1,14 +1,14 @@
 //
-//  BookSortMenu.swift
+//  BookListSortMenu.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-08-16.
+//  Created by Viktor Khotimchenko on 2020-08-21.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
 import SwiftUI
 
-struct BookSortMenu: View {
+struct BookListSortMenu: View {
     @Binding var sortDescriptor: NSSortDescriptor
 
     enum Sort: String, CaseIterable {
@@ -29,11 +29,11 @@ struct BookSortMenu: View {
     @State private var currentSort: Sort
     @State private var isOpen = false
 
-    init(initialSortDescriptor descriptor: Binding<NSSortDescriptor>) {
-        self._sortDescriptor = descriptor
+    init(initialSortDescriptor: Binding<NSSortDescriptor>) {
+        _sortDescriptor = initialSortDescriptor
 
         var initialSort: Sort
-        switch descriptor.wrappedValue {
+        switch _sortDescriptor.wrappedValue {
         case Book.sortByCreationDate:
             initialSort = .recent
         case Book.sortByAuthors:
@@ -82,7 +82,7 @@ struct BookSortMenu: View {
     }
 }
 
-struct BookSortMenu_Previews: PreviewProvider {
+struct BookListSortMenu_Previews: PreviewProvider {
     static var previews: some View {
         LivePreviewWrapper()
     }
@@ -92,7 +92,7 @@ struct BookSortMenu_Previews: PreviewProvider {
         @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
 
         var body: some View {
-            BookSortMenu(initialSortDescriptor: $sortDescriptor)
+            BookListSortMenu(initialSortDescriptor: $sortDescriptor)
                 .previewLayout(.sizeThatFits)
         }
     }
