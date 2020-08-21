@@ -32,7 +32,6 @@ struct BookList: View {
             }
             .onDisappear {
                 do {
-                    print("try self.moc.save()")
                     try self.moc.saveOnChanges()
                 } catch {
                     fatalError("Failure to save context: \(error)")

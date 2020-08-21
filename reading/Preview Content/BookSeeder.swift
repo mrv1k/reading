@@ -13,7 +13,7 @@ class BookSeeder {
         case minimum, everything, subtitle, titleA, titleZ
     }
 
-    func insert(bookWith data: Data, save: Bool = false) -> Book {
+    @discardableResult func insert(bookWith data: Data, save: Bool = false) -> Book {
         let book = Book(context: moc)
 
         switch data {
@@ -63,7 +63,7 @@ class BookSeeder {
         }
 
         for data in Data.allCases {
-            let _ = insert(bookWith: data)
+            insert(bookWith: data)
         }
 
         if save {

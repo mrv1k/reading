@@ -10,7 +10,11 @@ struct BookDetail: View {
             //     Text("image")
             // }
 
-            Text(book.title)
+            HStack {
+                Spacer()
+                Text(book.title).multilineTextAlignment(.center)
+                Spacer()
+            }
 
             Text("by " + book.authors)
 
@@ -29,6 +33,9 @@ struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
         let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-        return BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .minimum))
+        return Group {
+            BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .minimum))
+            BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .everything))
+        }.previewLayout(.sizeThatFits)
     }
 }
