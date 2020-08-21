@@ -2,22 +2,18 @@ import Foundation
 import UIKit
 import CoreData
 
-class SeedData {
-    enum BookData: CaseIterable {
-        case minimum, everything, subtitle, titleA, titleZ
-    }
-
-    static let shared = SeedData()
+class BookSeeder {
     let moc: NSManagedObjectContext
 
-    init() {
-        guard let moc = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
-            fatalError("Unable to read managed object context.")
-        }
+    init(moc: NSManagedObjectContext) {
         self.moc = moc
     }
 
-    func makeBook(with data: BookData, save: Bool = false) -> Book {
+    enum Data: CaseIterable {
+        case minimum, everything, subtitle, titleA, titleZ
+    }
+
+    func insert(bookWith data: Data, save: Bool = false) -> Book {
         let book = Book(context: moc)
 
         switch data {
@@ -53,7 +49,7 @@ class SeedData {
         return book
     }
 
-    fileprivate func countBooks() -> Int {
+    fileprivate func count() -> Int {
         do {
             return try moc.count(for: Book.fetchRequest())
         } catch {
@@ -61,13 +57,13 @@ class SeedData {
         }
     }
 
-    func makeBookList(seedOnce: Bool = false, save: Bool = false) {
-        if seedOnce && countBooks() != 0 {
+    func insertAllCases(seedOnce: Bool = false, save: Bool = false) {
+        if seedOnce && count() != 0 {
             return
         }
 
-        for seed in BookData.allCases {
-            let _ = makeBook(with: seed)
+        for data in Data.allCases {
+            let _ = insert(bookWith: data)
         }
 
         if save {
@@ -79,7 +75,7 @@ class SeedData {
         }
     }
 
-    func deleteBookList() {
+    func deleteAll() {
         // let fetchBooks = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
         // let deleteBooks = NSBatchDeleteRequest(fetchRequest: fetchBooks)
         // do {

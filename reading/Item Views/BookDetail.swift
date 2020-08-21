@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct BookDetail: View {
-    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) private var isActive
     let book: Book
 
@@ -28,7 +27,8 @@ struct BookDetail: View {
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        BookDetail(book: SeedData.shared.makeBook(with: .minimum))
-            .environment(\.managedObjectContext, SeedData.shared.moc)
+        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        return BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .minimum))
     }
 }

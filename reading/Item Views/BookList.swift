@@ -23,7 +23,8 @@ struct BookList: View {
                     .buttonStyle(BorderlessButtonStyle())
 
                     Button(action: {
-                        SeedData.shared.deleteBookList()
+                        // TODO: Do something with it
+                        BookSeeder(moc: self.moc).deleteAll()
                     }, label: {
                         Text("DeleteAll")
                     }).buttonStyle(BorderlessButtonStyle())
@@ -52,7 +53,7 @@ struct BookList_Previews: PreviewProvider {
     static var previews: some View {
         let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-        SeedData.shared.makeBookList(seedOnce: true)
+        BookSeeder(moc: moc).insertAllCases(seedOnce: true)
 
         return BookList()
             .environment(\.managedObjectContext, moc)

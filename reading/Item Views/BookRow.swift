@@ -35,8 +35,10 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            BookRow(book: SeedData.shared.makeBook(with: .everything))
+        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        return Group {
+            BookRow(book: BookSeeder(moc: moc).insert(bookWith: .everything))
                 .previewLayout(.sizeThatFits)
         }
     }

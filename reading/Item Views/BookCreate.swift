@@ -74,7 +74,9 @@ struct BookCreate: View {
 
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
-        BookCreate()
-            .environment(\.managedObjectContext, SeedData.shared.moc)
+        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        return BookCreate()
+            .environment(\.managedObjectContext, moc)
     }
 }
