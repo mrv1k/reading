@@ -46,21 +46,6 @@ extension Book : Identifiable {
         )
     }
 
-    public class func fetchWithSort(moc: NSManagedObjectContext, sort: NSSortDescriptor) -> [Book] {
-        let request: NSFetchRequest<Book> = Book.fetchRequest()
-        request.sortDescriptors = [sort]
-
-        do {
-            let result = try moc.fetch(request)
-            // print(result)
-            print(type(of: result), result.count)
-            return result
-        } catch {
-            print("f")
-            return []
-        }
-    }
-
     // static var sortedFetchRequest: NSFetchRequest<Book> {
     //     let request: NSFetchRequest<Book> = Book.fetchRequest()
     //     request.sortDescriptors = Book.defaultSortDescriptors
