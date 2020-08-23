@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17175" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="authors" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pageCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
+        <relationship name="readingSessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReadingSession" inverseName="book" inverseEntity="ReadingSession"/>
+    </entity>
+    <entity name="ReadingSession" representedClassName=".ReadingSession" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="pageEnd" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pagesRead" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pageStart" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timerDuration" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timerEnd" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timerStart" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="readingSessions" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="ReadingSession" positionX="113.484375" positionY="-18.6015625" width="128" height="163"/>
     </elements>
 </model>
