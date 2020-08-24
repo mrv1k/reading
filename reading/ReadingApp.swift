@@ -10,12 +10,29 @@ import SwiftUI
 
 @main
 struct ReadingApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
             BookList()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onChange(of: scenePhase, perform: backgroundSave)
         }
+
+    }
+
+    // #BETA5: onChange should work on Scene, but doesn't; attach to View for now.
+    func backgroundSave(_ phase: ScenePhase) {
+        if phase == .background {
+            do {
+                try persistenceController.container.viewContext.saveOnChanges()
+                print("onChange: saved")
+            } catch {
+                print("onChange: failed to save on .inactive case")
+            }
+        }
+
     }
 }
