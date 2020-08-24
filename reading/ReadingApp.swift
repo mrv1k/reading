@@ -1,5 +1,5 @@
 //
-//  readingApp.swift
+//  ReadingApp.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-08-24.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 @main
-struct ReadingApp: App {    
+struct ReadingApp: App {
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
