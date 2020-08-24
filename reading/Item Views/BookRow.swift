@@ -35,7 +35,7 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let moc = PersistenceController.preview.container.viewContext
 
         return Group {
             BookRow(book: BookSeeder(moc: moc).insert(bookWith: .everything))

@@ -50,7 +50,9 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        // let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        let moc = PersistenceController.preview.container.viewContext
 
         BookSeeder(moc: moc).insertAllCases(seedOnce: true)
 
