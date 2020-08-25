@@ -24,11 +24,11 @@ struct ReadingApp: App {
     }
 
     // #BETA5: onChange should work on Scene, but doesn't; attach to View for now.
-    func backgroundSave(_ phase: ScenePhase) {
+    private func backgroundSave(_ phase: ScenePhase) {
         if phase == .background {
             do {
                 try persistenceController.container.viewContext.saveOnChanges()
-                print("onChange: saved")
+                print("\(#function): saved")
             } catch {
                 print("onChange: failed to save on .inactive case")
             }

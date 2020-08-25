@@ -45,13 +45,13 @@ struct ReadingSessionCreate: View {
 
 struct ReadingSessionCreate_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.shared.container.viewContext
+        let viewContext = PersistenceController.shared.container.viewContext
 
-        let book = BookSeeder(moc: moc).insert(bookWith: .minimum)
+        let book = BookSeeder(context: viewContext).insert(bookWith: .minimum)
 
         return NavigationView {
             ReadingSessionCreate(book: book)
-                .environment(\.managedObjectContext, moc)
+                .environment(\.managedObjectContext, viewContext)
         }
     }
 }

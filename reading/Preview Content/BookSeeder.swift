@@ -3,10 +3,10 @@ import UIKit
 import CoreData
 
 class BookSeeder {
-    let moc: NSManagedObjectContext
+    let context: NSManagedObjectContext
 
-    init(moc: NSManagedObjectContext) {
-        self.moc = moc
+    init(context: NSManagedObjectContext) {
+        self.context = context
     }
 
     enum Data: CaseIterable {
@@ -14,7 +14,7 @@ class BookSeeder {
     }
 
     @discardableResult func insert(bookWith data: Data, save: Bool = false) -> Book {
-        let book = Book(context: moc)
+        let book = Book(context: context)
 
         switch data {
         case .minimum:
@@ -41,7 +41,7 @@ class BookSeeder {
 
         if save {
             do {
-                try moc.save()
+                try context.save()
             } catch {
                 print(error)
             }
@@ -51,7 +51,7 @@ class BookSeeder {
 
     fileprivate func count() -> Int {
         do {
-            return try moc.count(for: Book.fetchRequest())
+            return try context.count(for: Book.fetchRequest())
         } catch {
             fatalError("book count failed")
         }
@@ -68,7 +68,7 @@ class BookSeeder {
 
         if save {
             do {
-                try moc.save()
+                try context.save()
             } catch {
                 print(error)
             }
@@ -79,7 +79,7 @@ class BookSeeder {
         // let fetchBooks = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
         // let deleteBooks = NSBatchDeleteRequest(fetchRequest: fetchBooks)
         // do {
-        //     try moc.execute(deleteBooks)
+        //     try context.execute(deleteBooks)
         // } catch {
         //     print(error)
         // }
@@ -91,7 +91,7 @@ class BookSeeder {
         deleteRequest.resultType = .resultTypeObjectIDs
 
         do {
-            let context = self.moc
+            let context = self.context
             let result = try context.execute(
                 deleteRequest
             )

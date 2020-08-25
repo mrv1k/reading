@@ -35,10 +35,10 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.shared.container.viewContext
+        let viewContext = PersistenceController.shared.container.viewContext
 
         return Group {
-            BookRow(book: BookSeeder(moc: moc).insert(bookWith: .everything))
+            BookRow(book: BookSeeder(context: viewContext).insert(bookWith: .everything))
                 .previewLayout(.sizeThatFits)
         }
     }

@@ -3,7 +3,7 @@ import Foundation
 import CoreData
 
 struct BookList: View {
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.managedObjectContext) var viewContext
 
     // TODO: make last selected sort persistent
     @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors
@@ -16,7 +16,7 @@ struct BookList: View {
 
                 HStack {
                     Button(action: {
-                        try! self.moc.saveOnChanges()
+                        try! self.viewContext.saveOnChanges()
                     }) {
                         Text("Save")
                     }
@@ -24,7 +24,7 @@ struct BookList: View {
 
                     Button(action: {
                         // TODO: Do something with it
-                        BookSeeder(moc: self.moc).deleteAll()
+                        BookSeeder(context: self.viewContext).deleteAll()
                     }, label: {
                         Text("DeleteAll")
                     }).buttonStyle(BorderlessButtonStyle())
@@ -32,7 +32,7 @@ struct BookList: View {
             }
             .onDisappear {
                 do {
-                    try self.moc.saveOnChanges()
+                    try self.viewContext.saveOnChanges()
                 } catch {
                     fatalError("Failure to save context: \(error)")
                 }
@@ -50,11 +50,11 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.shared.container.viewContext
+        let viewContext = PersistenceController.shared.container.viewContext
 
-        BookSeeder(moc: moc).insertAllCases(seedOnce: true)
+        BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
         return BookList()
-            .environment(\.managedObjectContext, moc)
+            .environment(\.managedObjectContext, viewContext)
     }
 }

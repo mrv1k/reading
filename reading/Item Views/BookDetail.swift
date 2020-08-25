@@ -34,7 +34,7 @@ struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
         let viewContext = PersistenceController.shared.container.viewContext
 
-        let seeder = BookSeeder(moc: viewContext)
+        let seeder = BookSeeder(context: viewContext)
 
         return Group {
             BookDetail(book: seeder.insert(bookWith: .minimum))
