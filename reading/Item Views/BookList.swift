@@ -3,7 +3,7 @@ import Foundation
 import CoreData
 
 struct BookList: View {
-    @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.managedObjectContext) private var viewContext
 
     // TODO: make last selected sort persistent
     @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors

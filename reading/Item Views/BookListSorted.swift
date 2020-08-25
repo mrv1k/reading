@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BookListSorted: View {
-    @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.managedObjectContext) private var viewContext
 
     var fetchRequest: FetchRequest<Book>
     var books: FetchedResults<Book> {
