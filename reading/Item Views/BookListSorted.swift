@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct BookListSorted: View {
-    // @FetchRequest(entity: Book.entity(), sortDescriptors: [sortDescriptor])
-    // var books: FetchedResults<Book>
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.managedObjectContext) var viewContext
 
     var fetchRequest: FetchRequest<Book>
     var books: FetchedResults<Book> {
@@ -19,7 +17,10 @@ struct BookListSorted: View {
     }
 
     init(sortDescriptor: NSSortDescriptor) {
-        fetchRequest = FetchRequest<Book>(entity: Book.entity(), sortDescriptors: [sortDescriptor])
+        fetchRequest = FetchRequest<Book>(
+            entity: Book.entity(),
+            sortDescriptors: [sortDescriptor]
+        )
     }
 
     var body: some View {
@@ -32,7 +33,7 @@ struct BookListSorted: View {
         }
         .onDelete(perform: { indexSet in
             for index in indexSet {
-                self.moc.delete(self.books[index])
+                self.viewContext.delete(self.books[index])
             }
         })
     }
@@ -41,5 +42,6 @@ struct BookListSorted: View {
 struct BookListSorted_Previews: PreviewProvider {
     static var previews: some View {
         BookListSorted(sortDescriptor: Book.sortByAuthors)
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }

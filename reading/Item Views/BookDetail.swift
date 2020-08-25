@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreData
 
 struct BookDetail: View {
     @Environment(\.presentationMode) private var isActive
@@ -31,11 +32,13 @@ struct BookDetail: View {
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.preview.container.viewContext
+        let viewContext = PersistenceController.shared.container.viewContext
+
+        let seeder = BookSeeder(moc: viewContext)
 
         return Group {
-            BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .minimum))
-            BookDetail(book: BookSeeder(moc: moc).insert(bookWith: .everything))
+            BookDetail(book: seeder.insert(bookWith: .minimum))
+            BookDetail(book: seeder.insert(bookWith: .everything))
         }.previewLayout(.sizeThatFits)
     }
 }

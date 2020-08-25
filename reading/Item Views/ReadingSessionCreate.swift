@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ReadingSessionCreate: View {
+    @Environment(\.managedObjectContext) private var viewContext
     var book: Book
     @State var selectedDate = Date()
 
@@ -44,12 +45,13 @@ struct ReadingSessionCreate: View {
 
 struct ReadingSessionCreate_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.preview.container.viewContext
+        let moc = PersistenceController.shared.container.viewContext
 
         let book = BookSeeder(moc: moc).insert(bookWith: .minimum)
 
         return NavigationView {
             ReadingSessionCreate(book: book)
+                .environment(\.managedObjectContext, moc)
         }
     }
 }

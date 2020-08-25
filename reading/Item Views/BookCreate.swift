@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BookCreate: View {
-    @Environment(\.managedObjectContext) var moc
+    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var isActive
 
     @State private var image: Image?
@@ -27,10 +27,6 @@ struct BookCreate: View {
             Section(header: Text("INFORMATION")) {
                 TextField("Title", text: $title)
 
-                // if subtitle != nil {
-                //     Text(subtitle!)
-                // }
-
                 TextField("Author(s)", text: $authors)
 
                 TextField("Pages", text: $pageCount)
@@ -44,22 +40,20 @@ struct BookCreate: View {
                         return
                     }
 
-                    // var authors = self.authors.components(separatedBy: ", ")
-                    // authors = authors.map { $0.trimmingCharacters(in: .whitespaces) }
-
-                    let book = Book(context: self.moc)
+                    let book = Book(context: self.viewContext)
                     book.title = self.title
                     book.authors = self.authors
                     book.pageCount = pageCount
 
                     do {
-                        try self.moc.saveOnChanges()
+                        try self.viewContext.saveOnChanges()
                         print("saved", book)
                     } catch {
                         print(error.localizedDescription)
                     }
 
-                    // add another or
+                    // TODO: ask to add another
+                    // if no
                     self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")
@@ -74,9 +68,7 @@ struct BookCreate: View {
 
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.preview.container.viewContext
-
-        return BookCreate()
-            .environment(\.managedObjectContext, moc)
+        BookCreate()
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }
