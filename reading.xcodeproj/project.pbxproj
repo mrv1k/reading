@@ -138,8 +138,8 @@
 		57955C1724ED053D00D178CA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
 				5723958724BEF28A007DC1E5 /* Info.plist */,
+				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -149,10 +149,10 @@
 			children = (
 				5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */,
 				5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */,
+				575936A224F3A16F00D58737 /* PersistenceController.swift */,
 				573CD4B024F259120024C15B /* ReadingSession+CoreDataClass.swift */,
 				573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */,
 				57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */,
-				575936A224F3A16F00D58737 /* PersistenceController.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
