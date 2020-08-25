@@ -21,11 +21,9 @@ struct BookDetail: View {
 
             Text(String(book.pageCount) + " pages")
 
-            Button(action: {
-                self.isActive.wrappedValue.dismiss()
-            }) {
-                Text("Up to BookList")
-            }
+            NavigationLink("Add a reading session",
+                           destination: ReadingSessionCreate(book: book))
+
         }
     }
 }
@@ -37,8 +35,11 @@ struct BookDetail_Previews: PreviewProvider {
         let seeder = BookSeeder(context: viewContext)
 
         return Group {
-            BookDetail(book: seeder.insert(bookWith: .minimum))
+            NavigationView {
+                BookDetail(book: seeder.insert(bookWith: .minimum))
+            }
             BookDetail(book: seeder.insert(bookWith: .everything))
-        }.previewLayout(.sizeThatFits)
+                .previewLayout(.sizeThatFits)
+        }
     }
 }
