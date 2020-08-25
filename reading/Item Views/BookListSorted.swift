@@ -38,10 +38,3 @@ struct BookListSorted: View {
         })
     }
 }
-
-struct BookListSorted_Previews: PreviewProvider {
-    static var previews: some View {
-        BookListSorted(sortDescriptor: Book.sortByAuthors)
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-    }
-}
