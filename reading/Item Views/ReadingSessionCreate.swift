@@ -92,6 +92,30 @@ fileprivate struct ReadingSection: View {
     }
 }
 
+fileprivate struct DatePickerWithTimeToggle: View {
+    @Binding var selection: Date
+    @State private var dateTimeToggle = false
+
+    var displayedComponents: DatePickerComponents {
+        var components: DatePickerComponents = .date
+        if dateTimeToggle {
+            components.insert(.hourAndMinute)
+        }
+        return components
+    }
+
+    var body: some View {
+        // TODO: smooth animation, currently buggy in ios14 beta6
+        Group {
+            DatePicker(
+                "Record on",
+                selection: $selection,
+                displayedComponents: displayedComponents)
+            Toggle("Include time", isOn: $dateTimeToggle)
+        }
+    }
+}
+
 struct ReadingSessionCreate_Previews: PreviewProvider {
     static var previews: some View {
         let viewContext = PersistenceController.shared.container.viewContext
