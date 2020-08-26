@@ -17,45 +17,17 @@ struct ReadingSessionCreate: View {
     
     @State private var pageStartField = ""
     @State private var pageEndField = ""
-    @State private var pagesReadField = ""
-    @State private var selection = ""
-
-    var pageStart: Int {
-        Int(pageStartField) ?? 0
-    }
-    var pageEnd: Int {
-        Int(pageEndField) ?? 0
-    }
-    var pagesRead: Int {
-        if pageEnd == 0 || pageStart == 0 {
-            return 0
-        }
-        return pageEnd - pageStart
-    }
+    @State private var pagesCompletedField = ""
+    // @State private var pagesPreset = ""
 
     var body: some View {
         Form {
-            Section {
-                HStack {
-                    TextField("Start page", text: $pageStartField)
-                        .keyboardType(.numberPad)
-                    TextField("End page", text: $pageEndField)
-                        .keyboardType(.numberPad)
-                }
+            ReadingSection(
+                startField: $pageStartField,
+                endField: $pageEndField,
+                completedField: $pagesCompletedField)
 
-                HStack {
-                    TextField("Pages read", text: $pagesReadField)
-
-                    Picker("Preset", selection: $selection) {
-                        Text("10").tag("10")
-                        Text("15").tag("15")
-                        Text("20").tag("20")
-                        Text("25").tag("25")
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                }
-            }
-
+            // TODO: make changeable
             Section {
                 BookRow(book: book)
             }
@@ -76,6 +48,47 @@ struct ReadingSessionCreate: View {
 
         }
         .navigationBarTitle(Text("Add a sessions"))
+    }
+}
+
+fileprivate struct ReadingSection: View {
+    @Binding var startField: String
+    @Binding var endField: String
+    @Binding var completedField: String
+
+    var pageStart: Int {
+        Int(startField) ?? 0
+    }
+    var pageEnd: Int {
+        Int(endField) ?? 0
+    }
+    var pagesRead: Int {
+        if pageEnd == 0 || pageStart == 0 {
+            return 0
+        }
+        return pageEnd - pageStart
+    }
+
+    var body: some View {
+        Section(header: Text("Pages")) {
+            TextField("Start", text: $startField)
+                .keyboardType(.numberPad)
+
+            TextField("End", text: $endField)
+                .keyboardType(.numberPad)
+
+            HStack {
+                TextField("Read", text: $completedField)
+
+                // Picker("Preset", selection: $selection) {
+                //     Text("10").tag("10")
+                //     Text("15").tag("15")
+                //     Text("20").tag("20")
+                //     Text("25").tag("25")
+                // }
+                // .pickerStyle(MenuPickerStyle())
+            }
+        }
     }
 }
 
