@@ -11,7 +11,7 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
-    // #BETA5: requires to be run with App build once to work
+    // #BETA6: requires to be run with App build once to work
     // static var preview: PersistenceController = {
     //     let result = PersistenceController(inMemory: true)
     //     let viewContext = result.container.viewContext

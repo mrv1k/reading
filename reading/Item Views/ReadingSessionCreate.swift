@@ -14,6 +14,7 @@ struct ReadingSessionCreate: View {
     var book: Book
 
     @State private var selectedDate = Date()
+    
     @State private var pageStartField = ""
     @State private var pageEndField = ""
     @State private var pagesReadField = ""
@@ -32,25 +33,8 @@ struct ReadingSessionCreate: View {
         return pageEnd - pageStart
     }
 
-    private var dateClosedRange: ClosedRange<Date> {
-        let min = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        let max = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        return min...max
-    }
-
     var body: some View {
         Form {
-            Section {
-                BookRow(book: book)
-            }
-
-            DatePicker(
-                selection: $selectedDate,
-                in: dateClosedRange,
-                displayedComponents: .date,
-                label: { Text("Date") }
-            )
-
             Section {
                 HStack {
                     TextField("Start page", text: $pageStartField)
@@ -72,8 +56,16 @@ struct ReadingSessionCreate: View {
                 }
             }
 
-            Text("timerStart?")
-            Text("timerEnd?")
+            Section {
+                BookRow(book: book)
+            }
+
+            Section {
+                DatePickerWithTimeToggle(selection: $selectedDate)
+            }
+
+            // Text("timerStart?")
+            // Text("timerEnd?")
 
             Section {
                 Button("Save") {
@@ -94,12 +86,12 @@ struct ReadingSessionCreate_Previews: PreviewProvider {
         let book = BookSeeder(context: viewContext).insert(bookWith: .minimum)
 
         return Group {
-            ReadingSessionCreate(book: book)
-
             NavigationView {
                 ReadingSessionCreate(book: book)
                     .navigationBarTitleDisplayMode(.inline)
             }
+
+            ReadingSessionCreate(book: book)
         }
         .environment(\.managedObjectContext, viewContext)
     }
