@@ -75,46 +75,47 @@ class BookSeeder {
         }
     }
 
-    func deleteAll() {
-        // let fetchBooks = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
-        // let deleteBooks = NSBatchDeleteRequest(fetchRequest: fetchBooks)
-        // do {
-        //     try context.execute(deleteBooks)
-        // } catch {
-        //     print(error)
-        // }
-
-        // https://stackoverflow.com/questions/1383598/core-data-quickest-way-to-delete-all-instances-of-an-entity
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        deleteRequest.resultType = .resultTypeObjectIDs
-
-        do {
-            let context = self.context
-            let result = try context.execute(
-                deleteRequest
-            )
-
-            guard
-                let deleteResult = result as? NSBatchDeleteResult,
-                let ids = deleteResult.result as? [NSManagedObjectID]
-            else { return }
-
-            let changes = [NSDeletedObjectsKey: ids]
-            NSManagedObjectContext.mergeChanges(
-                fromRemoteContextSave: changes,
-                into: [context]
-            )
-        } catch {
-            print(error as Any)
-        }
-
-        // public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
-        //     batchDeleteRequest.resultType = .resultTypeObjectIDs
-        //     let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
-        //     let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
-        //     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
-        // }
-    }
+    // FIXME: Do something with it
+    // func deleteAll() {
+    //     // let fetchBooks = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
+    //     // let deleteBooks = NSBatchDeleteRequest(fetchRequest: fetchBooks)
+    //     // do {
+    //     //     try context.execute(deleteBooks)
+    //     // } catch {
+    //     //     print(error)
+    //     // }
+    //
+    //     // https://stackoverflow.com/questions/1383598/core-data-quickest-way-to-delete-all-instances-of-an-entity
+    //     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Book")
+    //     let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    //
+    //     deleteRequest.resultType = .resultTypeObjectIDs
+    //
+    //     do {
+    //         let context = self.context
+    //         let result = try context.execute(
+    //             deleteRequest
+    //         )
+    //
+    //         guard
+    //             let deleteResult = result as? NSBatchDeleteResult,
+    //             let ids = deleteResult.result as? [NSManagedObjectID]
+    //         else { return }
+    //
+    //         let changes = [NSDeletedObjectsKey: ids]
+    //         NSManagedObjectContext.mergeChanges(
+    //             fromRemoteContextSave: changes,
+    //             into: [context]
+    //         )
+    //     } catch {
+    //         print(error as Any)
+    //     }
+    //
+    //     // public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+    //     //     batchDeleteRequest.resultType = .resultTypeObjectIDs
+    //     //     let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+    //     //     let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+    //     //     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
+    //     // }
+    // }
 }

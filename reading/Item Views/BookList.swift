@@ -11,24 +11,8 @@ struct BookList: View {
     var body: some View {
         NavigationView {
             List {
-                BookListSortMenu(initialSortDescriptor: $sortDescriptor)
+                // TODO: Animate sort transition
                 BookListSorted(sortDescriptor: sortDescriptor)
-
-                HStack {
-                    Button(action: {
-                        try! self.viewContext.saveOnChanges()
-                    }) {
-                        Text("Save")
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-
-                    Button(action: {
-                        // TODO: Do something with it
-                        BookSeeder(context: self.viewContext).deleteAll()
-                    }, label: {
-                        Text("DeleteAll")
-                    }).buttonStyle(BorderlessButtonStyle())
-                }
             }
             .onDisappear {
                 do {
@@ -39,9 +23,16 @@ struct BookList: View {
             }
             .navigationBarItems(
                 leading: EditButton(),
-                trailing: NavigationLink(destination: BookCreate()) {
-                     Image(systemName: "plus")
+                trailing: Menu {
+                    NavigationLink(destination: BookCreate()) {
+                        Label("New Book", systemImage: "plus")
+                    }
+                    Divider()
+                    BookListSortMenu(initialSortDescriptor: $sortDescriptor)
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                 }
+
             )
             .navigationBarTitle("Books", displayMode: .inline)
         }

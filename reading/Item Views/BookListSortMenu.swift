@@ -11,7 +11,8 @@ import SwiftUI
 struct BookListSortMenu: View {
     @Binding var sortDescriptor: NSSortDescriptor
 
-    enum Sort: String, CaseIterable {
+    enum Sort: String, CaseIterable, Identifiable {
+        var id: String { self.rawValue }
         case recent, title, author
     }
 
@@ -50,50 +51,17 @@ struct BookListSortMenu: View {
         _currentSort = State(initialValue: initialSort)
     }
 
-    var buttons: [ActionSheet.Button] {
-        var buttons = [ActionSheet.Button]()
-        for selectedSort in Sort.allCases {
-            buttons.append(
-                .default(
-                    Text(selectedSort.rawValue.capitalized),
-                    action: {
-                        guard self.currentSort != selectedSort else {
-                            return
-                        }
-                        self.currentSort = selectedSort
-                        self.sortDescriptor = self.selectedDescriptor
-                })
-            )
-        }
-        buttons.append(.cancel())
-        return buttons
-    }
-
     var body: some View {
-        Button("Sort by: \(currentSort.rawValue.capitalized)") {
-            self.isOpen = true
-        }
-        .actionSheet(isPresented: $isOpen) {
-            ActionSheet(
-                title: Text("Sort by:"),
-                buttons: buttons
-            )
-        }
-    }
-}
-
-struct BookListSortMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        LivePreviewWrapper()
-    }
-
-    // "Live Previews" https://stackoverflow.com/a/59626213
-    struct LivePreviewWrapper: View {
-        @State private var sortDescriptor: NSSortDescriptor = Book.sortByTitle
-
-        var body: some View {
-            BookListSortMenu(initialSortDescriptor: $sortDescriptor)
-                .previewLayout(.sizeThatFits)
-        }
+        ForEach(Sort.allCases, content: { (selectedSort) in
+            Button(action: {
+                guard self.currentSort != selectedSort else {
+                    return
+                }
+                self.currentSort = selectedSort
+                self.sortDescriptor = self.selectedDescriptor
+            }, label: {
+                Text(selectedSort.rawValue.capitalized)
+            })
+        })
     }
 }
