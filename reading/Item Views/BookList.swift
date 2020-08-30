@@ -13,6 +13,8 @@ struct BookList: View {
                 // TODO: Animate sort transition
                 BookListSorted(sortDescriptor: sortDescriptor)
             }
+            .animation(.default)
+
             .onDisappear {
                 do {
                     try self.viewContext.saveOnChanges()
@@ -21,7 +23,6 @@ struct BookList: View {
                 }
             }
             .navigationBarItems(
-                leading: EditButton(),
                 trailing: Menu {
                     NavigationLink(destination: BookCreate()) {
                         Label("New Book", systemImage: "plus")
