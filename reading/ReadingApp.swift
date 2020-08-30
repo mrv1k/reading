@@ -13,11 +13,17 @@ struct ReadingApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController = PersistenceController.shared
+    let userData: UserData
+
+    init() {
+        userData = UserData()
+    }
 
     var body: some Scene {
         WindowGroup {
             BookList()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(userData)
                 .onChange(of: scenePhase, perform: backgroundSave)
         }
 
