@@ -39,30 +39,30 @@ struct BookListSortMenu: View {
 }
 
 fileprivate enum Sort: String, CaseIterable, Identifiable {
-    case recent, title, author
+    case title, author, date
     var id: String { rawValue }
 }
 
 fileprivate func convert(from sort: Sort) -> NSSortDescriptor {
     switch sort {
-    case .recent:
-        return Book.sortByCreationDate
-    case .author:
-        return Book.sortByAuthors
     case .title:
         return Book.sortByTitle
+    case .author:
+        return Book.sortByAuthors
+    case .date:
+        return Book.sortByCreationDate
     }
 }
 
 fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
     var sort: Sort
     switch descriptor {
-    case Book.sortByCreationDate:
-        sort = .recent
-    case Book.sortByAuthors:
-        sort = .author
     case Book.sortByTitle:
         sort = .title
+    case Book.sortByAuthors:
+        sort = .author
+    case Book.sortByCreationDate:
+        sort = .date
     default:
         sort = .author
         #if DEBUG
