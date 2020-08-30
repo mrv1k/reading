@@ -27,7 +27,7 @@ struct BookListSortMenu: View {
         } set: { newSort in
             guard newSort != selectedSort else { return }
             selectedSort = newSort
-            sortDescriptor = convert(from: newSort)
+            sortDescriptor = newSort.descriptor()
             save(descriptor: sortDescriptor)
         }
 
@@ -42,35 +42,28 @@ struct BookListSortMenu: View {
 fileprivate enum Sort: String, CaseIterable, Identifiable {
     case title, author, date
     var id: String { rawValue }
-}
 
-fileprivate func convert(from sort: Sort) -> NSSortDescriptor {
-    switch sort {
-    case .title:
-        return Book.sortByTitle
-    case .author:
-        return Book.sortByAuthors
-    case .date:
-        return Book.sortByCreationDate
+    func descriptor() -> NSSortDescriptor {
+        switch self {
+        case .title: return Book.sortByTitle
+        case .author: return Book.sortByAuthors
+        case .date: return Book.sortByCreationDate
+        }
     }
 }
 
 fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
-    var sort: Sort
     switch descriptor {
-    case Book.sortByTitle:
-        sort = .title
-    case Book.sortByAuthors:
-        sort = .author
-    case Book.sortByCreationDate:
-        sort = .date
+    case Book.sortByTitle: return .title
+    case Book.sortByAuthors: return .author
+    case Book.sortByCreationDate: return .date
     default:
-        sort = .author
         #if DEBUG
         fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
+        #else
+        return .title
         #endif
     }
-    return sort
 }
 
 fileprivate func save(descriptor: NSSortDescriptor) {
