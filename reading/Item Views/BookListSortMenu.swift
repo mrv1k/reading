@@ -14,49 +14,20 @@ struct BookListSortMenu: View {
     @State private var isOpen = false
     @State private var selectedSort: Sort
 
-    enum Sort: String, CaseIterable, Identifiable {
-        case recent, title, author
-        var id: String { self.rawValue }
-    }
-
-    var selectedDescriptor: NSSortDescriptor {
-        switch selectedSort {
-        case .recent:
-            return Book.sortByCreationDate
-        case .author:
-            return Book.sortByAuthors
-        case .title:
-            return Book.sortByTitle
-        }
-    }
-
     init(initialSortDescriptor: Binding<NSSortDescriptor>) {
         _sortDescriptor = initialSortDescriptor
-
-        var initialSort: Sort
-        switch _sortDescriptor.wrappedValue {
-        case Book.sortByCreationDate:
-            initialSort = .recent
-        case Book.sortByAuthors:
-            initialSort = .author
-        case Book.sortByTitle:
-            initialSort = .title
-        default:
-            initialSort = .author
-            #if DEBUG
-            fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
-            #endif
-        }
+        let initialSort = convert(from: initialSortDescriptor.wrappedValue)
         _selectedSort = State(initialValue: initialSort)
     }
 
     var body: some View {
         // https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-custom-bindings
         let selection = Binding<Sort> {
-            self.selectedSort
+            selectedSort
         } set: { newSort in
-            self.selectedSort = newSort
-            self.sortDescriptor = selectedDescriptor
+            guard newSort != selectedSort else { return }
+            selectedSort = newSort
+            sortDescriptor = convert(from: newSort)
         }
 
         Picker("Sorting options", selection: selection) {
@@ -65,6 +36,40 @@ struct BookListSortMenu: View {
             }
         }
     }
+}
+
+fileprivate enum Sort: String, CaseIterable, Identifiable {
+    case recent, title, author
+    var id: String { rawValue }
+}
+
+fileprivate func convert(from sort: Sort) -> NSSortDescriptor {
+    switch sort {
+    case .recent:
+        return Book.sortByCreationDate
+    case .author:
+        return Book.sortByAuthors
+    case .title:
+        return Book.sortByTitle
+    }
+}
+
+fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
+    var sort: Sort
+    switch descriptor {
+    case Book.sortByCreationDate:
+        sort = .recent
+    case Book.sortByAuthors:
+        sort = .author
+    case Book.sortByTitle:
+        sort = .title
+    default:
+        sort = .author
+        #if DEBUG
+        fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
+        #endif
+    }
+    return sort
 }
 
 struct BookListSortMenu_Previews: PreviewProvider {
