@@ -11,13 +11,16 @@ import SwiftUI
 struct BookListSortMenu: View {
     @Binding var sortDescriptor: NSSortDescriptor
 
+    @State private var isOpen = false
+    @State private var selectedSort: Sort
+
     enum Sort: String, CaseIterable, Identifiable {
-        var id: String { self.rawValue }
         case recent, title, author
+        var id: String { self.rawValue }
     }
 
     var selectedDescriptor: NSSortDescriptor {
-        switch currentSort {
+        switch selectedSort {
         case .recent:
             return Book.sortByCreationDate
         case .author:
@@ -26,9 +29,6 @@ struct BookListSortMenu: View {
             return Book.sortByTitle
         }
     }
-
-    @State private var currentSort: Sort
-    @State private var isOpen = false
 
     init(initialSortDescriptor: Binding<NSSortDescriptor>) {
         _sortDescriptor = initialSortDescriptor
@@ -47,21 +47,38 @@ struct BookListSortMenu: View {
             fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
             #endif
         }
-
-        _currentSort = State(initialValue: initialSort)
+        _selectedSort = State(initialValue: initialSort)
     }
 
     var body: some View {
-        ForEach(Sort.allCases, content: { (selectedSort) in
-            Button(action: {
-                guard self.currentSort != selectedSort else {
-                    return
-                }
-                self.currentSort = selectedSort
-                self.sortDescriptor = self.selectedDescriptor
-            }, label: {
-                Text(selectedSort.rawValue.capitalized)
-            })
-        })
+        // https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-custom-bindings
+        let selection = Binding<Sort> {
+            self.selectedSort
+        } set: { newSort in
+            self.selectedSort = newSort
+            self.sortDescriptor = selectedDescriptor
+        }
+
+        Picker("Sorting options", selection: selection) {
+            ForEach(Sort.allCases) { sort in
+                Text(sort.rawValue.capitalized).tag(sort)
+            }
+        }
+    }
+}
+
+struct BookListSortMenu_Previews: PreviewProvider {
+    static var previews: some View {
+        LivePreviewWrapper()
+    }
+
+    // "Live Previews" https://stackoverflow.com/a/59626213
+    struct LivePreviewWrapper: View {
+        @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors
+
+        var body: some View {
+            BookListSortMenu(initialSortDescriptor: $sortDescriptor)
+                .previewLayout(.sizeThatFits)
+        }
     }
 }

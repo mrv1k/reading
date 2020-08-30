@@ -1,6 +1,5 @@
 import SwiftUI
 import Foundation
-import CoreData
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
