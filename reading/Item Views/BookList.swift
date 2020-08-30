@@ -4,8 +4,17 @@ import Foundation
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    // TODO: make last selected sort persistent
-    @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors
+    @State private var sortDescriptor: NSSortDescriptor
+
+    init() {
+        if let savedSortDescriptor = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
+            if let decodedSortDescriptor = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedSortDescriptor) as? NSSortDescriptor {
+                self._sortDescriptor = State(initialValue: decodedSortDescriptor)
+                return
+            }
+        }
+        self._sortDescriptor = State(initialValue: Book.sortByTitle)
+    }
 
     var body: some View {
         NavigationView {

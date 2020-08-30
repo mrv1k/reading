@@ -28,6 +28,7 @@ struct BookListSortMenu: View {
             guard newSort != selectedSort else { return }
             selectedSort = newSort
             sortDescriptor = convert(from: newSort)
+            save(descriptor: sortDescriptor)
         }
 
         Picker("Sorting options", selection: selection) {
@@ -70,6 +71,17 @@ fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
         #endif
     }
     return sort
+}
+
+fileprivate func save(descriptor: NSSortDescriptor) {
+    do {
+        let savedData = try NSKeyedArchiver.archivedData(
+            withRootObject: descriptor,
+            requiringSecureCoding: true)
+        UserDefaults.standard.setValue(savedData, forKey: "sortDescriptor")
+    } catch {
+        fatalError("failed to \(#function)")
+    }
 }
 
 struct BookListSortMenu_Previews: PreviewProvider {
