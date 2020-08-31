@@ -13,11 +13,7 @@ struct ReadingApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController = PersistenceController.shared
-    let userData: UserData
-
-    init() {
-        userData = UserData()
-    }
+    let userData = UserData()
 
     var body: some Scene {
         WindowGroup {
@@ -26,7 +22,6 @@ struct ReadingApp: App {
                 .environmentObject(userData)
                 .onChange(of: scenePhase, perform: backgroundSave)
         }
-
     }
 
     // #BETA5: onChange should work on Scene, but doesn't; attach to View for now.

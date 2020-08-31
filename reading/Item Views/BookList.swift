@@ -3,24 +3,12 @@ import Foundation
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @State private var sortDescriptor: NSSortDescriptor
-
-    init() {
-        if let savedSortDescriptor = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
-            if let decodedSortDescriptor = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedSortDescriptor) as? NSSortDescriptor {
-                self._sortDescriptor = State(initialValue: decodedSortDescriptor)
-                return
-            }
-        }
-        self._sortDescriptor = State(initialValue: Book.sortByTitle)
-    }
+    @EnvironmentObject var userData: UserData
 
     var body: some View {
         NavigationView {
             List {
-                // TODO: Animate sort transition
-                BookListSorted(sortDescriptor: sortDescriptor)
+                BookListSorted(sortDescriptor: userData.sortDescriptor)
             }
             .animation(.default)
 
@@ -37,7 +25,7 @@ struct BookList: View {
                         Label("New Book", systemImage: "plus")
                     }
                     Divider()
-                    BookListSortMenu(initialSortDescriptor: $sortDescriptor)
+                    BookListSortMenu(initialSortDescriptor: $userData.sortDescriptor)
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -56,5 +44,6 @@ struct BookList_Previews: PreviewProvider {
 
         return BookList()
             .environment(\.managedObjectContext, viewContext)
+            .environmentObject(UserData())
     }
 }
