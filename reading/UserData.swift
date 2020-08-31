@@ -10,19 +10,13 @@ import Foundation
 import Combine
 
 class UserData: ObservableObject {
-    @Published var sortDescriptor: NSSortDescriptor
+    @Published var sortDescriptor: NSSortDescriptor = Book.sortByTitle
 
     init() {
         if let savedSortDescriptor = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
             if let decodedSortDescriptor = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedSortDescriptor) as? NSSortDescriptor {
                 sortDescriptor = decodedSortDescriptor
-                print("UserData: decoded", sortDescriptor)
-                return
             }
         }
-
-        sortDescriptor = Book.sortByTitle
-
-        print("UserData: default", sortDescriptor)
     }
 }
