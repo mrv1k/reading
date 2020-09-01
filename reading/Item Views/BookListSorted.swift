@@ -11,27 +11,40 @@ import SwiftUI
 struct BookListSorted: View {
     @Environment(\.managedObjectContext) private var viewContext
 
+    var modalView: Bool
+
     var fetchRequest: FetchRequest<Book>
     var books: FetchedResults<Book> {
         fetchRequest.wrappedValue
     }
 
-    init(sortDescriptor: NSSortDescriptor) {
+    init(sortDescriptor: NSSortDescriptor, modalView: Bool = false) {
         fetchRequest = FetchRequest<Book>(
             entity: Book.entity(),
             sortDescriptors: [sortDescriptor]
         )
+
+        self.modalView = modalView
     }
 
     var body: some View {
-        ForEach(books) { book in
-            NavigationLink(
-                destination: BookDetail(book: book)
-            ) {
+        if modalView {
+            ForEach(books) { book in
                 BookRow(book: book)
+                    .onTapGesture(perform: {
+                        print(book)
+                    })
             }
+        } else {
+            ForEach(books) { book in
+                NavigationLink(
+                    destination: BookDetail(book: book)
+                ) {
+                    BookRow(book: book)
+                }
+            }
+            .onDelete(perform: deleteBook)
         }
-        .onDelete(perform: deleteBook)
     }
 
     func deleteBook(indexSet: IndexSet) {

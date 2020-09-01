@@ -7,6 +7,12 @@ struct BookList: View {
     var body: some View {
         List {
             BookListSorted(sortDescriptor: userData.sortDescriptor)
+
+            NavigationLink(
+                destination: ReadingSessionCreate(),
+                label: {
+                    Label("New Session", systemImage: "plus")
+                })
         }
         .animation(.default)
         .navigationBarItems(
@@ -14,6 +20,11 @@ struct BookList: View {
                 NavigationLink(destination: BookCreate()) {
                     Label("broken: New Book", systemImage: "plus")
                 }
+                NavigationLink(
+                    destination: ReadingSessionCreate(),
+                    label: {
+                        Label("broken: New Session", systemImage: "plus")
+                    })
                 Divider()
                 BookListSortMenu(initialSortDescriptor: $userData.sortDescriptor)
             } label: {
