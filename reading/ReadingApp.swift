@@ -17,10 +17,12 @@ struct ReadingApp: App {
 
     var body: some Scene {
         WindowGroup {
-            BookList()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(userData)
-                .onChange(of: scenePhase, perform: backgroundSave)
+            NavigationView {
+                BookList()
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environmentObject(userData)
+            .onChange(of: scenePhase, perform: backgroundSave)
         }
     }
 

@@ -5,25 +5,23 @@ struct BookList: View {
     @EnvironmentObject private var userData: UserData
 
     var body: some View {
-        NavigationView {
-            List {
-                BookListSorted(sortDescriptor: userData.sortDescriptor)
-            }
-            .animation(.default)
-            .navigationBarItems(
-                trailing: Menu {
-                    NavigationLink(destination: BookCreate()) {
-                        Label("New Book", systemImage: "plus")
-                    }
-                    Divider()
-                    BookListSortMenu(initialSortDescriptor: $userData.sortDescriptor)
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                }
-
-            )
-            .navigationBarTitle("Books", displayMode: .inline)
+        List {
+            BookListSorted(sortDescriptor: userData.sortDescriptor)
         }
+        .animation(.default)
+        .navigationBarItems(
+            trailing: Menu {
+                NavigationLink(destination: BookCreate()) {
+                    Label("broken: New Book", systemImage: "plus")
+                }
+                Divider()
+                BookListSortMenu(initialSortDescriptor: $userData.sortDescriptor)
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+
+        )
+        .navigationBarTitle("Books", displayMode: .inline)
     }
 }
 
