@@ -11,29 +11,33 @@ import SwiftUI
 struct BookListSorted: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    var modalView: Bool
+    let modalView: Bool
+    let onTap: (_ book: Book) -> Void
 
-    var fetchRequest: FetchRequest<Book>
+    let fetchRequest: FetchRequest<Book>
     var books: FetchedResults<Book> {
         fetchRequest.wrappedValue
     }
 
-    init(sortDescriptor: NSSortDescriptor, modalView: Bool = false) {
+    init(sortDescriptor: NSSortDescriptor,
+         modalView: Bool = false,
+         onTap: @escaping (_ book: Book) -> Void = {_ in }
+    ) {
         fetchRequest = FetchRequest<Book>(
             entity: Book.entity(),
             sortDescriptors: [sortDescriptor]
         )
-
         self.modalView = modalView
+        self.onTap = onTap
     }
 
     var body: some View {
         if modalView {
             ForEach(books) { book in
                 BookRow(book: book)
-                    .onTapGesture(perform: {
-                        print(book)
-                    })
+                    .onTapGesture {
+                        onTap(book)
+                    }
             }
         } else {
             ForEach(books) { book in

@@ -17,8 +17,9 @@ struct BookSelect: View {
         List {
             BookListSorted(
                 sortDescriptor: userData.sortDescriptor,
-                modalView: true
-            )
+                modalView: true) { book in
+                print(book)
+            }
         }
     }
 
@@ -33,4 +34,4 @@ struct BookSelect: View {
     }
 }
 
-// Preview crashes. Preview don't support modals?
+// Preview crashes. SwiftUI Previews don't support modals?

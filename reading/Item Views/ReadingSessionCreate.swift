@@ -11,7 +11,7 @@ import SwiftUI
 struct ReadingSessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    var book: Book
+    var book: Book?
 
     @State private var selectedDate = Date()
     
@@ -27,10 +27,15 @@ struct ReadingSessionCreate: View {
                 endField: $pageEndField,
                 completedField: $pagesCompletedField)
 
-            // TODO: make changeable
+
             Section {
-                BookRow(book: book)
+                if let book = book {
+                    BookRow(book: book)
+                } else {
+                    BookSelect()
+                }
             }
+
 
             Section {
                 DatePickerWithTimeToggle(selection: $selectedDate)
@@ -78,6 +83,7 @@ fileprivate struct ReadingSection: View {
                 .keyboardType(.numberPad)
 
             HStack {
+                // TODO: Computed / inputable
                 TextField("Read", text: $completedField)
 
                 // Picker("Preset", selection: $selection) {
