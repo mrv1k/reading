@@ -1,9 +1,8 @@
 import SwiftUI
-import Foundation
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject private var userData: UserData
 
     var body: some View {
         NavigationView {
@@ -11,14 +10,6 @@ struct BookList: View {
                 BookListSorted(sortDescriptor: userData.sortDescriptor)
             }
             .animation(.default)
-
-            .onDisappear {
-                do {
-                    try self.viewContext.saveOnChanges()
-                } catch {
-                    fatalError("Failure to save context: \(error)")
-                }
-            }
             .navigationBarItems(
                 trailing: Menu {
                     NavigationLink(destination: BookCreate()) {
