@@ -28,6 +28,7 @@
 		579A987C24EFDC5900F80EC7 /* BookListSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987B24EFDC5900F80EC7 /* BookListSorted.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
+		57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE740C24FD4FB8007251E5 /* BookSelect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		579A987B24EFDC5900F80EC7 /* BookListSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSorted.swift; sourceTree = "<group>"; };
 		579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortMenu.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
+		57EE740C24FD4FB8007251E5 /* BookSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSelect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				579A987B24EFDC5900F80EC7 /* BookListSorted.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */,
 				578B08D824C1737D00500C41 /* BookRow.swift */,
+				57EE740C24FD4FB8007251E5 /* BookSelect.swift */,
 				5746E92F24F2E0DC0094A27F /* ReadingSessionCreate.swift */,
 			);
 			path = "Item Views";
@@ -236,6 +239,7 @@
 				577BD23124FBFE6B00F29A71 /* UserData.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortMenu.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
+				57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */,
 				573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
