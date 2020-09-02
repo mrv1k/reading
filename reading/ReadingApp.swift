@@ -12,13 +12,25 @@ import SwiftUI
 struct ReadingApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
-    let persistenceController = PersistenceController.shared
-    let userData = UserData()
+    let persistenceController: PersistenceController
+    @StateObject var bookStorage: BookStorage
+
+    let userData: UserData
+
+    init() {
+        persistenceController = PersistenceController.shared
+        let viewContext = persistenceController.container.viewContext
+
+        userData = UserData()
+
+        let storage = BookStorage(viewContext: viewContext, sort: userData.sortDescriptor)
+        _bookStorage = StateObject(wrappedValue: storage)
+    }
 
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                BookList()
+                BookList(bookStorage: bookStorage)
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(userData)

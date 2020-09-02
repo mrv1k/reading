@@ -28,9 +28,23 @@ class BookStorage: NSObject, ObservableObject {
 
         booksController.delegate = self
 
+        booksController.fetchRequest.sortDescriptors = [sort]
         do {
             try booksController.performFetch()
             books = booksController.fetchedObjects ?? []
+            print("yup")
+        } catch {
+            print(#function, "failed to fetch books")
+        }
+    }
+
+    func myPerformFetch(sort: NSSortDescriptor) {
+        print(#function)
+        booksController.fetchRequest.sortDescriptors = [sort]
+        do {
+            try booksController.performFetch()
+            books = booksController.fetchedObjects ?? []
+            print("yup")
         } catch {
             print(#function, "failed to fetch books")
         }
