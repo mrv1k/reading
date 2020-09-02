@@ -29,6 +29,7 @@
 		579A987E24EFDFE500F80EC7 /* BookListSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE740C24FD4FB8007251E5 /* BookSelect.swift */; };
+		57F4815224FF9490002B6691 /* BookStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4815124FF9490002B6691 /* BookStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortMenu.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57EE740C24FD4FB8007251E5 /* BookSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSelect.swift; sourceTree = "<group>"; };
+		57F4815124FF9490002B6691 /* BookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		5723957824BEF289007DC1E5 /* reading */ = {
 			isa = PBXGroup;
 			children = (
+				57F4815124FF9490002B6691 /* BookStorage.swift */,
 				575936A924F3A3A000D58737 /* ReadingApp.swift */,
 				577BD23024FBFE6B00F29A71 /* UserData.swift */,
 				57C97BFE24D051D000398FA9 /* Core Data Model */,
@@ -250,6 +253,7 @@
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
 				573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
+				57F4815224FF9490002B6691 /* BookStorage.swift in Sources */,
 				578B08D924C1737D00500C41 /* BookRow.swift in Sources */,
 				57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */,
 				5716CDAB24D140960017E2E2 /* Book+CoreDataProperties.swift in Sources */,
