@@ -4,19 +4,18 @@ struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject var bookStorage: BookStorage
+    var books: [Book] { bookStorage.books }
 
     var body: some View {
         List {
-            ForEach (bookStorage.books) { book in
-                BookRow(book: book)
+            ForEach(books) { book in
+                NavigationLink(
+                    destination: BookDetail(book: book),
+                    label: {
+                        BookRow(book: book)
+                    })
             }
-            Button {
-                bookStorage.performSortedFetch()
-            } label: {
-                Text("bookStorage.myPerformFetch")
-            }
-
-            // BookListSorted(sortDescriptor: userData.sortDescriptor)
+            .onDelete(perform: deleteBook)
 
             NavigationLink(destination: ReadingSessionCreate()) {
                 Label("New Session", systemImage: "plus")
@@ -45,6 +44,22 @@ struct BookList: View {
         )
         .navigationBarTitle("Books", displayMode: .inline)
     }
+
+    func deleteBook(indexSet: IndexSet) {
+        withAnimation {
+            for index in indexSet {
+                viewContext.delete(self.books[index])
+            }
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
 }
 
 struct BookList_Previews: PreviewProvider {
@@ -53,7 +68,8 @@ struct BookList_Previews: PreviewProvider {
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
         let storage = BookStorage(viewContext: viewContext)
-        return BookList(bookStorage: storage)
-            .environment(\.managedObjectContext, viewContext)
+        return NavigationView {
+            BookList(bookStorage: storage)
+        }.environment(\.managedObjectContext, viewContext)
     }
 }

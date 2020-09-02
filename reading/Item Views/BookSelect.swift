@@ -10,26 +10,16 @@ import SwiftUI
 
 struct BookSelect: View {
     @Environment(\.managedObjectContext) private var viewContext
-    // @EnvironmentObject var userData: UserData
 
     @State var isModal: Bool = false
-    var modal: some View {
-        List {
-            // BookListSorted(
-            //     sortDescriptor: userData.sortDescriptor,
-            //     modalView: true) { book in
-            //     print(book)
-            // }
-        }
-    }
 
     var body: some View {
         Button("Select a book") {
             self.isModal = true
         }.sheet(isPresented: $isModal, content: {
-            modal
+            // BookListModal()
+            Text("placeholder")
                 .environment(\.managedObjectContext, viewContext)
-                // .environmentObject(userData)
         })
     }
 }

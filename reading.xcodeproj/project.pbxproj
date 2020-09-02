@@ -21,10 +21,10 @@
 		573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */; };
 		57413BE824C57210009B461F /* PreviewWithNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57413BE724C57210009B461F /* PreviewWithNavigation.swift */; };
 		5746E93024F2E0DC0094A27F /* ReadingSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* ReadingSessionCreate.swift */; };
+		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
 		575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A224F3A16F00D58737 /* PersistenceController.swift */; };
 		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
-		579A987C24EFDC5900F80EC7 /* BookListSorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987B24EFDC5900F80EC7 /* BookListSorted.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE740C24FD4FB8007251E5 /* BookSelect.swift */; };
@@ -48,10 +48,10 @@
 		573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		57413BE724C57210009B461F /* PreviewWithNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWithNavigation.swift; sourceTree = "<group>"; };
 		5746E92F24F2E0DC0094A27F /* ReadingSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionCreate.swift; sourceTree = "<group>"; };
+		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
 		575936A224F3A16F00D58737 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
-		579A987B24EFDC5900F80EC7 /* BookListSorted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSorted.swift; sourceTree = "<group>"; };
 		579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortMenu.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57EE740C24FD4FB8007251E5 /* BookSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSelect.swift; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 				5715C62224C364E4006709C5 /* BookCreate.swift */,
 				5723958D24C0212E007DC1E5 /* BookDetail.swift */,
 				5723958F24C021A7007DC1E5 /* BookList.swift */,
-				579A987B24EFDC5900F80EC7 /* BookListSorted.swift */,
+				5748A7FD24FFE4270041C511 /* BookListModal.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortMenu.swift */,
 				578B08D824C1737D00500C41 /* BookRow.swift */,
 				57EE740C24FD4FB8007251E5 /* BookSelect.swift */,
@@ -233,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* ReadingSessionCreate.swift in Sources */,
 				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
@@ -245,7 +246,6 @@
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,
 				57413BE824C57210009B461F /* PreviewWithNavigation.swift in Sources */,
-				579A987C24EFDC5900F80EC7 /* BookListSorted.swift in Sources */,
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
 				573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
