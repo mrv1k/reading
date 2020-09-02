@@ -7,16 +7,17 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BookListSortMenu: View {
-    @Binding var sortDescriptor: NSSortDescriptor
+    @ObservedObject var bookStorage: BookStorage
 
     @State private var isOpen = false
     @State private var selectedSort: Sort
 
-    init(initialSortDescriptor: Binding<NSSortDescriptor>) {
-        _sortDescriptor = initialSortDescriptor
-        let initialSort = convert(from: initialSortDescriptor.wrappedValue)
+    init(bookStorage: BookStorage) {
+        self.bookStorage = bookStorage
+        let initialSort = convert(from: bookStorage.sortDescriptor)
         _selectedSort = State(initialValue: initialSort)
     }
 
@@ -27,10 +28,9 @@ struct BookListSortMenu: View {
         } set: { newSort in
             guard newSort != selectedSort else { return }
             selectedSort = newSort
-            sortDescriptor = newSort.descriptor()
-            save(descriptor: sortDescriptor)
+            bookStorage.performFetch(descriptor: newSort.descriptor())
         }
-
+        
         Picker("Sorting options", selection: selection) {
             ForEach(Sort.allCases) { sort in
                 Text(sort.rawValue.capitalized).tag(sort)
@@ -66,29 +66,20 @@ fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
     }
 }
 
-fileprivate func save(descriptor: NSSortDescriptor) {
-    do {
-        let savedData = try NSKeyedArchiver.archivedData(
-            withRootObject: descriptor,
-            requiringSecureCoding: true)
-        UserDefaults.standard.setValue(savedData, forKey: "sortDescriptor")
-    } catch {
-        fatalError("failed to \(#function)")
-    }
-}
-
 struct BookListSortMenu_Previews: PreviewProvider {
     static var previews: some View {
-        LivePreviewWrapper()
+        let viewContext = PersistenceController.shared.container.viewContext
+        let bookStorage = BookStorage(viewContext: viewContext)
+
+        return BookListSortMenu(bookStorage: bookStorage)
+            .previewLayout(.sizeThatFits)
     }
 
     // "Live Previews" https://stackoverflow.com/a/59626213
-    struct LivePreviewWrapper: View {
-        @State private var sortDescriptor: NSSortDescriptor = Book.sortByAuthors
-
-        var body: some View {
-            BookListSortMenu(initialSortDescriptor: $sortDescriptor)
-                .previewLayout(.sizeThatFits)
-        }
-    }
+    // struct LivePreviewWrapper: View {
+    //     var body: some View {
+    //         BookListSortMenu(bookStorage: bookStorage)
+    //             .previewLayout(.sizeThatFits)
+    //     }
+    // }
 }

@@ -13,14 +13,14 @@ import CoreData
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
-    @Published var sortDescriptor: NSSortDescriptor
+    var sortDescriptor: NSSortDescriptor
 
     private let booksController: NSFetchedResultsController<Book>
 
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
 
-        let descriptor = savedSortDescriptor() ?? Book.sortByTitle
+        let descriptor = loadDescriptor() ?? Book.sortByTitle
         sortDescriptor = descriptor
         fetchRequest.sortDescriptors = [descriptor]
 
@@ -45,9 +45,11 @@ class BookStorage: NSObject, ObservableObject {
         }
     }
 
-    func performSortedFetch() {
-        booksController.fetchRequest.sortDescriptors = [sortDescriptor]
+    func performFetch(descriptor: NSSortDescriptor) {
+        booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
+        sortDescriptor = descriptor
+        saveDescriptor(descriptor)
     }
 }
 
@@ -59,11 +61,22 @@ extension BookStorage: NSFetchedResultsControllerDelegate {
     }
 }
 
-fileprivate func savedSortDescriptor() -> NSSortDescriptor? {
+fileprivate func loadDescriptor() -> NSSortDescriptor? {
     if let saved = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
         if let decoded = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(saved) as? NSSortDescriptor {
             return decoded
         }
     }
     return nil
+}
+
+fileprivate func saveDescriptor(_ descriptor: NSSortDescriptor) {
+    do {
+        let savedData = try NSKeyedArchiver.archivedData(
+            withRootObject: descriptor,
+            requiringSecureCoding: true)
+        UserDefaults.standard.setValue(savedData, forKey: "sortDescriptor")
+    } catch {
+        fatalError("failed to \(#function)")
+    }
 }

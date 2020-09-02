@@ -36,7 +36,7 @@ struct BookList: View {
                         Label("broken: New Session", systemImage: "plus")
                     })
                 Divider()
-                BookListSortMenu(initialSortDescriptor: $bookStorage.sortDescriptor)
+                BookListSortMenu(bookStorage: bookStorage)
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
@@ -67,9 +67,9 @@ struct BookList_Previews: PreviewProvider {
         let viewContext = PersistenceController.shared.container.viewContext
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
-        let storage = BookStorage(viewContext: viewContext)
+        let bookStorage = BookStorage(viewContext: viewContext)
         return NavigationView {
-            BookList(bookStorage: storage)
+            BookList(bookStorage: bookStorage)
         }.environment(\.managedObjectContext, viewContext)
     }
 }

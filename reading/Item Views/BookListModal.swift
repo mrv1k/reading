@@ -28,8 +28,8 @@ struct BookListModal_Previews: PreviewProvider {
     static var previews: some View {
         let viewContext = PersistenceController.shared.container.viewContext
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
-        let storage = BookStorage(viewContext: viewContext)
+        let bookStorage = BookStorage(viewContext: viewContext)
 
-        return BookListModal(bookStorage: storage)
+        return BookListModal(bookStorage: bookStorage)
     }
 }
