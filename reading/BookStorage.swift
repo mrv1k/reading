@@ -13,11 +13,16 @@ import CoreData
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
+    @Published var sortDescriptor: NSSortDescriptor
+
     private let booksController: NSFetchedResultsController<Book>
 
-    init(viewContext: NSManagedObjectContext, sort: NSSortDescriptor) {
+    init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [sort]
+
+        let descriptor = savedSortDescriptor() ?? Book.sortByTitle
+        sortDescriptor = descriptor
+        fetchRequest.sortDescriptors = [descriptor]
 
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -28,26 +33,21 @@ class BookStorage: NSObject, ObservableObject {
 
         booksController.delegate = self
 
-        booksController.fetchRequest.sortDescriptors = [sort]
+        performFetch()
+    }
+
+    func performFetch() {
         do {
             try booksController.performFetch()
             books = booksController.fetchedObjects ?? []
-            print("yup")
         } catch {
-            print(#function, "failed to fetch books")
+            print("failed to fetch books")
         }
     }
 
-    func myPerformFetch(sort: NSSortDescriptor) {
-        print(#function)
-        booksController.fetchRequest.sortDescriptors = [sort]
-        do {
-            try booksController.performFetch()
-            books = booksController.fetchedObjects ?? []
-            print("yup")
-        } catch {
-            print(#function, "failed to fetch books")
-        }
+    func performSortedFetch() {
+        booksController.fetchRequest.sortDescriptors = [sortDescriptor]
+        performFetch()
     }
 }
 
@@ -57,4 +57,13 @@ extension BookStorage: NSFetchedResultsControllerDelegate {
         else { return }
         books = refetchedBooks
     }
+}
+
+fileprivate func savedSortDescriptor() -> NSSortDescriptor? {
+    if let saved = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
+        if let decoded = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(saved) as? NSSortDescriptor {
+            return decoded
+        }
+    }
+    return nil
 }

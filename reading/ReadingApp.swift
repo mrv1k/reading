@@ -15,15 +15,11 @@ struct ReadingApp: App {
     let persistenceController: PersistenceController
     @StateObject var bookStorage: BookStorage
 
-    let userData: UserData
-
     init() {
         persistenceController = PersistenceController.shared
         let viewContext = persistenceController.container.viewContext
 
-        userData = UserData()
-
-        let storage = BookStorage(viewContext: viewContext, sort: userData.sortDescriptor)
+        let storage = BookStorage(viewContext: viewContext)
         _bookStorage = StateObject(wrappedValue: storage)
     }
 
@@ -33,7 +29,6 @@ struct ReadingApp: App {
                 BookList(bookStorage: bookStorage)
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            .environmentObject(userData)
             .onChange(of: scenePhase, perform: backgroundSave)
         }
     }

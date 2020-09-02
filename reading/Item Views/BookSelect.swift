@@ -10,16 +10,16 @@ import SwiftUI
 
 struct BookSelect: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var userData: UserData
+    // @EnvironmentObject var userData: UserData
 
     @State var isModal: Bool = false
     var modal: some View {
         List {
-            BookListSorted(
-                sortDescriptor: userData.sortDescriptor,
-                modalView: true) { book in
-                print(book)
-            }
+            // BookListSorted(
+            //     sortDescriptor: userData.sortDescriptor,
+            //     modalView: true) { book in
+            //     print(book)
+            // }
         }
     }
 
@@ -29,7 +29,7 @@ struct BookSelect: View {
         }.sheet(isPresented: $isModal, content: {
             modal
                 .environment(\.managedObjectContext, viewContext)
-                .environmentObject(userData)
+                // .environmentObject(userData)
         })
     }
 }

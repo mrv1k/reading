@@ -2,7 +2,6 @@ import SwiftUI
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject private var userData: UserData
 
     @ObservedObject var bookStorage: BookStorage
 
@@ -12,7 +11,7 @@ struct BookList: View {
                 BookRow(book: book)
             }
             Button {
-                bookStorage.myPerformFetch(sort: userData.sortDescriptor)
+                bookStorage.performSortedFetch()
             } label: {
                 Text("bookStorage.myPerformFetch")
             }
@@ -38,7 +37,7 @@ struct BookList: View {
                         Label("broken: New Session", systemImage: "plus")
                     })
                 Divider()
-                BookListSortMenu(initialSortDescriptor: $userData.sortDescriptor)
+                BookListSortMenu(initialSortDescriptor: $bookStorage.sortDescriptor)
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
@@ -48,16 +47,13 @@ struct BookList: View {
     }
 }
 
-// struct BookList_Previews: PreviewProvider {
-//     static var previews: some View {
-//         let viewContext = PersistenceController.shared.container.viewContext
-//
-//         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
-//         let storage = BookStorage(viewContext: viewContext)
-//         _bookStorage = StateObject(wrappedValue: storage)
-//
-//         return BookList()
-//             .environment(\.managedObjectContext, viewContext)
-//             .environmentObject(UserData())
-//     }
-// }
+struct BookList_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewContext = PersistenceController.shared.container.viewContext
+        BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
+
+        let storage = BookStorage(viewContext: viewContext)
+        return BookList(bookStorage: storage)
+            .environment(\.managedObjectContext, viewContext)
+    }
+}
