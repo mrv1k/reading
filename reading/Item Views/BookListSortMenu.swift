@@ -28,7 +28,7 @@ struct BookListSortMenu: View {
         } set: { newSort in
             guard newSort != selectedSort else { return }
             selectedSort = newSort
-            bookStorage.performFetch(descriptor: newSort.descriptor())
+            bookStorage.sortDescriptor = newSort.descriptor()
         }
         
         Picker("Sorting options", selection: selection) {

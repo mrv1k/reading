@@ -4,7 +4,7 @@
 //
 //  Created by Viktor Khotimchenko on 2020-09-02.
 //  Copyright © 2020 mrv1k. All rights reserved.
-//  based on: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-proje
+//  inspired by: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-proje
 //
 
 import Foundation
@@ -13,8 +13,9 @@ import CoreData
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
-    var sortDescriptor: NSSortDescriptor
+    @Published var sortDescriptor: NSSortDescriptor
 
+    private var refreshFetcher: AnyCancellable?
     private let booksController: NSFetchedResultsController<Book>
 
     init(viewContext: NSManagedObjectContext) {
@@ -34,6 +35,11 @@ class BookStorage: NSObject, ObservableObject {
         booksController.delegate = self
 
         performFetch()
+
+        refreshFetcher = $sortDescriptor.sink(receiveValue: { newDescriptor in
+            guard self.sortDescriptor != newDescriptor else { return }
+            self.refreshFetchWith(descriptor: newDescriptor)
+        })
     }
 
     func performFetch() {
@@ -45,10 +51,9 @@ class BookStorage: NSObject, ObservableObject {
         }
     }
 
-    func performFetch(descriptor: NSSortDescriptor) {
+    func refreshFetchWith(descriptor: NSSortDescriptor) {
         booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
-        sortDescriptor = descriptor
         saveDescriptor(descriptor)
     }
 }
