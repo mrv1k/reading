@@ -6,13 +6,12 @@ struct BookList: View {
     @ObservedObject var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
-    @State var bookCreate = false
-    @State var readingSessionCreate = false
+    @State private var activeLink: String?
 
     var NavigationLinkProxies: some View {
         Group {
-            NavigationLink("", destination: BookCreate(), isActive: $bookCreate)
-            NavigationLink("", destination: ReadingSessionCreate(), isActive: $readingSessionCreate)
+            NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
+            NavigationLink("", destination: ReadingSessionCreate(), tag: "ReadingSessionCreate", selection: $activeLink)
         }
         .hidden()
     }
@@ -32,11 +31,10 @@ struct BookList: View {
         .navigationBarItems(
             leading: NavigationLinkProxies,
             trailing: Menu {
-                Button(action: { bookCreate = true },
+                Button(action: { activeLink = "BookCreate" },
                        label: { Label("New Book", systemImage: "plus") })
-                Button(action: { readingSessionCreate = true },
+                Button(action: { activeLink = "ReadingSessionCreate" },
                        label: { Label("New Session", systemImage: "plus") })
-
                 Divider()
                 BookListSortMenu(bookStorage: bookStorage)
             } label: {
