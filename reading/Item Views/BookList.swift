@@ -6,6 +6,17 @@ struct BookList: View {
     @ObservedObject var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
+    @State var bookCreate = false
+    @State var readingSessionCreate = false
+
+    var NavigationLinkProxies: some View {
+        Group {
+            NavigationLink("", destination: BookCreate(), isActive: $bookCreate)
+            NavigationLink("", destination: ReadingSessionCreate(), isActive: $readingSessionCreate)
+        }
+        .hidden()
+    }
+
     var body: some View {
         List {
             ForEach(books) { book in
@@ -16,25 +27,16 @@ struct BookList: View {
                     })
             }
             .onDelete(perform: deleteBook)
-
-            NavigationLink(destination: ReadingSessionCreate()) {
-                Label("New Session", systemImage: "plus")
-            }
-            NavigationLink(destination: BookCreate()) {
-                Label("New Book", systemImage: "plus")
-            }
         }
         .animation(.default)
         .navigationBarItems(
+            leading: NavigationLinkProxies,
             trailing: Menu {
-                NavigationLink(destination: BookCreate()) {
-                    Label("broken: New Book", systemImage: "plus")
-                }
-                NavigationLink(
-                    destination: ReadingSessionCreate(),
-                    label: {
-                        Label("broken: New Session", systemImage: "plus")
-                    })
+                Button(action: { bookCreate = true },
+                       label: { Label("New Book", systemImage: "plus") })
+                Button(action: { readingSessionCreate = true },
+                       label: { Label("New Session", systemImage: "plus") })
+
                 Divider()
                 BookListSortMenu(bookStorage: bookStorage)
             } label: {
