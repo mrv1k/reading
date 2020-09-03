@@ -12,6 +12,7 @@ struct ReadingSessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     var book: Book?
+    var bookListModal: BookListModal?
 
     @State private var selectedDate = Date()
     
@@ -32,7 +33,7 @@ struct ReadingSessionCreate: View {
                 if let book = book {
                     BookRow(book: book)
                 } else {
-                    BookSelect()
+                    BookSelect(modal: bookListModal!)
                 }
             }
 

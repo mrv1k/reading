@@ -9,9 +9,12 @@ struct BookList: View {
     @State private var activeLink: String?
 
     var NavigationLinkProxies: some View {
-        Group {
+
+        let readingSessionCreate = ReadingSessionCreate(
+            bookListModal: BookListModal(bookStorage: bookStorage))
+        return Group {
             NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
-            NavigationLink("", destination: ReadingSessionCreate(), tag: "ReadingSessionCreate", selection: $activeLink)
+            NavigationLink("", destination: readingSessionCreate, tag: "ReadingSessionCreate", selection: $activeLink)
         }
         .hidden()
     }

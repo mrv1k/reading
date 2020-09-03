@@ -10,15 +10,14 @@ import SwiftUI
 
 struct BookSelect: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @State var isModal: Bool = false
+    @State private var isOpen: Bool = false
+    var modal: BookListModal
 
     var body: some View {
         Button("Select a book") {
-            self.isModal = true
-        }.sheet(isPresented: $isModal, content: {
-            // BookListModal()
-            Text("placeholder")
+            self.isOpen = true
+        }.sheet(isPresented: $isOpen, content: {
+            modal
                 .environment(\.managedObjectContext, viewContext)
         })
     }
