@@ -39,7 +39,7 @@ struct BookList: View {
                 Button(action: { activeLink = "ReadingSessionCreate" },
                        label: { Label("New Session", systemImage: "plus") })
                 Divider()
-                BookListSortMenu(bookStorage: bookStorage)
+                BookListSortMenu(sortDescriptor: $bookStorage.sortDescriptor)
             } label: {
                 Image(systemName: "ellipsis.circle")
             }

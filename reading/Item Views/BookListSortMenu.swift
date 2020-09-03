@@ -10,14 +10,14 @@ import SwiftUI
 import Combine
 
 struct BookListSortMenu: View {
-    @ObservedObject var bookStorage: BookStorage
+    @Binding var sortDescriptor: NSSortDescriptor
 
     @State private var isOpen = false
     @State private var selectedSort: Sort
 
-    init(bookStorage: BookStorage) {
-        self.bookStorage = bookStorage
-        let initialSort = convert(from: bookStorage.sortDescriptor)
+    init(sortDescriptor: Binding<NSSortDescriptor>) {
+        _sortDescriptor = sortDescriptor
+        let initialSort = convert(from: sortDescriptor.wrappedValue)
         _selectedSort = State(initialValue: initialSort)
     }
 
@@ -28,9 +28,9 @@ struct BookListSortMenu: View {
         } set: { newSort in
             guard newSort != selectedSort else { return }
             selectedSort = newSort
-            bookStorage.sortDescriptor = newSort.descriptor()
+            sortDescriptor = newSort.descriptor()
         }
-        
+
         Picker("Sorting options", selection: selection) {
             ForEach(Sort.allCases) { sort in
                 Text(sort.rawValue.capitalized).tag(sort)
@@ -68,18 +68,7 @@ fileprivate func convert(from descriptor: NSSortDescriptor) -> Sort {
 
 struct BookListSortMenu_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-        let bookStorage = BookStorage(viewContext: viewContext)
-
-        return BookListSortMenu(bookStorage: bookStorage)
+        BookListSortMenu(sortDescriptor: .constant(Book.sortByTitle))
             .previewLayout(.sizeThatFits)
     }
-
-    // "Live Previews" https://stackoverflow.com/a/59626213
-    // struct LivePreviewWrapper: View {
-    //     var body: some View {
-    //         BookListSortMenu(bookStorage: bookStorage)
-    //             .previewLayout(.sizeThatFits)
-    //     }
-    // }
 }
