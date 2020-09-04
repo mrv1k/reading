@@ -2,15 +2,15 @@ import SwiftUI
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var bookStorage: BookStorage
+    @EnvironmentObject private var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
     @State private var activeLink: String?
 
     var NavigationLinkProxies: some View {
         Group {
-            NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
             NavigationLink("", destination: ReadingSessionCreate(), tag: "ReadingSessionCreate", selection: $activeLink)
+            NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
         }
         .hidden()
     }
@@ -30,10 +30,10 @@ struct BookList: View {
         .navigationBarItems(
             leading: NavigationLinkProxies,
             trailing: Menu {
-                Button(action: { activeLink = "BookCreate" },
-                       label: { Label("New Book", systemImage: "plus") })
                 Button(action: { activeLink = "ReadingSessionCreate" },
                        label: { Label("New Session", systemImage: "plus") })
+                Button(action: { activeLink = "BookCreate" },
+                       label: { Label("New Book", systemImage: "plus") })
                 Divider()
                 BookListSortPicker(bookSort: $bookStorage.sort)
             } label: {
