@@ -9,20 +9,26 @@
 import SwiftUI
 
 struct BookListModal: View {
-    @EnvironmentObject var bookStorage: BookStorage
+    @EnvironmentObject private var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
+    @Binding var bookSelection: Book?
     @State private var isOpen: Bool = false
 
+    var title: String {
+        bookSelection == nil ? "Select a book" : "Change selection"
+    }
+
     var body: some View {
-        Button("Select a book") {
+        Button(title) {
             self.isOpen = true
         }.sheet(isPresented: $isOpen, content: {
             List {
                 ForEach(books) { book in
                     BookRow(book: book)
                         .onTapGesture {
-                            print(book)
+                            bookSelection = book
+                            self.isOpen = false
                         }
                 }
             }
@@ -35,7 +41,7 @@ struct BookListModal_Previews: PreviewProvider {
         let viewContext = PersistenceController.shared.container.viewContext
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
-        return BookListModal()
+        return BookListModal(bookSelection: .constant(nil))
             .environmentObject(BookStorage(viewContext: viewContext))
     }
 }

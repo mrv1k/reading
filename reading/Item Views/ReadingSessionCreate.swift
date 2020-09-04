@@ -12,7 +12,7 @@ struct ReadingSessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     var book: Book?
-
+    @State private var bookSelection: Book?
     @State private var selectedDate = Date()
     
     @State private var pageStartField = ""
@@ -27,15 +27,16 @@ struct ReadingSessionCreate: View {
                 endField: $pageEndField,
                 completedField: $pagesCompletedField)
 
-
             Section {
-                if let book = book {
-                    BookRow(book: book)
+                if let parentBook = book {
+                    BookRow(book: parentBook)
                 } else {
-                    BookListModal()
+                    BookListModal(bookSelection: $bookSelection)
+                    if let bookSelected = bookSelection {
+                        BookRow(book: bookSelected)
+                    }
                 }
             }
-
 
             Section {
                 DatePickerWithTimeToggle(selection: $selectedDate)
@@ -52,7 +53,7 @@ struct ReadingSessionCreate: View {
             }
 
         }
-        .navigationBarTitle(Text("Add a sessions"))
+        .navigationBarTitle(Text("Add a session"))
     }
 }
 
@@ -130,11 +131,14 @@ struct ReadingSessionCreate_Previews: PreviewProvider {
 
         return Group {
             NavigationView {
-                ReadingSessionCreate(book: book)
+                ReadingSessionCreate()
                     .navigationBarTitleDisplayMode(.inline)
             }
 
-            ReadingSessionCreate(book: book)
+            NavigationView {
+                ReadingSessionCreate(book: book)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .environment(\.managedObjectContext, viewContext)
     }
