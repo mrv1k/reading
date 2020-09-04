@@ -9,7 +9,6 @@ struct BookList: View {
     @State private var activeLink: String?
 
     var NavigationLinkProxies: some View {
-
         let readingSessionCreate = ReadingSessionCreate(
             bookListModal: BookListModal(bookStorage: bookStorage))
         return Group {
@@ -39,7 +38,7 @@ struct BookList: View {
                 Button(action: { activeLink = "ReadingSessionCreate" },
                        label: { Label("New Session", systemImage: "plus") })
                 Divider()
-                BookListSortMenu(sortDescriptor: $bookStorage.sortDescriptor)
+                BookListSortMenu(bookSort: $bookStorage.sort)
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
