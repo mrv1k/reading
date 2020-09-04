@@ -2,18 +2,15 @@ import SwiftUI
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @ObservedObject var bookStorage: BookStorage
+    @EnvironmentObject var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
     @State private var activeLink: String?
 
     var NavigationLinkProxies: some View {
-        let readingSessionCreate = ReadingSessionCreate(
-            bookListModal: BookListModal(bookStorage: bookStorage))
-        return Group {
+        Group {
             NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
-            NavigationLink("", destination: readingSessionCreate, tag: "ReadingSessionCreate", selection: $activeLink)
+            NavigationLink("", destination: ReadingSessionCreate(), tag: "ReadingSessionCreate", selection: $activeLink)
         }
         .hidden()
     }
@@ -69,9 +66,10 @@ struct BookList_Previews: PreviewProvider {
         let viewContext = PersistenceController.shared.container.viewContext
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
-        let bookStorage = BookStorage(viewContext: viewContext)
         return NavigationView {
-            BookList(bookStorage: bookStorage)
-        }.environment(\.managedObjectContext, viewContext)
+            BookList()
+        }
+        .environment(\.managedObjectContext, viewContext)
+        .environmentObject(BookStorage(viewContext: viewContext))
     }
 }

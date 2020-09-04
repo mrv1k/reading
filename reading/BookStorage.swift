@@ -46,7 +46,7 @@ class BookStorage: NSObject, ObservableObject {
         })
     }
 
-    func performFetch() {
+    private func performFetch() {
         do {
             try booksController.performFetch()
             books = booksController.fetchedObjects ?? []
@@ -55,7 +55,7 @@ class BookStorage: NSObject, ObservableObject {
         }
     }
 
-    func refreshFetchWith(descriptor: NSSortDescriptor) {
+    private func refreshFetchWith(descriptor: NSSortDescriptor) {
         booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
     }

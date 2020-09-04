@@ -26,9 +26,10 @@ struct ReadingApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                BookList(bookStorage: bookStorage)
+                BookList()
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environmentObject(bookStorage)
             .onChange(of: scenePhase, perform: backgroundSave)
         }
     }

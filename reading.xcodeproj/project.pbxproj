@@ -27,7 +27,6 @@
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
-		57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE740C24FD4FB8007251E5 /* BookSelect.swift */; };
 		57F4815224FF9490002B6691 /* BookStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4815124FF9490002B6691 /* BookStorage.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +53,6 @@
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortPicker.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
-		57EE740C24FD4FB8007251E5 /* BookSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSelect.swift; sourceTree = "<group>"; };
 		57F4815124FF9490002B6691 /* BookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,7 +133,6 @@
 				5748A7FD24FFE4270041C511 /* BookListModal.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */,
 				578B08D824C1737D00500C41 /* BookRow.swift */,
-				57EE740C24FD4FB8007251E5 /* BookSelect.swift */,
 				5746E92F24F2E0DC0094A27F /* ReadingSessionCreate.swift */,
 			);
 			path = "Item Views";
@@ -239,7 +236,6 @@
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
-				57EE740D24FD4FB8007251E5 /* BookSelect.swift in Sources */,
 				573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
