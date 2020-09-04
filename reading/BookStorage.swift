@@ -11,20 +11,22 @@ import Foundation
 import Combine
 import CoreData
 
+fileprivate let bookSortKey = "BookSort"
+
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
     @Published var sort: BookSort
 
     private let booksController: NSFetchedResultsController<Book>
-    private var descriptor: NSSortDescriptor
     private var refreshFetcher: AnyCancellable?
 
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
 
-        let descriptor = loadSavedDescriptor() ?? Book.sortByTitle
-        self.descriptor = descriptor
-        sort = BookSort.generate(from: descriptor)
+        let savedSortRawValue = UserDefaults.standard.string(forKey: bookSortKey) ?? "title"
+        let bookSort = BookSort.init(rawValue: savedSortRawValue)!
+        sort = bookSort
+        let descriptor = bookSort.descriptor()
         fetchRequest.sortDescriptors = [descriptor]
 
         booksController = NSFetchedResultsController(
@@ -38,11 +40,9 @@ class BookStorage: NSObject, ObservableObject {
         performFetch()
 
         refreshFetcher = $sort.sink(receiveValue: { newSort in
-            print("sink before guard")
             guard self.sort != newSort else { return }
-            print("sink after guard")
-
             self.refreshFetchWith(descriptor: newSort.descriptor())
+            UserDefaults.standard.set(newSort.rawValue, forKey: bookSortKey)
         })
     }
 
@@ -51,14 +51,13 @@ class BookStorage: NSObject, ObservableObject {
             try booksController.performFetch()
             books = booksController.fetchedObjects ?? []
         } catch {
-            print("failed to fetch books")
+            print(#function, "failed")
         }
     }
 
     func refreshFetchWith(descriptor: NSSortDescriptor) {
         booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
-        saveDescriptor(descriptor)
     }
 }
 
@@ -70,26 +69,6 @@ extension BookStorage: NSFetchedResultsControllerDelegate {
     }
 }
 
-fileprivate func saveDescriptor(_ descriptor: NSSortDescriptor) {
-    do {
-        let savedData = try NSKeyedArchiver.archivedData(
-            withRootObject: descriptor,
-            requiringSecureCoding: true)
-        UserDefaults.standard.setValue(savedData, forKey: "sortDescriptor")
-    } catch {
-        fatalError("failed to \(#function)")
-    }
-}
-
-fileprivate func loadSavedDescriptor() -> NSSortDescriptor? {
-    if let saved = UserDefaults.standard.object(forKey: "sortDescriptor") as? Data {
-        if let decoded = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(saved) as? NSSortDescriptor {
-            return decoded
-        }
-    }
-    return nil
-}
-
 enum BookSort: String, CaseIterable, Identifiable {
     case title, author, date
     var id: String { rawValue }
@@ -99,20 +78,6 @@ enum BookSort: String, CaseIterable, Identifiable {
         case .title: return Book.sortByTitle
         case .author: return Book.sortByAuthors
         case .date: return Book.sortByCreationDate
-        }
-    }
-
-    static func generate(from descriptor: NSSortDescriptor) -> BookSort {
-        switch descriptor {
-        case Book.sortByTitle: return .title
-        case Book.sortByAuthors: return .author
-        case Book.sortByCreationDate: return .date
-        default:
-            #if DEBUG
-            fatalError("Failed to initialize `initialSort` from `initialSortDescriptor`")
-            #else
-            return .title
-            #endif
         }
     }
 }

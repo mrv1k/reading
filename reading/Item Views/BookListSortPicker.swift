@@ -10,7 +10,6 @@ import SwiftUI
 
 struct BookListSortPicker: View {
     @Binding var bookSort: BookSort
-    @State private var isOpen = false
 
     var body: some View {
         Picker("Sorting options", selection: $bookSort) {
