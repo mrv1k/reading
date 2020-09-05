@@ -25,11 +25,14 @@ struct BookListModal: View {
         }.sheet(isPresented: $isOpen, content: {
             List {
                 ForEach(books) { book in
-                    BookRow(book: book)
-                        .onTapGesture {
-                            bookSelection = book
-                            self.isOpen = false
-                        }
+                    Button(action: {
+                        bookSelection = book
+                        self.isOpen = false
+                    }, label: {
+                        BookRow(book: book)
+                    })
+                    .accentColor(.primary)
+                    .listRowBackground(bookSelection == book ? Color.green : nil)
                 }
             }
         })
@@ -41,7 +44,10 @@ struct BookListModal_Previews: PreviewProvider {
         let viewContext = PersistenceController.shared.container.viewContext
         BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
 
-        return BookListModal(bookSelection: .constant(nil))
-            .environmentObject(BookStorage(viewContext: viewContext))
+        return Group {
+            BookListModal(bookSelection: .constant(nil))
+        }
+        .environmentObject(BookStorage(viewContext: viewContext))
+        .previewLayout(.sizeThatFits)
     }
 }

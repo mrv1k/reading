@@ -1,5 +1,5 @@
 //
-//  BookListSortMenu.swift
+//  BookListSortPicker.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-08-21.
@@ -20,7 +20,7 @@ struct BookListSortPicker: View {
     }
 }
 
-struct BookListSortMenu_Previews: PreviewProvider {
+struct BookListSortPicker_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             BookListSortPicker(bookSort: .constant(BookSort.init(rawValue: "title")!))
