@@ -14,19 +14,9 @@ struct ReadingSessionCreate: View {
     var book: Book?
     @State private var bookSelection: Book?
     @State private var selectedDate = Date()
-    
-    @State private var pageStartField = ""
-    @State private var pageEndField = ""
-    @State private var pagesCompletedField = ""
-    // @State private var pagesPreset = ""
 
     var body: some View {
         Form {
-            ReadingSection(
-                startField: $pageStartField,
-                endField: $pageEndField,
-                completedField: $pagesCompletedField)
-
             Section {
                 if let parentBook = book {
                     BookRow(book: parentBook)
@@ -54,48 +44,6 @@ struct ReadingSessionCreate: View {
 
         }
         .navigationBarTitle(Text("Add a session"))
-    }
-}
-
-fileprivate struct ReadingSection: View {
-    @Binding var startField: String
-    @Binding var endField: String
-    @Binding var completedField: String
-
-    var pageStart: Int {
-        Int(startField) ?? 0
-    }
-    var pageEnd: Int {
-        Int(endField) ?? 0
-    }
-    var pagesRead: Int {
-        if pageEnd == 0 || pageStart == 0 {
-            return 0
-        }
-        return pageEnd - pageStart
-    }
-
-    var body: some View {
-        Section(header: Text("Pages")) {
-            TextField("Start", text: $startField)
-                .keyboardType(.numberPad)
-
-            TextField("End", text: $endField)
-                .keyboardType(.numberPad)
-
-            HStack {
-                // TODO: Computed / inputable
-                TextField("Read", text: $completedField)
-
-                // Picker("Preset", selection: $selection) {
-                //     Text("10").tag("10")
-                //     Text("15").tag("15")
-                //     Text("20").tag("20")
-                //     Text("25").tag("25")
-                // }
-                // .pickerStyle(MenuPickerStyle())
-            }
-        }
     }
 }
 
