@@ -9,24 +9,26 @@
 import SwiftUI
 
 class SessionCreatePagesViewModel: ObservableObject {
-    @Published var startField: String = ""
-    @Published var endField: String = ""
+    @Published var startField: String = "" {
+        didSet { setProgressField() }
+    }
+    @Published var endField: String = "" {
+        didSet { setProgressField() }
+    }
     @Published var progressField: String = ""
 
-    var pageStart: Int {
-        return Int(startField) ?? 0
+    var start: Int { Int(startField) ?? 0 }
+    var end: Int { Int(endField) ?? 0 }
+    var fieldsInputIsValid: Bool { start > 0 && end > start }
+    var progress: Int {
+        fieldsInputIsValid ? end - start : 0
     }
-    var pageEnd: Int {
-        Int(endField) ?? 0
+
+    var progressFieldComputed: String {
+        fieldsInputIsValid ? String(progress) : ""
     }
-    var pagesDifference: Int {
-        if pageEnd == 0 || pageStart == 0 {
-            return 0
-        }
-        return pageEnd - pageStart
-    }
-    var pagesProgress: String {
-        !(startField.isEmpty && endField.isEmpty) ? String(pagesDifference) : ""
+    func setProgressField() {
+        progressField = progressFieldComputed
     }
 }
 
@@ -35,30 +37,23 @@ struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
 
     var body: some View {
-        Form {
-            Section(header: Text("Pages")) {
-                TextField("Start", text: $viewModel.startField)
-                    .keyboardType(.numberPad)
+        Section(header: Text("Pages")) {
+            TextField("Start", text: $viewModel.startField)
+                .keyboardType(.numberPad)
 
-                TextField("End", text: $viewModel.endField)
-                    .keyboardType(.numberPad)
-                
-                TextField("Read", text: $viewModel.progressField)
-                    .keyboardType(.numberPad)
-            }
+            TextField("End", text: $viewModel.endField)
+                .keyboardType(.numberPad)
 
-            Text("\(viewModel.pagesDifference)")
-            Text(viewModel.pagesProgress)
-
-            Button("Log") {
-                print("\(viewModel)")
-            }
+            TextField("Read", text: $viewModel.progressField)
+                .keyboardType(.numberPad)
         }
     }
 }
 
 struct SessionCreatePagesSection_Previews: PreviewProvider {
     static var previews: some View {
-        SessionCreatePagesSection(viewModel: SessionCreatePagesViewModel())
+        Form {
+            SessionCreatePagesSection(viewModel: SessionCreatePagesViewModel())
+        }
     }
 }
