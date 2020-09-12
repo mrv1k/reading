@@ -22,7 +22,7 @@ struct BookDetail: View {
             Text(String(book.pageCount) + " pages")
 
             NavigationLink("Add a reading session",
-                           destination: ReadingSessionCreate(book: book))
+                           destination: SessionCreate(book: book))
 
         }
     }

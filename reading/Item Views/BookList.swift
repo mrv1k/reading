@@ -9,7 +9,7 @@ struct BookList: View {
 
     var NavigationLinkProxies: some View {
         Group {
-            NavigationLink("", destination: ReadingSessionCreate(), tag: "ReadingSessionCreate", selection: $activeLink)
+            NavigationLink("", destination: SessionCreate(), tag: "SessionCreate", selection: $activeLink)
             NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
         }
         .hidden()
@@ -30,7 +30,7 @@ struct BookList: View {
         .navigationBarItems(
             leading: NavigationLinkProxies,
             trailing: Menu {
-                Button(action: { activeLink = "ReadingSessionCreate" },
+                Button(action: { activeLink = "SessionCreate" },
                        label: { Label("New Session", systemImage: "plus") })
                 Button(action: { activeLink = "BookCreate" },
                        label: { Label("New Book", systemImage: "plus") })

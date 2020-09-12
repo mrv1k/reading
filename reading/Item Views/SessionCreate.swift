@@ -1,5 +1,5 @@
 //
-//  ReadingSessionCreate.swift
+//  SessionCreate.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-08-23.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ReadingSessionCreate: View {
+struct SessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject var test = SessionCreatePagesViewModel()
 
@@ -74,7 +74,7 @@ fileprivate struct DatePickerWithTimeToggle: View {
     }
 }
 
-struct ReadingSessionCreate_Previews: PreviewProvider {
+struct SessionCreate_Previews: PreviewProvider {
     static var previews: some View {
         let viewContext = PersistenceController.shared.container.viewContext
 
@@ -82,12 +82,12 @@ struct ReadingSessionCreate_Previews: PreviewProvider {
 
         return Group {
             NavigationView {
-                ReadingSessionCreate()
+                SessionCreate()
                     .navigationBarTitleDisplayMode(.inline)
             }
 
             NavigationView {
-                ReadingSessionCreate(book: book)
+                SessionCreate(book: book)
                     .navigationBarTitleDisplayMode(.inline)
             }
         }
