@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 class SessionCreatePagesViewModel: ObservableObject {
     // setProgressField()
     @Published var startField: String = "" {
@@ -22,60 +21,44 @@ class SessionCreatePagesViewModel: ObservableObject {
 
     var start: Int { Int(startField) ?? 0 }
     var end: Int { Int(endField) ?? 0 }
-    var fieldsNumericallyValid: Bool { start > 0 && end > start }
+    var startIsValid: Bool { start > 0 }
+    var endIsValid: Bool { end > start }
+    var startAndEndAreValid: Bool { startIsValid && endIsValid }
     var progress: Int {
-        fieldsNumericallyValid ? end - start : 0
+        startAndEndAreValid ? end - start : 0
     }
-
+    var progressIsValid: Bool { progress > 0 }
 
     enum InputCombination {
-        case none
-        case partial
-        case all
-
-        case startAndEnd
-        case endAndProgress
-        case onlyEnd
-        case onlyProgress
+        // autofillable cases
+        case startAndEnd, endAndProgress, onlyEnd, onlyProgress
+        // ingored cases
+        case all, partial
     }
 
-    var availableUserInput: InputCombination {
-        print("isEmpty", startField.isEmpty, endField.isEmpty, progressField.isEmpty)
-        print("isNotEmpty", !startField.isEmpty, !endField.isEmpty, !progressField.isEmpty)
+    var userInputCombination: InputCombination {
+        let userInput = (!startField.isEmpty, !endField.isEmpty, !progressField.isEmpty)
 
-        let allEmpty = startField.isEmpty && endField.isEmpty && progressField.isEmpty
-        let noneEmpty = startField.isEmpty == false
-            && endField.isEmpty == false
-            && progressField.isEmpty == false
-
-        if allEmpty {
-            return .none
-        } else if noneEmpty {
+        switch userInput {
+        case (true, true, true):
             return .all
-        }
-        print("passed guard")
-
-        if !startField.isEmpty && !endField.isEmpty && progressField.isEmpty {
+        case (true, true, false):
             return .startAndEnd
-        } else if startField.isEmpty && !endField.isEmpty && !progressField.isEmpty {
+        case (false, true, true):
             return .endAndProgress
-        } else if !progressField.isEmpty {
-            return .onlyProgress
-        } else if !endField.isEmpty {
+        case (false, true, false):
             return .onlyEnd
+        case (false, false, true):
+            return .onlyProgress
+        default:
+            return .partial
         }
-
-        return .partial
     }
 
     func actOnUserInput(input: InputCombination) -> Void {
         switch input {
-        case .none:
-            print("no input")
-        case .partial:
-            print("partial")
         case .all:
-            print("all")
+            print("all - no automation")
         case .startAndEnd:
             print("start and end")
         case .endAndProgress:
@@ -84,11 +67,13 @@ class SessionCreatePagesViewModel: ObservableObject {
             print("only end")
         case .onlyProgress:
             print("only progress")
+        default:
+            print("no input / partial - no automation")
         }
     }
 
     var progressFieldComputed: String {
-        fieldsNumericallyValid ? String(progress) : ""
+        startAndEndAreValid ? String(progress) : ""
     }
     func setProgressField() {
         progressField = progressFieldComputed
@@ -110,8 +95,8 @@ struct SessionCreatePagesSection: View {
             TextField("Read", text: $viewModel.progressField)
                 .keyboardType(.numberPad)
 
-            Button("test") {
-                viewModel.actOnUserInput(input: viewModel.availableUserInput)
+            Button("Autofill") {
+                viewModel.actOnUserInput(input: viewModel.userInputCombination)
             }
         }
     }
