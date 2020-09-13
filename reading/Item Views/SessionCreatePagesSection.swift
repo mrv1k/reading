@@ -9,28 +9,20 @@
 import SwiftUI
 
 class SessionCreatePagesViewModel: ObservableObject {
-    // setProgressField()
-    @Published var startField: String = "" {
-        didSet {  }
-    }
-    // setProgressField()
-    @Published var endField: String = "" {
-        didSet {  }
-    }
-    @Published var progressField: String = ""
+    @Published var startField = ""
+    @Published var endField = ""
+    @Published var progressField = ""
 
     var start: Int { Int(startField) ?? 0 }
     var end: Int { Int(endField) ?? 0 }
+    var progress: Int { Int(progressField) ?? 0 }
+
     var startIsValid: Bool { start > 0 }
     var endIsValid: Bool { end > start }
-    var startAndEndAreValid: Bool { startIsValid && endIsValid }
-    var progress: Int {
-        startAndEndAreValid ? end - start : 0
-    }
     var progressIsValid: Bool { progress > 0 }
 
     enum InputCombination {
-        case startAndEnd, endAndProgress, onlyEnd, onlyProgress
+        case startAndEnd, startAndProgress, onlyEnd, onlyProgress
         // case for ignored combinations such as: all, partial, none
         case ignored
     }
@@ -41,8 +33,8 @@ class SessionCreatePagesViewModel: ObservableObject {
         switch userInput {
         case (true, true, false):
             return .startAndEnd
-        case (false, true, true):
-            return .endAndProgress
+        case (true, false, true):
+            return .startAndProgress
         case (false, true, false):
             return .onlyEnd
         case (false, false, true):
@@ -52,26 +44,33 @@ class SessionCreatePagesViewModel: ObservableObject {
         }
     }
 
-    func actOnUserInput(input: InputCombination) -> Void {
+    func tryToAutofill(input: InputCombination) {
         switch input {
         case .startAndEnd:
-            print("start and end")
-        case .endAndProgress:
-            print("end and progress")
+            progressField = computedProgress
+        case .startAndProgress:
+            endField = computedEnd
         case .onlyEnd:
-            print("only end")
+            startField = computedStart
+            progressField = computedProgress
         case .onlyProgress:
-            print("only progress")
+            startField = computedStart
+            endField = computedEnd
         default:
             print("all / none / partial - no automation")
         }
     }
 
-    var progressFieldComputed: String {
-        startAndEndAreValid ? String(progress) : ""
+    // TODO: Should be smartly using last reading session page instead of 1
+    var computedStart: String {
+        endIsValid ? String(1) :
+            progressIsValid ? String(1) : ""
     }
-    func setProgressField() {
-        progressField = progressFieldComputed
+    var computedEnd: String {
+        startIsValid && progressIsValid ? String(start + progress) : ""
+    }
+    var computedProgress: String {
+        startIsValid && endIsValid ? String(end - start) : ""
     }
 }
 
@@ -91,7 +90,7 @@ struct SessionCreatePagesSection: View {
                 .keyboardType(.numberPad)
 
             Button("Autofill") {
-                viewModel.actOnUserInput(input: viewModel.userInputCombination)
+                viewModel.tryToAutofill(input: viewModel.userInputCombination)
             }
         }
     }
