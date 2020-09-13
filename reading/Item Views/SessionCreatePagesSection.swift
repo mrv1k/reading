@@ -44,8 +44,8 @@ class SessionCreatePagesViewModel: ObservableObject {
         }
     }
 
-    func tryToAutofill(input: InputCombination) {
-        switch input {
+    func attempAutofill() {
+        switch userInputCombination {
         case .startAndEnd:
             progressField = computedProgress
         case .startAndProgress:
@@ -90,7 +90,12 @@ struct SessionCreatePagesSection: View {
                 .keyboardType(.numberPad)
 
             Button("Autofill") {
-                viewModel.tryToAutofill(input: viewModel.userInputCombination)
+                viewModel.attempAutofill()
+            }
+            Button("Reset") {
+                viewModel.startField = ""
+                viewModel.endField = ""
+                viewModel.progressField = ""
             }
         }
     }

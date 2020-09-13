@@ -38,6 +38,7 @@ struct BookList: View {
                 BookListSortPicker(bookSort: $bookStorage.sort)
             } label: {
                 Image(systemName: "ellipsis.circle")
+                    .imageScale(.large)
             }
 
         )
