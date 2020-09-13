@@ -30,18 +30,15 @@ class SessionCreatePagesViewModel: ObservableObject {
     var progressIsValid: Bool { progress > 0 }
 
     enum InputCombination {
-        // autofillable cases
         case startAndEnd, endAndProgress, onlyEnd, onlyProgress
-        // ingored cases
-        case all, partial
+        // case for ignored combinations such as: all, partial, none
+        case ignored
     }
 
     var userInputCombination: InputCombination {
         let userInput = (!startField.isEmpty, !endField.isEmpty, !progressField.isEmpty)
 
         switch userInput {
-        case (true, true, true):
-            return .all
         case (true, true, false):
             return .startAndEnd
         case (false, true, true):
@@ -51,14 +48,12 @@ class SessionCreatePagesViewModel: ObservableObject {
         case (false, false, true):
             return .onlyProgress
         default:
-            return .partial
+            return .ignored
         }
     }
 
     func actOnUserInput(input: InputCombination) -> Void {
         switch input {
-        case .all:
-            print("all - no automation")
         case .startAndEnd:
             print("start and end")
         case .endAndProgress:
@@ -68,7 +63,7 @@ class SessionCreatePagesViewModel: ObservableObject {
         case .onlyProgress:
             print("only progress")
         default:
-            print("no input / partial - no automation")
+            print("all / none / partial - no automation")
         }
     }
 
