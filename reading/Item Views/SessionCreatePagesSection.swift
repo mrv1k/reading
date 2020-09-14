@@ -27,25 +27,27 @@ class SessionCreatePagesViewModel: ObservableObject {
         case ignored
     }
 
-    var userInputCombination: InputCombination {
-        let userInput = (!startField.isEmpty, !endField.isEmpty, !progressField.isEmpty)
+    func determineCombination() -> InputCombination {
+        let hasStart = !startField.isEmpty
+        let hasEnd = !endField.isEmpty
+        let hasProgress = !progressField.isEmpty
 
-        switch userInput {
-        case (true, true, false):
-            return .startAndEnd
-        case (true, false, true):
-            return .startAndProgress
-        case (false, true, false):
+        switch (hasStart, hasEnd, hasProgress) {
+        case (false, hasEnd, false):
             return .onlyEnd
-        case (false, false, true):
+        case (false, false, hasProgress):
             return .onlyProgress
+        case (hasStart, hasEnd, false):
+            return .startAndEnd
+        case (hasStart, false, hasProgress):
+            return .startAndProgress
         default:
             return .ignored
         }
     }
 
     func attempAutofill() {
-        switch userInputCombination {
+        switch determineCombination() {
         case .startAndEnd:
             progressField = computedProgress
         case .startAndProgress:
