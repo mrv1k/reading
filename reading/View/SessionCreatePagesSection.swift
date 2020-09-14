@@ -8,75 +8,77 @@
 
 import SwiftUI
 
-struct AutofillButton: View {
-    var autofill: () -> Void
-    var inputCombination: SessionCreatePagesViewModel.InputCombination?
-    var displayOn: [SessionCreatePagesViewModel.InputCombination]
-
-    var visible: Bool {
-        inputCombination != nil ?
-            displayOn.contains(inputCombination!) : false
-    }
-
-    var body: some View {
-        if visible {
-            Divider()
-            Button(action: autofill) {
-                Image(systemName: "text.badge.plus")
-                    .padding([.leading, .trailing])
-            }
-            .buttonStyle(BorderlessButtonStyle())
-        }
-    }
-}
-
-struct TextFieldWithAutofill: View {
-    @ObservedObject var viewModel: SessionCreatePagesViewModel
-    var title: String
-    var text: Binding<String>
-    var displayOn: [SessionCreatePagesViewModel.InputCombination]
-
-    var body: some View {
-        HStack {
-            TextField(title, text: text)
-                .frame(maxHeight: .infinity)
-                .keyboardType(.numberPad)
-            AutofillButton(
-                autofill: viewModel.autofill,
-                inputCombination: viewModel.inputCombination,
-                displayOn: displayOn)
-        }
-    }
-}
-
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
 
     var body: some View {
-        Section(header: Text("Pages")) {
-            TextFieldWithAutofill(
-                viewModel: viewModel,
-                title: "Start",
-                text: $viewModel.startField,
-                displayOn: [.startAndEnd, .startAndProgress])
+        Section {
+            HStack {
+                PageTextField(
+                    placeholder: "Start page",
+                    text: $viewModel.startField)
+                PageAutofillButton(
+                    combination: viewModel.inputCombination,
+                    displayCombinations: [.startAndEnd, .startAndProgress],
+                    autofill: viewModel.autofill)
+            }
 
-            TextFieldWithAutofill(
-                viewModel: viewModel,
-                title: "End",
-                text: $viewModel.endField,
-                displayOn: [.onlyEnd, .startAndEnd])
+            HStack {
+                PageTextField(
+                    placeholder: "End page",
+                    text: $viewModel.endField)
+                PageAutofillButton(
+                    combination: viewModel.inputCombination,
+                    displayCombinations: [.onlyEnd, .startAndEnd],
+                    autofill: viewModel.autofill)
+            }
 
-            TextFieldWithAutofill(
-                viewModel: viewModel,
-                title: "Progress",
-                text: $viewModel.progressField,
-                displayOn: [.onlyProgress, .startAndProgress])
+            HStack {
+                PageTextField(
+                    placeholder: "Progress",
+                    text: $viewModel.progressField)
+                PageAutofillButton(
+                    combination: viewModel.inputCombination,
+                    displayCombinations: [.onlyProgress, .startAndProgress],
+                    autofill: viewModel.autofill)
+            }
 
             Button("Reset") {
                 viewModel.startField = ""
                 viewModel.endField = ""
                 viewModel.progressField = ""
             }
+        }
+    }
+}
+
+fileprivate struct PageTextField: View {
+    var placeholder: String
+    var text: Binding<String>
+
+    var body: some View {
+        TextField(placeholder, text: text)
+            .frame(maxHeight: .infinity)
+            .keyboardType(.numberPad)
+    }
+}
+
+fileprivate struct PageAutofillButton: View {
+    var combination: SessionCreatePagesViewModel.InputCombination?
+    var displayCombinations: [SessionCreatePagesViewModel.InputCombination]
+    var autofill: () -> Void
+
+    var canBeAutofilled: Bool {
+        combination != nil ? displayCombinations.contains(combination!) : false
+    }
+
+    var body: some View {
+        if canBeAutofilled {
+            Button(action: autofill) {
+                Image(systemName: "text.badge.plus")
+                    .padding([.leading, .trailing])
+            }
+            .buttonStyle(BorderlessButtonStyle())
         }
     }
 }
