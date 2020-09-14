@@ -19,16 +19,13 @@ class SessionCreatePagesViewModel: ObservableObject {
 
     var startIsValid: Bool { start > 0 }
     var endIsValid: Bool { end > 0 }
-    var progressIsValid: Bool { progress > 0 }
-
     var endIsAfterStart: Bool { end > start }
+    var progressIsValid: Bool { progress > 0 }
 
     enum InputCombination {
         case startAndEnd, startAndProgress, onlyEnd, onlyProgress
-        // catch all case for ignored combinations such as: all, partial, none
-        case ignored
 
-        static func determine(viewModel: SessionCreatePagesViewModel) -> InputCombination {
+        static func determine(viewModel: SessionCreatePagesViewModel) -> InputCombination? {
             let hasStart = true, hasEnd = true, hasProgress = true
 
             switch (viewModel.startIsValid, viewModel.endIsValid, viewModel.progressIsValid) {
@@ -41,7 +38,7 @@ class SessionCreatePagesViewModel: ObservableObject {
             case (hasStart, false, hasProgress):
                 return .startAndProgress
             default:
-                return .ignored
+                return nil
             }
         }
     }
@@ -60,7 +57,7 @@ class SessionCreatePagesViewModel: ObservableObject {
         case .onlyProgress:
             startField = computedStart
             endField = computedEnd
-        case .ignored:
+        default:
             break
         }
     }
