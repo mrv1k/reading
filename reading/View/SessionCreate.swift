@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject var test = SessionCreatePagesViewModel()
+    @StateObject var viewModel = SessionCreatePagesViewModel()
 
     var book: Book?
     @State private var bookSelection: Book?
@@ -18,7 +18,7 @@ struct SessionCreate: View {
 
     var body: some View {
         Form {
-            SessionCreatePagesSection(viewModel: test)
+            SessionCreatePagesSection(viewModel: viewModel)
 
             Section {
                 if let parentBook = book {

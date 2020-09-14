@@ -34,7 +34,7 @@ struct ReadingApp: App {
         }
     }
 
-    // #BETA5: onChange should work on Scene, but doesn't; attach to View for now.
+    // #FIXME: (BETA5) onChange should work on Scene, but doesn't; attach to View for now.
     private func backgroundSave(_ phase: ScenePhase) {
         if phase == .background {
             do {
