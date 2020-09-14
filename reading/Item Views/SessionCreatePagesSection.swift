@@ -99,42 +99,47 @@ struct AutofillButton: View {
     }
 }
 
+struct TextFieldWithAutofill: View {
+    @ObservedObject var viewModel: SessionCreatePagesViewModel
+    var title: String
+    var text: Binding<String>
+    var displayOn: [InputCombination]
+
+    var body: some View {
+        HStack {
+            TextField(title, text: text)
+                .frame(maxHeight: .infinity)
+                .keyboardType(.numberPad)
+            AutofillButton(
+                autofill: viewModel.autofill,
+                inputCombination: viewModel.inputCombination,
+                displayOn: displayOn)
+        }
+    }
+}
+
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
 
     var body: some View {
         Section(header: Text("Pages")) {
-            HStack {
-                TextField("Start", text: $viewModel.startField)
-                    .frame(maxHeight: .infinity)
-                    .keyboardType(.numberPad)
-                AutofillButton(
-                    autofill: viewModel.autofill,
-                    inputCombination: viewModel.inputCombination,
-                    displayOn: [.startAndEnd, .startAndEnd])
-            }
+            TextFieldWithAutofill(
+                viewModel: viewModel,
+                title: "Start",
+                text: $viewModel.startField,
+                displayOn: [.startAndEnd, .startAndProgress])
 
-            HStack {
-                TextField("End", text: $viewModel.endField)
-                    .frame(maxHeight: .infinity)
-                    .keyboardType(.numberPad)
-                AutofillButton(
-                    autofill: viewModel.autofill,
-                    inputCombination: viewModel.inputCombination,
-                    displayOn: [.onlyEnd, .startAndEnd])
-            }
+            TextFieldWithAutofill(
+                viewModel: viewModel,
+                title: "End",
+                text: $viewModel.endField,
+                displayOn: [.onlyEnd, .startAndEnd])
 
-            HStack {
-                TextField("Progress", text: $viewModel.progressField)
-                    .frame(maxHeight: .infinity)
-                    .keyboardType(.numberPad)
-
-                AutofillButton(
-                    autofill: viewModel.autofill,
-                    inputCombination: viewModel.inputCombination,
-                    displayOn: [.onlyProgress, .startAndProgress])
-            }
-
+            TextFieldWithAutofill(
+                viewModel: viewModel,
+                title: "Progress",
+                text: $viewModel.progressField,
+                displayOn: [.onlyProgress, .startAndProgress])
 
             Button("Reset") {
                 viewModel.startField = ""
