@@ -14,33 +14,24 @@ struct SessionCreatePagesSection: View {
     var body: some View {
         Section {
             HStack {
-                PageTextField(
-                    placeholder: "Start page",
-                    text: $viewModel.startField)
-                PageAutofillButton(
-                    combination: viewModel.inputCombination,
-                    displayCombinations: [.startAndEnd, .startAndProgress],
-                    autofill: viewModel.autofill)
+                PageTextField(placeholder: "Start page", text: $viewModel.startField)
+                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .start)) {
+                    viewModel.autofill(field: .start)
+                }
             }
 
             HStack {
-                PageTextField(
-                    placeholder: "End page",
-                    text: $viewModel.endField)
-                PageAutofillButton(
-                    combination: viewModel.inputCombination,
-                    displayCombinations: [.onlyEnd, .startAndEnd],
-                    autofill: viewModel.autofill)
+                PageTextField(placeholder: "End page", text: $viewModel.endField)
+                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .end)) {
+                    viewModel.autofill(field: .end)
+                }
             }
 
             HStack {
-                PageTextField(
-                    placeholder: "Progress",
-                    text: $viewModel.progressField)
-                PageAutofillButton(
-                    combination: viewModel.inputCombination,
-                    displayCombinations: [.onlyProgress, .startAndProgress],
-                    autofill: viewModel.autofill)
+                PageTextField(placeholder: "Progress", text: $viewModel.progressField)
+                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .progress)) {
+                    viewModel.autofill(field: .progress)
+                }
             }
 
             Button("Reset") {
@@ -64,16 +55,12 @@ fileprivate struct PageTextField: View {
 }
 
 fileprivate struct PageAutofillButton: View {
-    var combination: SessionCreatePagesViewModel.InputCombination?
-    var displayCombinations: [SessionCreatePagesViewModel.InputCombination]
+    var canBeAutofilled: Bool
     var autofill: () -> Void
-
-    var canBeAutofilled: Bool {
-        combination != nil ? displayCombinations.contains(combination!) : false
-    }
 
     var body: some View {
         if canBeAutofilled {
+            Divider()
             Button(action: autofill) {
                 Image(systemName: "text.badge.plus")
                     .padding([.leading, .trailing])

@@ -33,16 +33,34 @@ class SessionCreatePagesViewModel: ObservableObject {
     var computedProgress: String {
         startIsValid && endIsAfterStart ? String(end - start) : ""
     }
-}
 
-
-extension SessionCreatePagesViewModel {
     var inputCombination: InputCombination? {
         InputCombination.determine(startIsValid, endIsValid, progressIsValid)
     }
 
+    func canBeAutofilled(field: Field) -> Bool {
+        if let combination = inputCombination {
+            switch field {
+            case .start:
+                return InputCombination.startAutofill.contains(combination)
+            case .end:
+                return InputCombination.endAutofill.contains(combination)
+            case .progress:
+                return InputCombination.progressAutofill.contains(combination)
+            }
+        }
+        return false
+    }
+}
+
+
+extension SessionCreatePagesViewModel {
     enum InputCombination {
         case startAndEnd, startAndProgress, onlyEnd, onlyProgress
+
+        static var startAutofill: [Self] { [.onlyProgress, .onlyEnd] }
+        static var endAutofill: [Self] { [.onlyProgress, .startAndProgress] }
+        static var progressAutofill: [Self] { [.onlyEnd, .startAndEnd] }
 
         static func determine(_ startIsValid: Bool, _ endIsValid: Bool, _ progressIsValid: Bool) -> InputCombination? {
             let hasStart = true, hasEnd = true, hasProgress = true
@@ -62,20 +80,40 @@ extension SessionCreatePagesViewModel {
         }
     }
 
-    func autofill() {
-        switch inputCombination {
-        case .startAndEnd:
-            progressField = computedProgress
-        case .startAndProgress:
-            endField = computedEnd
-        case .onlyEnd:
+    enum Field {
+        case start, end, progress
+    }
+
+    func autofill(field: Field) {
+        print(field)
+        // FIXME: onlyEnd and onlyProgress no longer work without a start page first
+        // solution1 : display only start at first
+
+        switch field {
+        case .start:
+            print("start", startField, computedStart)
             startField = computedStart
-            progressField = computedProgress
-        case .onlyProgress:
-            startField = computedStart
+        case .end:
+            print("end", endField, computedEnd)
             endField = computedEnd
-        default:
-            break
+        case .progress:
+            print("progress", progressField, computedProgress)
+            progressField = computedProgress
         }
+
+        // switch inputCombination {
+        // case .startAndEnd:
+        //     progressField = computedProgress
+        // case .startAndProgress:
+        //     endField = computedEnd
+        // case .onlyEnd:
+        //     startField = computedStart
+        //     progressField = computedProgress
+        // case .onlyProgress:
+        //     startField = computedStart
+        //     endField = computedEnd
+        // default:
+        //     break
+        // }
     }
 }
