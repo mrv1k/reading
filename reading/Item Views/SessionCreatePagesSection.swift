@@ -8,6 +8,27 @@
 
 import SwiftUI
 
+enum InputCombination {
+    case startAndEnd, startAndProgress, onlyEnd, onlyProgress
+
+    static func determine(_ startIsValid: Bool, _ endIsValid: Bool, _ progressIsValid: Bool) -> InputCombination? {
+        let hasStart = true, hasEnd = true, hasProgress = true
+
+        switch (startIsValid, endIsValid, progressIsValid) {
+        case (false, hasEnd, false):
+            return .onlyEnd
+        case (false, false, hasProgress):
+            return .onlyProgress
+        case (hasStart, hasEnd, false):
+            return .startAndEnd
+        case (hasStart, false, hasProgress):
+            return .startAndProgress
+        default:
+            return nil
+        }
+    }
+}
+
 class SessionCreatePagesViewModel: ObservableObject {
     @Published var startField = ""
     @Published var endField = ""
@@ -22,31 +43,12 @@ class SessionCreatePagesViewModel: ObservableObject {
     var endIsAfterStart: Bool { end > start }
     var progressIsValid: Bool { progress > 0 }
 
-    enum InputCombination {
-        case startAndEnd, startAndProgress, onlyEnd, onlyProgress
-
-        static func determine(viewModel: SessionCreatePagesViewModel) -> InputCombination? {
-            let hasStart = true, hasEnd = true, hasProgress = true
-
-            switch (viewModel.startIsValid, viewModel.endIsValid, viewModel.progressIsValid) {
-            case (false, hasEnd, false):
-                return .onlyEnd
-            case (false, false, hasProgress):
-                return .onlyProgress
-            case (hasStart, hasEnd, false):
-                return .startAndEnd
-            case (hasStart, false, hasProgress):
-                return .startAndProgress
-            default:
-                return nil
-            }
-        }
+    var inputCombination: InputCombination? {
+        InputCombination.determine(startIsValid, endIsValid, progressIsValid)
     }
 
     func autofill() {
-        let combination = InputCombination.determine(viewModel: self)
-
-        switch combination {
+        switch inputCombination {
         case .startAndEnd:
             progressField = computedProgress
         case .startAndProgress:
@@ -75,24 +77,65 @@ class SessionCreatePagesViewModel: ObservableObject {
     }
 }
 
+struct AutofillButton: View {
+    var autofill: () -> Void
+    var inputCombination: InputCombination?
+    var displayOn: [InputCombination]
+
+    var visible: Bool {
+        inputCombination != nil ?
+            displayOn.contains(inputCombination!) : false
+    }
+
+    var body: some View {
+        if visible {
+            Divider()
+            Button(action: autofill) {
+                Image(systemName: "text.badge.plus")
+                    .padding([.leading, .trailing])
+            }
+            .buttonStyle(BorderlessButtonStyle())
+        }
+    }
+}
 
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
 
     var body: some View {
         Section(header: Text("Pages")) {
-            TextField("Start", text: $viewModel.startField)
-                .keyboardType(.numberPad)
-
-            TextField("End", text: $viewModel.endField)
-                .keyboardType(.numberPad)
-
-            TextField("Progress", text: $viewModel.progressField)
-                .keyboardType(.numberPad)
-
-            Button("Autofill") {
-                viewModel.autofill()
+            HStack {
+                TextField("Start", text: $viewModel.startField)
+                    .frame(maxHeight: .infinity)
+                    .keyboardType(.numberPad)
+                AutofillButton(
+                    autofill: viewModel.autofill,
+                    inputCombination: viewModel.inputCombination,
+                    displayOn: [.startAndEnd, .startAndEnd])
             }
+
+            HStack {
+                TextField("End", text: $viewModel.endField)
+                    .frame(maxHeight: .infinity)
+                    .keyboardType(.numberPad)
+                AutofillButton(
+                    autofill: viewModel.autofill,
+                    inputCombination: viewModel.inputCombination,
+                    displayOn: [.onlyEnd, .startAndEnd])
+            }
+
+            HStack {
+                TextField("Progress", text: $viewModel.progressField)
+                    .frame(maxHeight: .infinity)
+                    .keyboardType(.numberPad)
+
+                AutofillButton(
+                    autofill: viewModel.autofill,
+                    inputCombination: viewModel.inputCombination,
+                    displayOn: [.onlyProgress, .startAndProgress])
+            }
+
+
             Button("Reset") {
                 viewModel.startField = ""
                 viewModel.endField = ""
