@@ -39,6 +39,7 @@ struct BookList: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
                     .imageScale(.large)
+                    .padding()
             }
 
         )

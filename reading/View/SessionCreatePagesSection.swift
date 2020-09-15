@@ -34,6 +34,18 @@ struct SessionCreatePagesSection: View {
                 }
             }
 
+//            if !viewModel.validationMessages.isEmpty {
+                VStack {
+                    ForEach(viewModel.validationMessages, id: \.self) { msg in
+                        Text(msg)
+                            .foregroundColor(.red)
+                            .font(.callout)
+                    }
+                }
+
+            Text(viewModel.validationMessages.isEmpty ? "yes" : "no")
+//            }
+
             Button("Reset") {
                 viewModel.startField = ""
                 viewModel.endField = ""

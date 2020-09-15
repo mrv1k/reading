@@ -7,11 +7,53 @@
 //
 
 import Combine
+// import for debounce scheduler
+import SwiftUI
 
 class SessionCreatePagesViewModel: ObservableObject {
     @Published var startField = ""
     @Published var endField = ""
     @Published var progressField = ""
+    @Published var validationMessages = [String]()
+
+    private var cancellableSet: Set<AnyCancellable> = []
+
+    init() {
+        /*
+         0 receive value
+         1 wait for user to stop typing (debounce)
+         2 convert to int, if fails = display error message
+         3 validate, if fails = display error message
+
+         if can be autofilled
+         compute autofills
+         display autofill button
+         */
+        let initialInput = $startField
+            .debounce(for: 0.4, scheduler: RunLoop.main)
+            .map({ fieldInput -> Int? in
+                guard !fieldInput.isEmpty else { return nil }
+
+                let onlyDigits = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: fieldInput))
+
+                return onlyDigits ? Int(fieldInput) : -1
+            })
+
+        print(validationMessages)
+        initialInput.map { page -> [String] in
+            var messages = [String]()
+
+            if page == -1 {
+                messages.append("Values must be numbers")
+            }
+            return messages
+        }
+        .assign(to: &$validationMessages)
+//        .assign(to: \.validationMessages, on: self)
+//        .store(in: &cancellableSet)
+
+        print("cancellableSet", cancellableSet)
+    }
 
     var start: Int { Int(startField) ?? 0 }
     var end: Int { Int(endField) ?? 0 }
@@ -21,6 +63,7 @@ class SessionCreatePagesViewModel: ObservableObject {
     var endIsValid: Bool { end > 0 }
     var endIsAfterStart: Bool { end > start }
     var progressIsValid: Bool { progress > 0 }
+
 
     // TODO: Should be smartly using last reading session page instead of 1
     var computedStart: String {
@@ -34,7 +77,7 @@ class SessionCreatePagesViewModel: ObservableObject {
         startIsValid && endIsAfterStart ? String(end - start) : ""
     }
 
-    var inputCombination: InputCombination? {
+    private var inputCombination: InputCombination? {
         InputCombination.determine(startIsValid, endIsValid, progressIsValid)
     }
 
@@ -42,11 +85,11 @@ class SessionCreatePagesViewModel: ObservableObject {
         if let combination = inputCombination {
             switch field {
             case .start:
-                return InputCombination.startAutofill.contains(combination)
+                return InputCombination.toAutofillStart.contains(combination)
             case .end:
-                return InputCombination.endAutofill.contains(combination)
+                return InputCombination.toAutofillEnd.contains(combination)
             case .progress:
-                return InputCombination.progressAutofill.contains(combination)
+                return InputCombination.toAutofillProgress.contains(combination)
             }
         }
         return false
@@ -55,12 +98,12 @@ class SessionCreatePagesViewModel: ObservableObject {
 
 
 extension SessionCreatePagesViewModel {
-    enum InputCombination {
+    private enum InputCombination {
         case startAndEnd, startAndProgress, onlyEnd, onlyProgress
 
-        static var startAutofill: [Self] { [.onlyProgress, .onlyEnd] }
-        static var endAutofill: [Self] { [.onlyProgress, .startAndProgress] }
-        static var progressAutofill: [Self] { [.onlyEnd, .startAndEnd] }
+        static var toAutofillStart: [Self] { [.onlyProgress, .onlyEnd] }
+        static var toAutofillEnd: [Self] { [.onlyProgress, .startAndProgress] }
+        static var toAutofillProgress: [Self] { [.onlyEnd, .startAndEnd] }
 
         static func determine(_ startIsValid: Bool, _ endIsValid: Bool, _ progressIsValid: Bool) -> InputCombination? {
             let hasStart = true, hasEnd = true, hasProgress = true
