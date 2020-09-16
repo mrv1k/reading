@@ -7,8 +7,24 @@
 //
 
 import Combine
-// import for debounce scheduler
 import SwiftUI
+
+enum Validate<Value> {
+    typealias Message = Value
+
+    case valid(Value)
+    case invalid(Value)
+//    case errorMessage
+
+    var value: Value {
+        switch self {
+        case .valid(let x):
+            return x
+        case .invalid(let x):
+            return x
+        }
+    }
+}
 
 class SessionCreatePagesViewModel: ObservableObject {
     @Published var startField = ""
