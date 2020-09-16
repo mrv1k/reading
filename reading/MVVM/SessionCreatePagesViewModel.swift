@@ -20,37 +20,39 @@ class SessionCreatePagesViewModel: ObservableObject {
 
     init() {
         /*
-         0 receive value
-         1 wait for user to stop typing (debounce)
-         2 convert to int, if fails = display error message
-         3 validate, if fails = display error message
-
+         TODO:
          if can be autofilled
          compute autofills
          display autofill button
          */
-        let initialInput = $startField
+
+        let fields = Publishers.Merge3($startField, $endField, $progressField)
             .debounce(for: 0.4, scheduler: RunLoop.main)
             .map({ fieldInput -> Int? in
                 guard !fieldInput.isEmpty else { return nil }
 
                 let onlyDigits = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: fieldInput))
-
                 return onlyDigits ? Int(fieldInput) : -1
+            }).eraseToAnyPublisher()
+
+
+        fields
+            .sink(receiveValue: { (value) in
+                print("fields sink:", value)
             })
+            .store(in: &cancellableSet)
 
-        print(validationMessages)
-        initialInput.map { page -> [String] in
-            var messages = [String]()
+        fields
+            .map({ (page) -> [String] in
+                var messages = [String]()
 
-            if page == -1 {
-                messages.append("Values must be numbers")
-            }
-            return messages
-        }
-        .assign(to: &$validationMessages)
-//        .assign(to: \.validationMessages, on: self)
-//        .store(in: &cancellableSet)
+                if page == -1 {
+                    messages.append("Fields must only contain numbers")
+                }
+//                TODO: Fields must be a positive number
+                return messages
+            })
+            .assign(to: &$validationMessages)
 
         print("cancellableSet", cancellableSet)
     }

@@ -34,7 +34,7 @@ struct SessionCreatePagesSection: View {
                 }
             }
 
-//            if !viewModel.validationMessages.isEmpty {
+            if !viewModel.validationMessages.isEmpty {
                 VStack {
                     ForEach(viewModel.validationMessages, id: \.self) { msg in
                         Text(msg)
@@ -42,9 +42,7 @@ struct SessionCreatePagesSection: View {
                             .font(.callout)
                     }
                 }
-
-            Text(viewModel.validationMessages.isEmpty ? "yes" : "no")
-//            }
+            }
 
             Button("Reset") {
                 viewModel.startField = ""
