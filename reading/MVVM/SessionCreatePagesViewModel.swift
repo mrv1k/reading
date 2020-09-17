@@ -9,21 +9,9 @@
 import Combine
 import SwiftUI
 
-enum Validate<Value> {
-    typealias Message = Value
-
-    case valid(Value)
-    case invalid(Value)
-//    case errorMessage
-
-    var value: Value {
-        switch self {
-        case .valid(let x):
-            return x
-        case .invalid(let x):
-            return x
-        }
-    }
+enum Validity {
+    case valid
+    case invalid(reason: String)
 }
 
 class SessionCreatePagesViewModel: ObservableObject {
@@ -42,33 +30,37 @@ class SessionCreatePagesViewModel: ObservableObject {
          display autofill button
          */
 
-        let fields = Publishers.Merge3($startField, $endField, $progressField)
+        let fieldsValidation = Publishers.Merge3($startField, $endField, $progressField)
             .debounce(for: 0.4, scheduler: RunLoop.main)
-            .map({ fieldInput -> Int? in
-                guard !fieldInput.isEmpty else { return nil }
+            .map({ fieldInput -> Validity in
+                if fieldInput.isEmpty {
+                    return .invalid(reason: "Page fields are required")
+                }
 
-                let onlyDigits = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: fieldInput))
-                return onlyDigits ? Int(fieldInput) : -1
+                if let number = Int(fieldInput) {
+                    if number < 0 {
+                        return .invalid(reason: "Page fields must be positive numbers")
+                    }
+
+                    return .valid
+                } else {
+                    return .invalid(reason: "Page fields must be numeric")
+                }
             }).eraseToAnyPublisher()
 
-
-        fields
-            .sink(receiveValue: { (value) in
-                print("fields sink:", value)
-            })
-            .store(in: &cancellableSet)
-
-        fields
-            .map({ (page) -> [String] in
+        fieldsValidation
+            .map({ (validity) in
                 var messages = [String]()
-
-                if page == -1 {
-                    messages.append("Fields must only contain numbers")
+                switch validity {
+                case .invalid(let reason):
+                    messages.append(reason)
+                default:
+                    break
                 }
-//                TODO: Fields must be a positive number
                 return messages
             })
-            .assign(to: &$validationMessages)
+            .assign(to: &$validationMessages
+            )
 
         print("cancellableSet", cancellableSet)
     }
