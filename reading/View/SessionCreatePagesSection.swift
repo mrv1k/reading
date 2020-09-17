@@ -36,9 +36,27 @@ struct SessionCreatePagesSection: View {
                 }
             }
 
-            if !viewModel.validationMessages.isEmpty {
+            if viewModel.startValidation.count != 0 {
                 VStack {
-                    ForEach(viewModel.validationMessages, id: \.self) { msg in
+                    ForEach(viewModel.startValidation, id: \.self) { msg in
+                        Text(msg)
+                            .foregroundColor(.red)
+                            .font(.callout)
+                    }
+                }
+            }
+            if viewModel.endValidation.count != 0 {
+                VStack {
+                    ForEach(viewModel.endValidation, id: \.self) { msg in
+                        Text(msg)
+                            .foregroundColor(.red)
+                            .font(.callout)
+                    }
+                }
+            }
+            if viewModel.progressValidation.count != 0 {
+                VStack {
+                    ForEach(viewModel.progressValidation, id: \.self) { msg in
                         Text(msg)
                             .foregroundColor(.red)
                             .font(.callout)
@@ -52,19 +70,19 @@ struct SessionCreatePagesSection: View {
                 viewModel.progressField = ""
             }
 
-            if !viewModel.validationMessages.isEmpty {
-                Button("Submit") {
-                    print("invalid submit")
-                    validationAlert = true
-                }
-                .alert(isPresented: $validationAlert) {
-                    Alert(title: Text(viewModel.validationMessages.first!))
-                }
-            } else {
-                Button("Submit") {
-                    print("valid submit")
-                }
-            }
+            // if !viewModel.validationMessages.isEmpty {
+            //     Button("Submit") {
+            //         print("invalid submit")
+            //         validationAlert = true
+            //     }
+            //     .alert(isPresented: $validationAlert) {
+            //         Alert(title: Text(viewModel.validationMessages.first!))
+            //     }
+            // } else {
+            //     Button("Submit") {
+            //         print("valid submit")
+            //     }
+            // }
         }
     }
 }

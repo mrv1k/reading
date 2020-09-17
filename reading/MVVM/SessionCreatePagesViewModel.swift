@@ -18,7 +18,10 @@ class SessionCreatePagesViewModel: ObservableObject {
     @Published var startField = ""
     @Published var endField = ""
     @Published var progressField = ""
-    @Published var validationMessages = [String]()
+
+    @Published var startValidation = [String]()
+    @Published var endValidation = [String]()
+    @Published var progressValidation = [String]()
 
     private var cancellableSet: Set<AnyCancellable> = []
 
@@ -30,11 +33,27 @@ class SessionCreatePagesViewModel: ObservableObject {
          display autofill button
          */
 
-        let fieldsValidation = Publishers.Merge3($startField, $endField, $progressField)
+        let start = fieldValidationPipeline(published: $startField, name: .start)
+        let end = fieldValidationPipeline(published: $endField, name: .end)
+        let progress = fieldValidationPipeline(published: $progressField, name: .progress)
+
+        validationMessagePipeline(validatedField: start)
+            .assign(to: &$startValidation)
+        validationMessagePipeline(validatedField: end)
+            .assign(to: &$endValidation)
+        validationMessagePipeline(validatedField: progress)
+            .assign(to: &$progressValidation)
+
+        print("cancellableSet", cancellableSet)
+    }
+
+    func fieldValidationPipeline(published: Published<String>.Publisher, name: Field) -> AnyPublisher<Validity, Never> {
+        print(name)
+        return published
             .debounce(for: 0.4, scheduler: RunLoop.main)
             .map({ fieldInput -> Validity in
                 if fieldInput.isEmpty {
-                    return .invalid(reason: "Page fields are required")
+                    return .invalid(reason: "\(name.rawValue) field is required")
                 }
 
                 guard let number = Int(fieldInput) else {
@@ -45,9 +64,11 @@ class SessionCreatePagesViewModel: ObservableObject {
                 }
                 return .valid
             }).eraseToAnyPublisher()
+    }
 
-        fieldsValidation
-            .map({ (validity) in
+    func validationMessagePipeline(validatedField: AnyPublisher<Validity, Never>) -> AnyPublisher<[String], Never>  {
+        return validatedField
+            .map({ (validity) -> [String] in
                 var messages = [String]()
                 print("messages", messages)
                 switch validity {
@@ -59,10 +80,7 @@ class SessionCreatePagesViewModel: ObservableObject {
                 print("messages", messages)
 
                 return messages
-            })
-            .assign(to: &$validationMessages)
-
-        print("cancellableSet", cancellableSet)
+            }).eraseToAnyPublisher()
     }
 
     var start: Int { Int(startField) ?? 0 }
@@ -133,8 +151,10 @@ extension SessionCreatePagesViewModel {
         }
     }
 
-    enum Field {
-        case start, end, progress
+    enum Field: String {
+        case start = "Start page"
+        case end = "End page"
+        case progress = "Progress"
     }
 
     func autofill(field: Field) {
