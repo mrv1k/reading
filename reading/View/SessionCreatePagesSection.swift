@@ -11,6 +11,8 @@ import SwiftUI
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
 
+    @State var validationAlert = false
+
     var body: some View {
         Section {
             HStack {
@@ -48,6 +50,20 @@ struct SessionCreatePagesSection: View {
                 viewModel.startField = ""
                 viewModel.endField = ""
                 viewModel.progressField = ""
+            }
+
+            if !viewModel.validationMessages.isEmpty {
+                Button("Submit") {
+                    print("invalid submit")
+                    validationAlert = true
+                }
+                .alert(isPresented: $validationAlert) {
+                    Alert(title: Text(viewModel.validationMessages.first!))
+                }
+            } else {
+                Button("Submit") {
+                    print("valid submit")
+                }
             }
         }
     }

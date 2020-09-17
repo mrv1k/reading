@@ -37,30 +37,30 @@ class SessionCreatePagesViewModel: ObservableObject {
                     return .invalid(reason: "Page fields are required")
                 }
 
-                if let number = Int(fieldInput) {
-                    if number < 0 {
-                        return .invalid(reason: "Page fields must be positive numbers")
-                    }
-
-                    return .valid
-                } else {
+                guard let number = Int(fieldInput) else {
                     return .invalid(reason: "Page fields must be numeric")
                 }
+                if number < 0 {
+                    return .invalid(reason: "Page fields must be positive numbers")
+                }
+                return .valid
             }).eraseToAnyPublisher()
 
         fieldsValidation
             .map({ (validity) in
                 var messages = [String]()
+                print("messages", messages)
                 switch validity {
                 case .invalid(let reason):
                     messages.append(reason)
                 default:
                     break
                 }
+                print("messages", messages)
+
                 return messages
             })
-            .assign(to: &$validationMessages
-            )
+            .assign(to: &$validationMessages)
 
         print("cancellableSet", cancellableSet)
     }
