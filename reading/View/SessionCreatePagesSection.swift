@@ -14,7 +14,7 @@ struct SessionCreatePagesSection: View {
     @State var validationAlert = false
 
     var body: some View {
-        Section {
+        Section(footer: Text("Hey, that's not okay").foregroundColor(.red)) {
             HStack {
                 PageTextField(placeholder: "Start page", text: $viewModel.startField)
                 PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .start)) {
