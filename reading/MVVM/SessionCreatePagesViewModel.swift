@@ -39,7 +39,6 @@ class SessionCreatePagesViewModel: ObservableObject {
             }
             .store(in: &cancellableSet)
 
-
         let start = fieldValidationPipeline(published: $startField, name: .start)
         let end = fieldValidationPipeline(published: $endField, name: .end)
         let progress = fieldValidationPipeline(published: $progressField, name: .progress)
@@ -52,58 +51,7 @@ class SessionCreatePagesViewModel: ObservableObject {
             .assign(to: &$progressValidation)
 
         print("cancellableSet", cancellableSet)
-
-        startIsValidPublisher.sink { check in
-            print(check)
-        }
-        .store(in: &cancellableSet)
-
     }
-
-    private var startDebounce: AnyPublisher<String, Never> {
-        $startField
-            .debounce(for: 0.4, scheduler: RunLoop.main)
-            .eraseToAnyPublisher()
-    }
-
-    private var startIsEmpty: AnyPublisher<Bool, Never> {
-        startDebounce
-            .map { $0.isEmpty }
-            .eraseToAnyPublisher()
-    }
-
-    var startIsNumber: AnyPublisher<Bool, Never> {
-        startDebounce
-            .map { Int($0) == nil ? false : true }
-            .eraseToAnyPublisher()
-    }
-
-    var startIsPositiveNumber: AnyPublisher<Bool, Never> {
-        startDebounce
-            .map { Int($0) ?? -1 }
-            .map { $0 > 0 }
-            .eraseToAnyPublisher()
-    }
-
-    var startIsValidPublisher: AnyPublisher<FieldCheck, Never> {
-        Publishers.CombineLatest3(startIsEmpty, startIsNumber, startIsPositiveNumber)
-            .map { (isEmpty, isNumber, isPositive) in
-                if isEmpty {
-                    return .empty
-                }
-                if !isNumber {
-                    return .notNumber
-                }
-                if !isPositive {
-                    return .negativeNumber
-                }
-
-                return .valid
-            }
-            .eraseToAnyPublisher()
-    }
-
-
 
     func fieldValidationPipeline(published: Published<String>.Publisher, name: Field) -> AnyPublisher<Validity, Never> {
         print(name)

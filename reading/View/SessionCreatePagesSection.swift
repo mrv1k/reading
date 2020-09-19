@@ -10,31 +10,27 @@ import SwiftUI
 
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
+    @StateObject var startViewModel = SessionCreatePageViewModel()
 
     @State var validationAlert = false
 
     var body: some View {
         Section(footer: Text("Hey, that's not okay").foregroundColor(.red)) {
-            HStack {
-                PageTextField(placeholder: "Start page", text: $viewModel.startField)
-                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .start)) {
-                    viewModel.autofill(field: .start)
-                }
-            }
+            SessionCreatePageField(fieldViewModel: startViewModel)
 
-            HStack {
-                PageTextField(placeholder: "End page", text: $viewModel.endField)
-                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .end)) {
-                    viewModel.autofill(field: .end)
-                }
-            }
-
-            HStack {
-                PageTextField(placeholder: "Progress", text: $viewModel.progressField)
-                PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .progress)) {
-                    viewModel.autofill(field: .progress)
-                }
-            }
+            // HStack {
+            //     PageTextField(placeholder: "End page", text: $viewModel.endField)
+            //     PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .end)) {
+            //         viewModel.autofill(field: .end)
+            //     }
+            // }
+            //
+            // HStack {
+            //     PageTextField(placeholder: "Progress", text: $viewModel.progressField)
+            //     PageAutofillButton(canBeAutofilled: viewModel.canBeAutofilled(field: .progress)) {
+            //         viewModel.autofill(field: .progress)
+            //     }
+            // }
 
             if viewModel.startValidation.count != 0 {
                 VStack {
@@ -83,33 +79,6 @@ struct SessionCreatePagesSection: View {
             //         print("valid submit")
             //     }
             // }
-        }
-    }
-}
-
-fileprivate struct PageTextField: View {
-    var placeholder: String
-    var text: Binding<String>
-
-    var body: some View {
-        TextField(placeholder, text: text)
-            .frame(maxHeight: .infinity)
-            .keyboardType(.numberPad)
-    }
-}
-
-fileprivate struct PageAutofillButton: View {
-    var canBeAutofilled: Bool
-    var autofill: () -> Void
-
-    var body: some View {
-        if canBeAutofilled {
-            Divider()
-            Button(action: autofill) {
-                Image(systemName: "text.badge.plus")
-                    .padding([.leading, .trailing])
-            }
-            .buttonStyle(BorderlessButtonStyle())
         }
     }
 }

@@ -26,6 +26,8 @@
 		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */; };
+		57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */; };
+		57A0006C2515D2FF0023BFB5 /* SessionCreatePageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */; };
 		57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57EE54512507B5E10080945C /* SessionCreatePagesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */; };
@@ -54,6 +56,8 @@
 		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortPicker.swift; sourceTree = "<group>"; };
+		57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageViewModel.swift; sourceTree = "<group>"; };
+		57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageField.swift; sourceTree = "<group>"; };
 		57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePagesViewModel.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePagesSection.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */,
 				578B08D824C1737D00500C41 /* BookRow.swift */,
 				5746E92F24F2E0DC0094A27F /* SessionCreate.swift */,
+				57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */,
 				57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */,
 			);
 			path = View;
@@ -149,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */,
+				57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 				57EE54512507B5E10080945C /* SessionCreatePagesSection.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
+				57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
 				573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
@@ -250,6 +257,7 @@
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,
 				57413BE824C57210009B461F /* PreviewWithNavigation.swift in Sources */,
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
+				57A0006C2515D2FF0023BFB5 /* SessionCreatePageField.swift in Sources */,
 				57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */,
 				573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
