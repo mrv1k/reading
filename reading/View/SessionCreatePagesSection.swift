@@ -10,13 +10,19 @@ import SwiftUI
 
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
-    @StateObject var startViewModel = SessionCreatePageViewModel()
+    // @StateObject var startViewModel = SessionCreatePageViewModel()
+    // @StateObject var endViewModel = SessionCreatePageViewModel()
+    // @StateObject var progressViewModel = SessionCreatePageViewModel()
+
 
     @State var validationAlert = false
 
     var body: some View {
         Section(footer: Text("Hey, that's not okay").foregroundColor(.red)) {
-            SessionCreatePageField(fieldViewModel: startViewModel)
+            SessionCreatePageField(fieldViewModel: viewModel.startViewModel, placeholder: "Start page")
+
+            // FIXME: doesn't update because startViewModel is not ObservedObjet in this view
+            Text(viewModel.startViewModel.validationMessage)
 
             // HStack {
             //     PageTextField(placeholder: "End page", text: $viewModel.endField)

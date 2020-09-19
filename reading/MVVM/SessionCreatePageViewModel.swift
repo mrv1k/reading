@@ -10,56 +10,49 @@ import Foundation
 import Combine
 
 class SessionCreatePageViewModel: ObservableObject {
-    @Published var field = ""
-    @Published var validation = [String]()
+    @Published var fieldInput = ""
+    @Published var validationMessage = ""
 
     private var cancellableSet: Set<AnyCancellable> = []
 
     init() {
-        isValid.sink { status in
-            print(status)
+        fieldValidationPublisher
+            .assign(to: &$validationMessage)
+
+        fieldValidationPublisher.sink {
+            print($0)
         }.store(in: &cancellableSet)
     }
 
-    private var debouncedInput: AnyPublisher<String, Never> {
-        $field
+    private var input: AnyPublisher<String, Never> {
+        $fieldInput
             .debounce(for: 0.4, scheduler: RunLoop.main)
             .eraseToAnyPublisher()
     }
 
-    private var isEmpty: AnyPublisher<Bool, Never> {
-        debouncedInput
-            .map { $0.isEmpty }
-            .eraseToAnyPublisher()
+    private var isEmpty: Publishers.Map<AnyPublisher<String, Never>, Bool> {
+        input.map { $0.isEmpty }
     }
 
-    var isNumber: AnyPublisher<Bool, Never> {
-        debouncedInput
-            .map { Int($0) == nil ? false : true }
-            .eraseToAnyPublisher()
+    var page: Publishers.Map<AnyPublisher<String, Never>, Int?> {
+        input.map { Int($0) }
     }
 
-    var isPositiveNumber: AnyPublisher<Bool, Never> {
-        debouncedInput
-            .map { Int($0) ?? -1 }
-            .map { $0 > 0 }
-            .eraseToAnyPublisher()
-    }
-
-    var isValid: AnyPublisher<FieldCheck, Never> {
-        Publishers.CombineLatest3(isEmpty, isNumber, isPositiveNumber)
-            .map { (isEmpty, isNumber, isPositive) in
+    var fieldValidationPublisher: AnyPublisher<String, Never> {
+        Publishers.CombineLatest(isEmpty, page)
+            .map { (isEmpty, page) in
                 if isEmpty {
-                    return .empty
-                }
-                if !isNumber {
-                    return .notNumber
-                }
-                if !isPositive {
-                    return .negativeNumber
+                    return "is required"
                 }
 
-                return .valid
+                guard let number = page else {
+                    return "Must be a number"
+                }
+                if number < 0 {
+                    return "Must not be a negative number"
+                }
+
+                return ""
             }
             .eraseToAnyPublisher()
     }

@@ -10,12 +10,15 @@ import SwiftUI
 
 struct SessionCreatePageField: View {
     @ObservedObject var fieldViewModel: SessionCreatePageViewModel
+    var placeholder: String
 
     var body: some View {
         HStack {
-            TextField("Start page", text: $fieldViewModel.field)
+            TextField(placeholder, text: $fieldViewModel.fieldInput)
                 .frame(maxHeight: .infinity)
                 .keyboardType(.numberPad)
+
+            Text(fieldViewModel.validationMessage)
 
             // if viewModel.canBeAutofilled(field: .start) {
             //     Divider()
@@ -31,8 +34,8 @@ struct SessionCreatePageField: View {
     }
 }
 
-struct SessionCreatePageField_Previews: PreviewProvider {
-    static var previews: some View {
-        SessionCreatePageField(fieldViewModel: SessionCreatePageViewModel())
-    }
-}
+// struct SessionCreatePageField_Previews: PreviewProvider {
+//     static var previews: some View {
+//         SessionCreatePageField(fieldViewModel: SessionCreatePageViewModel())
+//     }
+// }

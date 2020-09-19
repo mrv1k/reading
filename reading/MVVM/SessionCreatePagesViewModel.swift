@@ -9,18 +9,6 @@
 import Combine
 import SwiftUI
 
-enum Validity {
-    case valid
-    case invalid(reason: String)
-}
-
-enum FieldCheck {
-    case valid
-    case empty
-    case notNumber
-    case negativeNumber
-}
-
 class SessionCreatePagesViewModel: ObservableObject {
     @Published var startField = ""
     @Published var endField = ""
@@ -32,62 +20,7 @@ class SessionCreatePagesViewModel: ObservableObject {
 
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init() {
-        Publishers.CombineLatest3($startField, $endField, $progressField)
-            .sink { arg in
-                print(arg)
-            }
-            .store(in: &cancellableSet)
-
-        let start = fieldValidationPipeline(published: $startField, name: .start)
-        let end = fieldValidationPipeline(published: $endField, name: .end)
-        let progress = fieldValidationPipeline(published: $progressField, name: .progress)
-
-        validationMessagePipeline(validatedField: start)
-            .assign(to: &$startValidation)
-        validationMessagePipeline(validatedField: end)
-            .assign(to: &$endValidation)
-        validationMessagePipeline(validatedField: progress)
-            .assign(to: &$progressValidation)
-
-        print("cancellableSet", cancellableSet)
-    }
-
-    func fieldValidationPipeline(published: Published<String>.Publisher, name: Field) -> AnyPublisher<Validity, Never> {
-        print(name)
-        return published
-            .debounce(for: 0.4, scheduler: RunLoop.main)
-            .map({ fieldInput -> Validity in
-                if fieldInput.isEmpty {
-                    return .invalid(reason: "\(name.rawValue) field is required")
-                }
-
-                guard let number = Int(fieldInput) else {
-                    return .invalid(reason: "Page fields must be numeric")
-                }
-                if number < 0 {
-                    return .invalid(reason: "Page fields must be positive numbers")
-                }
-                return .valid
-            }).eraseToAnyPublisher()
-    }
-
-    func validationMessagePipeline(validatedField: AnyPublisher<Validity, Never>) -> AnyPublisher<[String], Never>  {
-        return validatedField
-            .map({ (validity) -> [String] in
-                var messages = [String]()
-                print("messages", messages)
-                switch validity {
-                case .invalid(let reason):
-                    messages.append(reason)
-                default:
-                    break
-                }
-                print("messages", messages)
-
-                return messages
-            }).eraseToAnyPublisher()
-    }
+    var startViewModel = SessionCreatePageViewModel()
 
     var start: Int { Int(startField) ?? 0 }
     var end: Int { Int(endField) ?? 0 }
