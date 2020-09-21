@@ -10,127 +10,27 @@ import Combine
 import SwiftUI
 
 class SessionCreatePagesViewModel: ObservableObject {
-    @Published var startField = ""
-    @Published var endField = ""
-    @Published var progressField = ""
-
-    @Published var endValidation = [String]()
-    @Published var progressValidation = [String]()
-
     private var cancellableSet: Set<AnyCancellable> = []
+    @Published var sectionValidation = ""
 
-    @Published var startValidation = ""
-
-    var startViewModel: SessionCreatePageViewModel?
+    var startViewModel = SessionCreatePageViewModel()
 
     init() {
-        startViewModel = SessionCreatePageViewModel(parent: self)
+        startViewModel = SessionCreatePageViewModel()
+
+        startViewModel.$validation
+            .assign(to: &$sectionValidation)
     }
-
-    var start: Int { Int(startField) ?? 0 }
-    var end: Int { Int(endField) ?? 0 }
-    var progress: Int { Int(progressField) ?? 0 }
-
-    var startIsValid: Bool { start > 0 }
-    var endIsValid: Bool { end > 0 }
-    var endIsAfterStart: Bool { end > start }
-    var progressIsValid: Bool { progress > 0 }
-
 
     // TODO: Should be smartly using last reading session page instead of 1
-    var computedStart: String {
-        endIsValid ? String(1) :
-            progressIsValid ? String(1) : ""
-    }
-    var computedEnd: String {
-        startIsValid && progressIsValid ? String(start + progress) : ""
-    }
-    var computedProgress: String {
-        startIsValid && endIsAfterStart ? String(end - start) : ""
-    }
-
-    private var inputCombination: InputCombination? {
-        InputCombination.determine(startIsValid, endIsValid, progressIsValid)
-    }
-
-    func canBeAutofilled(field: Field) -> Bool {
-        if let combination = inputCombination {
-            switch field {
-            case .start:
-                return InputCombination.toAutofillStart.contains(combination)
-            case .end:
-                return InputCombination.toAutofillEnd.contains(combination)
-            case .progress:
-                return InputCombination.toAutofillProgress.contains(combination)
-            }
-        }
-        return false
-    }
-}
-
-
-extension SessionCreatePagesViewModel {
-    private enum InputCombination {
-        case startAndEnd, startAndProgress, onlyEnd, onlyProgress
-
-        static var toAutofillStart: [Self] { [.onlyProgress, .onlyEnd] }
-        static var toAutofillEnd: [Self] { [.onlyProgress, .startAndProgress] }
-        static var toAutofillProgress: [Self] { [.onlyEnd, .startAndEnd] }
-
-        static func determine(_ startIsValid: Bool, _ endIsValid: Bool, _ progressIsValid: Bool) -> InputCombination? {
-            let hasStart = true, hasEnd = true, hasProgress = true
-
-            switch (startIsValid, endIsValid, progressIsValid) {
-            case (false, hasEnd, false):
-                return .onlyEnd
-            case (false, false, hasProgress):
-                return .onlyProgress
-            case (hasStart, hasEnd, false):
-                return .startAndEnd
-            case (hasStart, false, hasProgress):
-                return .startAndProgress
-            default:
-                return nil
-            }
-        }
-    }
-
-    enum Field: String {
-        case start = "Start page"
-        case end = "End page"
-        case progress = "Progress"
-    }
-
-    func autofill(field: Field) {
-        print(field)
-        // FIXME: onlyEnd and onlyProgress no longer work without a start page first
-        // solution1 : display only start at first
-
-        switch field {
-        case .start:
-            print("start", startField, computedStart)
-            startField = computedStart
-        case .end:
-            print("end", endField, computedEnd)
-            endField = computedEnd
-        case .progress:
-            print("progress", progressField, computedProgress)
-            progressField = computedProgress
-        }
-
-        // switch inputCombination {
-        // case .startAndEnd:
-        //     progressField = computedProgress
-        // case .startAndProgress:
-        //     endField = computedEnd
-        // case .onlyEnd:
-        //     startField = computedStart
-        //     progressField = computedProgress
-        // case .onlyProgress:
-        //     startField = computedStart
-        //     endField = computedEnd
-        // default:
-        //     break
-        // }
-    }
+    // var computedStart: String {
+    //     endIsValid ? String(1) :
+    //         progressIsValid ? String(1) : ""
+    // }
+    // var computedEnd: String {
+    //     startIsValid && progressIsValid ? String(start + progress) : ""
+    // }
+    // var computedProgress: String {
+    //     startIsValid && endIsAfterStart ? String(end - start) : ""
+    // }
 }

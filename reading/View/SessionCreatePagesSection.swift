@@ -13,17 +13,11 @@ struct SessionCreatePagesSection: View {
 
     @State var validationAlert = false
 
-    var startViewModel: SessionCreatePageViewModel {
-        viewModel.startViewModel!
-    }
-
     var body: some View {
-        Section(footer: Text("Hey, that's not okay").foregroundColor(.red)) {
+        Section(footer: Text(viewModel.sectionValidation).foregroundColor(.red)) {
             SessionCreatePageField(
-                fieldViewModel: startViewModel,
+                fieldViewModel: viewModel.startViewModel,
                 placeholder: "Start page")
-
-            Text(viewModel.startValidation)
 
 
             // HStack {
@@ -46,11 +40,11 @@ struct SessionCreatePagesSection: View {
             //     Alert(title: Text(startViewModel.validationMessage))
             // }
 
-            Button("Reset") {
-                viewModel.startField = ""
-                viewModel.endField = ""
-                viewModel.progressField = ""
-            }
+            // Button("Reset") {
+            //     viewModel.startField = ""
+            //     viewModel.endField = ""
+            //     viewModel.progressField = ""
+            // }
 
             // if !viewModel.validationMessages.isEmpty {
             //     Button("Submit") {

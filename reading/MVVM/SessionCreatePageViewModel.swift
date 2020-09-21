@@ -11,12 +11,11 @@ import Combine
 
 class SessionCreatePageViewModel: ObservableObject {
     @Published var input = ""
+    @Published var validation = ""
 
-    private var validationCancellable: AnyCancellable?
-
-    init(parent: SessionCreatePagesViewModel) {
-        validationCancellable = fieldValidationPublisher
-            .assign(to: \.startValidation, on: parent)
+    init() {
+        fieldValidationPublisher
+            .assign(to: &$validation)
     }
 
     private var debouncedInput: AnyPublisher<String, Never> {
