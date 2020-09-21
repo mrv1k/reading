@@ -12,10 +12,15 @@ import Combine
 class SessionCreatePageViewModel: ObservableObject {
     @Published var input = ""
     @Published var validation = ""
+    @Published var pristine = true
 
     init() {
         fieldValidationPublisher
             .assign(to: &$validation)
+    }
+
+    func onEditingChanged(_: Bool) {
+        pristine = false
     }
 
     private var debouncedInput: AnyPublisher<String, Never> {
@@ -34,8 +39,12 @@ class SessionCreatePageViewModel: ObservableObject {
     }
 
     var fieldValidationPublisher: AnyPublisher<String, Never> {
-        Publishers.CombineLatest(page, isEmpty)
-            .map { (page, isEmpty) in
+        Publishers.CombineLatest3($pristine, isEmpty, page)
+            .map { (pristine, isEmpty, page) in
+                if pristine {
+                    return "pristine"
+                }
+
                 if isEmpty {
                     return "Cannot be blank"
                 }
@@ -43,8 +52,8 @@ class SessionCreatePageViewModel: ObservableObject {
                 guard let number = page else {
                     return "Must be a number"
                 }
-                // NOTE: 0 is valid as it stands r/n
-                if number < 0 {
+
+                if number < 1 {
                     return "Must be a positive number"
                 }
 
