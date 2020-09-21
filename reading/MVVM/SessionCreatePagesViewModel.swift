@@ -14,13 +14,18 @@ class SessionCreatePagesViewModel: ObservableObject {
     @Published var endField = ""
     @Published var progressField = ""
 
-    @Published var startValidation = [String]()
     @Published var endValidation = [String]()
     @Published var progressValidation = [String]()
 
     private var cancellableSet: Set<AnyCancellable> = []
 
-    var startViewModel = SessionCreatePageViewModel()
+    @Published var startValidation = ""
+
+    var startViewModel: SessionCreatePageViewModel?
+
+    init() {
+        startViewModel = SessionCreatePageViewModel(parent: self)
+    }
 
     var start: Int { Int(startField) ?? 0 }
     var end: Int { Int(endField) ?? 0 }

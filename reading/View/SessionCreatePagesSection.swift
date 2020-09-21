@@ -10,19 +10,21 @@ import SwiftUI
 
 struct SessionCreatePagesSection: View {
     @ObservedObject var viewModel: SessionCreatePagesViewModel
-    // @StateObject var startViewModel = SessionCreatePageViewModel()
-    // @StateObject var endViewModel = SessionCreatePageViewModel()
-    // @StateObject var progressViewModel = SessionCreatePageViewModel()
-
 
     @State var validationAlert = false
 
+    var startViewModel: SessionCreatePageViewModel {
+        viewModel.startViewModel!
+    }
+
     var body: some View {
         Section(footer: Text("Hey, that's not okay").foregroundColor(.red)) {
-            SessionCreatePageField(fieldViewModel: viewModel.startViewModel, placeholder: "Start page")
+            SessionCreatePageField(
+                fieldViewModel: startViewModel,
+                placeholder: "Start page")
 
-            // FIXME: doesn't update because startViewModel is not ObservedObjet in this view
-            Text(viewModel.startViewModel.validationMessage)
+            Text(viewModel.startValidation)
+
 
             // HStack {
             //     PageTextField(placeholder: "End page", text: $viewModel.endField)
@@ -38,33 +40,11 @@ struct SessionCreatePagesSection: View {
             //     }
             // }
 
-            if viewModel.startValidation.count != 0 {
-                VStack {
-                    ForEach(viewModel.startValidation, id: \.self) { msg in
-                        Text(msg)
-                            .foregroundColor(.red)
-                            .font(.callout)
-                    }
-                }
-            }
-            if viewModel.endValidation.count != 0 {
-                VStack {
-                    ForEach(viewModel.endValidation, id: \.self) { msg in
-                        Text(msg)
-                            .foregroundColor(.red)
-                            .font(.callout)
-                    }
-                }
-            }
-            if viewModel.progressValidation.count != 0 {
-                VStack {
-                    ForEach(viewModel.progressValidation, id: \.self) { msg in
-                        Text(msg)
-                            .foregroundColor(.red)
-                            .font(.callout)
-                    }
-                }
-            }
+            // Button("submit") {
+            //     validationAlert.toggle()
+            // }.alert(isPresented: $validationAlert) { () -> Alert in
+            //     Alert(title: Text(startViewModel.validationMessage))
+            // }
 
             Button("Reset") {
                 viewModel.startField = ""

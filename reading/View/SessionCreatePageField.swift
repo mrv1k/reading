@@ -14,11 +14,9 @@ struct SessionCreatePageField: View {
 
     var body: some View {
         HStack {
-            TextField(placeholder, text: $fieldViewModel.fieldInput)
+            TextField(placeholder, text: $fieldViewModel.input)
                 .frame(maxHeight: .infinity)
                 .keyboardType(.numberPad)
-
-            Text(fieldViewModel.validationMessage)
 
             // if viewModel.canBeAutofilled(field: .start) {
             //     Divider()

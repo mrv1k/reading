@@ -26,7 +26,8 @@ struct ReadingApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                BookList()
+                // BookList()
+                SessionCreate()
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(bookStorage)

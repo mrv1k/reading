@@ -10,50 +10,48 @@ import Foundation
 import Combine
 
 class SessionCreatePageViewModel: ObservableObject {
-    @Published var fieldInput = ""
-    @Published var validationMessage = ""
+    @Published var input = ""
 
-    private var cancellableSet: Set<AnyCancellable> = []
+    private var validationCancellable: AnyCancellable?
 
-    init() {
-        fieldValidationPublisher
-            .assign(to: &$validationMessage)
-
-        fieldValidationPublisher.sink {
-            print($0)
-        }.store(in: &cancellableSet)
+    init(parent: SessionCreatePagesViewModel) {
+        validationCancellable = fieldValidationPublisher
+            .assign(to: \.startValidation, on: parent)
     }
 
-    private var input: AnyPublisher<String, Never> {
-        $fieldInput
+    private var debouncedInput: AnyPublisher<String, Never> {
+        $input
             .debounce(for: 0.4, scheduler: RunLoop.main)
+            .removeDuplicates()
             .eraseToAnyPublisher()
     }
 
     private var isEmpty: Publishers.Map<AnyPublisher<String, Never>, Bool> {
-        input.map { $0.isEmpty }
+        debouncedInput.map { $0.isEmpty }
     }
 
     var page: Publishers.Map<AnyPublisher<String, Never>, Int?> {
-        input.map { Int($0) }
+        debouncedInput.map { Int($0) }
     }
 
     var fieldValidationPublisher: AnyPublisher<String, Never> {
-        Publishers.CombineLatest(isEmpty, page)
-            .map { (isEmpty, page) in
+        Publishers.CombineLatest(page, isEmpty)
+            .map { (page, isEmpty) in
                 if isEmpty {
-                    return "is required"
+                    return "Cannot be blank"
                 }
 
                 guard let number = page else {
                     return "Must be a number"
                 }
+                // NOTE: 0 is valid as it stands r/n
                 if number < 0 {
-                    return "Must not be a negative number"
+                    return "Must be a positive number"
                 }
 
                 return ""
             }
+            .removeDuplicates()
             .eraseToAnyPublisher()
     }
 }
