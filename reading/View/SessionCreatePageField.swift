@@ -18,7 +18,7 @@ struct SessionCreatePageField: View {
                 .frame(maxHeight: .infinity)
                 .keyboardType(.numberPad)
 
-            // if viewModel.canBeAutofilled(field: .start) {
+            // if sectionViewModel.canBeAutofilled(field: .start) {
             //     Divider()
             //     Button {
             //         viewModel.autofill(field: .start)

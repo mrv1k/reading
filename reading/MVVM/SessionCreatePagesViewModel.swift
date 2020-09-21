@@ -10,16 +10,29 @@ import Combine
 import SwiftUI
 
 class SessionCreatePagesViewModel: ObservableObject {
-    private var cancellableSet: Set<AnyCancellable> = []
+    var startViewModel = SessionCreatePageViewModel()
+    var endViewModel = SessionCreatePageViewModel()
+    var progressViewModel = SessionCreatePageViewModel()
+
     @Published var sectionValidation = ""
 
-    var startViewModel = SessionCreatePageViewModel()
+    private var cancellableSet: Set<AnyCancellable> = []
 
     init() {
-        startViewModel = SessionCreatePageViewModel()
-
         startViewModel.$validation
             .assign(to: &$sectionValidation)
+
+        Publishers.CombineLatest3(
+            startViewModel.$validation,
+            endViewModel.$validation,
+            progressViewModel.$validation)
+            .sink { (fieldValidations) in
+
+                var (start, end, progress) = fieldValidations
+                print(fieldValidations)
+                print(start, end, progress)
+            }
+            .store(in: &cancellableSet)
     }
 
     // TODO: Should be smartly using last reading session page instead of 1

@@ -43,8 +43,8 @@ class SessionCreatePageViewModel: ObservableObject {
                 guard let number = page else {
                     return "Must be a number"
                 }
-                // NOTE: 0 is valid as it stands r/n
-                if number < 0 {
+
+                if number <= 0 {
                     return "Must be a positive number"
                 }
 

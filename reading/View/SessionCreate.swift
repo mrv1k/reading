@@ -18,7 +18,7 @@ struct SessionCreate: View {
 
     var body: some View {
         Form {
-            SessionCreatePagesSection(viewModel: viewModel)
+            SessionCreatePagesSection(sectionViewModel: viewModel)
 
             Section {
                 if let parentBook = book {
