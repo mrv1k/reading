@@ -11,7 +11,7 @@ import Combine
 
 class SessionCreatePageViewModel: ObservableObject {
     @Published var input = ""
-    @Published var validation = ""
+    @Published var validation: PageFieldValidation = .pristine
     @Published var pristine = true
 
     init() {
@@ -38,28 +38,47 @@ class SessionCreatePageViewModel: ObservableObject {
         debouncedInput.map { Int($0) }
     }
 
-    var fieldValidationPublisher: AnyPublisher<String, Never> {
+    var fieldValidationPublisher: AnyPublisher<PageFieldValidation, Never> {
         Publishers.CombineLatest3($pristine, isEmpty, page)
             .map { (pristine, isEmpty, page) in
                 if pristine {
-                    return "pristine"
+                    return .pristine
                 }
 
                 if isEmpty {
-                    return "Cannot be blank"
+                    return .empty
                 }
 
                 guard let number = page else {
-                    return "Must be a number"
+                    return .invalidNumber
                 }
 
                 if number < 1 {
-                    return "Must be a positive number"
+                    return .negativeNumber
                 }
 
-                return ""
+                return .valid
             }
             .removeDuplicates()
             .eraseToAnyPublisher()
+    }
+}
+
+enum PageFieldValidation: String {
+    case pristine = "pristine"
+    case empty = "Cannot be blank"
+    case invalidNumber = "Must be a number"
+    case negativeNumber = "Must be positive a number"
+
+    case valid = ""
+    case autofillable
+
+    static var emptyOrPristineArr: [Self] = [pristine, empty]
+
+    var emptyOrPristine: Self {
+        if self == .pristine || self == .empty {
+            return .autofillable
+        }
+        return .autofillable
     }
 }
