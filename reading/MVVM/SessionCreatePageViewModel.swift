@@ -69,16 +69,11 @@ enum PageFieldValidation: String {
     case empty = "Cannot be blank"
     case invalidNumber = "Must be a number"
     case negativeNumber = "Must be positive a number"
-
     case valid = ""
-    case autofillable
 
-    static var emptyOrPristineArr: [Self] = [pristine, empty]
+    var isValid: Bool { self == .valid }
 
-    var emptyOrPristine: Self {
-        if self == .pristine || self == .empty {
-            return .autofillable
-        }
-        return .autofillable
+    var notFilled: Bool {
+        [Self.pristine, Self.empty].contains(self)
     }
 }

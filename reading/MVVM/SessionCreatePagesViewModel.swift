@@ -29,45 +29,20 @@ class SessionCreatePagesViewModel: ObservableObject {
             startViewModel.$validation,
             endViewModel.$validation,
             progressViewModel.$validation)
-            .sink { (validation) in
-                // var (start, end, progress) = validation
-                // print(start.emptyOrPristine, end.emptyOrPristine, progress.emptyOrPristine)
-                // PageFieldValidation.emptyOrPristineArr.contains(progress)
-
-                // progress
-                switch validation {
-                case (.valid, .valid, .pristine):
-                    fallthrough
-                case (.valid, .valid, .empty):
-                    print("progress")
-
-                // start & end
-                case (.pristine, .pristine, .valid):
-                    fallthrough
-                case (.empty, .empty, .valid):
-                    fallthrough
-                case (.empty, .pristine, .valid):
-                    fallthrough
-                case (.pristine, .empty, .valid):
-                    print("start & end")
-
-                // end
-                case (.valid, .pristine, .valid):
-                    fallthrough
-                case (.valid, .empty, .valid):
-                    print("end")
-
-                // start & progress
-                case (.empty, .valid, .empty):
-                    fallthrough
-                case (.pristine, .valid, .pristine):
-                    fallthrough
-                case (.empty, .valid, .pristine):
-                    fallthrough
-                case (.pristine, .valid, .empty):
-                    print("start & progress")
-                default:
-                    print("cant autofill")
+            .sink { (start, end, progress) in
+                if start.isValid {
+                    if (end.isValid && progress.notFilled) {
+                        print("can autofill progress")
+                    } else if (end.notFilled && progress.isValid) {
+                        print("can autofill end")
+                    }
+                } else if start.notFilled {
+                    if (end.notFilled && progress.isValid) {
+                        print("can autofill start and end")
+                    }
+                    if (start.notFilled && end.isValid && progress.notFilled) {
+                        print("can autofill start and progress")
+                    }
                 }
             }
             .store(in: &cancellableSet)
