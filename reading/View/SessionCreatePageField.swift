@@ -13,27 +13,25 @@ struct SessionCreatePageField: View {
     var placeholder: String
 
     var body: some View {
-        HStack {
-            TextField(
-                placeholder,
-                text: $fieldViewModel.input,
-                onEditingChanged: fieldViewModel.onEditingChanged,
-                onCommit: {}
-            )
-            .frame(maxHeight: .infinity)
-            .keyboardType(.numberPad)
+        TextField(
+            placeholder,
+            text: $fieldViewModel.input,
+            onEditingChanged: fieldViewModel.onEditingChanged,
+            onCommit: {}
+        )
+        .frame(maxHeight: .infinity)
+        .keyboardType(.numberPad)
 
-            // if sectionViewModel.canBeAutofilled(field: .start) {
-            //     Divider()
-            //     Button {
-            //         viewModel.autofill(field: .start)
-            //     } label: {
-            //         Image(systemName: "text.badge.plus")
-            //             .padding([.leading, .trailing])
-            //     }
-            //     .buttonStyle(BorderlessButtonStyle())
-            // }
-        }
+        // if sectionViewModel.autofillableFields.contains(.start) {
+        //     Divider()
+        //     Button {
+        //         // viewModel.autofill(field: .start)
+        //     } label: {
+        //         Image(systemName: "text.badge.plus")
+        //             .padding([.leading, .trailing])
+        //     }
+        //     .buttonStyle(BorderlessButtonStyle())
+        // }
     }
 }
 

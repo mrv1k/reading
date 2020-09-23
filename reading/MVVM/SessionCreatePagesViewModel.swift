@@ -9,43 +9,74 @@
 import Combine
 import SwiftUI
 
+enum PageField: String {
+    case start, end, progress
+}
+
 class SessionCreatePagesViewModel: ObservableObject {
     var startViewModel = SessionCreatePageViewModel()
     var endViewModel = SessionCreatePageViewModel()
     var progressViewModel = SessionCreatePageViewModel()
 
-    @Published var sectionValidation = ""
+    @Published var autofillableFields = [PageField]()
+
+    @Published var sectionValidaton = ""
+    @Published var sectionIsValid = false
 
     private var cancellableSet: Set<AnyCancellable> = []
 
     init() {
-        startViewModel.$validation
-            .map({ validation in
-                validation.rawValue
-            })
-            .assign(to: &$sectionValidation)
+        // autofillableFieldsPublisher.sink { (fields) in
+        //     print("following fields can be autofilled:")
+        //     for field in fields {
+        //         print(field)
+        //     }
+        // }
+        // .store(in: &cancellableSet)
 
+        autofillableFieldsPublisher.assign(to: &$autofillableFields)
+
+        sectionIsValidPublisher.assign(to: &$sectionIsValid)
+    }
+
+    private var sectionValidationPublisher: AnyPublisher<(PageFieldValidation, PageFieldValidation, PageFieldValidation), Never> {
         Publishers.CombineLatest3(
             startViewModel.$validation,
             endViewModel.$validation,
-            progressViewModel.$validation)
-            .sink { (start, end, progress) in
+            progressViewModel.$validation
+        )
+        .eraseToAnyPublisher()
+    }
+
+    private var sectionIsValidPublisher: AnyPublisher<Bool, Never> {
+        sectionValidationPublisher
+            .map { (start, end, progress) in
+                start.isValid && end.isValid && progress.isValid
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private var autofillableFieldsPublisher: AnyPublisher<[PageField], Never> {
+        sectionValidationPublisher
+            .map { (start, end, progress) in
                 if start.isValid {
                     if (end.isValid && progress.notFilled) {
-                        print("can autofill progress")
+                        return [.progress]
                     } else if (end.notFilled && progress.isValid) {
-                        print("can autofill end")
+                        return [.end]
                     }
                 } else if start.notFilled {
                     if (end.notFilled && progress.isValid) {
-                        print("can autofill start and end")
+                        return [.start, .end]
                     }
                     if (start.notFilled && end.isValid && progress.notFilled) {
-                        print("can autofill start and progress")
+                        return [.start, .progress]
                     }
                 }
+                return []
             }
-            .store(in: &cancellableSet)
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
     // TODO: Should be smartly using last reading session page instead of 1
     // var computedStart: String {
