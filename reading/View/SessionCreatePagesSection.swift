@@ -30,7 +30,6 @@ struct SessionCreatePagesSection: View {
             Button("Alert") {
                 if !sectionViewModel.sectionIsValid {
                     alert = ValidationAlert(
-                        // message: "ALL INVALID?",
                         autofillableFields: sectionViewModel.autofillableFields)
                 }
 
@@ -62,22 +61,29 @@ struct SessionCreatePagesSection: View {
 struct ValidationAlert: Identifiable {
     let autofillableFields: [PageField]
 
-    // TODO: only capitalize first field
-    var computedFields: String {
-        autofillableFields
-            .map { $0.rawValue }
-            .joined(separator: " and ")
-    }
-
     var id: String { computedFields }
 
-    var plurality: String {
-        autofillableFields.count == 1 ? "page" : "pages"
+    var computedFields: String {
+        guard !autofillableFields.isEmpty else {
+            return "Some"
+        }
+        let string = autofillableFields
+            .map { $0.rawValue }
+            .joined(separator: " and ")
+
+        return string.prefix(1).capitalized + string.dropFirst()
     }
 
     static func makeView(_ alert: Self) -> Alert {
-        let title = "\(alert.computedFields) \(alert.plurality) are missing"
-        let message = "Autofill?"
+        var subject = "pages", verb = "are"
+
+        if alert.autofillableFields.count == 1 {
+            subject = "page"
+            verb = "is"
+        }
+
+        let title = "\(subject.capitalized) missing"
+        let message = "\(alert.computedFields) \(subject) \(verb) missing can be autofilled. Autofill?"
 
         return Alert(
             title: Text(title),
