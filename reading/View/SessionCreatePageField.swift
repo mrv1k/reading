@@ -21,22 +21,11 @@ struct SessionCreatePageField: View {
         )
         .frame(maxHeight: .infinity)
         .keyboardType(.numberPad)
-
-        // if sectionViewModel.autofillableFields.contains(.start) {
-        //     Divider()
-        //     Button {
-        //         // viewModel.autofill(field: .start)
-        //     } label: {
-        //         Image(systemName: "text.badge.plus")
-        //             .padding([.leading, .trailing])
-        //     }
-        //     .buttonStyle(BorderlessButtonStyle())
-        // }
     }
 }
 
-// struct SessionCreatePageField_Previews: PreviewProvider {
-//     static var previews: some View {
-//         SessionCreatePageField(fieldViewModel: SessionCreatePageViewModel())
-//     }
-// }
+struct SessionCreatePageField_Previews: PreviewProvider {
+    static var previews: some View {
+        SessionCreatePageField(fieldViewModel: SessionCreatePageViewModel(), placeholder: "placeholder")
+    }
+}

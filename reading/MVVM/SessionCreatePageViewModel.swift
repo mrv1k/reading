@@ -13,10 +13,11 @@ class SessionCreatePageViewModel: ObservableObject {
     @Published var input = ""
     @Published var validation: PageFieldValidation = .pristine
     @Published var pristine = true
+    @Published var page: Int?
 
     init() {
-        fieldValidationPublisher
-            .assign(to: &$validation)
+        fieldValidationPublisher.assign(to: &$validation)
+        pagePublisher.assign(to: &$page)
     }
 
     func onEditingChanged(_: Bool) {
@@ -25,6 +26,7 @@ class SessionCreatePageViewModel: ObservableObject {
 
     private var debouncedInput: AnyPublisher<String, Never> {
         $input
+            // FIXME: Debounce is a problem later down the chain for many publishers
             .debounce(for: 0.4, scheduler: RunLoop.main)
             .removeDuplicates()
             .eraseToAnyPublisher()
@@ -34,20 +36,15 @@ class SessionCreatePageViewModel: ObservableObject {
         debouncedInput.map { $0.isEmpty }
     }
 
-    var page: Publishers.Map<AnyPublisher<String, Never>, Int?> {
+    var pagePublisher: Publishers.Map<AnyPublisher<String, Never>, Int?> {
         debouncedInput.map { Int($0) }
     }
 
     var fieldValidationPublisher: AnyPublisher<PageFieldValidation, Never> {
-        Publishers.CombineLatest3($pristine, isEmpty, page)
+        Publishers.CombineLatest3($pristine, isEmpty, pagePublisher)
             .map { (pristine, isEmpty, page) in
-                if pristine {
-                    return .pristine
-                }
-
-                if isEmpty {
-                    return .empty
-                }
+                if pristine { return .pristine }
+                if isEmpty { return .empty }
 
                 guard let number = page else {
                     return .invalidNumber

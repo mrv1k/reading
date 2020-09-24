@@ -30,7 +30,7 @@ struct SessionCreatePagesSection: View {
             Button("Alert") {
                 if !sectionViewModel.sectionIsValid {
                     alert = ValidationAlert(
-                        autofillableFields: sectionViewModel.autofillableFields)
+                        autofillableFields: sectionViewModel.missingFields)
                 }
             }
             .alert(item: $alert, content: makeAlertView)
@@ -45,19 +45,13 @@ struct SessionCreatePagesSection: View {
 
     fileprivate func makeAlertView(_ alert: ValidationAlert) -> Alert {
         let title = "\(alert.subject.capitalized) missing"
-        let message = """
-\(alert.fields) \(alert.subject) \(alert.verb) missing.
-Do you want to autofill?
-"""
+        let message = "\(alert.fields) \(alert.subject) \(alert.verb) missing. Do you want to autofill?"
 
         return Alert(
             title: Text(title),
             message: Text(message),
-            primaryButton: .cancel(Text("Don't")),
-            secondaryButton: .default(Text("Do"), action: {
-                print("TODO: autofill")
-                // todo: gonna need sectionViewModel access
-            })
+            primaryButton: .cancel(),
+            secondaryButton: .default(Text("OK"), action: sectionViewModel.autofill)
         )
     }
 }
