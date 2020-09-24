@@ -11,7 +11,7 @@ import SwiftUI
 struct SessionCreatePagesSection: View {
     @ObservedObject var sectionViewModel: SessionCreatePagesViewModel
 
-    @State var alert: ValidationAlert?
+    @State fileprivate var alert: ValidationAlert?
 
     var body: some View {
         Section(header: Text("Page Section")) {
@@ -32,9 +32,8 @@ struct SessionCreatePagesSection: View {
                     alert = ValidationAlert(
                         autofillableFields: sectionViewModel.autofillableFields)
                 }
-
             }
-            .alert(item: $alert, content: ValidationAlert.makeView) // (_:)?
+            .alert(item: $alert, content: makeAlertView)
 
             Button("reset") {
                 sectionViewModel.startViewModel.input = ""
@@ -43,30 +42,33 @@ struct SessionCreatePagesSection: View {
             }
         }
     }
+
+    fileprivate func makeAlertView(_ alert: ValidationAlert) -> Alert {
+        let title = "\(alert.subject.capitalized) missing"
+        let message = """
+\(alert.fields) \(alert.subject) \(alert.verb) missing.
+Do you want to autofill?
+"""
+
+        return Alert(
+            title: Text(title),
+            message: Text(message),
+            primaryButton: .cancel(Text("Don't")),
+            secondaryButton: .default(Text("Do"), action: {
+                print("TODO: autofill")
+                // todo: gonna need sectionViewModel access
+            })
+        )
+    }
 }
 
-//
-// var noInputAlert: Alert {
-//     Alert(title: Text("Page section is empty"),
-//           message: Text("At least one page field must be filled"),
-//           dismissButton: .some(.cancel()))
-// }
-// var autofillAlert: Alert {
-//     Alert(title: Text("title"),
-//           message: Text("possible explanation"),
-//           primaryButton: .cancel(),
-//           secondaryButton: .destructive(Text("destructive")))
-// }
-
-struct ValidationAlert: Identifiable {
+fileprivate struct ValidationAlert: Identifiable {
     let autofillableFields: [PageField]
 
-    var id: String { computedFields }
+    var id: String { fields }
+    var fields: String {
+        if autofillableFields.isEmpty { return "Some" }
 
-    var computedFields: String {
-        guard !autofillableFields.isEmpty else {
-            return "Some"
-        }
         let string = autofillableFields
             .map { $0.rawValue }
             .joined(separator: " and ")
@@ -74,27 +76,9 @@ struct ValidationAlert: Identifiable {
         return string.prefix(1).capitalized + string.dropFirst()
     }
 
-    static func makeView(_ alert: Self) -> Alert {
-        var subject = "pages", verb = "are"
-
-        if alert.autofillableFields.count == 1 {
-            subject = "page"
-            verb = "is"
-        }
-
-        let title = "\(subject.capitalized) missing"
-        let message = "\(alert.computedFields) \(subject) \(verb) missing can be autofilled. Autofill?"
-
-        return Alert(
-            title: Text(title),
-            message: Text(message),
-            primaryButton: .cancel(Text("Don't")),
-            secondaryButton: .default(Text("OK"), action: {
-                print("TODO: autofill")
-                // todo: gonna need sectionViewModel access
-            })
-        )
-    }
+    private var plural: Bool { autofillableFields.count > 1 }
+    var subject: String { plural ? "pages" : "page" }
+    var verb: String { plural ? "are" : "is" }
 }
 
 struct SessionCreatePagesSection_Previews: PreviewProvider {
