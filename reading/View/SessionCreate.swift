@@ -63,7 +63,6 @@ fileprivate struct DatePickerWithTimeToggle: View {
     }
 
     var body: some View {
-        // TODO: smooth animation, currently buggy in ios14 beta6
         Group {
             DatePicker(
                 "Record on",

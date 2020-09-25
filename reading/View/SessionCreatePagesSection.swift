@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SessionCreatePagesSection: View {
     @ObservedObject var sectionViewModel: SessionCreatePagesViewModel
-
     @State fileprivate var alert: ValidationAlert?
 
     var body: some View {
@@ -28,9 +27,10 @@ struct SessionCreatePagesSection: View {
                 placeholder: "Progress")
 
             Button("Alert") {
-                if !sectionViewModel.sectionIsValid {
-                    alert = ValidationAlert(
-                        autofillableFields: sectionViewModel.missingFields)
+                if sectionViewModel.sectionIsValid {
+                    print("submit")
+                } else {
+                    alert = ValidationAlert(autofillableFields: sectionViewModel.missingFields)
                 }
             }
             .alert(item: $alert, content: makeAlertView)
@@ -44,6 +44,10 @@ struct SessionCreatePagesSection: View {
     }
 
     fileprivate func makeAlertView(_ alert: ValidationAlert) -> Alert {
+        alert.autofillableFields.isEmpty ? alertView(alert: alert) : alertAutofillView(alert: alert)
+    }
+
+    fileprivate func alertAutofillView(alert: ValidationAlert) -> Alert {
         let title = "\(alert.subject.capitalized) missing"
         let message = "\(alert.fields) \(alert.subject) \(alert.verb) missing. Do you want to autofill?"
 
@@ -53,6 +57,11 @@ struct SessionCreatePagesSection: View {
             primaryButton: .cancel(),
             secondaryButton: .default(Text("OK"), action: sectionViewModel.autofill)
         )
+    }
+
+    fileprivate func alertView(alert: ValidationAlert) -> Alert {
+        // TODO: better alert when no autofill is available
+        return Alert(title: Text("Booom, all or some pages invalid"))
     }
 }
 
