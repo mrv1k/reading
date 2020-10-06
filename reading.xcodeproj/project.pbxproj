@@ -24,6 +24,7 @@
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
 		575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A224F3A16F00D58737 /* PersistenceController.swift */; };
 		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
+		57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57740397252C4316001152B4 /* SimpleSessionCreate.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */; };
 		57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */; };
@@ -54,6 +55,7 @@
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
 		575936A224F3A16F00D58737 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
+		57740397252C4316001152B4 /* SimpleSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSessionCreate.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListSortPicker.swift; sourceTree = "<group>"; };
 		57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageViewModel.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				5746E92F24F2E0DC0094A27F /* SessionCreate.swift */,
 				57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */,
 				57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */,
+				57740397252C4316001152B4 /* SimpleSessionCreate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				57EE54512507B5E10080945C /* SessionCreatePagesSection.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
+				57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */,
 				57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
 				573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */,
