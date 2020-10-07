@@ -2,7 +2,7 @@
 //  ReadingSession+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-08-23.
+//  Created by Viktor Khotimchenko on 2020-10-07.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -17,13 +17,15 @@ extension ReadingSession {
         return NSFetchRequest<ReadingSession>(entityName: "ReadingSession")
     }
 
-    @NSManaged public var date: Date?
-    @NSManaged public var pageEnd: Int16
-    @NSManaged public var pagesRead: Int16
-    @NSManaged public var pageStart: Int16
-    @NSManaged public var timerDuration: Date?
-    @NSManaged public var timerEnd: Date?
-    @NSManaged public var timerStart: Date?
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var pageEnd: Int64
+    @NSManaged public var pageProgress: Int64
+    @NSManaged public var pageStart: Int64
+    @NSManaged public var percentProgress: Double
     @NSManaged public var book: Book?
+
+}
+
+extension ReadingSession : Identifiable {
 
 }
