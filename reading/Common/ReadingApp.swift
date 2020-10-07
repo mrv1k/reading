@@ -28,7 +28,8 @@ struct ReadingApp: App {
             NavigationView {
                 // BookList()
                 // SessionCreate()
-                SimpleSessionCreate()
+                // SimpleSessionCreate()
+                SessionListBook(book: bookStorage.books[0])
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(bookStorage)

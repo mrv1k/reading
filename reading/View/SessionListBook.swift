@@ -9,13 +9,27 @@
 import SwiftUI
 
 struct SessionListBook: View {
+    var book: Book
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            Text("by " + book.authors)
+            Text(String(book.pageCount) + " pages")
+            Spacer()
+
+            ForEach(0..<20) { _ in
+                SessionRow()
+            }
+        }
+        .navigationTitle(book.title)
     }
 }
 
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
-        SessionListBook()
+        let viewContext = PersistenceController.shared.container.viewContext
+        let seeder = BookSeeder(context: viewContext)
+
+        return SessionListBook(book: seeder.insert(bookWith: .minimum))
     }
 }
