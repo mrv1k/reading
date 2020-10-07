@@ -11,10 +11,10 @@ import SwiftUI
 struct SimpleSessionCreate: View {
     @State var endPageField = ""
     @State var selectedBook: Book?
-    @State var isPresented = true
+    @State var isPresented = false
 
     var body: some View {
-        Button("test") {
+        Button("Add Simple Session") {
             isPresented = true
         }
         .sheet(isPresented: $isPresented) {
@@ -27,16 +27,13 @@ struct SimpleSessionCreate: View {
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .buttonStyle(BorderlessButtonStyle())
 
-
-                    Text("Details")
-                        .bold()
+                    Text("Details").bold()
 
                     Button {
                         print("save")
                         isPresented = false
                     } label: {
-                        Text("Save")
-                            .bold()
+                        Text("Save").bold()
                     }
                     .frame(maxWidth: .infinity, alignment: .topTrailing)
                     .buttonStyle(BorderlessButtonStyle())
