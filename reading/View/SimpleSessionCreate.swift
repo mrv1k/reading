@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct SimpleSessionCreate: View {
-    @State var pageField = ""
-    @State var tbd: Book?
+    @State var endPageField = ""
+    @State var selectedBook: Book?
     @State var isPresented = true
 
     var body: some View {
@@ -18,9 +18,6 @@ struct SimpleSessionCreate: View {
             isPresented = true
         }
         .sheet(isPresented: $isPresented) {
-            print("onDismiss")
-        } content: {
-            ZStack {
             VStack {
                 HStack {
                     Button("Cancel") {
@@ -38,30 +35,27 @@ struct SimpleSessionCreate: View {
                         print("save")
                         isPresented = false
                     } label: {
-                        Text("MINE")
+                        Text("Save")
                             .bold()
                     }
                     .frame(maxWidth: .infinity, alignment: .topTrailing)
                     .buttonStyle(BorderlessButtonStyle())
                 }
-                .zIndex(1)
                 .padding(.init(top: 18, leading: 20, bottom: 0, trailing: 20))
 
                 Form {
-                    TextField("End page", text: $pageField)
+                    TextField("End page", text: $endPageField)
                         .keyboardType(.numberPad)
 
-                    BookListModal(bookSelection: $tbd)
-                    if let bookSelected = tbd {
-                        BookRow(book: bookSelected)
+                    BookListModal(bookSelection: $selectedBook)
+                    if let selectedBook = selectedBook {
+                        BookRow(book: selectedBook)
                     }
                 }
-                // .offset(CGSize(width: 0, height: -22.0))
 
                 Spacer()
             }
             .background(Color(UIColor.systemGray6))
-            }
         }
     }
 }
