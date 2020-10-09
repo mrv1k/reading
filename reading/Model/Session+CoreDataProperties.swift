@@ -17,13 +17,13 @@ extension Session {
         return NSFetchRequest<Session>(entityName: "Session")
     }
 
-    @NSManaged public var createdAt: Date?
+    @NSManaged public var createdAt: Date
     @NSManaged public var pageEnd: Int16
     @NSManaged public var pageStart: Int16
     @NSManaged public var progressPage: Int16
     @NSManaged public var progressPercent: Float
     @NSManaged public var updatedAt: Date?
-    @NSManaged public var book: Book?
+    @NSManaged public var book: Book
 
 }
 
