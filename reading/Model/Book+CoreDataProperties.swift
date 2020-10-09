@@ -70,3 +70,10 @@ extension Book {
         )
     }
 }
+
+extension Book {
+    public var sessionsArray: [Session] {
+        let sessionSet = sessions as? Set<Session> ?? []
+        return sessionSet.sorted { $0.createdAt < $1.createdAt }
+    }
+}
