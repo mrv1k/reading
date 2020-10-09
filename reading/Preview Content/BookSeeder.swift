@@ -19,23 +19,23 @@ class BookSeeder {
         switch data {
         case .minimum:
             book.title = "Crime and Punishment"
-            book.authors = "Fyodor Dostoyevsky"
+            book.author = "Fyodor Dostoyevsky"
             book.pageCount = Int16(449)
         case .subtitle:
             book.title = "Shoe Dog: A Memoir by the Creator of NIKE"
-            book.authors = "Phil Knight"
+            book.author = "Phil Knight"
             book.pageCount = Int16(400)
         case .everything:
             book.title = "The Swift Programming Language (Swift 5.2 Edition)"
-            book.authors = "Apple Inc., Second Author Example"
+            book.author = "Apple Inc., Second Author Example"
             book.pageCount = Int16(500)
         case .titleA:
             book.title = "Animal Farm"
-            book.authors = "George Orwell"
+            book.author = "George Orwell"
             book.pageCount = Int16(122)
         case .titleZ:
             book.title = "Zorro"
-            book.authors = "Isabel Allende, Margaret Sayers Peden (Translator)"
+            book.author = "Isabel Allende, Margaret Sayers Peden (Translator)"
             book.pageCount = Int16(677)
         }
 

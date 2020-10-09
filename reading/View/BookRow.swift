@@ -20,7 +20,7 @@ struct BookRow: View {
                 .font(.headline)
                 // .fontWeight(.semibold)
                 .lineLimit(1)
-            Text(book.authors)
+            Text(book.author)
                 .font(.subheadline)
                 .fontWeight(.light)
             Text("Page count: \(book.pageCount)")

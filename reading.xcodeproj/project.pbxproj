@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5708D84524C7096F002635BB /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708D84424C7096F002635BB /* BookCover.swift */; };
+		570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */; };
+		570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */; };
 		5715C62324C364E4006709C5 /* BookCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5715C62224C364E4006709C5 /* BookCreate.swift */; };
 		5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */; };
 		5716CDAB24D140960017E2E2 /* Book+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */; };
@@ -17,8 +19,6 @@
 		5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958D24C0212E007DC1E5 /* BookDetail.swift */; };
 		5723959024C021A8007DC1E5 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookList.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */; };
-		573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573CD4B024F259120024C15B /* ReadingSession+CoreDataClass.swift */; };
-		573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */; };
 		57413BE824C57210009B461F /* PreviewWithNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57413BE724C57210009B461F /* PreviewWithNavigation.swift */; };
 		5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* SessionCreate.swift */; };
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
@@ -41,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		5708D84424C7096F002635BB /* BookCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
+		570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+CoreDataClass.swift"; sourceTree = "<group>"; };
+		570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5715C62224C364E4006709C5 /* BookCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCreate.swift; sourceTree = "<group>"; };
 		5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Book+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Book+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -52,8 +54,6 @@
 		5723958D24C0212E007DC1E5 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		5723958F24C021A7007DC1E5 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
-		573CD4B024F259120024C15B /* ReadingSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadingSession+CoreDataClass.swift"; sourceTree = "<group>"; };
-		573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		57413BE724C57210009B461F /* PreviewWithNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWithNavigation.swift; sourceTree = "<group>"; };
 		5746E92F24F2E0DC0094A27F /* SessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreate.swift; sourceTree = "<group>"; };
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 				5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */,
 				5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */,
 				575936A224F3A16F00D58737 /* PersistenceController.swift */,
-				573CD4B024F259120024C15B /* ReadingSession+CoreDataClass.swift */,
-				573CD4B124F259120024C15B /* ReadingSession+CoreDataProperties.swift */,
+				570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */,
+				570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */,
 				57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */,
 			);
 			path = Model;
@@ -268,7 +268,7 @@
 				57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */,
 				57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
-				573CD4B224F259120024C15B /* ReadingSession+CoreDataClass.swift in Sources */,
+				570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
@@ -277,9 +277,9 @@
 				577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */,
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
 				577403BE252DB996001152B4 /* SessionList.swift in Sources */,
+				570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */,
 				57A0006C2515D2FF0023BFB5 /* SessionCreatePageField.swift in Sources */,
 				57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */,
-				573CD4B324F259120024C15B /* ReadingSession+CoreDataProperties.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
 				57F4815224FF9490002B6691 /* BookStorage.swift in Sources */,
 				578B08D924C1737D00500C41 /* BookRow.swift in Sources */,

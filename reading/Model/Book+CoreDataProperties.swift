@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-08-03.
+//  Created by Viktor Khotimchenko on 2020-10-09.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -17,15 +17,39 @@ extension Book {
         return NSFetchRequest<Book>(entityName: "Book")
     }
 
-    @NSManaged public var authors: String
-    @NSManaged public var id: UUID
-    @NSManaged public var pageCount: Int16
-    @NSManaged public var title: String
+    @NSManaged public var author: String
     @NSManaged public var createdAt: Date
+    @NSManaged public var pageCount: Int16
+    @NSManaged public var progressPercent: Double
+    @NSManaged public var readTimes: Int16
+    @NSManaged public var title: String
+    @NSManaged public var updatedAt: Date?
+    @NSManaged public var sessions: NSSet?
+
+}
+
+// MARK: Generated accessors for sessions
+extension Book {
+
+    @objc(addSessionsObject:)
+    @NSManaged public func addToSessions(_ value: Session)
+
+    @objc(removeSessionsObject:)
+    @NSManaged public func removeFromSessions(_ value: Session)
+
+    @objc(addSessions:)
+    @NSManaged public func addToSessions(_ values: NSSet)
+
+    @objc(removeSessions:)
+    @NSManaged public func removeFromSessions(_ values: NSSet)
 
 }
 
 extension Book : Identifiable {
+
+}
+
+extension Book {
     static var sortByTitle: NSSortDescriptor {
         return NSSortDescriptor(
             key: "title",
@@ -38,17 +62,11 @@ extension Book : Identifiable {
         return NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
     }
 
-    static var sortByAuthors: NSSortDescriptor {
+    static var sortByAuthor: NSSortDescriptor {
         return NSSortDescriptor(
             key: "authors",
             ascending: true,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )
     }
-
-    // static var sortedFetchRequest: NSFetchRequest<Book> {
-    //     let request: NSFetchRequest<Book> = Book.fetchRequest()
-    //     request.sortDescriptors = Book.defaultSortDescriptors
-    //     return request
-    // }
 }

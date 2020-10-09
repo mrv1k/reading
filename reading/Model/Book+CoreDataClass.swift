@@ -14,8 +14,6 @@ import CoreData
 public class Book: NSManagedObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
-
-        id = UUID()
         createdAt = Date()
     }
 }

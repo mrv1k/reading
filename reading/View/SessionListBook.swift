@@ -13,7 +13,7 @@ struct SessionListBook: View {
 
     var body: some View {
         List {
-            Text("by " + book.authors)
+            Text("by " + book.author)
             Text(String(book.pageCount) + " pages")
             Spacer()
 

@@ -7,11 +7,11 @@ struct BookCreate: View {
     @State private var image: Image?
     @State private var title = ""
     @State private var subtitle: String?
-    @State private var authors = ""
+    @State private var author = ""
     @State private var pageCount = ""
 
     var hasEmptyRequiredField: Bool {
-        title.isEmpty || authors.isEmpty || pageCount.isEmpty
+        title.isEmpty || author.isEmpty || pageCount.isEmpty
     }
 
     var body: some View {
@@ -27,7 +27,7 @@ struct BookCreate: View {
             Section(header: Text("INFORMATION")) {
                 TextField("Title", text: $title)
 
-                TextField("Author(s)", text: $authors)
+                TextField("Author(s)", text: $author)
 
                 TextField("Pages", text: $pageCount)
                     .keyboardType(.numberPad)
@@ -41,8 +41,8 @@ struct BookCreate: View {
                     }
 
                     let book = Book(context: self.viewContext)
-                    book.title = self.title
-                    book.authors = self.authors
+                    book.title = title
+                    book.author = author
                     book.pageCount = pageCount
 
                     do {

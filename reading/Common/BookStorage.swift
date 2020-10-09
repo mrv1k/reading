@@ -76,7 +76,7 @@ enum BookSort: String, CaseIterable, Identifiable {
     func descriptor() -> NSSortDescriptor {
         switch self {
         case .title: return Book.sortByTitle
-        case .author: return Book.sortByAuthors
+        case .author: return Book.sortByAuthor
         case .date: return Book.sortByCreationDate
         }
     }

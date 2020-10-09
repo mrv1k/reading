@@ -17,7 +17,7 @@ struct BookDetail: View {
                 Spacer()
             }
 
-            Text("by " + book.authors)
+            Text("by " + book.author)
 
             Text(String(book.pageCount) + " pages")
 
