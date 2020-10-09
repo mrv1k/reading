@@ -64,7 +64,7 @@ extension Book {
 
     static var sortByAuthor: NSSortDescriptor {
         return NSSortDescriptor(
-            key: "authors",
+            key: "author",
             ascending: true,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )
