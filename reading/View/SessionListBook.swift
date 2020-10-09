@@ -17,9 +17,9 @@ struct SessionListBook: View {
             Text(String(book.pageCount) + " pages")
             Spacer()
 
-            ForEach(0..<20) { _ in
-                SessionRow()
-            }
+            // ForEach(0..<20) { _ in
+            //     SessionRow()
+            // }
         }
         .navigationTitle(book.title)
     }

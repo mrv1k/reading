@@ -9,13 +9,26 @@
 import SwiftUI
 
 struct SessionRow: View {
+    var session: Session
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("Start \(session.pageStart)")
+            Text("End \(session.pageEnd)")
+            Text("Page Progress  \(session.progressPage)")
+            Text("Percent Progress \(session.progressPage)%")
+        }
     }
 }
 
 struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
-        SessionRow()
+        let viewContext = PersistenceController.preview.container.viewContext
+
+        let bookSeeder = BookSeeder(context: viewContext)
+        let book = bookSeeder.fetch(book: .test)
+
+        return SessionRow(session: book.sessionsArray.first!)
+            .previewDevice("iPhone SE (2nd generation)")
     }
 }
