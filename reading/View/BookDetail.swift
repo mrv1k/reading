@@ -7,10 +7,6 @@ struct BookDetail: View {
 
     var body: some View {
         VStack {
-            // if book.image != nil {
-            //     Text("image")
-            // }
-
             HStack {
                 Spacer()
                 Text(book.title).multilineTextAlignment(.center)

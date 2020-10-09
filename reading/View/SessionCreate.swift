@@ -35,9 +35,6 @@ struct SessionCreate: View {
                 DatePickerWithTimeToggle(selection: $selectedDate)
             }
 
-            // Text("timerStart?")
-            // Text("timerEnd?")
-
             Section {
                 Button("Save") {
                     print("wip")

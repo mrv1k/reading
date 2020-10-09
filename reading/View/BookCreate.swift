@@ -53,7 +53,6 @@ struct BookCreate: View {
                     }
 
                     // TODO: ask to add another
-                    // if no
                     self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")
