@@ -14,11 +14,37 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        // for _ in 0..<10 {
-        //     let newItem = Item(context: viewContext)
-        //     newItem.timestamp = Date()
-        // }
-        // BookSeeder(context: container.viewContext).insertAllCases(seedOnce: true, save: true)
+
+        let bookSeeder = BookSeeder(context: viewContext)
+        bookSeeder.insertAllCases()
+
+        let testBook = bookSeeder.fetch(book: .test)
+
+        let session = Session(context: viewContext)
+        session.book = testBook
+        session.pageStart = 1
+        session.pageEnd = 26
+        session.progressPage = 25
+        session.progressPercent = 5.0
+        session.createdAt = Date()
+
+        let session1 = Session(context: viewContext)
+        session1.book = testBook
+        session1.pageStart = 26
+        session1.pageEnd = 51
+        session1.progressPage = 25
+        session1.progressPercent = 5.0
+        session1.createdAt = Date() + 60 * 60
+
+
+        let session2 = Session(context: viewContext)
+        session2.book = bookSeeder.fetch(book: .minimum)
+        session2.pageStart = 100
+        session2.pageEnd = 300
+        session2.progressPage = 200
+        session2.progressPercent = 13.5
+        session2.createdAt = Date()
+
         do {
             try viewContext.save()
         } catch {
