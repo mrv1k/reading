@@ -26,23 +26,18 @@ struct ReadingApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                // BookList()
-                // SessionCreate()
-                // SimpleSessionCreate()
-                SessionListBook(book: bookStorage.books[0])
+                BookList()
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(bookStorage)
-            .onChange(of: scenePhase, perform: backgroundSave)
         }
+        .onChange(of: scenePhase, perform: backgroundSave)
     }
 
-    // #FIXME: (BETA5) onChange should work on Scene, but doesn't; attach to View for now.
     private func backgroundSave(_ phase: ScenePhase) {
         if phase == .background {
             do {
                 try persistenceController.container.viewContext.saveOnChanges()
-                print("\(#function): saved")
             } catch {
                 print("onChange: failed to save on .inactive case")
             }
