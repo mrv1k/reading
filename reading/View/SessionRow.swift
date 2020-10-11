@@ -10,13 +10,18 @@ import SwiftUI
 
 struct SessionRow: View {
     var session: Session
+    var width: CGFloat
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Start \(session.pageStart)")
-            Text("End \(session.pageEnd)")
-            Text("Page Progress  \(session.progressPage)")
-            Text("Percent Progress \(session.progressPage)%")
+        HStack(spacing: 0) {
+            Text("\(session.pageStart)")
+                .frame(width: width)
+            Text("\(session.pageEnd)")
+                .frame(width: width)
+            Text("\(session.progressPage)")
+                .frame(width: width)
+            Text("\(session.progressPage)%")
+                .frame(width: width)
         }
     }
 }
@@ -25,7 +30,11 @@ struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .test)
 
-        return SessionRow(session: book.sessionsArray.first!)
-            .previewDevice("iPhone SE (2nd generation)")
+        return GeometryReader { container in
+            SessionRow(
+                session: book.sessionsArray.first!,
+                width: container.size.width / 4)
+        }
+        .previewDevice("iPhone SE (2nd generation)")
     }
 }
