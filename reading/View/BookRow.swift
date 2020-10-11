@@ -20,11 +20,7 @@ struct BookRow: View {
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-
-        return Group {
-            BookRow(book: BookSeeder(context: viewContext).insert(bookWith: .everything))
-                .previewLayout(.sizeThatFits)
-        }
+        BookRow(book: BookSeeder.preview.fetch(bookWith: .subtitle))
+            .previewLayout(.sizeThatFits)
     }
 }

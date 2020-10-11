@@ -72,21 +72,17 @@ fileprivate struct DatePickerWithTimeToggle: View {
 
 struct SessionCreate_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-
-        let book = BookSeeder(context: viewContext).insert(bookWith: .minimum)
-
-        return Group {
+        Group {
             NavigationView {
                 SessionCreate()
                     .navigationBarTitleDisplayMode(.inline)
             }
 
             NavigationView {
-                SessionCreate(book: book)
+                SessionCreate(book: BookSeeder.preview.fetch(bookWith: .minimum))
                     .navigationBarTitleDisplayMode(.inline)
             }
         }
-        .environment(\.managedObjectContext, viewContext)
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

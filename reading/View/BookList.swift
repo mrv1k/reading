@@ -65,8 +65,7 @@ struct BookList: View {
 
 struct BookList_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-        BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
+        let viewContext = PersistenceController.preview.container.viewContext
 
         return NavigationView {
             BookList()

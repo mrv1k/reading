@@ -26,15 +26,11 @@ struct BookDetail: View {
 
 struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-
-        let seeder = BookSeeder(context: viewContext)
-
         return Group {
             NavigationView {
-                BookDetail(book: seeder.insert(bookWith: .minimum))
+                BookDetail(book: BookSeeder.preview.insert(bookWith: .minimum))
             }
-            BookDetail(book: seeder.insert(bookWith: .everything))
+            BookDetail(book: BookSeeder.preview.insert(bookWith: .everything))
                 .previewLayout(.sizeThatFits)
         }
     }

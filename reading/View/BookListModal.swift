@@ -41,13 +41,10 @@ struct BookListModal: View {
 
 struct BookListModal_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-        BookSeeder(context: viewContext).insertAllCases(seedOnce: true)
-
-        return Group {
+        Group {
             BookListModal(bookSelection: .constant(nil))
         }
-        .environmentObject(BookStorage(viewContext: viewContext))
+        .environmentObject(BookStorage(viewContext: PersistenceController.preview.container.viewContext))
         .previewLayout(.sizeThatFits)
     }
 }

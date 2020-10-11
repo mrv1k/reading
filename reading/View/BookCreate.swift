@@ -68,6 +68,6 @@ struct BookCreate: View {
 struct BookCreate_Previews: PreviewProvider {
     static var previews: some View {
         BookCreate()
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

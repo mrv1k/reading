@@ -21,14 +21,14 @@ struct SessionRow: View {
     }
 }
 
-struct SessionRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewContext = PersistenceController.preview.container.viewContext
-
-        let bookSeeder = BookSeeder(context: viewContext)
-        let book = bookSeeder.fetch(book: .test)
-
-        return SessionRow(session: book.sessionsArray.first!)
-            .previewDevice("iPhone SE (2nd generation)")
-    }
-}
+// struct SessionRow_Previews: PreviewProvider {
+//     static var previews: some View {
+//         let viewContext = PersistenceController.preview.container.viewContext
+// 
+//         let bookSeeder = BookSeeder(viewContext: viewContext)
+//         let book = bookSeeder.fetch(bookWith: .test)
+// 
+//         return SessionRow(session: book.sessionsArray.first!)
+//             .previewDevice("iPhone SE (2nd generation)")
+//     }
+// }

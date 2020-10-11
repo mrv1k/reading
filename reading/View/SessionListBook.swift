@@ -27,9 +27,6 @@ struct SessionListBook: View {
 
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = PersistenceController.shared.container.viewContext
-        let seeder = BookSeeder(context: viewContext)
-
-        return SessionListBook(book: seeder.insert(bookWith: .minimum))
+        SessionListBook(book: BookSeeder.preview.fetch(bookWith: .minimum))
     }
 }
