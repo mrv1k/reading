@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 public class Session: NSManagedObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()

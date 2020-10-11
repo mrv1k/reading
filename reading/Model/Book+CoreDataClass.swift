@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-@objc(Book)
 public class Book: NSManagedObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
