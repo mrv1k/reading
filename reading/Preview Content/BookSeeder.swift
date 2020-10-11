@@ -1,12 +1,27 @@
 import Foundation
-import UIKit
 import CoreData
 
-class BookSeeder {
-    let context: NSManagedObjectContext
+struct BookSeeder {
+    static private var seeder: BookSeeder?
 
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    static var preview: Self {
+        get {
+            if seeder == nil {
+                fatalError("Cannot access singleton without setting it first")
+            }
+            return seeder!
+        }
+        set {
+            if seeder == nil {
+                seeder = newValue
+            }
+        }
+    }
+
+    private let context: NSManagedObjectContext
+
+    init(viewContext: NSManagedObjectContext) {
+        context = viewContext
     }
 
     enum Data: String, CaseIterable {
@@ -18,9 +33,9 @@ class BookSeeder {
         case titleZ = "Zorro"
     }
 
-    func fetch(book: Data) -> Book {
+    func fetch(bookWith: Data) -> Book {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@", book.rawValue)
+        fetchRequest.predicate = NSPredicate(format: "title == %@", bookWith.rawValue)
         return (try! context.fetch(fetchRequest) as [Book]).first!
     }
 
