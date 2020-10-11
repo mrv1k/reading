@@ -60,29 +60,9 @@ struct BookSeeder {
         return book
     }
 
-    fileprivate func count() -> Int {
-        do {
-            return try context.count(for: Book.fetchRequest())
-        } catch {
-            fatalError("book count failed")
-        }
-    }
-
-    func insertAllCases(seedOnce: Bool = false, save: Bool = false) {
-        if seedOnce && count() != 0 {
-            return
-        }
-
+    func insertAll() {
         for data in Data.allCases {
             insert(bookWith: data)
-        }
-
-        if save {
-            do {
-                try context.save()
-            } catch {
-                print(error)
-            }
         }
     }
 }

@@ -16,7 +16,7 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
 
         let bookSeeder = BookSeeder(viewContext: viewContext)
-        bookSeeder.insertAllCases()
+        bookSeeder.insertAll()
 
         let testBook = bookSeeder.fetch(bookWith: .test)
         let session = Session(context: viewContext)
