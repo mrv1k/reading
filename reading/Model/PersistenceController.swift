@@ -19,12 +19,26 @@ struct PersistenceController {
         bookSeeder.insertAll()
 
         let testBook = bookSeeder.fetch(bookWith: .test)
-        let session = Session(context: viewContext)
-        session.book = testBook
-        session.pageStart = 1
-        session.pageEnd = 26
-        session.progressPage = 25
-        session.progressPercent = 5.0
+        let session1 = Session(context: viewContext)
+        session1.book = testBook
+        session1.pageEnd = 31
+        session1.autofillProgress()
+
+        let session2 = Session(context: viewContext)
+        session2.book = testBook
+        session2.pageEnd = 60
+        session2.autofillProgress()
+
+        let session3 = Session(context: viewContext)
+        session3.book = testBook
+        session3.pageEnd = 83
+        session3.autofillProgress()
+
+        let session4 = Session(context: viewContext)
+        session4.book = testBook
+        session4.pageEnd = 101
+        session4.autofillProgress()
+
 
         do {
             try viewContext.save()
