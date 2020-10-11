@@ -2,7 +2,7 @@
 //  Session+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-09.
+//  Created by Viktor Khotimchenko on 2020-10-11.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
