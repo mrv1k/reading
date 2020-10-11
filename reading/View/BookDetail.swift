@@ -28,9 +28,9 @@ struct BookDetail_Previews: PreviewProvider {
     static var previews: some View {
         return Group {
             NavigationView {
-                BookDetail(book: BookSeeder.preview.insert(bookWith: .minimum))
+                BookDetail(book: BookSeeder.preview.fetch(bookWith: .minimum))
             }
-            BookDetail(book: BookSeeder.preview.insert(bookWith: .everything))
+            BookDetail(book: BookSeeder.preview.fetch(bookWith: .everything))
                 .previewLayout(.sizeThatFits)
         }
     }
