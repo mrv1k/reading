@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-09.
+//  Created by Viktor Khotimchenko on 2020-10-11.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -24,7 +24,7 @@ extension Book {
     @NSManaged public var readTimes: Int16
     @NSManaged public var title: String
     @NSManaged public var updatedAt: Date?
-    @NSManaged public var sessions: NSSet?
+    @NSManaged public var sessionsSet: NSSet?
 
 }
 
@@ -72,8 +72,8 @@ extension Book {
 }
 
 extension Book {
-    public var sessionsArray: [Session] {
-        let sessionSet = sessions as? Set<Session> ?? []
+    public var sessions: [Session] {
+        let sessionSet = sessionsSet as? Set<Session> ?? []
         return sessionSet.sorted { $0.createdAt < $1.createdAt }
     }
 }

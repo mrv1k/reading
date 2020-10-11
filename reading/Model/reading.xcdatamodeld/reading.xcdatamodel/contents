@@ -3,21 +3,21 @@
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="author" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="pageCount" attributeType="Integer 16" minValueString="1" maxValueString="32767" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="pageCount" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="progressPercent" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="readTimes" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
-        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Session" inverseName="book" inverseEntity="Session"/>
+        <relationship name="sessionsSet" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Session" inverseName="book" inverseEntity="Session"/>
     </entity>
     <entity name="Session" representedClassName=".Session" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="pageEnd" attributeType="Integer 16" minValueString="1" maxValueString="32767" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="pageStart" attributeType="Integer 16" minValueString="1" maxValueString="32767" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="progressPage" attributeType="Integer 16" minValueString="1" maxValueString="32767" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="pageEnd" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pageStart" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="progressPage" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="progressPercent" attributeType="Float" minValueString="0" maxValueString="100" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
-        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessions" inverseEntity="Book"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>
         <element name="Book" positionX="-63" positionY="-18" width="128" height="163"/>

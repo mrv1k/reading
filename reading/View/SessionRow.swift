@@ -32,7 +32,7 @@ struct SessionRow_Previews: PreviewProvider {
 
         return GeometryReader { container in
             SessionRow(
-                session: book.sessionsArray.first!,
+                session: book.sessions.first!,
                 width: container.size.width / 4)
         }
         .previewDevice("iPhone SE (2nd generation)")
