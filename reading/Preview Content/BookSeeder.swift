@@ -2,21 +2,7 @@ import Foundation
 import CoreData
 
 struct BookSeeder {
-    static private var seeder: BookSeeder?
-
-    static var preview: Self {
-        get {
-            if seeder == nil {
-                fatalError("Cannot access singleton without setting it first")
-            }
-            return seeder!
-        }
-        set {
-            if seeder == nil {
-                seeder = newValue
-            }
-        }
-    }
+    static let preview = BookSeeder(viewContext: PersistenceController.preview.container.viewContext)
 
     private let context: NSManagedObjectContext
 

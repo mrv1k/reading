@@ -15,17 +15,16 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 
-        BookSeeder.preview = BookSeeder(viewContext: viewContext)
-        BookSeeder.preview.insertAllCases()
+        let bookSeeder = BookSeeder(viewContext: viewContext)
+        bookSeeder.insertAllCases()
 
-        // let testBook = BookSeeder.preview.fetch(bookWith: .test)
-        // let session = Session(context: viewContext)
-        // print(session.entity)
-        // session.book = testBook
-        // session.pageStart = 1
-        // session.pageEnd = 26
-        // session.progressPage = 25
-        // session.progressPercent = 5.0
+        let testBook = bookSeeder.fetch(bookWith: .test)
+        let session = Session(context: viewContext)
+        session.book = testBook
+        session.pageStart = 1
+        session.pageEnd = 26
+        session.progressPage = 25
+        session.progressPercent = 5.0
 
         do {
             try viewContext.save()
