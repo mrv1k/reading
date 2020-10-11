@@ -22,10 +22,12 @@ struct BookListSortPicker: View {
 
 struct BookListSortPicker_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            BookListSortPicker(bookSort: .constant(BookSort.init(rawValue: "title")!))
+        Menu {
             BookListSortPicker(bookSort: .constant(BookSort.init(rawValue: "author")!))
-            BookListSortPicker(bookSort: .constant(BookSort.init(rawValue: "date")!))
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+                .padding()
         }
         .previewLayout(.sizeThatFits)
     }
