@@ -18,9 +18,9 @@ extension Book {
     }
 
     @NSManaged public var author: String //?
+    @NSManaged public var completionPercent: Int16
     @NSManaged public var createdAt: Date //?
     @NSManaged public var pageCount: Int16
-    @NSManaged public var completionPercent: Double
     @NSManaged public var readTimes: Int16
     @NSManaged public var title: String //?
     @NSManaged public var updatedAt: Date?
