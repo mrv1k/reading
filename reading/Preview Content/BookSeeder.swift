@@ -1,4 +1,11 @@
-import Foundation
+//
+//  BookSeeder.swift
+//  reading
+//
+//  Created by Viktor Khotimchenko on 2020-10-13.
+//  Copyright © 2020 mrv1k. All rights reserved.
+//
+
 import CoreData
 
 struct BookSeeder {
@@ -25,7 +32,7 @@ struct BookSeeder {
         return (try! context.fetch(fetchRequest) as [Book]).first!
     }
 
-    @discardableResult func insert(bookWith data: Data, save: Bool = false) -> Book {
+    func insert(bookWith data: Data) {
         let book = Book(context: context)
         book.title = data.rawValue
 
@@ -49,15 +56,6 @@ struct BookSeeder {
             book.author = "Isabel Allende, Margaret Sayers Peden (Translator)"
             book.pageCount = 677
         }
-
-        if save {
-            do {
-                try context.save()
-            } catch {
-                print(error)
-            }
-        }
-        return book
     }
 
     func insertAll() {
