@@ -41,10 +41,9 @@ struct PersistenceController {
 
         let completionPercent =
             testBook.sessions.map { $0.progressPercent }
-            .reduce(Float(0), { $0 + $1 })
-            .rounded()
+            .reduce(0) { $0 + $1 }
 
-        testBook.completionPercent = Int16(completionPercent)
+        testBook.completionPercent = completionPercent / 10
 
         do {
             try viewContext.save()

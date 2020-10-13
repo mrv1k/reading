@@ -21,7 +21,7 @@ extension Session {
     @NSManaged public var pageEnd: Int16
     @NSManaged public var pageStart: Int16
     @NSManaged public var progressPage: Int16
-    @NSManaged public var progressPercent: Float
+    @NSManaged public var progressPercent: Int16
     @NSManaged public var updatedAt: Date?
     @NSManaged public var book: Book?
 
@@ -32,10 +32,10 @@ extension Session : Identifiable {
 }
 
 extension Session {
-    private func calculatePercentage(part: Int16, total: Int16) -> Float {
+    private func calculatePercentage(part: Int16, total: Int16) -> Int16 {
         let percentage = Float(part) / Float(total) * 100
-        // round to keep only 1 decimal digit
-        return (percentage * 10).rounded() / 10
+        // multiply by 10 to keep 1 fractional number
+        return Int16((percentage * 10).rounded())
     }
 
     public func autofillProgress() {
