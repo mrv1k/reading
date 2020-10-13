@@ -32,20 +32,25 @@ extension Session : Identifiable {
 }
 
 extension Session {
+    private func calculatePercentage(part: Int16, total: Int16) -> Float {
+        let percentage = Float(part) / Float(total) * 100
+        // round to keep only 1 decimal digit
+        return (percentage * 10).rounded() / 10
+    }
+
     public func autofillProgress() {
         // TODO: dont write start if it exists
 
         if let book = book {
             if book.sessions.count == 1 {
-                pageStart = 1
+                pageStart = 0
             } else {
-                // - 1 for count, - 1 for current session = -2
+                // - 1 for count, - 1 for current session
                 pageStart = book.sessions[book.sessions.count - 2].pageEnd
             }
 
             progressPage = pageEnd - pageStart
-            print(book.pageCount, progressPage)
-            print(Float(progressPage) / 100)
+            progressPercent = calculatePercentage(part: progressPage, total: book.pageCount)
         }
     }
 }
