@@ -39,6 +39,12 @@ struct PersistenceController {
         session4.pageEnd = 101
         session4.autofillProgress()
 
+        let completionPercent =
+            testBook.sessions.map { $0.progressPercent }
+            .reduce(Float(0), { $0 + $1 })
+            .rounded()
+
+        testBook.completionPercent = Int16(completionPercent)
 
         do {
             try viewContext.save()
