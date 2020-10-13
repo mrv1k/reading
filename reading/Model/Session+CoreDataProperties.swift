@@ -2,7 +2,7 @@
 //  Session+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-11.
+//  Created by Viktor Khotimchenko on 2020-10-13.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -17,7 +17,7 @@ extension Session {
         return NSFetchRequest<Session>(entityName: "Session")
     }
 
-    @NSManaged public var createdAt: Date
+    @NSManaged public var createdAt: Date //?
     @NSManaged public var pageEnd: Int16
     @NSManaged public var pageStart: Int16
     @NSManaged public var progressPage: Int16

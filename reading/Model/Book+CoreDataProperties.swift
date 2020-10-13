@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-11.
+//  Created by Viktor Khotimchenko on 2020-10-13.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -17,31 +17,31 @@ extension Book {
         return NSFetchRequest<Book>(entityName: "Book")
     }
 
-    @NSManaged public var author: String
-    @NSManaged public var createdAt: Date
+    @NSManaged public var author: String //?
+    @NSManaged public var createdAt: Date //?
     @NSManaged public var pageCount: Int16
-    @NSManaged public var progressPercent: Double
+    @NSManaged public var completionPercent: Double
     @NSManaged public var readTimes: Int16
-    @NSManaged public var title: String
+    @NSManaged public var title: String //?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var sessionsSet: NSSet?
 
 }
 
-// MARK: Generated accessors for sessions
+// MARK: Generated accessors for sessionsSet
 extension Book {
 
-    @objc(addSessionsObject:)
-    @NSManaged public func addToSessions(_ value: Session)
+    @objc(addSessionsSetObject:)
+    @NSManaged public func addToSessionsSet(_ value: Session)
 
-    @objc(removeSessionsObject:)
-    @NSManaged public func removeFromSessions(_ value: Session)
+    @objc(removeSessionsSetObject:)
+    @NSManaged public func removeFromSessionsSet(_ value: Session)
 
-    @objc(addSessions:)
-    @NSManaged public func addToSessions(_ values: NSSet)
+    @objc(addSessionsSet:)
+    @NSManaged public func addToSessionsSet(_ values: NSSet)
 
-    @objc(removeSessions:)
-    @NSManaged public func removeFromSessions(_ values: NSSet)
+    @objc(removeSessionsSet:)
+    @NSManaged public func removeFromSessionsSet(_ values: NSSet)
 
 }
 
