@@ -16,34 +16,19 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
 
         let bookSeeder = BookSeeder(viewContext: viewContext)
+        let sessionSeeder = SessionSeeder(viewContext: viewContext)
         bookSeeder.insertAll()
 
         let testBook = bookSeeder.fetch(bookWith: .test)
-        let session1 = Session(context: viewContext)
-        session1.book = testBook
-        session1.pageEnd = 31
-        session1.autofillProgress()
-
-        let session2 = Session(context: viewContext)
-        session2.book = testBook
-        session2.pageEnd = 60
-        session2.autofillProgress()
-
-        let session3 = Session(context: viewContext)
-        session3.book = testBook
-        session3.pageEnd = 83
-        session3.autofillProgress()
-
-        let session4 = Session(context: viewContext)
-        session4.book = testBook
-        session4.pageEnd = 101
-        session4.autofillProgress()
+        sessionSeeder.insertMany(book: testBook)
 
         let completionPercent =
             testBook.sessions.map { $0.progressPercent }
             .reduce(0) { $0 + $1 }
 
+        // FIXME: will become a problem as int division throws away fractional numbers
         testBook.completionPercent = completionPercent / 10
+        print(Float(completionPercent) / 10, testBook.completionPercent)
 
         do {
             try viewContext.save()
