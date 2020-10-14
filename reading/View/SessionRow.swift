@@ -28,7 +28,7 @@ struct SessionRow: View {
 
 struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .test)
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
 
         return GeometryReader { container in
             SessionRow(

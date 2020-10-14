@@ -31,6 +31,7 @@ struct SessionSeeder {
             insert(book: book, pageEnd: pageEnd)
         }
 
+        // TODO: move from this temp location
         book.completionPercent =
             book.sessions.map { $0.progressPercent }
             .reduce(0) { $0 + $1 }

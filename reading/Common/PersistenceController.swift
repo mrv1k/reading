@@ -19,7 +19,7 @@ struct PersistenceController {
         let sessionSeeder = SessionSeeder(viewContext: viewContext)
         bookSeeder.insertAll()
 
-        let testBook = bookSeeder.fetch(bookWith: .test)
+        let testBook = bookSeeder.fetch(bookWith: .sessions)
         sessionSeeder.insertMany(book: testBook)
 
         do {

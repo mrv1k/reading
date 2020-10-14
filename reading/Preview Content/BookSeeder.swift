@@ -18,7 +18,7 @@ struct BookSeeder {
     }
 
     enum Data: String, CaseIterable {
-        case test = "Title"
+        case sessions = "Title with Sessions"
         case minimum = "Crime and Punishment"
         case everything = "Shoe Dog: A Memoir by the Creator of NIKE"
         case subtitle = "The Swift Programming Language (Swift 5.2 Edition)"
@@ -37,7 +37,7 @@ struct BookSeeder {
         book.title = data.rawValue
 
         switch data {
-        case .test:
+        case .sessions:
             book.author = "Firstname Lastname"
             book.pageCount = 101
         case .minimum:
