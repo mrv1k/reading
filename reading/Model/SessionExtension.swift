@@ -9,6 +9,13 @@
 import Foundation
 
 extension Session {
+    // FIXME: transient property? better name? func percent helper?
+    var progressPercentRounded: Int {
+        var temp = (Float(progressPercent) / PercentHelper.shared.modifier)
+        temp.round()
+        return Int(temp)
+    }
+
     public func autofillProgress() {
         // TODO: dont write start if it exists
 
