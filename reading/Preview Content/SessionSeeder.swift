@@ -30,5 +30,9 @@ struct SessionSeeder {
         sessionEndArray.forEach { pageEnd in
             insert(book: book, pageEnd: pageEnd)
         }
+
+        book.completionPercent =
+            book.sessions.map { $0.progressPercent }
+            .reduce(0) { $0 + $1 }
     }
 }

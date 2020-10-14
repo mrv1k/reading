@@ -22,14 +22,6 @@ struct PersistenceController {
         let testBook = bookSeeder.fetch(bookWith: .test)
         sessionSeeder.insertMany(book: testBook)
 
-        let completionPercent =
-            testBook.sessions.map { $0.progressPercent }
-            .reduce(0) { $0 + $1 }
-
-        // FIXME: will become a problem as int division throws away fractional numbers
-        testBook.completionPercent = completionPercent / 10
-        print(Float(completionPercent) / 10, testBook.completionPercent)
-
         do {
             try viewContext.save()
         } catch {
