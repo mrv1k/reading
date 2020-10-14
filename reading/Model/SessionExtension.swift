@@ -9,18 +9,6 @@
 import Foundation
 
 extension Session {
-    static let modifier: Float = {
-        Float(Session.entity()
-                .attributesByName["progressPercent"]?
-                .userInfo?["percentageModifier"]! as! String)!
-    }()
-
-    private func calculatePercentage(part: Int16, total: Int16) -> Int16 {
-        let percentage = Float(part) / Float(total) * 100
-        // multiply by 10 to keep 1 fractional number
-        return Int16((percentage * Session.modifier).rounded())
-    }
-
     public func autofillProgress() {
         // TODO: dont write start if it exists
 
@@ -33,7 +21,8 @@ extension Session {
             }
 
             progressPage = pageEnd - pageStart
-            progressPercent = calculatePercentage(part: progressPage, total: book.pageCount)
+            progressPercent = PercentHelper.shared
+                .get(part: progressPage, of: book.pageCount)
         }
     }
 }
