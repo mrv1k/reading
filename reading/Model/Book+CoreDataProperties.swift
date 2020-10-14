@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-13.
+//  Created by Viktor Khotimchenko on 2020-10-14.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -24,12 +24,30 @@ extension Book {
     @NSManaged public var readTimes: Int16
     @NSManaged public var title: String //?
     @NSManaged public var updatedAt: Date?
-    @NSManaged public var sessionsSet: NSSet?
+    @NSManaged public var sessionsSet: NSOrderedSet?
 
 }
 
 // MARK: Generated accessors for sessionsSet
 extension Book {
+
+    @objc(insertObject:inSessionsSetAtIndex:)
+    @NSManaged public func insertIntoSessionsSet(_ value: Session, at idx: Int)
+
+    @objc(removeObjectFromSessionsSetAtIndex:)
+    @NSManaged public func removeFromSessionsSet(at idx: Int)
+
+    @objc(insertSessionsSet:atIndexes:)
+    @NSManaged public func insertIntoSessionsSet(_ values: [Session], at indexes: NSIndexSet)
+
+    @objc(removeSessionsSetAtIndexes:)
+    @NSManaged public func removeFromSessionsSet(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInSessionsSetAtIndex:withObject:)
+    @NSManaged public func replaceSessionsSet(at idx: Int, with value: Session)
+
+    @objc(replaceSessionsSetAtIndexes:withSessionsSet:)
+    @NSManaged public func replaceSessionsSet(at indexes: NSIndexSet, with values: [Session])
 
     @objc(addSessionsSetObject:)
     @NSManaged public func addToSessionsSet(_ value: Session)
@@ -38,10 +56,10 @@ extension Book {
     @NSManaged public func removeFromSessionsSet(_ value: Session)
 
     @objc(addSessionsSet:)
-    @NSManaged public func addToSessionsSet(_ values: NSSet)
+    @NSManaged public func addToSessionsSet(_ values: NSOrderedSet)
 
     @objc(removeSessionsSet:)
-    @NSManaged public func removeFromSessionsSet(_ values: NSSet)
+    @NSManaged public func removeFromSessionsSet(_ values: NSOrderedSet)
 
 }
 

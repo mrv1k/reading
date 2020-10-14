@@ -31,7 +31,8 @@ extension Book {
 
 extension Book {
     public var sessions: [Session] {
-        let sessionSet = sessionsSet as? Set<Session> ?? []
-        return sessionSet.sorted { $0.createdAt < $1.createdAt }
+        return sessionsSet?.array as? [Session] ?? []
+        // let sessionSet = sessionsSet as? Set<Session> ?? []
+        // return sessionSet.sorted { $0.createdAt < $1.createdAt }
     }
 }
