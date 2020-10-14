@@ -30,6 +30,12 @@ extension Book {
 }
 
 extension Book {
+    static let modifier: Float = {
+        Float(Book.entity()
+            .attributesByName["completionPercent"]?
+            .userInfo?["percentageModifier"]! as! String)!
+    }()
+
     public var sessions: [Session] {
         return sessionsSet?.array as? [Session] ?? []
         // let sessionSet = sessionsSet as? Set<Session> ?? []
