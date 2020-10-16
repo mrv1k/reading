@@ -5,6 +5,8 @@ struct BookDetail: View {
     @Environment(\.presentationMode) private var isActive
     let book: Book
 
+    @State var pageProgress = true
+
     var body: some View {
         VStack(alignment: .leading) {
             BookRow(book: book)
@@ -13,7 +15,7 @@ struct BookDetail: View {
 
             Divider()
 
-            SessionListBook(book: book)
+            SessionListBook(book: book, pageProgress: $pageProgress)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
 

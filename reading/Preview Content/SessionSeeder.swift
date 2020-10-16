@@ -21,7 +21,14 @@ struct SessionSeeder {
         let session = Session(context: context)
         session.book = book
         session.pageEnd = Int16(pageEnd)
-        session.autofillProgress()
+        session.computeMissingProperties()
+
+        if pageEnd == 31 {
+            session.createdAt = Date() - 60 * 60 * 24 * 2
+        }
+        if pageEnd == 60 {
+            session.createdAt = Date() - 60 * 60 * 24
+        }
     }
 
     func insertMany(book: Book) {
@@ -31,9 +38,9 @@ struct SessionSeeder {
             insert(book: book, pageEnd: pageEnd)
         }
 
-        // TODO: move from this temp location
-        book.completionPercent =
-            book.sessions.map { $0.progressPercent }
+        // TODO: make a transient property on each book
+        book.raw_completionPercent =
+            book.sessions.map { $0.raw_progressPercent }
             .reduce(0) { $0 + $1 }
     }
 }

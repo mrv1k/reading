@@ -13,8 +13,10 @@ extension Session {
         PercentHelper.shared.rounded(raw_progressPercent)
     }
 
-    public func autofillProgress() {
+    // TODO: compute if 2 or more session were on the same day and store it in transietn prop
+    public func computeMissingProperties() {
         if let book = book {
+            // TODO: move count to derived attribute on book
             if book.sessions.count == 1 {
                 pageStart = 0
             } else {
