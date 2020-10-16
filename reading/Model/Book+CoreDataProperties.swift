@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-14.
+//  Created by Viktor Khotimchenko on 2020-10-16.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -17,13 +17,14 @@ extension Book {
         return NSFetchRequest<Book>(entityName: "Book")
     }
 
-    @NSManaged public var author: String //?
-    @NSManaged public var completionPercent: Int16
-    @NSManaged public var createdAt: Date //?
+    @NSManaged public var author: String
+    @NSManaged public var createdAt: Date
     @NSManaged public var pageCount: Int16
+    @NSManaged public var raw_completionPercent: Int16
     @NSManaged public var readTimes: Int16
-    @NSManaged public var title: String //?
+    @NSManaged public var title: String
     @NSManaged public var updatedAt: Date?
+    // @NSManaged public var completionPercent: Int16
     @NSManaged public var sessionsSet: NSOrderedSet?
 
 }

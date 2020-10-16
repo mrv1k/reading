@@ -2,13 +2,14 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17510.1" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="author" attributeType="String"/>
-        <attribute name="completionPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" defaultValueString="0.0" usesScalarValueType="YES">
+        <attribute name="completionPercent" optional="YES" transient="YES" attributeType="Integer 16" minValueString="0" maxValueString="100" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="pageCount" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
+        <attribute name="raw_completionPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" defaultValueString="0.0" usesScalarValueType="YES">
             <userInfo>
                 <entry key="percentageModifier" value="10"/>
             </userInfo>
         </attribute>
-        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="pageCount" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="readTimes" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
@@ -19,7 +20,8 @@
         <attribute name="pageEnd" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="pageStart" attributeType="Integer 16" minValueString="0" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="progressPage" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
-        <attribute name="progressPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" usesScalarValueType="YES">
+        <attribute name="progressPercent" optional="YES" transient="YES" attributeType="Integer 16" minValueString="0" maxValueString="100" usesScalarValueType="YES"/>
+        <attribute name="raw_progressPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" usesScalarValueType="YES">
             <userInfo>
                 <entry key="percentageModifier" value="10"/>
             </userInfo>
@@ -28,7 +30,7 @@
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="163"/>
-        <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="148"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="163"/>
     </elements>
 </model>

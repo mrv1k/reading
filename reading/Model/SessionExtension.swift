@@ -9,9 +9,8 @@
 import Foundation
 
 extension Session {
-    // FIXME: transient property? better name?
-    var progressPercentRounded: Int {
-        PercentHelper.shared.rounded(progressPercent)
+    @objc public var progressPercent: Int {
+        PercentHelper.shared.rounded(raw_progressPercent)
     }
 
     public func autofillProgress() {
@@ -24,7 +23,7 @@ extension Session {
             }
 
             progressPage = pageEnd - pageStart
-            progressPercent = PercentHelper.shared
+            raw_progressPercent = PercentHelper.shared
                 .get(part: progressPage, of: book.pageCount)
         }
     }

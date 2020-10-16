@@ -29,8 +29,8 @@ struct PercentHelper {
     }
 
     init() {
-        let bookModifier = getModifier(description: Book.entity(), attribute: "completionPercent")
-        let sessionModifier = getModifier(description: Session.entity(), attribute: "progressPercent")
+        let bookModifier = getModifier(description: Book.entity(), attribute: "raw_completionPercent")
+        let sessionModifier = getModifier(description: Session.entity(), attribute: "raw_progressPercent")
 
         if bookModifier != sessionModifier {
             fatalError("Book and Session modifiers must match")
