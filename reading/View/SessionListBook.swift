@@ -8,43 +8,84 @@
 
 import SwiftUI
 
+private var timeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.timeStyle = .short
+    return formatter
+}()
+
+private var dayFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "E d MMM"
+    return formatter
+}()
+
 struct SessionListBook: View {
     var book: Book
 
     var sessions: [Session] { book.sessions }
 
-    let columns: [GridItem] =
-        Array(repeating: .init(.flexible()), count: 4)
-
     var body: some View {
-        ScrollView {
+        LazyVStack {
+
+            Group {
+                // FIXME: replace with real date
+                Text(dayFormatter.string(from: Date()))
+                    .font(.headline)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+
+            ForEach(sessions) { session in
+                VStack {
+                    HStack {
+                        Text("\(session.progressPage) pages")
+                        Spacer()
+                        Text(" on \(timeFormatter.string(from: session.createdAt))")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 1)
+
+            Group {
+                // FIXME: replace with real date
+                Text(dayFormatter.string(from: Date() + 60 * 60 * 24))
+                    .font(.headline)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 20)
+
             VStack {
-                Text("by " + book.author)
-                Text(String(book.pageCount) + " pages")
+                HStack {
+                    Text("\(sessions[0].progressPage) pages")
+                    Spacer()
+                    Text(" on \(timeFormatter.string(from: sessions[0].createdAt))")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
             }
 
-            LazyVGrid(columns: columns) {
-                Text("start")
-                Text("end")
-                Text("progress")
-                Text("%")
-                ForEach(sessions) { session in
-                    Text("\(session.pageStart)")
-                    Text("\(session.pageEnd)")
-                    Text("\(session.progressPage)")
-                    Text("\(session.progressPercentRounded)%")
-                }
-                .padding(.top, 10)
-            }
+
         }
-        .navigationBarTitle(book.title, displayMode: .inline)
+        .frame(maxHeight: .infinity, alignment: .topLeading)
+        .padding(.horizontal, 20)
     }
 }
 
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        Group {
             SessionListBook(book: BookSeeder.preview.fetch(bookWith: .sessions))
+                .previewLayout(.sizeThatFits)
+
+            NavigationView {
+                SessionListBook(book: BookSeeder.preview.fetch(bookWith: .sessions))
+            }
         }
         .previewDevice("iPhone SE (2nd generation)")
     }
