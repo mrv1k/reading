@@ -67,8 +67,13 @@ struct BookList_Previews: PreviewProvider {
     static var previews: some View {
         let viewContext = PersistenceController.preview.container.viewContext
 
-        return NavigationView {
+        return Group {
             BookList()
+                .previewDisplayName("No Navigation")
+
+            NavigationView {
+                BookList()
+            }
         }
         .environment(\.managedObjectContext, viewContext)
         .environmentObject(BookStorage(viewContext: viewContext))
