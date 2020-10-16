@@ -36,6 +36,7 @@
 		57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */; };
 		57A0006C2515D2FF0023BFB5 /* SessionCreatePageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */; };
 		57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */; };
+		57C70BAC2538CD020017D65D /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C70BAB2538CD020017D65D /* Playground.swift */; };
 		57D84D4D253701A300CF1D2B /* PercentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D84D4C253701A200CF1D2B /* PercentHelper.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57EE54512507B5E10080945C /* SessionCreatePagesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */; };
@@ -74,6 +75,7 @@
 		57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageViewModel.swift; sourceTree = "<group>"; };
 		57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageField.swift; sourceTree = "<group>"; };
 		57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePagesViewModel.swift; sourceTree = "<group>"; };
+		57C70BAB2538CD020017D65D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 		57D84D4C253701A200CF1D2B /* PercentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentHelper.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57EE54502507B5E10080945C /* SessionCreatePagesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePagesSection.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				571D643A24D14F65009F7AA8 /* BookSeeder.swift */,
+				57C70BAB2538CD020017D65D /* Playground.swift */,
 				57294EF52535EABF007BE15D /* SessionSeeder.swift */,
 				5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */,
 			);
@@ -282,6 +285,7 @@
 				570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
+				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,

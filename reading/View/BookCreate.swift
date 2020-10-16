@@ -52,7 +52,6 @@ struct BookCreate: View {
                         print(error.localizedDescription)
                     }
 
-                    // TODO: ask to add another
                     self.isActive.wrappedValue.dismiss()
                 }) {
                     Text("Save")

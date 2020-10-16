@@ -19,6 +19,11 @@ struct PercentHelper {
         return Int16((percentage * modifier).rounded())
     }
 
+    func rounded(_ percent: Int16) -> Int {
+        return Int((Float(percent) / PercentHelper.shared.modifier).rounded())
+        // return (temp.rounded())
+    }
+
     private func getModifier(description: NSEntityDescription, attribute: String) -> Float {
         Float(description.attributesByName[attribute]?.userInfo?["percentageModifier"]! as! String)!
     }

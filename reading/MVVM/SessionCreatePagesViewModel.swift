@@ -80,7 +80,6 @@ class SessionCreatePagesViewModel: ObservableObject {
         case [.end]:
             endViewModel.input = String(start! + progress!)
 
-        // TODO: Pull latest read page
         case [.start, .end]:
             let localStart = 1
             startViewModel.input = String(localStart)

@@ -16,7 +16,7 @@ struct ReadingApp: App {
     @StateObject var bookStorage: BookStorage
 
     init() {
-        persistenceController = PersistenceController.shared
+        persistenceController = PersistenceController.preview
         let viewContext = persistenceController.container.viewContext
 
         let storage = BookStorage(viewContext: viewContext)
