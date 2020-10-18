@@ -21,7 +21,7 @@ struct SessionSeeder {
         let session = Session(context: context)
         session.book = book
         session.pageEnd = Int16(pageEnd)
-        session.computeMissingProperties()
+        session.computeMissingAttributes()
 
         if pageEnd == 31 {
             session.createdAt = Date() - 60 * 60 * 24 * 2
