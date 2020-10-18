@@ -29,6 +29,8 @@ struct SessionSeeder {
         if pageEnd == 60 {
             session.createdAt = Date() - 60 * 60 * 24
         }
+
+        try! context.save()
     }
 
     func insertMany(book: Book) {

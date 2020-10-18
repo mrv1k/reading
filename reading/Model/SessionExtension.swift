@@ -16,12 +16,10 @@ extension Session {
     // TODO: compute if 2 or more session were on the same day and store it in transietn prop
     public func computeMissingProperties() {
         if let book = book {
-            // TODO: move count to derived attribute on book
-            if book.sessions.count == 1 {
+            if book.sessionCount == 0 {
                 pageStart = 0
             } else {
-                // - 1 for count, - 1 for current session
-                pageStart = book.sessions[book.sessions.count - 2].pageEnd
+                pageStart = book.sessions[Int(book.sessionCount) - 1].pageEnd
             }
 
             progressPage = pageEnd - pageStart
