@@ -39,10 +39,5 @@ struct SessionSeeder {
         sessionEndArray.forEach { pageEnd in
             insert(book: book, pageEnd: pageEnd)
         }
-
-        // TODO: make a transient property on each book
-        book.raw_completionPercent =
-            book.sessions.map { $0.raw_progressPercent }
-            .reduce(0) { $0 + $1 }
     }
 }

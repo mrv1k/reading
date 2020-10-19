@@ -15,4 +15,15 @@ public class Book: NSManagedObject {
         super.awakeFromInsert()
         createdAt = Date()
     }
+
+    public override func willSave() {
+        if sessions.count > 0 {
+            // compute book completion percent
+            let sum =
+                sessions.map { $0.raw_progressPercent }
+                .reduce(0, +)
+
+            setPrimitiveValue(sum, forKey: "raw_completionPercent")
+        }
+    }
 }
