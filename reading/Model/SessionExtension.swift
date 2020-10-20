@@ -18,7 +18,7 @@ extension Session {
         guard let book = book else { return }
 
         let count = Int(book.sessionCount)
-        print(count, createdAt, pageEnd)
+        // print(count, createdAt, pageEnd)
 
         let isFirst = count == 0
         pageStart = isFirst ? 0 : book.sessions[count - 1].pageEnd
@@ -28,7 +28,7 @@ extension Session {
             let previous = book.sessions[count - 1].createdAt
             let comparison = Calendar.current.isDate(current, inSameDayAs: previous)
 
-            print("isSameDay", count, "vs", count - 1, comparison)
+            // print("isSameDay", count, "vs", count - 1, comparison)
             isSameDay = comparison
         }
 

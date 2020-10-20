@@ -9,11 +9,6 @@
 import SwiftUI
 
 // FIXME: move to session
-private var timeFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.timeStyle = .short
-    return formatter
-}()
 private var dayFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "E"
@@ -31,6 +26,7 @@ struct SessionListBook: View {
     var sessions: [Session] { book.sessions }
 
     @Binding var pageProgress: Bool
+    @Binding var timeStyle: Text.DateStyle
 
     var body: some View {
         LazyVStack {
@@ -44,8 +40,9 @@ struct SessionListBook: View {
                             HStack {
                                 Text(dayFormatter.string(from: session.createdAt))
                                     .font(.headline)
-                                +
-                                Text(calendarDateFormatter.string(from: session.createdAt))
+                                + Text(" ")
+                                + Text(calendarDateFormatter.string(from: session.createdAt))
+                                    .foregroundColor(.gray)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -64,9 +61,16 @@ struct SessionListBook: View {
                         }
 
                         Spacer()
-                        Text(" on \(timeFormatter.string(from: session.createdAt))")
+
+                        // TODO: add "on" for .time
+                        // add "at" for .relative
+                        Text(session.createdAt, style: timeStyle)
                             .font(.subheadline)
                             .foregroundColor(.gray)
+                            .onTapGesture {
+                                timeStyle = timeStyle == .time ? .relative : .time
+                            }
+
                     }
                 }
             }
@@ -83,14 +87,16 @@ struct SessionListBook_Previews: PreviewProvider {
         Group {
             SessionListBook(
                 book: BookSeeder.preview.fetch(bookWith: .sessions),
-                pageProgress: .constant(true)
+                pageProgress: .constant(true),
+                timeStyle: .constant(.time)
             )
             .previewLayout(.sizeThatFits)
 
             NavigationView {
                 SessionListBook(
                     book: BookSeeder.preview.fetch(bookWith: .sessions),
-                    pageProgress: .constant(false)
+                    pageProgress: .constant(false),
+                    timeStyle: .constant(.relative)
                 )
             }
         }
