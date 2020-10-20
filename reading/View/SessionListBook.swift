@@ -16,7 +16,13 @@ private var timeFormatter: DateFormatter = {
 }()
 private var dayFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateFormat = "E d MMM"
+    formatter.dateFormat = "E"
+    return formatter
+}()
+
+private var calendarDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "d MMM"
     return formatter
 }()
 
@@ -28,17 +34,23 @@ struct SessionListBook: View {
 
     var body: some View {
         LazyVStack {
-            Group {
-                // FIXME: replace with real date
-                // FIXME: Show only with 1 session
-                Text(dayFormatter.string(from: Date()))
-                    .font(.headline)
-                    .bold()
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
             ForEach(sessions) { (session: Session) in
                 VStack {
+                    if session.isSameDay == false {
+                        Group {
+                            if session.pageStart != 0 {
+                                Divider()
+                            }
+                            HStack {
+                                Text(dayFormatter.string(from: session.createdAt))
+                                    .font(.headline)
+                                +
+                                Text(calendarDateFormatter.string(from: session.createdAt))
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 5)
+                    }
                     HStack {
                         Group {
                             if pageProgress == true {
