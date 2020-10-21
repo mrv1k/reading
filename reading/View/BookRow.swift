@@ -13,6 +13,7 @@ struct BookRow: View {
                 .fontWeight(.light)
             Text("Page count: \(book.pageCount)")
                 .font(.footnote)
+            ProgressView(value: Double(book.completionPercent), total: 100)
         }
         .multilineTextAlignment(.leading)
     }

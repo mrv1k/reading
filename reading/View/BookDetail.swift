@@ -10,11 +10,9 @@ struct BookDetail: View {
             BookRow(book: book)
             // Divider()
 
-            ProgressView(value: Double(book.raw_completionPercent), total: 1000)
+            ProgressView(value: Double(book.completionPercent), total: 100)
             {}
-            currentValueLabel: {
-                Text("\(book.raw_completionPercent)%")
-            }
+            currentValueLabel: { Text("\(book.completionPercent)%") }
 
 
             SessionListBook(sessions: book.sessions)
