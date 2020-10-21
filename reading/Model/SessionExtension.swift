@@ -9,7 +9,7 @@
 import Foundation
 
 extension Session {
-    // transient attribute
+    // transient
     @objc public var progressPercent: Int {
         PercentHelper.shared.rounded(raw_progressPercent)
     }

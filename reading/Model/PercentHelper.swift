@@ -21,7 +21,6 @@ struct PercentHelper {
 
     func rounded(_ percent: Int16) -> Int {
         return Int((Float(percent) / PercentHelper.shared.modifier).rounded())
-        // return (temp.rounded())
     }
 
     private func getModifier(description: NSEntityDescription, attribute: String) -> Float {
