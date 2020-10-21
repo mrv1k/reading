@@ -20,7 +20,7 @@ private var monthFormatter: DateFormatter = {
     return formatter
 }()
 
-class SessionRowViewModel: ObservableObject {
+class SessionRowViewModel: ObservableObject, Identifiable {
     var model: Session
 
     var weekDay: String

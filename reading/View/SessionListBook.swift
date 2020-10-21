@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct SessionListBook: View {
-    var book: Book
-    var sessions: [Session] { book.sessions }
+    @StateObject var viewModel: SessionListBookViewModel
 
-    @Binding var pageProgress: Bool
-    @Binding var timeStyle: Text.DateStyle
+    init(sessions: [Session]) {
+        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(session: sessions))
+    }
 
     var body: some View {
         LazyVStack {
-            ForEach(sessions) { (session: Session) in
-                SessionRow(viewModel: .init(session: session))
+            ForEach(viewModel.sessionsRowViewModels) { rowViewModel in
+                SessionRow(viewModel: rowViewModel)
             }
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
@@ -28,20 +28,14 @@ struct SessionListBook: View {
 
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            SessionListBook(
-                book: BookSeeder.preview.fetch(bookWith: .sessions),
-                pageProgress: .constant(true),
-                timeStyle: .constant(.time)
-            )
-            .previewLayout(.sizeThatFits)
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+
+        return Group {
+            SessionListBook(sessions: book.sessions)
+                .previewLayout(.sizeThatFits)
 
             NavigationView {
-                SessionListBook(
-                    book: BookSeeder.preview.fetch(bookWith: .sessions),
-                    pageProgress: .constant(false),
-                    timeStyle: .constant(.relative)
-                )
+                SessionListBook(sessions: book.sessions)
             }
         }
         .previewDevice("iPhone SE (2nd generation)")

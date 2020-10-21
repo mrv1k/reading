@@ -5,9 +5,6 @@ struct BookDetail: View {
     @Environment(\.presentationMode) private var isActive
     let book: Book
 
-    @State var pageProgress = true
-    @State var timeStyle: Text.DateStyle = .time
-
     var body: some View {
         VStack(alignment: .leading) {
             BookRow(book: book)
@@ -16,10 +13,7 @@ struct BookDetail: View {
 
             Divider()
 
-            SessionListBook(
-                book: book,
-                pageProgress: $pageProgress,
-                timeStyle: $timeStyle)
+            SessionListBook(sessions: book.sessions)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
 
