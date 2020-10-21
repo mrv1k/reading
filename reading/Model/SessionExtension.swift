@@ -15,24 +15,25 @@ extension Session {
     }
 
     public func computeMissingAttributes() {
-        guard let book = book else { return }
+        guard let book = book else { fatalError("\(#function): book attribute is missing") }
 
         let count = Int(book.sessionCount)
-        // print(count, createdAt, pageEnd)
-
         let isFirst = count == 0
-        pageStart = isFirst ? 0 : book.sessions[count - 1].pageEnd
 
-        if !isFirst {
-            let current = createdAt
-            let previous = book.sessions[count - 1].createdAt
-            let comparison = Calendar.current.isDate(current, inSameDayAs: previous)
+        if isFirst {
+            pageStart = 0
+        } else {
+            let previous = book.sessions[count - 1]
+            let current = book.sessions[count]
 
-            // print("isSameDay", count, "vs", count - 1, comparison)
-            isSameDay = comparison
+            pageStart = previous.pageEnd
+
+            let dayComparison = Calendar.current.isDate(current.createdAt, inSameDayAs: previous.createdAt)
+            isSameDay = dayComparison
         }
 
         progressPage = pageEnd - pageStart
+
         raw_progressPercent = PercentHelper.shared
             .get(part: progressPage, of: book.pageCount)
     }

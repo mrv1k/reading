@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: I don't like the placement of formatters inside RowView
+// should be in SessionList
 private var dayFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "E"
