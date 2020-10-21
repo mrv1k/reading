@@ -14,9 +14,9 @@ struct SessionRow: View {
 
     var body: some View {
         VStack {
-            if viewModel.model.isSameDay == false {
+            if viewModel.session.isSameDay == false {
                 Group {
-                    if viewModel.model.pageStart != 0 {
+                    if viewModel.session.pageStart != 0 {
                         Divider()
                     }
                     HStack {
@@ -30,23 +30,23 @@ struct SessionRow: View {
             HStack {
                 Group {
                     if listViewModel.pageProgressStyle == .page {
-                        Text("\(viewModel.model.progressPage) pages")
+                        Text(viewModel.progressPage)
                     } else {
-                        Text("\(viewModel.model.progressPercent)%")
+                        Text(viewModel.progressPercent)
                     }
                 }
-                .onTapGesture { listViewModel.togglePageProgressStyle() }
+                .onTapGesture(perform: listViewModel.togglePageProgressStyle)
 
                 Spacer()
 
-                // TODO: add "on" for .time
-                // add "at" for .relative
-                Text(viewModel.model.createdAt, style: listViewModel.timeStyle)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .onTapGesture {
-                        listViewModel.toggleTimeStyle()
-                    }
+                Group {
+                    Text(listViewModel.timePrefix) +
+                    Text(viewModel.session.createdAt, style: listViewModel.timeStyle) +
+                    Text(listViewModel.timeSuffix)
+                }
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .onTapGesture(perform: listViewModel.toggleTimeStyle)
             }
         }
         .padding(.top, 1)

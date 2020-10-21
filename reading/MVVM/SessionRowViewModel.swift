@@ -21,14 +21,17 @@ private var monthFormatter: DateFormatter = {
 }()
 
 class SessionRowViewModel: ObservableObject, Identifiable {
-    var model: Session
+    var session: Session
 
     var weekDay: String
     var monthDate: String
 
+    lazy var progressPage = "\(session.progressPage) pages"
+    lazy var progressPercent = "\(session.progressPercent)%"
+
     init(session: Session) {
-        model = session
-        weekDay = dayFormatter.string(from: model.createdAt)
-        monthDate = monthFormatter.string(from: model.createdAt)
+        self.session = session
+        weekDay = dayFormatter.string(from: session.createdAt)
+        monthDate = monthFormatter.string(from: session.createdAt)
     }
 }

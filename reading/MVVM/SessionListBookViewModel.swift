@@ -22,6 +22,9 @@ class SessionListBookViewModel: ObservableObject {
         })
     }
 
+    var timePrefix: String { timeStyle == .time ? "at " : "" }
+    var timeSuffix: String { timeStyle == .relative ? " ago" : "" }
+
     func toggleTimeStyle() {
         timeStyle = timeStyle == .time ? .relative : .time
     }
