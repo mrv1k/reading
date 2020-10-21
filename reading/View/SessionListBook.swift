@@ -23,8 +23,6 @@ struct SessionListBook: View {
                     listViewModel: viewModel)
             }
         }
-        .frame(maxHeight: .infinity, alignment: .topLeading)
-        .padding(.horizontal, 20)
     }
 }
 
@@ -38,6 +36,7 @@ struct SessionListBook_Previews: PreviewProvider {
 
             NavigationView {
                 SessionListBook(sessions: book.sessions)
+                    .frame(maxHeight: .infinity, alignment: .topLeading)
             }
         }
         .previewDevice("iPhone SE (2nd generation)")

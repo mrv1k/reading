@@ -8,14 +8,20 @@ struct BookDetail: View {
     var body: some View {
         VStack(alignment: .leading) {
             BookRow(book: book)
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
+            // Divider()
 
-            Divider()
+            ProgressView(value: Double(book.raw_completionPercent), total: 1000)
+            {}
+            currentValueLabel: {
+                Text("\(book.raw_completionPercent)%")
+            }
+
 
             SessionListBook(sessions: book.sessions)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
 
         // NavigationLink("Add a reading session",
         //                destination: SessionCreate(book: book))
