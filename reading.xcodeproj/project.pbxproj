@@ -21,6 +21,7 @@
 		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
+		572B6F5E2540BC4400B656A5 /* BookProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572B6F5D2540BC4400B656A5 /* BookProgressView.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */; };
 		5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* SessionCreate.swift */; };
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
@@ -62,6 +63,7 @@
 		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
+		572B6F5D2540BC4400B656A5 /* BookProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProgressView.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
 		5746E92F24F2E0DC0094A27F /* SessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreate.swift; sourceTree = "<group>"; };
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				5723958F24C021A7007DC1E5 /* BookList.swift */,
 				5748A7FD24FFE4270041C511 /* BookListModal.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */,
+				572B6F5D2540BC4400B656A5 /* BookProgressView.swift */,
 				578B08D824C1737D00500C41 /* BookRow.swift */,
 				5746E92F24F2E0DC0094A27F /* SessionCreate.swift */,
 				57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */,
@@ -279,6 +282,7 @@
 				577403C5252DBC61001152B4 /* SessionRow.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
+				572B6F5E2540BC4400B656A5 /* BookProgressView.swift in Sources */,
 				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
 				57EE54512507B5E10080945C /* SessionCreatePagesSection.swift in Sources */,
 				577403C8252DBCFE001152B4 /* SessionDetail.swift in Sources */,

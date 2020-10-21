@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BookRow: View {
     var book: Book
+    var displayProgressBar = true
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -13,7 +14,9 @@ struct BookRow: View {
                 .fontWeight(.light)
             Text("Page count: \(book.pageCount)")
                 .font(.footnote)
-            ProgressView(value: Double(book.completionPercent), total: 100)
+            if displayProgressBar {
+                BookProgressView(value: book.completionPercent)
+            }
         }
         .multilineTextAlignment(.leading)
     }

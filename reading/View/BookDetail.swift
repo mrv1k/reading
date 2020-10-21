@@ -7,13 +7,8 @@ struct BookDetail: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            BookRow(book: book)
-            // Divider()
-
-            ProgressView(value: Double(book.completionPercent), total: 100)
-            {}
-            currentValueLabel: { Text("\(book.completionPercent)%") }
-
+            BookRow(book: book, displayProgressBar: false)
+            BookProgressView(value: book.completionPercent, displayPercent: true)
 
             SessionListBook(sessions: book.sessions)
         }
