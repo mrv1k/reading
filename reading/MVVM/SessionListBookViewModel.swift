@@ -6,17 +6,24 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import Foundation
+// import Foundation
+import Combine
+import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     var sessionsRowViewModels: [SessionRowViewModel]
 
     @Published var pageProgressStyle: PageProgressStyle = .page
+    @Published var timeStyle: Text.DateStyle = .time
 
     init(session: [Session]) {
         sessionsRowViewModels = session.map({ session in
             SessionRowViewModel(session: session)
         })
+    }
+
+    func toggleTimeStyle() {
+        timeStyle = timeStyle == .time ? .relative : .time
     }
 
     enum PageProgressStyle {

@@ -41,12 +41,12 @@ struct SessionRow: View {
 
                 // TODO: add "on" for .time
                 // add "at" for .relative
-                // Text(sessionViewModel.model.createdAt, style: timeStyle)
-                //     .font(.subheadline)
-                //     .foregroundColor(.gray)
-                //     .onTapGesture {
-                //         timeStyle = timeStyle == .time ? .relative : .time
-                //     }
+                Text(viewModel.model.createdAt, style: listViewModel.timeStyle)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .onTapGesture {
+                        listViewModel.toggleTimeStyle()
+                    }
             }
         }
         .padding(.top, 1)
