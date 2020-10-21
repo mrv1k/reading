@@ -18,7 +18,9 @@ struct SessionListBook: View {
     var body: some View {
         LazyVStack {
             ForEach(viewModel.sessionsRowViewModels) { rowViewModel in
-                SessionRow(viewModel: rowViewModel)
+                SessionRow(
+                    viewModel: rowViewModel,
+                    listViewModel: viewModel)
             }
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)

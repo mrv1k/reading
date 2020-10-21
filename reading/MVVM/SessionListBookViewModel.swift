@@ -11,9 +11,19 @@ import Foundation
 class SessionListBookViewModel: ObservableObject {
     var sessionsRowViewModels: [SessionRowViewModel]
 
+    @Published var pageProgressStyle: PageProgressStyle = .page
+
     init(session: [Session]) {
         sessionsRowViewModels = session.map({ session in
             SessionRowViewModel(session: session)
         })
+    }
+
+    enum PageProgressStyle {
+        case page, percent
+    }
+
+    func togglePageProgressStyle() {
+        pageProgressStyle = pageProgressStyle == .page ? .percent : .page
     }
 }

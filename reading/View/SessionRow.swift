@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SessionRow: View {
     @ObservedObject var viewModel: SessionRowViewModel
+    @ObservedObject var listViewModel: SessionListBookViewModel
 
     var body: some View {
         VStack {
@@ -28,15 +29,13 @@ struct SessionRow: View {
             }
             HStack {
                 Group {
-                    // if pageProgress == true {
-                    //     Text("\(sessionViewModel.model.progressPage) pages")
-                    // } else {
+                    if listViewModel.pageProgressStyle == .page {
+                        Text("\(viewModel.model.progressPage) pages")
+                    } else {
                         Text("\(viewModel.model.progressPercent)%")
-                    // }
+                    }
                 }
-                // .onTapGesture {
-                //     pageProgress.toggle()
-                // }
+                .onTapGesture { listViewModel.togglePageProgressStyle() }
 
                 Spacer()
 
@@ -58,7 +57,10 @@ struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
 
-        return SessionRow(viewModel: .init(session: book.sessions.first!))
-            .previewLayout(.sizeThatFits)
+        return SessionRow(
+            viewModel: .init(session: book.sessions.first!),
+            listViewModel: SessionListBookViewModel(session: book.sessions)
+        )
+        .previewLayout(.sizeThatFits)
     }
 }
