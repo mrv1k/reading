@@ -8,16 +8,14 @@ struct BookDetail: View {
     var body: some View {
         VStack(alignment: .leading) {
             BookRow(book: book, displayProgressBar: false)
+
             BookProgressView(value: book.completionPercent, displayPercent: true)
 
             SessionListBook(sessions: book.sessions)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
-        .padding(.horizontal, 20)
-        .padding(.top, 20)
-
-        // NavigationLink("Add a reading session",
-        //                destination: SessionCreate(book: book))
+        .padding([.horizontal, .top], 20)
+        .navigationBarItems(trailing: SimpleSessionCreate(book: book))
     }
 }
 

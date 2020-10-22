@@ -9,13 +9,18 @@
 import SwiftUI
 
 struct SimpleSessionCreate: View {
-    @State var endPageField = ""
-    @State var selectedBook: Book?
-    @State var isPresented = false
+    @State var book: Book
+
+    @State private var endPageField = ""
+    @State private var isPresented = false
 
     var body: some View {
-        Button("Add Simple Session") {
+        Button {
             isPresented = true
+        } label: {
+            Image(systemName: "plus")
+                .imageScale(.large)
+                .padding([.vertical, .leading], 10)
         }
         .sheet(isPresented: $isPresented) {
             VStack {
@@ -43,11 +48,6 @@ struct SimpleSessionCreate: View {
                 Form {
                     TextField("End page", text: $endPageField)
                         .keyboardType(.numberPad)
-
-                    BookListModal(bookSelection: $selectedBook)
-                    if let selectedBook = selectedBook {
-                        BookRow(book: selectedBook)
-                    }
                 }
 
                 Spacer()
@@ -59,6 +59,6 @@ struct SimpleSessionCreate: View {
 
 struct SimpleSessionCreate_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleSessionCreate()
+        SimpleSessionCreate(book: BookSeeder.preview.fetch(bookWith: .sessions))
     }
 }
