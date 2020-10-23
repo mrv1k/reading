@@ -11,7 +11,7 @@ struct BookDetail: View {
 
             BookProgressView(value: book.completionPercent, displayPercent: true)
 
-            SessionListBook(sessions: book.sessions)
+            SessionListBook(sessions: book.sessionsReversed)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding([.horizontal, .top], 20)

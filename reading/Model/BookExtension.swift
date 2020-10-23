@@ -36,8 +36,12 @@ extension Book {
     }
 
     public var sessions: [Session] {
-        return sessionsSet?.array as? [Session] ?? []
-        // let sessionSet = sessionsSet as? Set<Session> ?? []
-        // return sessionSet.sorted { $0.createdAt < $1.createdAt }
+        sessionsSet?.array as? [Session] ?? []
+    }
+
+    // It's typically advised to avoid making to Array conversion
+    // https://www.donnywals.com/reversing-an-array-in-swift/
+    public var sessionsReversed: [Session] {
+        sessionsSet?.reversed.array as? [Session] ?? []
     }
 }
