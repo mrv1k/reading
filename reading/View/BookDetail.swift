@@ -2,7 +2,6 @@ import SwiftUI
 import CoreData
 
 struct BookDetail: View {
-    @Environment(\.presentationMode) private var isActive
     let book: Book
 
     var body: some View {
@@ -11,7 +10,7 @@ struct BookDetail: View {
 
             BookProgressView(value: book.completionPercent, displayPercent: true)
 
-            SessionListBook(sessions: book.sessionsReversed)
+            SessionListBook(book: book)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding([.horizontal, .top], 20)

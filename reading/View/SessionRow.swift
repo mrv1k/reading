@@ -57,7 +57,7 @@ struct SessionRow_Previews: PreviewProvider {
 
         return SessionRow(
             viewModel: .init(session: book.sessions.first!),
-            listViewModel: SessionListBookViewModel(session: book.sessions)
+            listViewModel: SessionListBookViewModel(sessions: book.sessions)
         )
         .previewLayout(.sizeThatFits)
     }

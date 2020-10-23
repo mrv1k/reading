@@ -16,8 +16,8 @@ class SessionListBookViewModel: ObservableObject {
     @Published var pageProgressStyle: PageProgressStyle = .page
     @Published var timeStyle: Text.DateStyle = .time
 
-    init(session: [Session]) {
-        sessionsRowViewModels = session.map({ session in
+    init(sessions: [Session]) {
+        sessionsRowViewModels = sessions.map({ session in
             SessionRowViewModel(session: session)
         })
     }
