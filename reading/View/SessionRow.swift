@@ -14,11 +14,9 @@ struct SessionRow: View {
 
     var body: some View {
         VStack {
-            if viewModel.session.isSameDay == false {
+            if viewModel.session.reverse_showDayLabel {
                 Group {
-                    if viewModel.session.pageStart != 0 {
-                        Divider()
-                    }
+                    Divider()
                     HStack {
                         Text(viewModel.weekDay).font(.headline) +
                         Text(" ") +

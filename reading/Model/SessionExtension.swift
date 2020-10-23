@@ -24,12 +24,10 @@ extension Session {
             pageStart = 0
         } else {
             let previous = book.sessions[count - 1]
-            let current = book.sessions[count]
 
             pageStart = previous.pageEnd
-
-            let dayComparison = Calendar.current.isDate(current.createdAt, inSameDayAs: previous.createdAt)
-            isSameDay = dayComparison
+            previous.reverse_showDayLabel = showPreviousDayLabel(
+                previous.createdAt, current: createdAt)
         }
 
         progressPage = pageEnd - pageStart
@@ -37,4 +35,9 @@ extension Session {
         raw_progressPercent = PercentHelper.shared
             .get(part: progressPage, of: book.pageCount)
     }
+
+    private func showPreviousDayLabel(_ previous: Date, current: Date) -> Bool {
+        !Calendar.current.isDate(previous, inSameDayAs: current)
+    }
+
 }

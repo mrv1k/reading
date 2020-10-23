@@ -18,7 +18,6 @@
     </entity>
     <entity name="Session" representedClassName=".Session" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="isSameDay" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="pageEnd" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="pageStart" attributeType="Integer 16" minValueString="0" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="progressPage" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
@@ -28,6 +27,7 @@
                 <entry key="percentageModifier" value="10"/>
             </userInfo>
         </attribute>
+        <attribute name="reverse_showDayLabel" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
