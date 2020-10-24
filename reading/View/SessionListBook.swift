@@ -10,13 +10,12 @@ import SwiftUI
 
 struct SessionListBook: View {
     @Environment(\.managedObjectContext) private var viewContext
-    let book: Book
     @StateObject var viewModel: SessionListBookViewModel
 
     @State private var pageEndField = "101"
 
     init(book: Book) {
-        self.book = book
+        // self.book = book
         _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
     }
 
@@ -29,21 +28,25 @@ struct SessionListBook: View {
 
                 Button {
                     let session = Session(context: viewContext)
-                    session.book = book
+                    session.book = viewModel.book
                     session.pageEnd = Int16(pageEndField)!
                     session.computeMissingAttributes()
                     try! viewContext.save()
+                    print("woosh: added session")
+                    // TODO: find a cleaner solution
+                    viewModel.sessionRowViewModelList.insert(
+                        SessionRowViewModel(session: session),
+                        at: 0)
                     pageEndField = ""
-                    viewModel.objectWillChange.send()
                 } label: {
                     Image(systemName: "plus.circle.fill")
                         .imageScale(.large)
                 }
             }
 
-            ForEach(viewModel.sessionRowViewModelList) { rowViewModel in
+            ForEach(viewModel.sessionRowViewModelList) { sessionViewModel in
                 SessionRow(
-                    viewModel: rowViewModel,
+                    viewModel: sessionViewModel,
                     listViewModel: viewModel)
             }
         }

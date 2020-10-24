@@ -14,7 +14,7 @@ struct SessionRow: View {
 
     var body: some View {
         VStack {
-            if viewModel.session.reverse_showDayLabel {
+            if viewModel.reverse_showDayLabel {
                 Group {
                     Divider()
                     HStack {

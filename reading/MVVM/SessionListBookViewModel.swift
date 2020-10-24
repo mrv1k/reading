@@ -12,20 +12,17 @@ import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     let book: Book
-
-    var sessionRowViewModelList: [SessionRowViewModel] {
-        book.sessionsReversed.map { session in
-            print("map")
-            return SessionRowViewModel(session: session)
-        }
-    }
+    @Published var sessionRowViewModelList: [SessionRowViewModel]
 
     @Published var pageProgressStyle: PageProgressStyle = .page
     @Published var timeStyle: Text.DateStyle = .time
 
     init(book: Book) {
-        print("init fired")
+        print("List init")
         self.book = book
+        sessionRowViewModelList = book.sessionsReversed.map { session in
+            SessionRowViewModel(session: session)
+        }
     }
 
     var timePrefix: String { timeStyle == .time ? "at " : "" }

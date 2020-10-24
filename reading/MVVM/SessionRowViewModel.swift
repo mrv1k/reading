@@ -14,6 +14,8 @@ class SessionRowViewModel: ObservableObject, Identifiable {
     var weekDay: String
     var monthDate: String
 
+    var reverse_showDayLabel: Bool { session.reverse_showDayLabel }
+
     lazy var progressPage = "\(session.progressPage) pages"
     lazy var progressPercent = "\(session.progressPercent)%"
 
