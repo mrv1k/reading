@@ -8,20 +8,6 @@
 
 import Foundation
 
-// TODO: I don't like the placement of formatters inside RowView
-// should be in SessionList
-private var dayFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "E"
-    return formatter
-}()
-
-private var monthFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "d MMM"
-    return formatter
-}()
-
 class SessionRowViewModel: ObservableObject, Identifiable {
     var session: Session
 
@@ -32,8 +18,9 @@ class SessionRowViewModel: ObservableObject, Identifiable {
     lazy var progressPercent = "\(session.progressPercent)%"
 
     init(session: Session) {
+        print("Row init")
         self.session = session
-        weekDay = dayFormatter.string(from: session.createdAt)
-        monthDate = monthFormatter.string(from: session.createdAt)
+        weekDay = DateFormatterHelper.shared.day.string(from: session.createdAt)
+        monthDate = DateFormatterHelper.shared.month.string(from: session.createdAt)
     }
 }

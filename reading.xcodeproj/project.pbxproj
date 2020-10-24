@@ -39,6 +39,7 @@
 		57A000692515CAFC0023BFB5 /* SessionCreatePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */; };
 		57A0006C2515D2FF0023BFB5 /* SessionCreatePageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */; };
 		57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */; };
+		57C0B3A625441C6D00511E39 /* DateFormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C0B3A525441C6D00511E39 /* DateFormatterHelper.swift */; };
 		57C70BAC2538CD020017D65D /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C70BAB2538CD020017D65D /* Playground.swift */; };
 		57D84D4D253701A300CF1D2B /* PercentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D84D4C253701A200CF1D2B /* PercentHelper.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
@@ -81,6 +82,7 @@
 		57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageViewModel.swift; sourceTree = "<group>"; };
 		57A0006B2515D2FF0023BFB5 /* SessionCreatePageField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePageField.swift; sourceTree = "<group>"; };
 		57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreatePagesViewModel.swift; sourceTree = "<group>"; };
+		57C0B3A525441C6D00511E39 /* DateFormatterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterHelper.swift; sourceTree = "<group>"; };
 		57C70BAB2538CD020017D65D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 		57D84D4C253701A200CF1D2B /* PercentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentHelper.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		57A2931E250FAA47001F47A7 /* MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				57C0B3A525441C6D00511E39 /* DateFormatterHelper.swift */,
 				57A2931F250FAA98001F47A7 /* SessionCreatePagesViewModel.swift */,
 				57A000682515CAFC0023BFB5 /* SessionCreatePageViewModel.swift */,
 				57754C9D253F13B10048803C /* SessionListBookViewModel.swift */,
@@ -308,6 +311,7 @@
 				57A29320250FAA98001F47A7 /* SessionCreatePagesViewModel.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
 				57754C9B253F11E40048803C /* SessionRowViewModel.swift in Sources */,
+				57C0B3A625441C6D00511E39 /* DateFormatterHelper.swift in Sources */,
 				57F4815224FF9490002B6691 /* BookStorage.swift in Sources */,
 				578B08D924C1737D00500C41 /* BookRow.swift in Sources */,
 				57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */,
