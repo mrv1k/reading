@@ -11,15 +11,21 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
-    var sessionsRowViewModels: [SessionRowViewModel]
+    let book: Book
+
+    var sessionRowViewModelList: [SessionRowViewModel] {
+        book.sessionsReversed.map { session in
+            print("map")
+            return SessionRowViewModel(session: session)
+        }
+    }
 
     @Published var pageProgressStyle: PageProgressStyle = .page
     @Published var timeStyle: Text.DateStyle = .time
 
-    init(sessions: [Session]) {
-        sessionsRowViewModels = sessions.map({ session in
-            SessionRowViewModel(session: session)
-        })
+    init(book: Book) {
+        print("init fired")
+        self.book = book
     }
 
     var timePrefix: String { timeStyle == .time ? "at " : "" }

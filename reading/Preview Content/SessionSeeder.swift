@@ -23,10 +23,10 @@ struct SessionSeeder {
         session.pageEnd = Int16(pageEnd)
 
         if pageEnd == 31 {
-            session.createdAt = Date() - 60 * 60 * 24 * 2
+            session.createdAt = Date() - 60 * 60 * 24 * 2 // 2 days ago
         }
         if pageEnd == 60 {
-            session.createdAt = Date() - 60 * 60 * 24
+            session.createdAt = Date() - 60 * 60 * 24 // 1 day ago
         }
 
         session.computeMissingAttributes()

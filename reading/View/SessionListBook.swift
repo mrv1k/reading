@@ -17,7 +17,7 @@ struct SessionListBook: View {
 
     init(book: Book) {
         self.book = book
-        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(sessions: book.sessionsReversed))
+        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
     }
 
     var body: some View {
@@ -34,17 +34,14 @@ struct SessionListBook: View {
                     session.computeMissingAttributes()
                     try! viewContext.save()
                     pageEndField = ""
-                    // FIXME: update sessions array with latest Session
+                    viewModel.objectWillChange.send()
                 } label: {
                     Image(systemName: "plus.circle.fill")
                         .imageScale(.large)
                 }
             }
 
-            Button("log") {
-                print(viewModel.sessionsRowViewModels.count)
-            }
-            ForEach(viewModel.sessionsRowViewModels) { rowViewModel in
+            ForEach(viewModel.sessionRowViewModelList) { rowViewModel in
                 SessionRow(
                     viewModel: rowViewModel,
                     listViewModel: viewModel)
