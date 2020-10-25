@@ -22,7 +22,7 @@
         <attribute name="pageStart" attributeType="Integer 16" minValueString="0" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="progressPage" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="progressPercent" optional="YES" transient="YES" attributeType="Integer 64" minValueString="0" maxValueString="100" usesScalarValueType="YES"/>
-        <attribute name="raw_progressPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" usesScalarValueType="YES">
+        <attribute name="raw_progressPercent" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="1000" defaultValueString="0" usesScalarValueType="YES">
             <userInfo>
                 <entry key="percentageModifier" value="10"/>
             </userInfo>
