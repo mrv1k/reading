@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BookProgressView: View {
-    var value: Int
+    @Binding var value: Int
     var displayPercent = false
 
     private var percent: Double { Double(value) }
@@ -28,9 +28,9 @@ struct BookProgressView: View {
 struct BookProgressView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BookProgressView(value: 33, displayPercent: true)
-            BookProgressView(value: 69)
-            BookProgressView(value: 100)
+            BookProgressView(value: .constant(33), displayPercent: true)
+            BookProgressView(value: .constant(69))
+            BookProgressView(value: .constant(100))
         }
         .previewLayout(.sizeThatFits)
     }

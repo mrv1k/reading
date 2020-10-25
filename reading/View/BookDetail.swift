@@ -8,7 +8,8 @@ struct BookDetail: View {
         VStack(alignment: .leading) {
             BookRow(book: book, displayProgressBar: false)
 
-            BookProgressView(value: book.completionPercent, displayPercent: true)
+            // fixme
+            // BookProgressView(value: book.completionPercent, displayPercent: true)
 
             SessionListBook(book: book)
         }
