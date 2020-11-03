@@ -10,14 +10,10 @@ import SwiftUI
 
 struct SessionListBook: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject var viewModel: SessionListBookViewModel
 
-    @State private var pageEndField = "101"
+    var book: Book
 
-    init(book: Book) {
-        // self.book = book
-        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
-    }
+    @State private var pageEndField = ""
 
     var body: some View {
         LazyVStack {
@@ -28,15 +24,11 @@ struct SessionListBook: View {
 
                 Button {
                     let session = Session(context: viewContext)
-                    session.book = viewModel.book
+                    session.book = book
                     session.pageEnd = Int16(pageEndField)!
                     session.computeMissingAttributes()
                     try! viewContext.save()
-                    print("woosh: added session")
-                    // TODO: find a cleaner solution
-                    viewModel.sessionRowViewModelList.insert(
-                        SessionRowViewModel(session: session),
-                        at: 0)
+                    print(Date(), "Added session")
                     pageEndField = ""
                 } label: {
                     Image(systemName: "plus.circle.fill")
@@ -44,28 +36,26 @@ struct SessionListBook: View {
                 }
             }
 
-            ForEach(viewModel.sessionRowViewModelList) { sessionViewModel in
-                SessionRow(
-                    viewModel: sessionViewModel,
-                    listViewModel: viewModel)
+            ForEach(book.sessionsReversed) { session in
+                SessionRow(session: session)
             }
         }
     }
 }
 
-struct SessionListBook_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-
-        return Group {
-            SessionListBook(book: book)
-                .previewLayout(.sizeThatFits)
-
-            NavigationView {
-                SessionListBook(book: book)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-            }
-        }
-        .previewDevice("iPhone SE (2nd generation)")
-    }
-}
+// struct SessionListBook_Previews: PreviewProvider {
+//     static var previews: some View {
+//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//
+//         return Group {
+//             SessionListBook(book: book)
+//                 .previewLayout(.sizeThatFits)
+//
+//             NavigationView {
+//                 SessionListBook(book: book)
+//                     .frame(maxHeight: .infinity, alignment: .topLeading)
+//             }
+//         }
+//         .previewDevice("iPhone SE (2nd generation)")
+//     }
+// }

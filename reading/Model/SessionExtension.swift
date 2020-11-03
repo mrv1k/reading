@@ -34,6 +34,10 @@ extension Session {
 
         raw_progressPercent = PercentHelper.shared
             .get(part: progressPage, of: book.pageCount)
+
+        book.raw_completionPercent += raw_progressPercent
+        objectWillChange.send()
+        book.objectWillChange.send()
     }
 
     private func showPreviousDayLabel(_ previous: Date, current: Date) -> Bool {

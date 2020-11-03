@@ -13,6 +13,6 @@ import CoreData
 public class Session: NSManagedObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
-        createdAt = Date()
+        setPrimitiveValue(Date(), forKey: "createdAt")
     }
 }

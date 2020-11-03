@@ -6,10 +6,14 @@ struct BookDetail: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            BookRow(book: book, displayProgressBar: false)
+            BookRow(book: book)
 
-            // fixme
-            // BookProgressView(value: book.completionPercent, displayPercent: true)
+
+            Text("\(book.raw_completionPercent)")
+
+            // ProgressView(value: proxy, total: 1000)
+            // {}
+            // currentValueLabel: { Text("\(proxy)%") }
 
             SessionListBook(book: book)
         }

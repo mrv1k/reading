@@ -7,9 +7,12 @@
 //
 
 import CoreData
+// import Combine
 
 struct PersistenceController {
     static let shared = PersistenceController()
+
+    // var cancellableSet = Set<AnyCancellable>()
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -38,8 +41,11 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "reading")
+
+        let description = container.persistentStoreDescriptions.first
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            description?.url = URL(fileURLWithPath: "/dev/null")
+            // container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
 
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -58,5 +64,12 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+
+        // NotificationCenter.default
+        //     .publisher(for: .NSManagedObjectContextDidSave, object: container.viewContext)
+        //     .sink(receiveValue: { notification in
+        //         print(notification)
+        //     })
+        //     .store(in: &cancellableSet)
     }
 }

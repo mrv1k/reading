@@ -9,56 +9,40 @@
 import SwiftUI
 
 struct SessionRow: View {
-    @ObservedObject var viewModel: SessionRowViewModel
-    @ObservedObject var listViewModel: SessionListBookViewModel
+    var session: Session
 
     var body: some View {
         VStack {
-            if viewModel.reverse_showDayLabel {
+            if session.reverse_showDayLabel {
                 Group {
                     Divider()
                     HStack {
-                        Text(viewModel.weekDay).font(.headline) +
-                        Text(" ") +
-                        Text(viewModel.monthDate).foregroundColor(.gray)
+                        Text(DateFormatterHelper.shared.day.string(from: session.createdAt))
+                        + Text(DateFormatterHelper.shared.month.string(from: session.createdAt))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             HStack {
                 Group {
-                    if listViewModel.pageProgressStyle == .page {
-                        Text(viewModel.progressPage)
-                    } else {
-                        Text(viewModel.progressPercent)
-                    }
+                    Text("\(session.progressPage)")
                 }
-                .onTapGesture(perform: listViewModel.togglePageProgressStyle)
 
                 Spacer()
-
-                Group {
-                    Text(listViewModel.timePrefix) +
-                    Text(viewModel.session.createdAt, style: listViewModel.timeStyle) +
-                    Text(listViewModel.timeSuffix)
-                }
-                .font(.subheadline)
-                .foregroundColor(.gray)
-                .onTapGesture(perform: listViewModel.toggleTimeStyle)
             }
         }
         .padding(.top, 1)
     }
 }
 
-struct SessionRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-
-        return SessionRow(
-            viewModel: .init(session: book.sessions.first!),
-            listViewModel: SessionListBookViewModel(book: book)
-        )
-        .previewLayout(.sizeThatFits)
-    }
-}
+// struct SessionRow_Previews: PreviewProvider {
+//     static var previews: some View {
+//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//
+//         return SessionRow(
+//             viewModel: .init(session: book.sessions.first!),
+//             listViewModel: SessionListBookViewModel(book: book)
+//         )
+//         .previewLayout(.sizeThatFits)
+//     }
+// }
