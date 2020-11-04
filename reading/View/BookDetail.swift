@@ -2,41 +2,50 @@ import SwiftUI
 import CoreData
 import Combine
 
-class BookDetailVM: ObservableObject {
-    var cancellableSet = Set<AnyCancellable>()
-    @Published var raw_completionPercent: Int16 = 0
-    // @Published var test: Double = 0
+class BookDetailViewModel: ObservableObject {
+    let book: Book
+
+    @Published var raw_completionPercent: Double = 0
+
+    private var cancellables = Set<AnyCancellable>()
+
+    init(book: Book) {
+        self.book = book
+        raw_completionPercentPublisher.assign(to: &$raw_completionPercent)
+    }
+
+    var raw_completionPercentPublisher: AnyPublisher<Double, Never> {
+        book.publisher(for: \.raw_completionPercent)
+            .map { Double($0) }
+            .eraseToAnyPublisher()
+    }
+
 }
 
 struct BookDetail: View {
-    @StateObject var VM = BookDetailVM()
     let book: Book
+
+    @StateObject var viewModel: BookDetailViewModel
+
+    init(book: Book) {
+        self.book = book
+        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
             BookRow(book: book)
 
-            Text("\(book.raw_completionPercent)")
+            Text("\(viewModel.raw_completionPercent)")
 
-            Text("\(VM.raw_completionPercent)")
-
-            ProgressView(value: Double(book.raw_completionPercent), total: 1000)
+            ProgressView(value: viewModel.raw_completionPercent, total: 1000)
             {}
-            currentValueLabel: { Text("\(book.raw_completionPercent)%") }
-
-            ProgressView(value: Double(VM.raw_completionPercent), total: 1000)
-            {}
-            currentValueLabel: { Text("\(VM.raw_completionPercent)%") }
+            currentValueLabel: { Text("\(viewModel.raw_completionPercent)%") }
 
             SessionListBook(book: book)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding([.horizontal, .top], 20)
-        .onAppear {
-            book.publisher(for: \.raw_completionPercent)
-                .assign(to: \BookDetailVM.raw_completionPercent, on: VM)
-                .store(in: &VM.cancellableSet)
-        }
     }
 }
 
