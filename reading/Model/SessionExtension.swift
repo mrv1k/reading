@@ -9,11 +9,6 @@
 import Foundation
 
 extension Session {
-    // transient
-    @objc public var progressPercent: Int {
-        PercentHelper.shared.rounded(raw_progressPercent)
-    }
-
     public func computeMissingAttributes() {
         guard let book = book else { fatalError("\(#function): book attribute is missing") }
 
