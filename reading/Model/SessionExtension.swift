@@ -27,7 +27,7 @@ extension Session {
 
         progressPage = pageEnd - pageStart
 
-        raw_progressPercent = PercentHelper.shared
+        raw_progressPercent = Helpers.percentCalculator
             .get(part: progressPage, of: book.pageCount)
 
         book.raw_completionPercent += raw_progressPercent

@@ -11,8 +11,7 @@ class BookDetailViewModel: ObservableObject {
         self.book = book
 
         book.publisher(for: \.raw_completionPercent)
-            .map({ PercentHelper.shared.rounded($0) })
-            .map({ Double($0) })
+            .map({ Helpers.percentCalculator.rounded($0) })
             .assign(to: &$completionPercent)
     }
 
@@ -34,7 +33,7 @@ struct BookDetail: View {
 
             Text(String(viewModel.completionPercent))
 
-            ProgressView(value: Double(viewModel.completionPercent), total: 100)
+            ProgressView(value: viewModel.completionPercent, total: 100)
             {}
             currentValueLabel: { Text("\(viewModel.completionPercent)%") }
 

@@ -1,16 +1,14 @@
 //
-//  DateFormatterHelper.swift
+//  DateFormatters.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-10-24.
+//  Created by Viktor Khotimchenko on 2020-11-06.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
 import Foundation
 
-class DateFormatterHelper {
-    static var shared = DateFormatterHelper()
-
+struct DateFormatterHelper {
     var day: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"

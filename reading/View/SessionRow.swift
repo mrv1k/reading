@@ -17,8 +17,8 @@ struct SessionRow: View {
                 Group {
                     Divider()
                     HStack {
-                        Text(DateFormatterHelper.shared.day.string(from: session.createdAt))
-                        + Text(DateFormatterHelper.shared.month.string(from: session.createdAt))
+                        Text(Helpers.dateFormatters.day.string(from: session.createdAt))
+                        + Text(Helpers.dateFormatters.month.string(from: session.createdAt))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

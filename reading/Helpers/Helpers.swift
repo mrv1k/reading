@@ -1,5 +1,5 @@
 //
-//  Helpers.swift
+//  Hellpers.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-11-06.
@@ -7,5 +7,7 @@
 //
 
 struct Helpers {
-    
+    static let percentCalculator = PercentCalculator()
+    static let dateFormatters = DateFormatterHelper()
+    private init() { print("Helpers")}
 }
