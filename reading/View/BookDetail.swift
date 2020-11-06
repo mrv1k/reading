@@ -3,21 +3,17 @@ import CoreData
 import Combine
 
 class BookDetailViewModel: ObservableObject {
-    let book: Book
+    var book: Book
 
-    @Published var raw_completionPercent: Double = 0
-
-    private var cancellables = Set<AnyCancellable>()
+    @Published var completionPercent: Double = 0
 
     init(book: Book) {
         self.book = book
-        raw_completionPercentPublisher.assign(to: &$raw_completionPercent)
-    }
 
-    var raw_completionPercentPublisher: AnyPublisher<Double, Never> {
         book.publisher(for: \.raw_completionPercent)
-            .map { Double($0) }
-            .eraseToAnyPublisher()
+            .map({ PercentHelper.shared.rounded($0) })
+            .map({ Double($0) })
+            .assign(to: &$completionPercent)
     }
 
 }
@@ -36,11 +32,11 @@ struct BookDetail: View {
         VStack(alignment: .leading) {
             BookRow(book: book)
 
-            Text("\(viewModel.raw_completionPercent)")
+            Text(String(viewModel.completionPercent))
 
-            ProgressView(value: viewModel.raw_completionPercent, total: 1000)
+            ProgressView(value: Double(viewModel.completionPercent), total: 100)
             {}
-            currentValueLabel: { Text("\(viewModel.raw_completionPercent)%") }
+            currentValueLabel: { Text("\(viewModel.completionPercent)%") }
 
             SessionListBook(book: book)
         }

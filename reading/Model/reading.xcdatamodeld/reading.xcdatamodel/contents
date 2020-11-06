@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17510.1" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="author" attributeType="String"/>
-        <attribute name="completionPercent" optional="YES" transient="YES" attributeType="Integer 64" minValueString="0" maxValueString="100" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="pageCount" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="raw_completionPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" defaultValueString="0.0" usesScalarValueType="YES">
@@ -32,7 +31,7 @@
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="178"/>
         <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="178"/>
     </elements>
 </model>

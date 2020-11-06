@@ -30,11 +30,6 @@ extension Book {
 }
 
 extension Book {
-    // transient
-    @objc public var completionPercent: Int {
-        PercentHelper.shared.rounded(raw_completionPercent)
-    }
-
     public var sessions: [Session] {
         sessionsSet?.array as? [Session] ?? []
     }
