@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SessionCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject var viewModel = SessionCreatePagesViewModel()
 
     var book: Book?
     @State private var bookSelection: Book?
@@ -18,8 +17,6 @@ struct SessionCreate: View {
 
     var body: some View {
         Form {
-            SessionCreatePagesSection(sectionViewModel: viewModel)
-
             Section {
                 if let parentBook = book {
                     BookRow(book: parentBook)
