@@ -10,7 +10,8 @@ import Foundation
 
 extension Session {
     public func computeMissingAttributes() {
-        guard let book = book else { fatalError("\(#function): book attribute is missing") }
+        guard let book = book else { fatalError("book attribute is missing") }
+        guard pageEnd > 1 else { fatalError("pageEnd is not a valid number") }
 
         let count = Int(book.sessionCount)
         let isFirst = count == 0
