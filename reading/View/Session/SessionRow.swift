@@ -35,14 +35,11 @@ struct SessionRow: View {
     }
 }
 
-// struct SessionRow_Previews: PreviewProvider {
-//     static var previews: some View {
-//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
-//
-//         return SessionRow(
-//             viewModel: .init(session: book.sessions.first!),
-//             listViewModel: SessionListBookViewModel(book: book)
-//         )
-//         .previewLayout(.sizeThatFits)
-//     }
-// }
+struct SessionRow_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+
+        return SessionRow(session: book.sessions.first!)
+            .previewLayout(.sizeThatFits)
+    }
+}
