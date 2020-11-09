@@ -15,13 +15,18 @@ struct BookRow: View {
             Text("Page count: \(book.pageCount)")
                 .font(.footnote)
         }
-        .multilineTextAlignment(.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
 struct BookRow_Previews: PreviewProvider {
     static var previews: some View {
-        BookRow(book: BookSeeder.preview.fetch(bookWith: .subtitle))
-            .previewLayout(.sizeThatFits)
+        Group {
+            BookRow(book: BookSeeder.preview.fetch(bookWith: .titleA))
+                .previewLayout(.sizeThatFits)
+
+            BookRow(book: BookSeeder.preview.fetch(bookWith: .subtitle))
+                .previewLayout(.sizeThatFits)
+        }
     }
 }
