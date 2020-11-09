@@ -6,24 +6,19 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import CoreData
 import Combine
 
-extension BookDetail {
-    class ViewModel: ObservableObject {
-        var book: Book
+class BookDetailViewModel: ObservableObject {
+    var book: Book
 
-        @Published var completionPercent: Double = 0
+    @Published var completionPercent: Double = 0
 
-        init(book: Book) {
-            self.book = book
+    init(book: Book) {
+        self.book = book
 
-            book.publisher(for: \.raw_completionPercent)
-                .map({ Helpers.percentCalculator.rounded($0) })
-                .assign(to: &$completionPercent)
-        }
-
+        book.publisher(for: \.raw_completionPercent)
+            .map({ Helpers.percentCalculator.rounded($0) })
+            .assign(to: &$completionPercent)
     }
+
 }
-
-

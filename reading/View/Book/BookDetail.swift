@@ -3,11 +3,11 @@ import SwiftUI
 struct BookDetail: View {
     let book: Book
 
-    @StateObject var viewModel: ViewModel
+    @StateObject var viewModel: BookDetailViewModel
 
     init(book: Book) {
         self.book = book
-        _viewModel = StateObject(wrappedValue: ViewModel(book: book))
+        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
     }
 
     var body: some View {
