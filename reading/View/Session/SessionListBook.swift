@@ -11,9 +11,11 @@ import SwiftUI
 struct SessionListBook: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    var book: Book
+    @StateObject var viewModel: SessionListBookViewModel
 
-    @StateObject var viewModel = SessionListBookViewModel()
+    init(book: Book) {
+        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
+    }
 
     var body: some View {
         VStack {
@@ -23,14 +25,14 @@ struct SessionListBook: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Button {
-                    viewModel.saveSession(context: viewContext, book: book)
+                    viewModel.save(context: viewContext)
                 } label: {
                     Image(systemName: "plus.circle.fill").imageScale(.large)
                 }
             }
 
-            ForEach(book.sessionsReversed) { session in
-                SessionRow(session: session)
+            ForEach(viewModel.sessionRowViewModels) { sessionRowViewModel in
+                SessionRow(viewModel: sessionRowViewModel)
             }
         }
     }

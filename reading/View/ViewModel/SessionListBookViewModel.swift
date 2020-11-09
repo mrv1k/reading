@@ -11,8 +11,19 @@ import Combine
 
 class SessionListBookViewModel: ObservableObject {
     @Published var pageEndField = ""
+    let book: Book
 
-    func saveSession(context: NSManagedObjectContext, book: Book) {
+    init(book: Book) {
+        self.book = book
+    }
+
+    var sessionRowViewModels: [SessionRowViewModel] {
+        book.sessionsReversed.map {
+            SessionRowViewModel(session: $0)
+        }
+    }
+
+    func save(context: NSManagedObjectContext) {
         let session = Session(context: context)
         session.book = book
         session.pageEnd = Int16(pageEndField)!
