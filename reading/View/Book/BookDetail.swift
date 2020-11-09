@@ -11,13 +11,13 @@ struct BookDetail: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        ScrollView(content: {
             BookRow(book: book)
-
+            
             BookProgress(progress: viewModel.completionPercent, showLabel: true)
-
+            
             SessionListBook(book: book)
-        }
+        })
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding([.horizontal, .top], 20)
     }

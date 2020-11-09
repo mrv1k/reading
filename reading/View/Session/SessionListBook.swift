@@ -16,7 +16,7 @@ struct SessionListBook: View {
     @StateObject var viewModel = SessionListBookViewModel()
 
     var body: some View {
-        LazyVStack {
+        VStack {
             HStack {
                 TextField("I'm on page", text: $viewModel.pageEndField)
                     .keyboardType(.numberPad)

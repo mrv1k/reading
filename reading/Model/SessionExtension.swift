@@ -22,6 +22,7 @@ extension Session {
             let previous = book.sessions[count - 1]
 
             pageStart = previous.pageEnd
+
             previous.reverse_showDayLabel = showPreviousDayLabel(
                 previous.createdAt, current: createdAt)
         }
