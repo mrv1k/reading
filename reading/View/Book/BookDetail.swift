@@ -14,11 +14,7 @@ struct BookDetail: View {
         VStack(alignment: .leading) {
             BookRow(book: book)
 
-            Text(String(viewModel.completionPercent))
-
-            ProgressView(value: viewModel.completionPercent, total: 100)
-            {}
-            currentValueLabel: { Text("\(viewModel.completionPercent)%") }
+            BookProgress(progress: viewModel.completionPercent, showLabel: true)
 
             SessionListBook(book: book)
         }
