@@ -12,21 +12,18 @@ import Combine
 class SessionRowViewModel: ObservableObject, Identifiable {
     private var session: Session
 
-    // FIXME: these must not have default values, they are always ignored
-    @Published var progressStyle = SessionStyleProgress.page
-    var timeStyle = SessionStyleTime.time
-
-    var bag = Set<AnyCancellable>()
+    @Published var progressStyle = [SessionStyleProgress]()
+    @Published var timeStyle = [SessionStyleTime]()
 
     init(session: Session,
-         progressStylePublisher: Published<SessionStyleProgress>.Publisher,
-         timeStylePublisher: Published<SessionStyleTime>.Publisher) {
+         progressStylePublisher: Published<[SessionStyleProgress]>.Publisher,
+         timeStylePublisher: Published<[SessionStyleTime]>.Publisher
+         ) {
+
         self.session = session
 
         progressStylePublisher.assign(to: &$progressStyle)
-        timeStylePublisher
-            .assign(to: \.timeStyle, on: self)
-            .store(in: &bag)
+        timeStylePublisher.assign(to: &$timeStyle)
     }
 
     var createdAt: Date { session.createdAt }
@@ -35,12 +32,12 @@ class SessionRowViewModel: ObservableObject, Identifiable {
     var monthDay: String { Helpers.dateFormatters.month.string(from: session.createdAt) }
 
     var progress: String {
-        progressStyle == .page ? progressPage : progressPercent
+        progressStyle[0] == .page ? progressPage : progressPercent
     }
     var progressPage: String {
         "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
     }
     var progressPercent: String {
-        "\(Helpers.percentCalculator.rounded(session.raw_progressPercent))%"
+        "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
     }
 }

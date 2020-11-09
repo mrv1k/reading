@@ -14,21 +14,33 @@ class SessionListBookViewModel: ObservableObject {
     private let book: Book
 
     @Published var pageEndField = ""
-    // TODO: should be persistent 
-    @Published var progressStyle = SessionStyleProgress.page
-    @Published var timeStyle = SessionStyleTime.time
+    // TODO: make persistent
+    @Published var progressStyle = [SessionStyleProgress.page]
+    @Published var timeStyle = [SessionStyleTime.time]
 
     init(book: Book) {
         self.book = book
     }
 
+    // FIXME: currently fully recomputes when new session is added,
+    // and when progress style or time style updates
     var sessionRowViewModels: [SessionRowViewModel] {
-        book.sessionsReversed.map { session in
-            SessionRowViewModel(
+        print()
+        return book.sessionsReversed.map { (session: Session) in
+            print("fired")
+            return SessionRowViewModel(
                 session: session,
                 progressStylePublisher: $progressStyle,
                 timeStylePublisher: $timeStyle)
         }
+    }
+
+    func toggleTimeStyle() {
+        timeStyle[0] = timeStyle[0] == .time ? .relative : .time
+    }
+
+    func toggleProgressStyle() {
+        progressStyle[0] = progressStyle[0] == .page ? .percent : .page
     }
 
     func save(context: NSManagedObjectContext) {

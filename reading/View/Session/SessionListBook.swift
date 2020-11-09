@@ -31,12 +31,8 @@ struct SessionListBook: View {
                 }
             }
 
-            Button("wawawewa: progress style") {
-                viewModel.progressStyle = viewModel.progressStyle == .page ? .percent : .page
-            }
-            Button("wawawewa: time style") {
-                viewModel.timeStyle = viewModel.timeStyle == .time ? .relative : .time
-            }
+            Button("wawawewa: progress style", action: viewModel.toggleProgressStyle)
+            Button("wawawewa: time style", action: viewModel.toggleTimeStyle)
 
             ForEach(viewModel.sessionRowViewModels) { sessionRowViewModel in
                 SessionRow(viewModel: sessionRowViewModel)
