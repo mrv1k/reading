@@ -22,7 +22,7 @@ struct SessionRow: View {
                 Spacer()
 
                 Group {
-                    Text(viewModel.createdAt, style: .time)
+                    Text(viewModel.createdAt, style: viewModel.timeStyle!)
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)

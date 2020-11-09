@@ -8,13 +8,15 @@
 
 import CoreData
 import Combine
+import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     private let book: Book
 
     @Published var pageEndField = ""
     // TODO: should be persistent 
-    @Published var progressStyle = SessionProgressStyle.page
+    @Published var progressStyle = SessionStyleProgress.page
+    @Published var timeStyle: Text.DateStyle = .time
 
     init(book: Book) {
         self.book = book
@@ -24,7 +26,8 @@ class SessionListBookViewModel: ObservableObject {
         book.sessionsReversed.map { session in
             SessionRowViewModel(
                 session: session,
-                progressStylePublisher: $progressStyle)
+                progressStylePublisher: $progressStyle,
+                timeStylePublisher: $timeStyle)
         }
     }
 
@@ -37,7 +40,7 @@ class SessionListBookViewModel: ObservableObject {
     }
 }
 
-enum SessionProgressStyle {
+enum SessionStyleProgress {
     case page
     case percent
 }
