@@ -13,26 +13,19 @@ struct SessionListBook: View {
 
     var book: Book
 
-    @State private var pageEndField = ""
+    @StateObject var viewModel = SessionListBookViewModel()
 
     var body: some View {
         LazyVStack {
             HStack {
-                TextField("I'm on page", text: $pageEndField)
+                TextField("I'm on page", text: $viewModel.pageEndField)
                     .keyboardType(.numberPad)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Button {
-                    let session = Session(context: viewContext)
-                    session.book = book
-                    session.pageEnd = Int16(pageEndField)!
-                    session.computeMissingAttributes()
-                    try! viewContext.save()
-                    print(Date(), "Added session")
-                    pageEndField = ""
+                    viewModel.saveSession(context: viewContext, book: book)
                 } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .imageScale(.large)
+                    Image(systemName: "plus.circle.fill").imageScale(.large)
                 }
             }
 
