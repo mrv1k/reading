@@ -13,9 +13,9 @@ struct BookDetail: View {
     var body: some View {
         ScrollView(content: {
             BookRow(book: book)
-            
+
             BookProgress(progress: viewModel.completionPercent, showLabel: true)
-            
+
             SessionListBook(book: book)
         })
         .frame(maxHeight: .infinity, alignment: .topLeading)

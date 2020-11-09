@@ -8,30 +8,50 @@
 
 import SwiftUI
 
+class SessionRowViewModel: ObservableObject {
+    var weekDay: String
+    var monthDay: String
+
+    init(session: Session) {
+        weekDay = Helpers.dateFormatters.day.string(from: session.createdAt)
+        monthDay = Helpers.dateFormatters.month.string(from: session.createdAt)
+    }
+}
+
 struct SessionRow: View {
     var session: Session
+    @StateObject var viewModel: SessionRowViewModel
+
+    init(session: Session) {
+        self.session = session
+
+        _viewModel = StateObject(wrappedValue: SessionRowViewModel(session: session))
+    }
 
     var body: some View {
         VStack {
             if session.reverse_showDayLabel {
-                Group {
-                    Divider()
-                    HStack {
-                        Text(Helpers.dateFormatters.day.string(from: session.createdAt))
-                        + Text(Helpers.dateFormatters.month.string(from: session.createdAt))
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                dateHeader
             }
             HStack {
-                Group {
-                    Text("\(session.progressPage)")
-                }
+                Text("\(session.progressPage)")
 
                 Spacer()
             }
         }
         .padding(.top, 1)
+    }
+
+    var dateHeader: some View {
+        Group {
+            Divider()
+            HStack {
+                Text(Helpers.dateFormatters.day.string(from: session.createdAt)).font(.headline)
+                    + Text(" ")
+                    + Text(Helpers.dateFormatters.month.string(from: session.createdAt)).foregroundColor(.gray)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
