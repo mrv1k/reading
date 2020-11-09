@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5708D84524C7096F002635BB /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708D84424C7096F002635BB /* BookCover.swift */; };
+		57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57093B7F2559B1BA00FEC08D /* SessionRowViewModel.swift */; };
 		570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */; };
 		570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */; };
 		5715C62324C364E4006709C5 /* BookCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5715C62224C364E4006709C5 /* BookCreate.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		5708D84424C7096F002635BB /* BookCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
+		57093B7F2559B1BA00FEC08D /* SessionRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRowViewModel.swift; sourceTree = "<group>"; };
 		570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+CoreDataClass.swift"; sourceTree = "<group>"; };
 		570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5715C62224C364E4006709C5 /* BookCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCreate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57093B792559B0A400FEC08D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		5723956D24BEF289007DC1E5 = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +191,7 @@
 			children = (
 				5748B7562558BB8500972F36 /* BookDetailViewModel.swift */,
 				579730EE2558D88D00393876 /* SessionListBookViewModel.swift */,
+				57093B7F2559B1BA00FEC08D /* SessionRowViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -189,6 +199,7 @@
 		57955C1524ED03A000D178CA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				57093B792559B0A400FEC08D /* Profile */,
 				5748B72F2558B80200972F36 /* Book */,
 				5748B7302558B80600972F36 /* Session */,
 				5748B7522558B8A700972F36 /* Supporting Views */,
@@ -306,6 +317,7 @@
 			files = (
 				5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */,
 				577403C5252DBC61001152B4 /* SessionRow.swift in Sources */,
+				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
 				579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */,
