@@ -8,33 +8,43 @@
 
 import SwiftUI
 
-class SessionRowViewModel: ObservableObject {
-    var weekDay: String
-    var monthDay: String
+class SessionRowViewModel: ObservableObject, Identifiable {
+    private var session: Session
 
     init(session: Session) {
-        weekDay = Helpers.dateFormatters.day.string(from: session.createdAt)
-        monthDay = Helpers.dateFormatters.month.string(from: session.createdAt)
+        self.session = session
+    }
+
+    var weekDay: String {
+        Helpers.dateFormatters.day.string(from: session.createdAt)
+    }
+
+    var monthDay: String {
+        Helpers.dateFormatters.month.string(from: session.createdAt)
+    }
+
+    var showDayLabelForReverseArray: Bool { session.reverse_showDayLabel }
+
+    // var sessionProgress: String { TODO }
+
+    var progressPage: String {
+        "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
+    }
+    var progressPercent: String {
+        "\(Helpers.percentCalculator.rounded(session.raw_progressPercent))%"
     }
 }
 
 struct SessionRow: View {
-    var session: Session
-    @StateObject var viewModel: SessionRowViewModel
-
-    init(session: Session) {
-        self.session = session
-
-        _viewModel = StateObject(wrappedValue: SessionRowViewModel(session: session))
-    }
+    @ObservedObject var viewModel: SessionRowViewModel
 
     var body: some View {
         VStack {
-            if session.reverse_showDayLabel {
+            if viewModel.showDayLabelForReverseArray {
                 dateHeader
             }
             HStack {
-                Text("\(session.progressPage)")
+                Text(viewModel.progressPage)
 
                 Spacer()
             }
@@ -46,9 +56,9 @@ struct SessionRow: View {
         Group {
             Divider()
             HStack {
-                Text(Helpers.dateFormatters.day.string(from: session.createdAt)).font(.headline)
+                Text(viewModel.weekDay).font(.headline)
                     + Text(" ")
-                    + Text(Helpers.dateFormatters.month.string(from: session.createdAt)).foregroundColor(.gray)
+                    + Text(viewModel.monthDay).foregroundColor(.gray)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -58,8 +68,9 @@ struct SessionRow: View {
 struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let session = book.sessions.first!
 
-        return SessionRow(session: book.sessions.first!)
+        return SessionRow(viewModel: SessionRowViewModel(session: session))
             .previewLayout(.sizeThatFits)
     }
 }
