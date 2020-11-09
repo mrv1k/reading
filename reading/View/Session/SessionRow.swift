@@ -20,6 +20,12 @@ struct SessionRow: View {
                 Text(viewModel.progressPage)
 
                 Spacer()
+
+                Group {
+                    Text(viewModel.createdAt, style: .time)
+                }
+                .font(.subheadline)
+                .foregroundColor(.gray)
             }
         }
         .padding(.top, 1)
