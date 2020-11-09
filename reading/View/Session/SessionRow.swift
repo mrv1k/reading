@@ -11,6 +11,18 @@ import SwiftUI
 struct SessionRow: View {
     @ObservedObject var viewModel: SessionRowViewModel
 
+    var dateHeader: some View {
+        Group {
+            Divider()
+            HStack {
+                Text(viewModel.weekDay).font(.headline)
+                    + Text(" ")
+                    + Text(viewModel.monthDay).foregroundColor(.gray)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     var body: some View {
         VStack {
             if viewModel.showDayLabelForReverseArray {
@@ -22,25 +34,13 @@ struct SessionRow: View {
                 Spacer()
 
                 Group {
-                    Text(viewModel.createdAt, style: viewModel.timeStyle!)
+                    Text(viewModel.createdAt, style: viewModel.timeStyle.type)
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)
             }
         }
         .padding(.top, 1)
-    }
-
-    var dateHeader: some View {
-        Group {
-            Divider()
-            HStack {
-                Text(viewModel.weekDay).font(.headline)
-                    + Text(" ")
-                    + Text(viewModel.monthDay).foregroundColor(.gray)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

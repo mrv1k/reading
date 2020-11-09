@@ -16,7 +16,7 @@ class SessionListBookViewModel: ObservableObject {
     @Published var pageEndField = ""
     // TODO: should be persistent 
     @Published var progressStyle = SessionStyleProgress.page
-    @Published var timeStyle: Text.DateStyle = .time
+    @Published var timeStyle = SessionStyleTime.time
 
     init(book: Book) {
         self.book = book
@@ -43,4 +43,16 @@ class SessionListBookViewModel: ObservableObject {
 enum SessionStyleProgress {
     case page
     case percent
+}
+
+enum SessionStyleTime {
+    case time
+    case relative
+
+    var type: Text.DateStyle {
+        switch self {
+        case .time: return Text.DateStyle.time
+        case .relative: return Text.DateStyle.relative
+        }
+    }
 }

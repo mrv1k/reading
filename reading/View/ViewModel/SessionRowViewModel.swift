@@ -8,25 +8,23 @@
 
 import Foundation
 import Combine
-import SwiftUI
 
 class SessionRowViewModel: ObservableObject, Identifiable {
     private var session: Session
 
     // FIXME: these must not have default values, they are always ignored
     @Published var progressStyle = SessionStyleProgress.page
-    var timeStyle: Text.DateStyle? // = Text.DateStyle.time
+    var timeStyle = SessionStyleTime.time
 
     var bag = Set<AnyCancellable>()
 
     init(session: Session,
          progressStylePublisher: Published<SessionStyleProgress>.Publisher,
-         timeStylePublisher: Published<Text.DateStyle>.Publisher) {
+         timeStylePublisher: Published<SessionStyleTime>.Publisher) {
         self.session = session
 
         progressStylePublisher.assign(to: &$progressStyle)
         timeStylePublisher
-            .map { Optional($0) }
             .assign(to: \.timeStyle, on: self)
             .store(in: &bag)
     }
