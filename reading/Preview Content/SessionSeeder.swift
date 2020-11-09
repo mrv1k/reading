@@ -29,8 +29,7 @@ struct SessionSeeder {
             session.createdAt = Date() - 60 * 60 * 24 // 1 day ago
         }
 
-        session.computeMissingAttributes()
-        try! context.save()
+        try! context.saveOnChanges(session: session)
     }
 
     func insertMany(book: Book) {

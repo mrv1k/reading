@@ -16,8 +16,7 @@ class SessionListBookViewModel: ObservableObject {
         let session = Session(context: context)
         session.book = book
         session.pageEnd = Int16(pageEndField)!
-        session.computeMissingAttributes()
-        try! context.saveOnChanges()
+        try! context.saveOnChanges(session: session)
         pageEndField = ""
     }
 }

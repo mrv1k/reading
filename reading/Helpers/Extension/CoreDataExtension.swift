@@ -13,10 +13,13 @@ extension NSManagedObjectContext {
     // https://www.avanderlee.com/swift/core-data-performance/
     // Only perform changes if there are changes to commit
     @discardableResult public func saveOnChanges() throws -> Bool {
-        if hasChanges {
-            try save()
-            return true
-        }
-        return false
+        guard hasChanges else { return false }
+        try save()
+        return true
+    }
+
+    @discardableResult func saveOnChanges(session: Session) throws -> Bool {
+        session.computeMissingAttributes()
+        return try saveOnChanges()
     }
 }
