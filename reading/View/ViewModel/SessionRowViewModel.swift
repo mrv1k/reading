@@ -12,8 +12,14 @@ import Combine
 class SessionRowViewModel: ObservableObject, Identifiable {
     private var session: Session
 
-    init(session: Session) {
+    // var progressStylePublisher: Published<SessionProgressStyle>.Publisher
+    @Published var progressStyle = SessionProgressStyle.page // FIXME:
+
+    init(session: Session, progressStylePublisher: Published<SessionProgressStyle>.Publisher) {
         self.session = session
+        // self.progressStylePublisher = progressStylePublisher
+        progressStylePublisher.assign(to: &$progressStyle)
+
     }
 
     var createdAt: Date { session.createdAt }
@@ -21,7 +27,9 @@ class SessionRowViewModel: ObservableObject, Identifiable {
     var weekDay: String { Helpers.dateFormatters.day.string(from: session.createdAt) }
     var monthDay: String { Helpers.dateFormatters.month.string(from: session.createdAt) }
 
-    // var sessionProgress: String { TODO }
+    var progress: String {
+        progressStyle == .page ? progressPage : progressPercent
+    }
     var progressPage: String {
         "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
     }

@@ -31,6 +31,10 @@ struct SessionListBook: View {
                 }
             }
 
+            Button("wawawewa: toggle progress style") {
+                viewModel.progressStyle = viewModel.progressStyle == .page ? .percent : .page
+            }
+
             ForEach(viewModel.sessionRowViewModels) { sessionRowViewModel in
                 SessionRow(viewModel: sessionRowViewModel)
             }

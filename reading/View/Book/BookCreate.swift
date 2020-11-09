@@ -47,7 +47,6 @@ struct BookCreate: View {
 
                     do {
                         try self.viewContext.saveOnChanges()
-                        print("saved", book)
                     } catch {
                         print(error.localizedDescription)
                     }

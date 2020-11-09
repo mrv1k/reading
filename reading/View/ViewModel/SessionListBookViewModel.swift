@@ -10,16 +10,21 @@ import CoreData
 import Combine
 
 class SessionListBookViewModel: ObservableObject {
+    private let book: Book
+
     @Published var pageEndField = ""
-    let book: Book
+    // TODO: should be persistent 
+    @Published var progressStyle = SessionProgressStyle.page
 
     init(book: Book) {
         self.book = book
     }
 
     var sessionRowViewModels: [SessionRowViewModel] {
-        book.sessionsReversed.map {
-            SessionRowViewModel(session: $0)
+        book.sessionsReversed.map { session in
+            SessionRowViewModel(
+                session: session,
+                progressStylePublisher: $progressStyle)
         }
     }
 
@@ -30,4 +35,9 @@ class SessionListBookViewModel: ObservableObject {
         try! context.saveOnChanges(session: session)
         pageEndField = ""
     }
+}
+
+enum SessionProgressStyle {
+    case page
+    case percent
 }

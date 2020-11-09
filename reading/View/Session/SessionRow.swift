@@ -17,7 +17,7 @@ struct SessionRow: View {
                 dateHeader
             }
             HStack {
-                Text(viewModel.progressPage)
+                Text(viewModel.progress)
 
                 Spacer()
 
@@ -44,12 +44,12 @@ struct SessionRow: View {
     }
 }
 
-struct SessionRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let session = book.sessions.first!
-
-        return SessionRow(viewModel: SessionRowViewModel(session: session))
-            .previewLayout(.sizeThatFits)
-    }
-}
+// struct SessionRow_Previews: PreviewProvider {
+//     static var previews: some View {
+//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//         let session = book.sessions.first!
+//
+//         return SessionRow(viewModel: SessionRowViewModel(session: session))
+//             .previewLayout(.sizeThatFits)
+//     }
+// }
