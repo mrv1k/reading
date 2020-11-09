@@ -21,9 +21,10 @@
 		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
-		57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */; };
+		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
 		5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* SessionCreate.swift */; };
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
+		5748B7572558BB8500972F36 /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748B7562558BB8500972F36 /* BookDetailViewModel.swift */; };
 		575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A224F3A16F00D58737 /* PersistenceController.swift */; };
 		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
 		57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57740397252C4316001152B4 /* SimpleSessionCreate.swift */; };
@@ -58,9 +59,10 @@
 		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
-		57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
+		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
 		5746E92F24F2E0DC0094A27F /* SessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreate.swift; sourceTree = "<group>"; };
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
+		5748B7562558BB8500972F36 /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
 		575936A224F3A16F00D58737 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
 		57740397252C4316001152B4 /* SimpleSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSessionCreate.swift; sourceTree = "<group>"; };
@@ -109,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				57A2931D250FA9BF001F47A7 /* Common */,
-				57393CD824ED1A3F00DC9C40 /* Extension */,
 				57CDD9EB2555FAB90095B8BF /* Helpers */,
 				57C97BFE24D051D000398FA9 /* Model */,
 				5723958124BEF28A007DC1E5 /* Preview Content */,
@@ -132,7 +133,7 @@
 		57393CD824ED1A3F00DC9C40 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				57393CDB24ED1AD700DC9C40 /* CoreExtensions.swift */,
+				57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -171,12 +172,21 @@
 			path = "Supporting Views";
 			sourceTree = "<group>";
 		};
+		5748B75A2558BD8B00972F36 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5748B7562558BB8500972F36 /* BookDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		57955C1524ED03A000D178CA /* View */ = {
 			isa = PBXGroup;
 			children = (
 				5748B72F2558B80200972F36 /* Book */,
 				5748B7302558B80600972F36 /* Session */,
 				5748B7522558B8A700972F36 /* Supporting Views */,
+				5748B75A2558BD8B00972F36 /* ViewModel */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -210,6 +220,7 @@
 		57CDD9EB2555FAB90095B8BF /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				57393CD824ED1A3F00DC9C40 /* Extension */,
 				57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */,
 				57CDD9EC2555FAB90095B8BF /* Helpers.swift */,
 				57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */,
@@ -295,6 +306,7 @@
 				577403C8252DBCFE001152B4 /* SessionDetail.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
+				5748B7572558BB8500972F36 /* BookDetailViewModel.swift in Sources */,
 				57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */,
 				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
 				570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */,
@@ -315,7 +327,7 @@
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
 				57F4815224FF9490002B6691 /* BookStorage.swift in Sources */,
 				578B08D924C1737D00500C41 /* BookRow.swift in Sources */,
-				57393CDC24ED1AD700DC9C40 /* CoreExtensions.swift in Sources */,
+				57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */,
 				5716CDAB24D140960017E2E2 /* Book+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

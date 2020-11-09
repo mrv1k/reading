@@ -1,30 +1,13 @@
 import SwiftUI
-import CoreData
-import Combine
-
-class BookDetailViewModel: ObservableObject {
-    var book: Book
-
-    @Published var completionPercent: Double = 0
-
-    init(book: Book) {
-        self.book = book
-
-        book.publisher(for: \.raw_completionPercent)
-            .map({ Helpers.percentCalculator.rounded($0) })
-            .assign(to: &$completionPercent)
-    }
-
-}
 
 struct BookDetail: View {
     let book: Book
 
-    @StateObject var viewModel: BookDetailViewModel
+    @StateObject var viewModel: ViewModel
 
     init(book: Book) {
         self.book = book
-        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
+        _viewModel = StateObject(wrappedValue: ViewModel(book: book))
     }
 
     var body: some View {
