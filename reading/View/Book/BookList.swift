@@ -5,14 +5,30 @@ struct BookList: View {
     @EnvironmentObject private var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
+    // Hack. Use programmatic NavigationLink to enable navigation from modal Menu
     @State private var activeLink: String?
 
-    var NavigationLinkProxies: some View {
+    var navigationLinkProxies: some View {
         Group {
             NavigationLink("", destination: SessionCreate(), tag: "SessionCreate", selection: $activeLink)
             NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
         }
-        .hidden()
+        .frame(width: 0, height: 0)
+    }
+
+    var menu: some View {
+        Menu {
+            Button(action: { activeLink = "SessionCreate" },
+                   label: { Label("New Session", systemImage: "plus") })
+            Button(action: { activeLink = "BookCreate" },
+                   label: { Label("New Book", systemImage: "plus") })
+            Divider()
+            BookListSortPicker(bookSort: $bookStorage.sort)
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+                .padding([.vertical, .leading])
+        }
     }
 
     var body: some View {
@@ -28,18 +44,16 @@ struct BookList: View {
         }
         .animation(.default)
         .navigationBarItems(
-            leading: NavigationLinkProxies,
-            trailing: Menu {
-                Button(action: { activeLink = "SessionCreate" },
-                       label: { Label("New Session", systemImage: "plus") })
-                Button(action: { activeLink = "BookCreate" },
-                       label: { Label("New Book", systemImage: "plus") })
-                Divider()
-                BookListSortPicker(bookSort: $bookStorage.sort)
-            } label: {
-                Image(systemName: "ellipsis.circle")
-                    .imageScale(.large)
-                    .padding()
+            leading: NavigationLink(
+                destination: SettingsEditor(),
+                label: {
+                    Image(systemName: "gearshape.fill")
+                        .imageScale(.large)
+                        .padding([.vertical, .trailing])
+                }),
+            trailing: Group {
+                menu
+                navigationLinkProxies
             }
 
         )

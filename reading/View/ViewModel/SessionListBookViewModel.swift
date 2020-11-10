@@ -51,20 +51,3 @@ class SessionListBookViewModel: ObservableObject {
         pageEndField = ""
     }
 }
-
-enum SessionStyleProgress {
-    case page
-    case percent
-}
-
-enum SessionStyleTime {
-    case time
-    case relative
-
-    var type: Text.DateStyle {
-        switch self {
-        case .time: return Text.DateStyle.time
-        case .relative: return Text.DateStyle.relative
-        }
-    }
-}

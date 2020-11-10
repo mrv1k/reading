@@ -41,6 +41,7 @@
 		57CDD9ED2555FAB90095B8BF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9EC2555FAB90095B8BF /* Helpers.swift */; };
 		57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */; };
 		57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */; };
+		57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D94744255A104000EB3D80 /* SettingsEditor.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57F4815224FF9490002B6691 /* BookStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4815124FF9490002B6691 /* BookStorage.swift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		57CDD9EC2555FAB90095B8BF /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentCalculator.swift; sourceTree = "<group>"; };
 		57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		57D94744255A104000EB3D80 /* SettingsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditor.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57F4815124FF9490002B6691 /* BookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,11 +99,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57093B792559B0A400FEC08D /* Profile */ = {
+		57093B792559B0A400FEC08D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				57D94744255A104000EB3D80 /* SettingsEditor.swift */,
 			);
-			path = Profile;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		5723956D24BEF289007DC1E5 = {
@@ -199,7 +202,7 @@
 		57955C1524ED03A000D178CA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				57093B792559B0A400FEC08D /* Profile */,
+				57093B792559B0A400FEC08D /* Settings */,
 				5748B72F2558B80200972F36 /* Book */,
 				5748B7302558B80600972F36 /* Session */,
 				5748B7522558B8A700972F36 /* Supporting Views */,
@@ -317,6 +320,7 @@
 			files = (
 				5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */,
 				577403C5252DBC61001152B4 /* SessionRow.swift in Sources */,
+				57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */,
 				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
