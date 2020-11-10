@@ -47,7 +47,7 @@ struct BookList: View {
             leading: NavigationLink(
                 destination: SettingsEditor(),
                 label: {
-                    Image(systemName: "gearshape.fill")
+                    Image(systemName: "gearshape")
                         .imageScale(.large)
                         .padding([.vertical, .trailing])
                 }),

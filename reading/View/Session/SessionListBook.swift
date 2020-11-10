@@ -13,8 +13,9 @@ struct SessionListBook: View {
 
     @StateObject var viewModel: SessionListBookViewModel
 
-    init(book: Book) {
-        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
+    init(book: Book, settings: AppSettings) {
+        let viewModel = SessionListBookViewModel(book: book, settings: settings)
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -31,9 +32,6 @@ struct SessionListBook: View {
                 }
             }
 
-            Button("wawawewa: progress style", action: viewModel.toggleProgressStyle)
-            Button("wawawewa: time style", action: viewModel.toggleTimeStyle)
-
             ForEach(viewModel.sessionRowViewModels) { sessionRowViewModel in
                 SessionRow(viewModel: sessionRowViewModel)
             }
@@ -41,19 +39,19 @@ struct SessionListBook: View {
     }
 }
 
-struct SessionListBook_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-
-        return Group {
-            SessionListBook(book: book)
-                .previewLayout(.sizeThatFits)
-
-            NavigationView {
-                SessionListBook(book: book)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-            }
-        }
-        .previewDevice("iPhone SE (2nd generation)")
-    }
-}
+// struct SessionListBook_Previews: PreviewProvider {
+//     static var previews: some View {
+//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//
+//         return Group {
+//             SessionListBook(book: book)
+//                 .previewLayout(.sizeThatFits)
+//
+//             NavigationView {
+//                 SessionListBook(book: book)
+//                     .frame(maxHeight: .infinity, alignment: .topLeading)
+//             }
+//         }
+//         .previewDevice("iPhone SE (2nd generation)")
+//     }
+// }

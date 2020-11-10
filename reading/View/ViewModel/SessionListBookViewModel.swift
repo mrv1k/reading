@@ -12,14 +12,13 @@ import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     private let book: Book
+    var settings: AppSettings
 
     @Published var pageEndField = ""
-    // TODO: make persistent
-    @Published var progressStyle = [SessionStyleProgress.page]
-    @Published var timeStyle = [SessionStyleTime.time]
 
-    init(book: Book) {
+    init(book: Book, settings: AppSettings) {
         self.book = book
+        self.settings = settings
     }
 
     // FIXME: currently fully recomputes when new session is added,
@@ -28,19 +27,8 @@ class SessionListBookViewModel: ObservableObject {
         print()
         return book.sessionsReversed.map { (session: Session) in
             print("fired")
-            return SessionRowViewModel(
-                session: session,
-                progressStylePublisher: $progressStyle,
-                timeStylePublisher: $timeStyle)
+            return SessionRowViewModel(session: session, settings: settings)
         }
-    }
-
-    func toggleTimeStyle() {
-        timeStyle[0] = timeStyle[0] == .time ? .relative : .time
-    }
-
-    func toggleProgressStyle() {
-        progressStyle[0] = progressStyle[0] == .page ? .percent : .page
     }
 
     func save(context: NSManagedObjectContext) {

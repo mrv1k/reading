@@ -9,19 +9,24 @@
 import SwiftUI
 import Combine
 
+// TODO: make persistent
+class AppSettings: ObservableObject {
+    @Published var progressStyle = SessionStyleProgress.page
+    @Published var timeStyle = SessionStyleTime.time
+
+    // var progressProxy: SessionStyleProgress {
+    //     get { progressStyle[0] }
+    //     set { progressStyle[0] = newValue }
+    // }
+    //
+    // var timeProxy: SessionStyleTime {
+    //     get { timeStyle[0] }
+    //     set { timeStyle[0] = newValue }
+    // }
+}
+
 class SettingsEditorViewModel: ObservableObject {
-    @Published var progressStyle = [SessionStyleProgress.page]
-    @Published var timeStyle = [SessionStyleTime.time]
 
-    var progressProxy: SessionStyleProgress {
-        get { progressStyle[0] }
-        set { progressStyle[0] = newValue }
-    }
-
-    var timeProxy: SessionStyleTime {
-        get { timeStyle[0] }
-        set { timeStyle[0] = newValue }
-    }
 }
 
 enum SessionStyleProgress: String, CaseIterable {
@@ -43,27 +48,22 @@ enum SessionStyleTime: String, CaseIterable {
 
 struct SettingsEditor: View {
     @Environment(\.editMode) private var editMode
-
-    @StateObject private var viewModel = SettingsEditorViewModel()
+    @EnvironmentObject private var settings: AppSettings
 
     var body: some View {
         List {
-            Text("Settings").fontWeight(.bold)
-            
             VStack(alignment: .leading) {
-                Text("Sessions ").bold()
-
                 HStack {
-                    Picker("Page progress style", selection: $viewModel.progressProxy) {
+                    Picker("Page progress style", selection: $settings.progressStyle) {
                         ForEach(SessionStyleProgress.allCases, id: \.self) {
                             Text($0.rawValue).tag($0)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
 
-                    Divider()
+                    Spacer()
 
-                    Picker("Page progress style", selection: $viewModel.timeProxy) {
+                    Picker("Page progress style", selection: $settings.timeStyle) {
                         ForEach(SessionStyleTime.allCases, id: \.self) {
                             Text($0.rawValue).tag($0)
                         }
@@ -72,13 +72,18 @@ struct SettingsEditor: View {
                 }
             }
         }
+        .navigationBarTitle("Settings", displayMode: .inline)
     }
 }
 
 struct SettingsEditor_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsEditor()
-            .environment(\.editMode, Binding.constant(EditMode.active))
-            .previewDevice("iPhone SE (2nd generation)")
+        Group {
+            NavigationView {
+                SettingsEditor()
+            }
+        }
+        .environment(\.editMode, Binding.constant(EditMode.active))
+        .previewDevice("iPhone SE (2nd generation)")
     }
 }

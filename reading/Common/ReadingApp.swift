@@ -14,6 +14,7 @@ struct ReadingApp: App {
 
     let persistenceController: PersistenceController
     @StateObject var bookStorage: BookStorage
+    @StateObject var settings = AppSettings()
 
     init() {
         persistenceController = PersistenceController.shared
@@ -29,6 +30,8 @@ struct ReadingApp: App {
                 BookList()
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environmentObject(settings)
+            // FIXME: do you really need to pass bookStorage as envObj?
             .environmentObject(bookStorage)
         }
         .onChange(of: scenePhase, perform: backgroundSave)
