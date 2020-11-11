@@ -8,7 +8,6 @@
 
 import CoreData
 import Combine
-import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     private let book: Book

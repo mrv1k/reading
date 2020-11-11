@@ -34,7 +34,7 @@ struct SessionRow: View {
                 Spacer()
 
                 Group {
-                    Text(viewModel.createdAt, style: viewModel.settings.timeStyle.type)
+                    Text(viewModel.createdAt, style: viewModel.settings.timeStyle.textDateStyle)
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)
@@ -44,12 +44,21 @@ struct SessionRow: View {
     }
 }
 
-// struct SessionRow_Previews: PreviewProvider {
-//     static var previews: some View {
-//         let book = BookSeeder.preview.fetch(bookWith: .sessions)
-//         let session = book.sessions.first!
-//
-//         return SessionRow(viewModel: SessionRowViewModel(session: session))
-//             .previewLayout(.sizeThatFits)
-//     }
-// }
+extension SessionStyleTime {
+    var textDateStyle: Text.DateStyle {
+        switch self {
+        case .time: return Text.DateStyle.time
+        case .relative: return Text.DateStyle.relative
+        }
+    }
+}
+
+struct SessionRow_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let session = book.sessions.first!
+
+        return SessionRow(viewModel: SessionRowViewModel(session: session))
+            .previewLayout(.sizeThatFits)
+    }
+}

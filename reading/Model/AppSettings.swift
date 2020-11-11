@@ -6,18 +6,10 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import SwiftUI
+import Combine
 
 protocol AppSettingsProvider {
     static var shared: AppSettings { get set }
-}
-
-protocol AppSettingsConsumer {
-    var settings: AppSettings { get }
-}
-
-extension AppSettingsConsumer {
-    var settings: AppSettings { AppSettings.shared }
 }
 
 class AppSettings: ObservableObject, AppSettingsProvider {
@@ -38,11 +30,13 @@ enum SessionStyleProgress: String, CaseIterable {
 enum SessionStyleTime: String, CaseIterable {
     case time
     case relative
+}
 
-    var type: Text.DateStyle {
-        switch self {
-        case .time: return Text.DateStyle.time
-        case .relative: return Text.DateStyle.relative
-        }
-    }
+
+protocol AppSettingsConsumer {
+    var settings: AppSettings { get }
+}
+
+extension AppSettingsConsumer {
+    var settings: AppSettings { AppSettings.shared }
 }
