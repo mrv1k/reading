@@ -9,49 +9,6 @@
 import SwiftUI
 import Combine
 
-protocol AppSettingsProvider {
-    static var shared: AppSettings { get set }
-}
-
-protocol AppSettingsConsumer {
-    var settings: AppSettings { get }
-}
-
-extension AppSettingsConsumer {
-    var settings: AppSettings { AppSettings.shared }
-}
-
-class AppSettings: ObservableObject, AppSettingsProvider {
-    static var shared = AppSettings()
-
-    private init() {}
-
-    // TODO: make persistent
-    @Published var progressStyle = SessionStyleProgress.page
-    @Published var timeStyle = SessionStyleTime.time
-}
-
-class SettingsEditorViewModel: ObservableObject {
-
-}
-
-enum SessionStyleProgress: String, CaseIterable {
-    case page
-    case percent
-}
-
-enum SessionStyleTime: String, CaseIterable {
-    case time
-    case relative
-
-    var type: Text.DateStyle {
-        switch self {
-        case .time: return Text.DateStyle.time
-        case .relative: return Text.DateStyle.relative
-        }
-    }
-}
-
 struct SettingsEditor: View {
     @Environment(\.editMode) private var editMode
     @EnvironmentObject private var settings: AppSettings
