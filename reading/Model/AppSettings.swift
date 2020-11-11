@@ -23,13 +23,13 @@ class AppSettings: ObservableObject, AppSettingsProvider {
 }
 
 enum SessionStyleProgress: String, CaseIterable {
-    case page
-    case percent
+    case page = "Pages"
+    case percent = "Percents"
 }
 
 enum SessionStyleTime: String, CaseIterable {
-    case time
-    case relative
+    case time = "at 12:34"
+    case relative = "3 min., 22 sec ago"
 }
 
 
