@@ -14,7 +14,7 @@ struct ReadingApp: App {
 
     let persistenceController: PersistenceController
     @StateObject var bookStorage: BookStorage
-    @StateObject var settings = AppSettings()
+    @ObservedObject var settings = AppSettings.shared
 
     init() {
         persistenceController = PersistenceController.shared

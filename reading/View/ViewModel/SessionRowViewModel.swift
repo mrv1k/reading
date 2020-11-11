@@ -9,17 +9,11 @@
 import Foundation
 import Combine
 
-class SessionRowViewModel: ObservableObject, Identifiable {
+class SessionRowViewModel: ObservableObject, Identifiable, AppSettingsConsumer {
     private var session: Session
-    var settings: AppSettings
 
-    init(session: Session, settings: AppSettings) {
+    init(session: Session) {
         self.session = session
-        self.settings = settings
-    }
-
-    var timeStyle: SessionStyleTime {
-        settings.timeStyle
     }
 
     var createdAt: Date { session.createdAt }

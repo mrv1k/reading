@@ -34,7 +34,7 @@ struct SessionRow: View {
                 Spacer()
 
                 Group {
-                    Text(viewModel.createdAt, style: viewModel.timeStyle.type)
+                    Text(viewModel.createdAt, style: viewModel.settings.timeStyle.type)
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)

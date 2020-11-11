@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct BookDetail: View {
-    @EnvironmentObject private var settings: AppSettings
     let book: Book
 
     @StateObject var viewModel: BookDetailViewModel
@@ -17,7 +16,7 @@ struct BookDetail: View {
 
             BookProgress(progress: viewModel.completionPercent, showLabel: true)
 
-            SessionListBook(book: book, settings: settings)
+            SessionListBook(book: book)
         })
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding([.horizontal, .top], 20)

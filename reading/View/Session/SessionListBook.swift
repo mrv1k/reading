@@ -13,8 +13,8 @@ struct SessionListBook: View {
 
     @StateObject var viewModel: SessionListBookViewModel
 
-    init(book: Book, settings: AppSettings) {
-        let viewModel = SessionListBookViewModel(book: book, settings: settings)
+    init(book: Book) {
+        let viewModel = SessionListBookViewModel(book: book)
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 

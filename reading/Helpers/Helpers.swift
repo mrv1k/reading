@@ -9,5 +9,5 @@
 struct Helpers {
     static let percentCalculator = PercentCalculator()
     static let dateFormatters = DateFormatterHelper()
-    private init() { print("Helpers")}
+    private init() {}
 }

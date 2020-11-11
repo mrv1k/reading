@@ -12,13 +12,11 @@ import SwiftUI
 
 class SessionListBookViewModel: ObservableObject {
     private let book: Book
-    var settings: AppSettings
 
     @Published var pageEndField = ""
 
-    init(book: Book, settings: AppSettings) {
+    init(book: Book) {
         self.book = book
-        self.settings = settings
     }
 
     // FIXME: currently fully recomputes when new session is added,
@@ -27,7 +25,7 @@ class SessionListBookViewModel: ObservableObject {
         print()
         return book.sessionsReversed.map { (session: Session) in
             print("fired")
-            return SessionRowViewModel(session: session, settings: settings)
+            return SessionRowViewModel(session: session)
         }
     }
 

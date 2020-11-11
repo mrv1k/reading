@@ -9,20 +9,26 @@
 import SwiftUI
 import Combine
 
-// TODO: make persistent
-class AppSettings: ObservableObject {
+protocol AppSettingsProvider {
+    static var shared: AppSettings { get set }
+}
+
+protocol AppSettingsConsumer {
+    var settings: AppSettings { get }
+}
+
+extension AppSettingsConsumer {
+    var settings: AppSettings { AppSettings.shared }
+}
+
+class AppSettings: ObservableObject, AppSettingsProvider {
+    static var shared = AppSettings()
+
+    private init() {}
+
+    // TODO: make persistent
     @Published var progressStyle = SessionStyleProgress.page
     @Published var timeStyle = SessionStyleTime.time
-
-    // var progressProxy: SessionStyleProgress {
-    //     get { progressStyle[0] }
-    //     set { progressStyle[0] = newValue }
-    // }
-    //
-    // var timeProxy: SessionStyleTime {
-    //     get { timeStyle[0] }
-    //     set { timeStyle[0] = newValue }
-    // }
 }
 
 class SettingsEditorViewModel: ObservableObject {
