@@ -30,13 +30,13 @@ struct BookProgress: View {
     }
 }
 
-// struct BookProgress_Previews: PreviewProvider {
-//     static var previews: some View {
-//         Group {
-//             BookProgress(progress: 69)
-//
-//             BookProgress(progress: 69, showLabel: true)
-//
-//         }.previewLayout(.sizeThatFits)
-//     }
-// }
+struct BookProgress_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
+
+            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
+
+        }.previewLayout(.sizeThatFits)
+    }
+}

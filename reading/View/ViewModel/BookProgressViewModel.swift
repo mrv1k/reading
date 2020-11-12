@@ -10,32 +10,24 @@ import Combine
 
 class BookProgressViewModel: ObservableObject {
     @Published var completionPercent: Double = 0
-    @Published var completionPage: Int = 0
-    @Published var completionPageLabel: String = ""
-
-    var valueLabel: String { "\(Int(completionPercent))% / \(completionPageLabel)" }
+    @Published var valueLabel: String = ""
 
     init(book: Book, showLabel: Bool) {
-        book.publisher(for: \.raw_completionPercent)
+        let completionPercentPublisher = book.publisher(for: \.raw_completionPercent)
             .map({ Helpers.percentCalculator.rounded($0) })
-            .assign(to: &$completionPercent)
 
-        let completionPagePublisher = book.publisher(for: \.completionPage)
-            .map({ Int($0) })
+        completionPercentPublisher.assign(to: &$completionPercent)
 
-        completionPagePublisher
-            .assign(to: &$completionPage)
+        guard showLabel else { return }
+        Publishers.CombineLatest(completionPercentPublisher, book.publisher(for: \.completionPage))
+            .map { (percent: Double, page: Int16) in
+                let percentText = "\(Int(percent))%"
 
-        completionPagePublisher
-            .map { makeNounWithPluralForm(count: $0, word: "page") }
-            .assign(to: &$completionPageLabel)
+                let pageNoun = page == 1 ? "page" : "pages"
+                let pageText = "\(page) \(pageNoun)"
+                return "\(percentText) / \(pageText)"
+            }
+            .assign(to: &$valueLabel)
     }
 
 }
-
-
-func makeNounWithPluralForm(count: Int, word : String) -> String {
-    let possiblePlural = count == 1 ? word : word + "s"
-    return "\(count) \(possiblePlural)"
-}
-
