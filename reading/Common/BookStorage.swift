@@ -20,7 +20,7 @@ class BookStorage: NSObject, ObservableObject {
 
     init(viewContext: NSManagedObjectContext) {
 
-        let savedSort = UserDefaults.standard.string(forKey: UserDefaults.Keys.bookSort.rawValue)
+        let savedSort = UserDefaults.standard.string(forKey: UserKeys.bookSort.key)
         // Has to use BookSort.init(rawValue:) or IDE wants to both add and remove force unwrap
         let sort = (savedSort != nil) ? BookSort.init(rawValue: savedSort!)! : BookSort.title
 
@@ -41,7 +41,7 @@ class BookStorage: NSObject, ObservableObject {
         refreshFetcher = $sort.sink(receiveValue: { newSort in
             guard self.sort != newSort else { return }
             self.refreshFetchWith(descriptor: newSort.descriptor)
-            UserDefaults.standard.set(newSort.rawValue, forKey: UserDefaults.Keys.bookSort.rawValue)
+            UserDefaults.standard.set(newSort.rawValue, forKey: UserKeys.bookSort.key)
         })
     }
 
