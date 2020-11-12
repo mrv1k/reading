@@ -10,7 +10,7 @@ import CoreData
 extension Book {
     static var sortByTitle: NSSortDescriptor {
         return NSSortDescriptor(
-            key: "title",
+            key: #keyPath(title),
             ascending: true,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )
@@ -22,7 +22,7 @@ extension Book {
 
     static var sortByAuthor: NSSortDescriptor {
         return NSSortDescriptor(
-            key: "author",
+            key: #keyPath(author),
             ascending: true,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )

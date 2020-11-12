@@ -11,8 +11,6 @@ import Foundation
 import Combine
 import CoreData
 
-fileprivate let bookSortKey = "BookSort"
-
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
     @Published var sort: BookSort
@@ -23,11 +21,14 @@ class BookStorage: NSObject, ObservableObject {
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
 
-        let savedSortRawValue = UserDefaults.standard.string(forKey: bookSortKey) ?? "title"
+        let sortKey = "BookSort"
+        let defaultSortValue = "title"
+        let savedSortRawValue = UserDefaults.standard.string(forKey: sortKey) ?? defaultSortValue
+
         let bookSort = BookSort.init(rawValue: savedSortRawValue)!
         sort = bookSort
-        let descriptor = bookSort.descriptor()
-        fetchRequest.sortDescriptors = [descriptor]
+
+        fetchRequest.sortDescriptors = [bookSort.descriptor()]
 
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -42,7 +43,7 @@ class BookStorage: NSObject, ObservableObject {
         refreshFetcher = $sort.sink(receiveValue: { newSort in
             guard self.sort != newSort else { return }
             self.refreshFetchWith(descriptor: newSort.descriptor())
-            UserDefaults.standard.set(newSort.rawValue, forKey: bookSortKey)
+            UserDefaults.standard.set(newSort.rawValue, forKey: sortKey)
         })
     }
 
