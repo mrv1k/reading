@@ -14,7 +14,7 @@ struct BookListSortPicker: View {
     var body: some View {
         Picker("Sorting options", selection: $bookSort) {
             ForEach(BookSort.allCases) { sort in
-                Text(sort.rawValue.capitalized).tag(sort)
+                Text(sort.rawValue).tag(sort)
             }
         }
     }

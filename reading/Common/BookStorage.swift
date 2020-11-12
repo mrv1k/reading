@@ -19,22 +19,21 @@ class BookStorage: NSObject, ObservableObject {
     private var refreshFetcher: AnyCancellable?
 
     init(viewContext: NSManagedObjectContext) {
-        let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
 
         let sortKey = "BookSort"
-        let defaultSortValue = "title"
-        let savedSortRawValue = UserDefaults.standard.string(forKey: sortKey) ?? defaultSortValue
 
-        let bookSort = BookSort.init(rawValue: savedSortRawValue)!
-        sort = bookSort
+        let savedSort = UserDefaults.standard.string(forKey: sortKey)
+        let sort = (savedSort != nil) ? BookSort.init(rawValue: savedSort!)! : BookSort.title
 
-        fetchRequest.sortDescriptors = [bookSort.descriptor()]
+        let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
+        fetchRequest.sortDescriptors = [sort.descriptor]
 
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: viewContext,
             sectionNameKeyPath: nil, cacheName: nil)
 
+        self.sort = sort
         super.init()
 
         booksController.delegate = self
@@ -42,7 +41,7 @@ class BookStorage: NSObject, ObservableObject {
 
         refreshFetcher = $sort.sink(receiveValue: { newSort in
             guard self.sort != newSort else { return }
-            self.refreshFetchWith(descriptor: newSort.descriptor())
+            self.refreshFetchWith(descriptor: newSort.descriptor)
             UserDefaults.standard.set(newSort.rawValue, forKey: sortKey)
         })
     }
@@ -71,14 +70,38 @@ extension BookStorage: NSFetchedResultsControllerDelegate {
 }
 
 enum BookSort: String, CaseIterable, Identifiable {
-    case title, author, date
+    case title = "Title"
+    case author = "Author"
+    case createdAt = "Date"
+
     var id: String { rawValue }
 
-    func descriptor() -> NSSortDescriptor {
+    var descriptor: NSSortDescriptor {
         switch self {
-        case .title: return Book.sortByTitle
-        case .author: return Book.sortByAuthor
-        case .date: return Book.sortByCreationDate
+        case .title: return byTitle
+        case .author: return byAuthor
+        case .createdAt: return byCreatedAt
         }
     }
+
+    var byTitle: NSSortDescriptor {
+        return NSSortDescriptor(
+            key: #keyPath(Book.title),
+            ascending: true,
+            selector: #selector(NSString.localizedStandardCompare(_:))
+        )
+    }
+
+    var byCreatedAt: NSSortDescriptor {
+        return NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
+    }
+
+    var byAuthor: NSSortDescriptor {
+        return NSSortDescriptor(
+            key: #keyPath(Book.author),
+            ascending: true,
+            selector: #selector(NSString.localizedStandardCompare(_:))
+        )
+    }
+
 }
