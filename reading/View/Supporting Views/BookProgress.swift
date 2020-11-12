@@ -9,29 +9,34 @@
 import SwiftUI
 
 struct BookProgress: View {
-    var progress: Double
+    var showLabel: Bool
 
-    var showLabel = false
-    var valueLabel: String { "\(progress)%" }
+    @StateObject var viewModel: BookProgressViewModel
+
+    init(book: Book, showLabel: Bool = false) {
+        let viewModel = BookProgressViewModel(book: book, showLabel: showLabel)
+        _viewModel = StateObject(wrappedValue: viewModel)
+        self.showLabel = showLabel
+    }
 
     var body: some View {
         if showLabel {
-            ProgressView(value: progress, total: 100)
+            ProgressView(value: viewModel.completionPercent, total: 100)
             {} // label: () -> _,
-            currentValueLabel: { Text(valueLabel) }
+            currentValueLabel: { Text(viewModel.valueLabel) }
         } else {
-            ProgressView(value: progress, total: 100)
+            ProgressView(value: viewModel.completionPercent, total: 100)
         }
     }
 }
 
-struct BookProgress_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            BookProgress(progress: 69)
-
-            BookProgress(progress: 69, showLabel: true)
-
-        }.previewLayout(.sizeThatFits)
-    }
-}
+// struct BookProgress_Previews: PreviewProvider {
+//     static var previews: some View {
+//         Group {
+//             BookProgress(progress: 69)
+//
+//             BookProgress(progress: 69, showLabel: true)
+//
+//         }.previewLayout(.sizeThatFits)
+//     }
+// }

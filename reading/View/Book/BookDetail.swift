@@ -3,18 +3,11 @@ import SwiftUI
 struct BookDetail: View {
     let book: Book
 
-    @StateObject var viewModel: BookDetailViewModel
-
-    init(book: Book) {
-        self.book = book
-        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
-    }
-
     var body: some View {
         ScrollView(content: {
             BookRow(book: book)
 
-            BookProgress(progress: viewModel.completionPercent, showLabel: true)
+            BookProgress(book: book, showLabel: true)
 
             SessionListBook(book: book)
         })
