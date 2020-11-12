@@ -20,29 +20,43 @@ class BookStorage: NSObject, ObservableObject {
 
     init(viewContext: NSManagedObjectContext) {
 
-        let savedSort = UserDefaults.standard.string(forKey: UserKeys.bookSort.key)
+        let savedSort = UserDefaults.standard.string(forKey: UserKeys.bookSort.rawValue)
         // Has to use BookSort.init(rawValue:) or IDE wants to both add and remove force unwrap
-        let sort = (savedSort != nil) ? BookSort.init(rawValue: savedSort!)! : BookSort.title
+        let initSort = (savedSort != nil) ? BookSort.init(rawValue: savedSort!)! : BookSort.title
+
+        let initSortAscending = UserDefaults.standard.bool(forKey: UserKeys.getAscending(forSort: initSort))
+        print(initSort, initSortAscending)
 
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [sort.descriptor]
+        fetchRequest.sortDescriptors = [initSort.descriptor(ascending: initSortAscending)]
 
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: viewContext,
             sectionNameKeyPath: nil, cacheName: nil)
 
-        self.sort = sort
+        sort = initSort
         super.init()
 
         booksController.delegate = self
-        performFetch()
 
-        refreshFetcher = $sort.sink(receiveValue: { newSort in
-            guard self.sort != newSort else { return }
-            self.refreshFetchWith(descriptor: newSort.descriptor)
-            UserDefaults.standard.set(newSort.rawValue, forKey: UserKeys.bookSort.key)
-        })
+        refreshFetcher = $sort
+            .dropFirst()
+            .sink(receiveValue: { sort in
+                let ascendingKey = UserKeys.getAscending(forSort: sort)
+                var sortAscending = UserDefaults.standard.bool(forKey: ascendingKey)
+                print(ascendingKey, sortAscending)
+
+                if self.sort == sort {
+                    sortAscending = !sortAscending
+                }
+                self.refreshFetchWith(descriptor: sort.descriptor(ascending: sortAscending))
+
+                UserDefaults.standard.set(sort.rawValue, forKey: UserKeys.bookSort.rawValue)
+                UserDefaults.standard.set(sortAscending, forKey: ascendingKey)
+            })
+
+        performFetch()
     }
 
     private func performFetch() {
@@ -75,30 +89,30 @@ enum BookSort: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var descriptor: NSSortDescriptor {
+    func descriptor(ascending: Bool) -> NSSortDescriptor {
         switch self {
-        case .title: return byTitle
-        case .author: return byAuthor
-        case .createdAt: return byCreatedAt
+        case .title: return byTitle(ascending: ascending)
+        case .author: return byAuthor(ascending: ascending)
+        case .createdAt: return byCreatedAt(ascending: ascending)
         }
     }
 
-    var byTitle: NSSortDescriptor {
-        return NSSortDescriptor(
+    func byTitle(ascending: Bool) -> NSSortDescriptor {
+        NSSortDescriptor(
             key: #keyPath(Book.title),
-            ascending: true,
+            ascending: ascending,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )
     }
 
-    var byCreatedAt: NSSortDescriptor {
-        return NSSortDescriptor(keyPath: \Book.createdAt, ascending: true)
+    func byCreatedAt(ascending: Bool) -> NSSortDescriptor {
+        NSSortDescriptor(keyPath: \Book.createdAt, ascending: ascending)
     }
 
-    var byAuthor: NSSortDescriptor {
-        return NSSortDescriptor(
+    func byAuthor(ascending: Bool) -> NSSortDescriptor {
+        NSSortDescriptor(
             key: #keyPath(Book.author),
-            ascending: true,
+            ascending: ascending,
             selector: #selector(NSString.localizedStandardCompare(_:))
         )
     }

@@ -10,6 +10,15 @@
 enum UserKeys: String {
     /// Uses `BookSort`
     case bookSort
+    case title
+    case author
+    case createdAt
 
-    var key: String { self.rawValue }
+    static func getAscending(forSort sort: BookSort) -> String {
+        switch sort {
+        case .title: return Self.title.rawValue
+        case .author: return Self.author.rawValue
+        case .createdAt: return Self.createdAt.rawValue
+        }
+    }
 }
