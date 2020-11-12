@@ -15,19 +15,12 @@ struct SettingsEditor: View {
     var body: some View {
         Form {
             Section(header: Text("Session Row")) {
-                Picker("Progress display style", selection: $settings.progressStyle) {
-                    ForEach(SessionStyleProgress.allCases, id: \.self) { style in
-                        Text(style.rawValue).tag(style)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
+                Toggle(isOn: $settings.progressPercentage) {
+                    Label { Text("Progress percentage") } icon: { Image(systemName: "percent") } }
 
-                Picker("Time display style", selection: $settings.timeStyle) {
-                    ForEach(SessionStyleTime.allCases, id: \.self) { style in
-                        Text(style.rawValue).tag(style)
-                    }
+                Toggle(isOn: $settings.relativeTime) {
+                    Label { Text("Relative time") } icon: { Image(systemName: "clock") }
                 }
-                .pickerStyle(SegmentedPickerStyle())
             }
         }
         .navigationBarTitle("Settings", displayMode: .inline)

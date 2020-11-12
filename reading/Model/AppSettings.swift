@@ -18,20 +18,9 @@ class AppSettings: ObservableObject, AppSettingsProvider {
     private init() {}
 
     // TODO: make persistent
-    @Published var progressStyle = SessionStyleProgress.page
-    @Published var timeStyle = SessionStyleTime.time
+    @Published var progressPercentage = false
+    @Published var relativeTime = false
 }
-
-enum SessionStyleProgress: String, CaseIterable {
-    case page = "Pages"
-    case percent = "Percents"
-}
-
-enum SessionStyleTime: String, CaseIterable {
-    case time = "at 12:34"
-    case relative = "3 min., 22 sec ago"
-}
-
 
 protocol AppSettingsConsumer {
     var settings: AppSettings { get }

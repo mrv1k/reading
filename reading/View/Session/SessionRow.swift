@@ -10,6 +10,11 @@ import SwiftUI
 
 struct SessionRow: View {
     @ObservedObject var viewModel: SessionRowViewModel
+    @EnvironmentObject var settings: AppSettings
+
+    var timeStyle: Text.DateStyle {
+        settings.relativeTime ? .relative : .time
+    }
 
     var dateHeader: some View {
         Group {
@@ -34,22 +39,13 @@ struct SessionRow: View {
                 Spacer()
 
                 Group {
-                    Text(viewModel.createdAt, style: viewModel.settings.timeStyle.textDateStyle)
+                    Text(viewModel.createdAt, style: timeStyle)
                 }
                 .font(.subheadline)
                 .foregroundColor(.gray)
             }
         }
         .padding(.top, 1)
-    }
-}
-
-extension SessionStyleTime {
-    var textDateStyle: Text.DateStyle {
-        switch self {
-        case .time: return Text.DateStyle.time
-        case .relative: return Text.DateStyle.relative
-        }
     }
 }
 

@@ -22,7 +22,7 @@ class SessionRowViewModel: ObservableObject, Identifiable, AppSettingsConsumer {
     var monthDay: String { Helpers.dateFormatters.month.string(from: session.createdAt) }
 
     var progress: String {
-        settings.progressStyle == .page ? progressPage : progressPercent
+        settings.progressPercentage ? progressPercent : progressPage
     }
     var progressPage: String {
         "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
