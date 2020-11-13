@@ -7,12 +7,9 @@
 //
 
 import CoreData
-// import Combine
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
-    // var cancellableSet = Set<AnyCancellable>()
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -45,7 +42,6 @@ struct PersistenceController {
         let description = container.persistentStoreDescriptions.first
         if inMemory {
             description?.url = URL(fileURLWithPath: "/dev/null")
-            // container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
 
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in

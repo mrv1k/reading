@@ -16,10 +16,11 @@ struct SettingsEditor: View {
         Form {
             Section(header: Text("Session Row")) {
                 Toggle(isOn: $settings.progressPercentage) {
-                    Label { Text("Progress percentage") } icon: { Image(systemName: "percent") } }
+                    Label("Progress percentage", systemImage: "percent")
+                }
 
                 Toggle(isOn: $settings.relativeTime) {
-                    Label { Text("Relative time") } icon: { Image(systemName: "clock") }
+                    Label("Relative time", systemImage: "clock")
                 }
             }
         }
