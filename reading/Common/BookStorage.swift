@@ -20,15 +20,10 @@ class BookStorage: NSObject, ObservableObject {
 
     init(viewContext: NSManagedObjectContext) {
 
-        let savedSort = UserDefaults.standard.string(forKey: UserKeys.bookSort.rawValue)
-        // Has to use BookSort.init(rawValue:) or IDE wants to both add and remove force unwrap
-        let initSort = (savedSort != nil) ? BookSort.init(rawValue: savedSort!)! : BookSort.title
-
-        let initSortAscending = UserDefaults.standard.bool(forKey: UserKeys.getAscending(forSort: initSort))
-        print(initSort, initSortAscending)
+        let initSort = BookSort.tryLoadSaved()
 
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [initSort.descriptor(ascending: initSortAscending)]
+        fetchRequest.sortDescriptors = [initSort.computedStruct.descriptor]
 
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -39,24 +34,23 @@ class BookStorage: NSObject, ObservableObject {
         super.init()
 
         booksController.delegate = self
+        performFetch()
 
         refreshFetcher = $sort
             .dropFirst()
-            .sink(receiveValue: { sort in
-                let ascendingKey = UserKeys.getAscending(forSort: sort)
-                var sortAscending = UserDefaults.standard.bool(forKey: ascendingKey)
-                print(ascendingKey, sortAscending)
+            .sink(receiveValue: { newSort in
+                // FIXME: 2020-11-13 00:39:04.072927-0500 reading[4645:1067724] [UILog] Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
 
-                if self.sort == sort {
-                    sortAscending = !sortAscending
+                // shouldn't work but does ;)
+                // FIXME: works only because of structs init from UserDefaults
+                var temp = newSort.computedStruct
+                print(temp.labelName, temp.ascendingValue)
+                if self.sort == newSort {
+                    temp.ascendingValue.toggle()
                 }
-                self.refreshFetchWith(descriptor: sort.descriptor(ascending: sortAscending))
-
-                UserDefaults.standard.set(sort.rawValue, forKey: UserKeys.bookSort.rawValue)
-                UserDefaults.standard.set(sortAscending, forKey: ascendingKey)
+                self.refreshFetchWith(descriptor: temp.descriptor)
+                temp.save()
             })
-
-        performFetch()
     }
 
     private func performFetch() {

@@ -7,18 +7,7 @@
 //
 
 /// Key collection for UserDefaults
-enum UserKeys: String {
+enum UserDefaultsKey: String {
     /// Uses `BookSort`
-    case bookSort
-    case title
-    case author
-    case createdAt
-
-    static func getAscending(forSort sort: BookSort) -> String {
-        switch sort {
-        case .title: return Self.title.rawValue
-        case .author: return Self.author.rawValue
-        case .createdAt: return Self.createdAt.rawValue
-        }
-    }
+    case bookSort, sortByTitle, sortByAuthor, sortByCreatedAt
 }

@@ -14,7 +14,11 @@ struct BookListSortPicker: View {
     var body: some View {
         Picker("Sorting options", selection: $bookSort) {
             ForEach(BookSort.allCases) { sort in
-                Text(sort.rawValue).tag(sort)
+                if bookSort == sort {
+                    Label(sort.computedStruct.labelName, systemImage: sort.computedStruct.labelImage).tag(sort)
+                } else {
+                    Text(sort.computedStruct.labelName).tag(sort)
+                }
             }
         }
     }
