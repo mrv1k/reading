@@ -7,16 +7,16 @@
 //  inspired by: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-proje
 //
 
-import Foundation
 import Combine
 import CoreData
+import Foundation
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books = [Book]()
 
-    @Published var sortSelection = BookSortFactory.initial.selection
-    @Published var directionImage = BookSortFactory.initial.directionImage
-    private var sort = BookSortFactory.initial
+    @Published var sortSelection = InitialBookSort.singleton.selection
+    @Published var directionImage = InitialBookSort.singleton.sort.directionImage
+    private var sort = InitialBookSort.singleton.sort
 
     private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
@@ -40,7 +40,7 @@ class BookStorage: NSObject, ObservableObject {
     var menuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
-            .map({ selection -> BookSortProtocol in
+            .map { selection -> BookSortProtocol in
                 // if current and new sort are the same, toggle sort direction
                 if self.sortSelection == selection {
                     self.sort.isAscending.toggle()
@@ -48,7 +48,7 @@ class BookStorage: NSObject, ObservableObject {
                     self.sort = BookSortFactory.create(selection: selection)
                 }
                 return self.sort
-            })
+            }
             .sink(receiveValue: { sort in
                 self.refreshFetchWith(descriptor: sort.descriptor)
                 self.directionImage = sort.directionImage

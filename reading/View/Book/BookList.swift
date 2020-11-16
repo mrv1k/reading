@@ -54,9 +54,7 @@ struct BookList: View {
             trailing: Group {
                 menu
                 navigationLinkProxies
-            }
-
-        )
+            })
         .navigationBarTitle("Books", displayMode: .inline)
     }
 
