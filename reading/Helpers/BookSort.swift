@@ -16,7 +16,7 @@ protocol BookSortProtocol {
     var ascendingValue: Bool { get set }
 
     var sortKey: UserDefaultsKey { get }
-    var sortValue: BookSort { get }
+    var sortValue: BookSortEnum { get }
 
     var descriptor: NSSortDescriptor { get }
     func save()
@@ -33,72 +33,66 @@ extension BookSortProtocol {
     }
 }
 
-struct SortByTitle: BookSortProtocol {
-    var labelName = "Title"
-    var ascendingKey: UserDefaultsKey { .sortByTitle }
-    var ascendingValue = false
-    var sortValue: BookSort { .title }
-    var descriptor: NSSortDescriptor {
-        NSSortDescriptor(
-            key: #keyPath(Book.title),
-            ascending: ascendingValue,
-            selector: #selector(NSString.localizedStandardCompare(_:)))
-    }
+struct BookSort {
+    static var shared = BookSort()
 
-    init() {
-        ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
-    }
-}
+    private init() {}
 
-struct SortByAuthor: BookSortProtocol {
-    var labelName = "Author"
-    var ascendingKey: UserDefaultsKey { .sortByAuthor }
-    var ascendingValue = false
-    var sortValue: BookSort { .author }
-    var descriptor: NSSortDescriptor {
-        NSSortDescriptor(
-            key: #keyPath(Book.author),
-            ascending: ascendingValue,
-            selector: #selector(NSString.localizedStandardCompare(_:)))
-    }
-
-    init() {
-        ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
-    }
-}
-
-struct SortByCreatedAt: BookSortProtocol {
-    var labelName = "Date"
-    var ascendingKey: UserDefaultsKey { .sortByCreatedAt }
-    var ascendingValue = false
-    var sortValue: BookSort { .createdAt }
-    var descriptor: NSSortDescriptor {
-        NSSortDescriptor(keyPath: \Book.createdAt, ascending: ascendingValue)
-    }
-
-    init() {
-        ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
-    }
-}
-
-enum BookSort: String, CaseIterable, Identifiable {
-    case title, author, createdAt
-
-    var id: String { rawValue }
-
-    var computedStruct: BookSortProtocol {
-        switch self {
-        case .title: return SortByTitle()
+    func makeStruct(sortSelector: BookSortEnum) -> BookSortProtocol {
+        switch sortSelector {
         case .author: return SortByAuthor()
+        case .title: return SortByTitle()
         case .createdAt: return SortByCreatedAt()
         }
     }
+}
 
-    static func tryLoadSaved() -> Self {
-        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-            return Self.init(rawValue: savedSort)!
-        } else {
-            return .title
+extension BookSort {
+    struct SortByTitle: BookSortProtocol {
+        var labelName = "Title"
+        var ascendingKey: UserDefaultsKey { .sortByTitle }
+        var ascendingValue = false
+        var sortValue: BookSortEnum { .title }
+        var descriptor: NSSortDescriptor {
+            NSSortDescriptor(
+                key: #keyPath(Book.title),
+                ascending: ascendingValue,
+                selector: #selector(NSString.localizedStandardCompare(_:)))
+        }
+
+        init() {
+            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
+        }
+    }
+
+    struct SortByAuthor: BookSortProtocol {
+        var labelName = "Author"
+        var ascendingKey: UserDefaultsKey { .sortByAuthor }
+        var ascendingValue = false
+        var sortValue: BookSortEnum { .author }
+        var descriptor: NSSortDescriptor {
+            NSSortDescriptor(
+                key: #keyPath(Book.author),
+                ascending: ascendingValue,
+                selector: #selector(NSString.localizedStandardCompare(_:)))
+        }
+
+        init() {
+            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
+        }
+    }
+
+    struct SortByCreatedAt: BookSortProtocol {
+        var labelName = "Date"
+        var ascendingKey: UserDefaultsKey { .sortByCreatedAt }
+        var ascendingValue = false
+        var sortValue: BookSortEnum { .createdAt }
+        var descriptor: NSSortDescriptor {
+            NSSortDescriptor(keyPath: \Book.createdAt, ascending: ascendingValue)
+        }
+
+        init() {
+            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
         }
     }
 }

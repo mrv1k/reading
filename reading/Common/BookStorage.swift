@@ -11,46 +11,53 @@ import Foundation
 import Combine
 import CoreData
 
+fileprivate func loadSavedSort() -> BookSortEnum? {
+    if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
+        return BookSortEnum.init(rawValue: savedSort)
+    }
+    return nil
+}
+
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
-    @Published var sort: BookSort
-
     private let booksController: NSFetchedResultsController<Book>
-    private var refreshFetcher: AnyCancellable?
+    var bookListSortPickerViewModel: BookListSortPickerViewModel?
+    var sort: BookSortProtocol
+    var test: AnyCancellable?
 
     init(viewContext: NSManagedObjectContext) {
 
-        let initSort = BookSort.tryLoadSaved()
+        let initSortSelector = loadSavedSort() ?? .title
+        sort = BookSort.shared.makeStruct(sortSelector: initSortSelector)
 
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [initSort.computedStruct.descriptor]
-
+        fetchRequest.sortDescriptors = [sort.descriptor]
         booksController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: viewContext,
             sectionNameKeyPath: nil, cacheName: nil)
 
-        sort = initSort
         super.init()
+
+        bookListSortPickerViewModel = BookListSortPickerViewModel(initSelector: initSortSelector)
+        test = bookListSortPickerViewModel?.actionPublisher
+            .sink(receiveValue: { action in
+                print("mek", action)
+                print(self.sort.labelName, self.sort.ascendingValue)
+                switch action {
+                case .changeSort:
+                    break
+//                    self.sort = BookSort.makeStruct(sortSelector: <#T##BookSortEnum#>)
+                case .toggleDirection:
+                    self.sort.ascendingValue.toggle()
+                    print(self.sort.labelName, self.sort.ascendingValue)
+                }
+
+                self.refreshFetchWith(descriptor: self.sort.descriptor)
+            })
 
         booksController.delegate = self
         performFetch()
-
-        refreshFetcher = $sort
-            .dropFirst()
-            .sink(receiveValue: { newSort in
-                // FIXME: 2020-11-13 00:39:04.072927-0500 reading[4645:1067724] [UILog] Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
-
-                // shouldn't work but does ;)
-                // FIXME: works only because of structs init from UserDefaults
-                var temp = newSort.computedStruct
-                print(temp.labelName, temp.ascendingValue)
-                if self.sort == newSort {
-                    temp.ascendingValue.toggle()
-                }
-                self.refreshFetchWith(descriptor: temp.descriptor)
-                temp.save()
-            })
     }
 
     private func performFetch() {
@@ -62,7 +69,7 @@ class BookStorage: NSObject, ObservableObject {
         }
     }
 
-    private func refreshFetchWith(descriptor: NSSortDescriptor) {
+    func refreshFetchWith(descriptor: NSSortDescriptor) {
         booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
     }
