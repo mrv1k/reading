@@ -12,11 +12,11 @@ import Combine
 import CoreData
 
 class BookStorage: NSObject, ObservableObject {
-    @Published var books: [Book] = []
-    @Published var sortSelection: BookSortMenuOption = InitialBookSort.shared.selection
-    @Published var sortDirectionImage: String = InitialBookSort.shared.sort.labelImage
+    @Published var books = [Book]()
+    @Published var sortSelection = BookSortFactory.shared.latestSelection
+    @Published var sortDirectionImage = BookSortFactory.shared.latest.labelImage
 
-    private var sort: BookSortProtocol = InitialBookSort.shared.sort
+    private var sort: BookSortProtocol = BookSortFactory.shared.latest
     private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
 
@@ -43,12 +43,12 @@ class BookStorage: NSObject, ObservableObject {
                 if self.sortSelection == selection {
                     self.sort.ascendingValue.toggle()
                 } else {
-                    self.sort = BookSort.shared.makeStruct(sortSelector: selection)
+                    self.sort = BookSortFactory.shared.create(selection: selection)
                 }
 
-                self.sortDirectionImage = self.sort.labelImage
                 self.refreshFetchWith(descriptor: self.sort.descriptor)
-                BookSort.shared.save(sort: self.sort)
+                self.sortDirectionImage = self.sort.labelImage
+                BookSortFactory.shared.saveLatest()
             })
     }
 

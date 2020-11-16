@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-enum BookSortMenuOption: String, CaseIterable, Identifiable {
+enum BookSortSelection: String, CaseIterable, Identifiable {
     case title = "Title"
     case author = "Author"
     case createdAt = "Date"
@@ -21,7 +21,7 @@ struct BookListSortPicker: View {
 
     var body: some View {
         Picker("Sorting options", selection: $bookStorage.sortSelection) {
-            ForEach(BookSortMenuOption.allCases) { sort in
+            ForEach(BookSortSelection.allCases) { sort in
                 if bookStorage.sortSelection == sort {
                     Label(sort.rawValue, systemImage: bookStorage.sortDirectionImage).tag(sort)
                 } else {
