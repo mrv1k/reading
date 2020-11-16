@@ -11,24 +11,17 @@ import Foundation
 import Combine
 import CoreData
 
-fileprivate func loadSavedSort() -> BookSortEnum? {
-    if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-        return BookSortEnum.init(rawValue: savedSort)
-    }
-    return nil
-}
-
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
+    @Published var sortSelection: BookSortEnum
+
+    private var sort: BookSortProtocol
+    private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
-    var bookListSortPickerViewModel: BookListSortPickerViewModel?
-    var sort: BookSortProtocol
-    var test: AnyCancellable?
 
     init(viewContext: NSManagedObjectContext) {
-
-        let initSortSelector = loadSavedSort() ?? .title
-        sort = BookSort.shared.makeStruct(sortSelector: initSortSelector)
+        sort = BookSort.shared.initialStruct
+        sortSelection = BookSort.shared.initialSelection
 
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
         fetchRequest.sortDescriptors = [sort.descriptor]
@@ -36,28 +29,27 @@ class BookStorage: NSObject, ObservableObject {
             fetchRequest: fetchRequest,
             managedObjectContext: viewContext,
             sectionNameKeyPath: nil, cacheName: nil)
-
         super.init()
 
-        bookListSortPickerViewModel = BookListSortPickerViewModel(initSelector: initSortSelector)
-        test = bookListSortPickerViewModel?.actionPublisher
-            .sink(receiveValue: { action in
-                print("mek", action)
-                print(self.sort.labelName, self.sort.ascendingValue)
-                switch action {
-                case .changeSort:
-                    break
-//                    self.sort = BookSort.makeStruct(sortSelector: <#T##BookSortEnum#>)
-                case .toggleDirection:
+        menuSelectionHandler.store(in: &cancellableBag)
+
+        booksController.delegate = self
+        performFetch()
+    }
+
+    var menuSelectionHandler: AnyCancellable {
+        $sortSelection
+            .dropFirst()
+            .sink(receiveValue: { selection in
+                // if current and new sort are the same, toggle sort direction
+                if self.sortSelection == selection {
                     self.sort.ascendingValue.toggle()
-                    print(self.sort.labelName, self.sort.ascendingValue)
+                } else {
+                    self.sort = BookSort.shared.makeStruct(sortSelector: selection)
                 }
 
                 self.refreshFetchWith(descriptor: self.sort.descriptor)
             })
-
-        booksController.delegate = self
-        performFetch()
     }
 
     private func performFetch() {

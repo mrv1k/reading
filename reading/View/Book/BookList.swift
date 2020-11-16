@@ -23,7 +23,7 @@ struct BookList: View {
             Button(action: { activeLink = "BookCreate" },
                    label: { Label("New Book", systemImage: "plus") })
             Divider()
-            BookListSortPicker(viewModel: bookStorage.bookListSortPickerViewModel!)
+            BookListSortPicker()
         } label: {
             Image(systemName: "ellipsis.circle")
                 .imageScale(.large)

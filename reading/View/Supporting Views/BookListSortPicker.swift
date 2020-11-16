@@ -8,9 +8,6 @@
 
 import SwiftUI
 
-import Combine
-
-
 enum BookSortEnum: String, CaseIterable, Identifiable {
     case title = "Title"
     case author = "Author"
@@ -19,38 +16,13 @@ enum BookSortEnum: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-enum BookSortAction {
-    case changeSort, toggleDirection
-}
-
-class BookListSortPickerViewModel: ObservableObject {
-    @Published var selection: BookSortEnum
-
-    init(initSelector: BookSortEnum) {
-        selection = initSelector
-    }
-
-    var actionPublisher: AnyPublisher<BookSortAction, Never> {
-        $selection
-            .dropFirst()
-            .map({ newSelection -> BookSortAction in
-//                print("actionPublisher", newSelection)
-                // if current and new sort are the same, toggle sort direction
-//                if self.selection == newSelection { return .toggleDirection }
-//                return .changeSort
-                self.selection == newSelection ? .toggleDirection : .changeSort
-            })
-            .eraseToAnyPublisher()
-    }
-}
-
 struct BookListSortPicker: View {
-    @ObservedObject var viewModel: BookListSortPickerViewModel
+    @EnvironmentObject private var bookStorage: BookStorage
 
     var body: some View {
-        Picker("Sorting options", selection: $viewModel.selection) {
+        Picker("Sorting options", selection: $bookStorage.sortSelection) {
             ForEach(BookSortEnum.allCases) { sort in
-                if viewModel.selection == sort {
+                if bookStorage.sortSelection == sort {
                     Text(sort.rawValue).tag(sort)
 //                    Label("sort.computedStruct.labelName", systemImage: "sort.computedStruct.labelImage").tag(sort)
                 } else {
@@ -61,15 +33,18 @@ struct BookListSortPicker: View {
     }
 }
 
-//struct BookListSortPicker_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Menu {
-//            BookListSortPicker(bookSort: .constant(BookSort.init(rawValue: "author")!))
-//        } label: {
-//            Image(systemName: "ellipsis.circle")
-//                .imageScale(.large)
-//                .padding()
-//        }
-//        .previewLayout(.sizeThatFits)
-//    }
-//}
+struct BookListSortPicker_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewContext = PersistenceController.preview.container.viewContext
+
+        return Menu {
+            BookListSortPicker()
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+                .padding()
+        }
+        .environmentObject(BookStorage(viewContext: viewContext))
+        .previewLayout(.sizeThatFits)
+    }
+}

@@ -35,8 +35,17 @@ extension BookSortProtocol {
 
 struct BookSort {
     static var shared = BookSort()
-
     private init() {}
+
+    var initialSelection: BookSortEnum { loadSavedSort() ?? .title }
+    var initialStruct: BookSortProtocol { makeStruct(sortSelector: initialSelection) }
+
+    private func loadSavedSort() -> BookSortEnum? {
+        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
+            return BookSortEnum.init(rawValue: savedSort)
+        }
+        return nil
+    }
 
     func makeStruct(sortSelector: BookSortEnum) -> BookSortProtocol {
         switch sortSelector {
