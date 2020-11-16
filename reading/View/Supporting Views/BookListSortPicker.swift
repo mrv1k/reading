@@ -8,24 +8,16 @@
 
 import SwiftUI
 
-enum BookSortSelection: String, CaseIterable, Identifiable {
-    case title = "Title"
-    case author = "Author"
-    case createdAt = "Date"
-
-    var id: String { rawValue }
-}
-
 struct BookListSortPicker: View {
     @EnvironmentObject private var bookStorage: BookStorage
 
     var body: some View {
         Picker("Sorting options", selection: $bookStorage.sortSelection) {
-            ForEach(BookSortSelection.allCases) { sort in
-                if bookStorage.sortSelection == sort {
-                    Label(sort.rawValue, systemImage: bookStorage.sortDirectionImage).tag(sort)
+            ForEach(BookSortSelection.allCases) { sortSelection in
+                if bookStorage.sortSelection == sortSelection {
+                    Label(sortSelection.rawValue, systemImage: bookStorage.directionImage).tag(sortSelection)
                 } else {
-                    Text(sort.rawValue).tag(sort)
+                    Text(sortSelection.rawValue).tag(sortSelection)
                 }
             }
         }

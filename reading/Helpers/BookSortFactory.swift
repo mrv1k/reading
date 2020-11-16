@@ -8,100 +8,111 @@
 
 import CoreData
 
+enum BookSortSelection: String, CaseIterable, Identifiable {
+    case title = "Title"
+    case author = "Author"
+    case createdAt = "Date"
+
+    var id: String { rawValue }
+}
+
+struct BookSortFactory {
+    private init() {}
+
+    // FIXME: should not be static
+    static var initial: BookSortProtocol { InitialBookSort().sort }
+
+    static func create(selection: BookSortSelection) -> BookSortProtocol {
+        switch selection {
+        case .author: return SortByAuthor()
+        case .title: return SortByTitle()
+        case .createdAt: return SortByCreatedAt()
+        }
+    }
+}
+
 protocol BookSortProtocol {
-    var labelImage: String { get }
+    var directionImage: String { get }
     var ascendingKey: UserDefaultsKey { get }
-    var ascendingValue: Bool { get set }
-    var sortValue: BookSortSelection { get }
+    var ascending: Bool? { get set }
+    var isAscending: Bool { get set }
+    var selection: BookSortSelection { get }
     var descriptor: NSSortDescriptor { get }
 }
 
 extension BookSortProtocol {
-    var labelImage: String { ascendingValue ? "chevron.up" : "chevron.down" }
-}
+    var directionImage: String { isAscending ? "chevron.up" : "chevron.down" }
 
-struct BookSortFactory {
-    static var shared = BookSortFactory()
-    private init() {}
-
-    var latest = InitialBookSort.shared.sort
-    var latestSelection = InitialBookSort.shared.selection
-
-    mutating func create(selection: BookSortSelection) -> BookSortProtocol {
-        print("create")
-        switch selection {
-        case .author: latest = SortByAuthor()
-        case .title: latest = SortByTitle()
-        case .createdAt: latest = SortByCreatedAt()
-        }
-        return latest
+    var isAscending: Bool {
+        get { ascending == nil ? getSavedAscending() : ascending! }
+        set { ascending = newValue; saveAscending() }
     }
 
-    func saveLatest() {
-        UserDefaults.standard.set(latest.sortValue.rawValue, forKey: UserDefaultsKey.bookSort.rawValue)
-        UserDefaults.standard.set(latest.ascendingValue, forKey: latest.ascendingKey.rawValue)
+    fileprivate func saveSort() {
+        UserDefaults.standard.set(selection.rawValue, forKey: UserDefaultsKey.bookSort.rawValue)
+    }
+    fileprivate func getSavedAscending() -> Bool {
+        UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
+    }
+    fileprivate func saveAscending() {
+        UserDefaults.standard.set(ascending, forKey: ascendingKey.rawValue)
     }
 }
 
 extension BookSortFactory {
     struct SortByTitle: BookSortProtocol {
-        var ascendingKey: UserDefaultsKey { .sortByTitle }
-        var ascendingValue = false
-        var sortValue: BookSortSelection { .title }
+        var ascending: Bool?
+        let ascendingKey = UserDefaultsKey.sortByTitle
+        let selection = BookSortSelection.title
         var descriptor: NSSortDescriptor {
-            NSSortDescriptor(
+            saveSort()
+            return NSSortDescriptor(
                 key: #keyPath(Book.title),
-                ascending: ascendingValue,
+                ascending: isAscending,
                 selector: #selector(NSString.localizedStandardCompare(_:)))
-        }
-
-        init() {
-            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
         }
     }
 
     struct SortByAuthor: BookSortProtocol {
-        var ascendingKey: UserDefaultsKey { .sortByAuthor }
-        var ascendingValue = false
-        var sortValue: BookSortSelection { .author }
+        var ascending: Bool?
+        let ascendingKey = UserDefaultsKey.sortByAuthor
+        let selection = BookSortSelection.author
         var descriptor: NSSortDescriptor {
-            NSSortDescriptor(
+            saveSort()
+            return NSSortDescriptor(
                 key: #keyPath(Book.author),
-                ascending: ascendingValue,
+                ascending: isAscending,
                 selector: #selector(NSString.localizedStandardCompare(_:)))
-        }
-
-        init() {
-            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
         }
     }
 
     struct SortByCreatedAt: BookSortProtocol {
-        var ascendingKey: UserDefaultsKey { .sortByCreatedAt }
-        var ascendingValue = false
-        var sortValue: BookSortSelection { .createdAt }
+        var ascending: Bool?
+        let ascendingKey = UserDefaultsKey.sortByCreatedAt
+        let selection = BookSortSelection.createdAt
         var descriptor: NSSortDescriptor {
-            NSSortDescriptor(keyPath: \Book.createdAt, ascending: ascendingValue)
-        }
-
-        init() {
-            ascendingValue = UserDefaults.standard.bool(forKey: ascendingKey.rawValue)
+            saveSort()
+            return NSSortDescriptor(keyPath: \Book.createdAt, ascending: isAscending)
         }
     }
 }
 
-fileprivate struct InitialBookSort {
-    static var shared = InitialBookSort()
-    private init() {}
+struct InitialBookSort {
+    fileprivate init() {
+        let selection = Self.loadSavedSort() ?? .title
+        
+        let sort = BookSortFactory.create(selection: selection)
+        self.selection = selection
+        self.sort = sort
+    }
 
-    var selection: BookSortSelection { loadSavedSort() ?? .title }
-    var sort: BookSortProtocol { BookSortFactory.shared.create(selection: selection) }
+    var selection: BookSortSelection
+    var sort: BookSortProtocol
 
-    private func loadSavedSort() -> BookSortSelection? {
+    static private func loadSavedSort() -> BookSortSelection? {
         if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
             return BookSortSelection.init(rawValue: savedSort)
         }
         return nil
     }
 }
-

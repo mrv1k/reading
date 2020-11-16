@@ -13,10 +13,11 @@ import CoreData
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books = [Book]()
-    @Published var sortSelection = BookSortFactory.shared.latestSelection
-    @Published var sortDirectionImage = BookSortFactory.shared.latest.labelImage
 
-    private var sort: BookSortProtocol = BookSortFactory.shared.latest
+    @Published var sortSelection = BookSortFactory.initial.selection
+    @Published var directionImage = BookSortFactory.initial.directionImage
+    private var sort = BookSortFactory.initial
+
     private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
 
@@ -29,26 +30,28 @@ class BookStorage: NSObject, ObservableObject {
             sectionNameKeyPath: nil, cacheName: nil)
         super.init()
 
-        menuSelectionHandler.store(in: &cancellableBag)
-
         booksController.delegate = self
         performFetch()
+
+        menuSelectionHandler.store(in: &cancellableBag)
     }
 
+    // TODO: [weak self]?
     var menuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
-            .sink(receiveValue: { selection in
+            .map({ selection -> BookSortProtocol in
                 // if current and new sort are the same, toggle sort direction
                 if self.sortSelection == selection {
-                    self.sort.ascendingValue.toggle()
+                    self.sort.isAscending.toggle()
                 } else {
-                    self.sort = BookSortFactory.shared.create(selection: selection)
+                    self.sort = BookSortFactory.create(selection: selection)
                 }
-
-                self.refreshFetchWith(descriptor: self.sort.descriptor)
-                self.sortDirectionImage = self.sort.labelImage
-                BookSortFactory.shared.saveLatest()
+                return self.sort
+            })
+            .sink(receiveValue: { sort in
+                self.refreshFetchWith(descriptor: sort.descriptor)
+                self.directionImage = sort.directionImage
             })
     }
 
