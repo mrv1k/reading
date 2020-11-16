@@ -8,60 +8,56 @@
 
 import CoreData
 
-protocol BookSortProtocol {
-    var labelName: String { get }
-    var labelImage: String { get }
+struct InitialBookSort {
+    static var shared = InitialBookSort()
+    private init() {}
 
+    var selection: BookSortMenuOption { loadSavedSort() ?? .title }
+    var sort: BookSortProtocol { BookSort.shared.makeStruct(sortSelector: selection) }
+
+    private func loadSavedSort() -> BookSortMenuOption? {
+        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
+            return BookSortMenuOption.init(rawValue: savedSort)
+        }
+        return nil
+    }
+}
+
+protocol BookSortProtocol {
+    var labelImage: String { get }
     var ascendingKey: UserDefaultsKey { get }
     var ascendingValue: Bool { get set }
-
-    var sortKey: UserDefaultsKey { get }
-    var sortValue: BookSortEnum { get }
-
+    var sortValue: BookSortMenuOption { get }
     var descriptor: NSSortDescriptor { get }
-    func save()
 }
 
 extension BookSortProtocol {
-    var labelImage: String {
-        ascendingValue ? "chevron.up" : "chevron.down"
-    }
-    var sortKey: UserDefaultsKey { .bookSort }
-    func save() {
-        UserDefaults.standard.set(sortValue.rawValue, forKey: sortKey.rawValue)
-        UserDefaults.standard.set(ascendingValue, forKey: ascendingKey.rawValue)
-    }
+    var labelImage: String { ascendingValue ? "chevron.up" : "chevron.down" }
 }
 
 struct BookSort {
     static var shared = BookSort()
     private init() {}
 
-    var initialSelection: BookSortEnum { loadSavedSort() ?? .title }
-    var initialStruct: BookSortProtocol { makeStruct(sortSelector: initialSelection) }
-
-    private func loadSavedSort() -> BookSortEnum? {
-        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-            return BookSortEnum.init(rawValue: savedSort)
-        }
-        return nil
-    }
-
-    func makeStruct(sortSelector: BookSortEnum) -> BookSortProtocol {
+    func makeStruct(sortSelector: BookSortMenuOption) -> BookSortProtocol {
         switch sortSelector {
         case .author: return SortByAuthor()
         case .title: return SortByTitle()
         case .createdAt: return SortByCreatedAt()
         }
     }
+
+    func save(sort: BookSortProtocol) {
+        UserDefaults.standard.set(sort.sortValue.rawValue, forKey: UserDefaultsKey.bookSort.rawValue)
+        UserDefaults.standard.set(sort.ascendingValue, forKey: sort.ascendingKey.rawValue)
+    }
 }
 
 extension BookSort {
     struct SortByTitle: BookSortProtocol {
-        var labelName = "Title"
         var ascendingKey: UserDefaultsKey { .sortByTitle }
         var ascendingValue = false
-        var sortValue: BookSortEnum { .title }
+        var sortValue: BookSortMenuOption { .title }
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(
                 key: #keyPath(Book.title),
@@ -75,10 +71,9 @@ extension BookSort {
     }
 
     struct SortByAuthor: BookSortProtocol {
-        var labelName = "Author"
         var ascendingKey: UserDefaultsKey { .sortByAuthor }
         var ascendingValue = false
-        var sortValue: BookSortEnum { .author }
+        var sortValue: BookSortMenuOption { .author }
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(
                 key: #keyPath(Book.author),
@@ -92,10 +87,9 @@ extension BookSort {
     }
 
     struct SortByCreatedAt: BookSortProtocol {
-        var labelName = "Date"
         var ascendingKey: UserDefaultsKey { .sortByCreatedAt }
         var ascendingValue = false
-        var sortValue: BookSortEnum { .createdAt }
+        var sortValue: BookSortMenuOption { .createdAt }
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(keyPath: \Book.createdAt, ascending: ascendingValue)
         }

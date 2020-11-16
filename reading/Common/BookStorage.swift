@@ -13,16 +13,14 @@ import CoreData
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books: [Book] = []
-    @Published var sortSelection: BookSortEnum
+    @Published var sortSelection: BookSortMenuOption = InitialBookSort.shared.selection
+    @Published var sortDirectionImage: String = InitialBookSort.shared.sort.labelImage
 
-    private var sort: BookSortProtocol
+    private var sort: BookSortProtocol = InitialBookSort.shared.sort
     private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
 
     init(viewContext: NSManagedObjectContext) {
-        sort = BookSort.shared.initialStruct
-        sortSelection = BookSort.shared.initialSelection
-
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
         fetchRequest.sortDescriptors = [sort.descriptor]
         booksController = NSFetchedResultsController(
@@ -48,7 +46,9 @@ class BookStorage: NSObject, ObservableObject {
                     self.sort = BookSort.shared.makeStruct(sortSelector: selection)
                 }
 
+                self.sortDirectionImage = self.sort.labelImage
                 self.refreshFetchWith(descriptor: self.sort.descriptor)
+                BookSort.shared.save(sort: self.sort)
             })
     }
 
