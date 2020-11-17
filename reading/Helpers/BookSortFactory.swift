@@ -101,16 +101,17 @@ extension BookSortFactory {
 }
 
 struct InitialBookSort {
-    static let singleton = InitialBookSort()
-    private init() {}
+    static var sort: BookSortProtocol {
+        let selection: BookSortSelection
 
-    var selection: BookSortSelection { loadSavedSort() ?? .title }
-    var sort: BookSortProtocol { BookSortFactory.create(selection: selection) }
-
-    private func loadSavedSort() -> BookSortSelection? {
+        // Try to load saved sort
         if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-            return BookSortSelection(rawValue: savedSort)
+            selection = BookSortSelection(rawValue: savedSort)!
+        } else {
+            selection = .title
         }
-        return nil
+        return BookSortFactory.create(selection: selection)
     }
+
+    private init() {}
 }

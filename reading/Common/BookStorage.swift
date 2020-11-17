@@ -13,13 +13,12 @@ import Foundation
 
 class BookStorage: NSObject, ObservableObject {
     @Published var books = [Book]()
-
-    @Published var sortSelection = InitialBookSort.singleton.selection
-    @Published var directionImage = InitialBookSort.singleton.sort.directionImage
-    private var sort = InitialBookSort.singleton.sort
-
-    private var cancellableBag = Set<AnyCancellable>()
     private let booksController: NSFetchedResultsController<Book>
+
+    private var sort = InitialBookSort.sort
+    @Published var sortSelection = InitialBookSort.sort.selection
+    @Published var directionImage = InitialBookSort.sort.directionImage
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
@@ -33,7 +32,7 @@ class BookStorage: NSObject, ObservableObject {
         booksController.delegate = self
         performFetch()
 
-        menuSelectionHandler.store(in: &cancellableBag)
+        menuSelectionHandler.store(in: &cancellables)
     }
 
     // TODO: [weak self]?
@@ -64,7 +63,7 @@ class BookStorage: NSObject, ObservableObject {
         }
     }
 
-    func refreshFetchWith(descriptor: NSSortDescriptor) {
+    private func refreshFetchWith(descriptor: NSSortDescriptor) {
         booksController.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
     }
