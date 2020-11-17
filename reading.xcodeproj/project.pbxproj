@@ -19,7 +19,7 @@
 		5723958324BEF28A007DC1E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */; };
 		5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958D24C0212E007DC1E5 /* BookDetail.swift */; };
 		5723959024C021A8007DC1E5 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookList.swift */; };
-		57264C19255E14590017E5F1 /* BookSortFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57264C18255E14590017E5F1 /* BookSortFactory.swift */; };
+		57264C19255E14590017E5F1 /* BookSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57264C18255E14590017E5F1 /* BookSort.swift */; };
 		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
@@ -64,7 +64,7 @@
 		5723958724BEF28A007DC1E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5723958D24C0212E007DC1E5 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		5723958F24C021A7007DC1E5 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
-		57264C18255E14590017E5F1 /* BookSortFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSortFactory.swift; sourceTree = "<group>"; };
+		57264C18255E14590017E5F1 /* BookSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSort.swift; sourceTree = "<group>"; };
 		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				5744CA00255B97A200C09F2B /* AppSettings.swift */,
-				57264C18255E14590017E5F1 /* BookSortFactory.swift */,
+				57264C18255E14590017E5F1 /* BookSort.swift */,
 				57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */,
 				57CDD9EC2555FAB90095B8BF /* Helpers.swift */,
 				57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */,
@@ -363,7 +363,7 @@
 				57294EE82535E679007BE15D /* BookExtension.swift in Sources */,
 				577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */,
 				57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */,
-				57264C19255E14590017E5F1 /* BookSortFactory.swift in Sources */,
+				57264C19255E14590017E5F1 /* BookSort.swift in Sources */,
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
 				577403BE252DB996001152B4 /* SessionList.swift in Sources */,
 				570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */,

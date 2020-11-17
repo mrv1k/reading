@@ -1,5 +1,5 @@
 //
-//  BookSortFactory.swift
+//  BookSort.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-11-12.
@@ -19,8 +19,8 @@ enum BookSortSelection: String, CaseIterable, Identifiable {
 struct BookSortFactory {
     private init() {}
 
-    static func create(selection: BookSortSelection) -> BookSortProtocol {
-        let sort: BookSortProtocol
+    static func create(selection: BookSortSelection) -> BookSort {
+        let sort: BookSort
         switch selection {
         case .author: sort = SortByAuthor()
         case .title: sort = SortByTitle()
@@ -32,7 +32,7 @@ struct BookSortFactory {
     }
 }
 
-protocol BookSortProtocol {
+protocol BookSort {
     var directionImage: String { get }
     var ascendingKey: UserDefaultsKey { get }
     var ascending: Bool? { get set }
@@ -41,7 +41,7 @@ protocol BookSortProtocol {
     var descriptor: NSSortDescriptor { get }
 }
 
-extension BookSortProtocol {
+extension BookSort {
     var directionImage: String { isAscending ? "chevron.up" : "chevron.down" }
 
     var isAscending: Bool {
@@ -66,7 +66,7 @@ extension BookSortProtocol {
 }
 
 extension BookSortFactory {
-    struct SortByTitle: BookSortProtocol {
+    struct SortByTitle: BookSort {
         var ascending: Bool?
         let ascendingKey = UserDefaultsKey.sortByTitle
         let selection = BookSortSelection.title
@@ -78,7 +78,7 @@ extension BookSortFactory {
         }
     }
 
-    struct SortByAuthor: BookSortProtocol {
+    struct SortByAuthor: BookSort {
         var ascending: Bool?
         let ascendingKey = UserDefaultsKey.sortByAuthor
         let selection = BookSortSelection.author
@@ -90,7 +90,7 @@ extension BookSortFactory {
         }
     }
 
-    struct SortByCreatedAt: BookSortProtocol {
+    struct SortByCreatedAt: BookSort {
         var ascending: Bool?
         let ascendingKey = UserDefaultsKey.sortByCreatedAt
         let selection = BookSortSelection.createdAt
@@ -101,7 +101,7 @@ extension BookSortFactory {
 }
 
 struct InitialBookSort {
-    static var sort: BookSortProtocol {
+    static var sort: BookSort {
         let selection: BookSortSelection
 
         // Try to load saved sort

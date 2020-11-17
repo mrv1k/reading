@@ -35,11 +35,10 @@ class BookStorage: NSObject, ObservableObject {
         menuSelectionHandler.store(in: &cancellables)
     }
 
-    // TODO: [weak self]?
     var menuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
-            .map { selection -> BookSortProtocol in
+            .map { selection -> BookSort in
                 // if current and new sort are the same, toggle sort direction
                 if self.sortSelection == selection {
                     self.sort.isAscending.toggle()
