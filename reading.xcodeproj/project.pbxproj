@@ -23,7 +23,7 @@
 		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
-		57329E0D255DEE73000ECEB1 /* UserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserKeys.swift */; };
+		57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
 		5744CA01255B97A200C09F2B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744CA00255B97A200C09F2B /* AppSettings.swift */; };
 		5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* SessionCreate.swift */; };
@@ -68,7 +68,7 @@
 		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
-		57329E0C255DEE73000ECEB1 /* UserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserKeys.swift; sourceTree = "<group>"; };
+		57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
 		5744CA00255B97A200C09F2B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		5746E92F24F2E0DC0094A27F /* SessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreate.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 				57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */,
 				57CDD9EC2555FAB90095B8BF /* Helpers.swift */,
 				57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */,
-				57329E0C255DEE73000ECEB1 /* UserKeys.swift */,
+				57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */,
 				57393CD824ED1A3F00DC9C40 /* Extension */,
 			);
 			path = Helpers;
@@ -340,7 +340,7 @@
 				57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */,
 				57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */,
 				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
-				57329E0D255DEE73000ECEB1 /* UserKeys.swift in Sources */,
+				57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
 				579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */,

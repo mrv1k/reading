@@ -6,8 +6,8 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct SettingsEditor: View {
     @EnvironmentObject private var settings: AppSettings
@@ -35,7 +35,7 @@ struct SettingsEditor_Previews: PreviewProvider {
                 SettingsEditor()
             }
         }
-        .environmentObject(AppSettings.shared)
+        .environmentObject(AppSettings.singleton)
         .previewDevice("iPhone SE (2nd generation)")
     }
 }

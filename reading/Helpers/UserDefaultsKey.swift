@@ -1,5 +1,5 @@
 //
-//  UserKeys.swift
+//  UserDefaultsKey.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-11-12.
@@ -8,6 +8,8 @@
 
 /// Key collection for UserDefaults
 enum UserDefaultsKey: String {
-    /// Uses `BookSort`
+    /// Used in: `BookSort`
     case bookSort, sortByTitle, sortByAuthor, sortByCreatedAt
+    /// Used in: `AppSettings`
+    case progressPercentage, relativeTime
 }

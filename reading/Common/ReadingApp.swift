@@ -14,7 +14,7 @@ struct ReadingApp: App {
 
     let persistenceController: PersistenceController
     @StateObject var bookStorage: BookStorage
-    @ObservedObject var settings = AppSettings.shared
+    @ObservedObject var settings = AppSettings.singleton
 
     init() {
         persistenceController = PersistenceController.shared
@@ -45,6 +45,5 @@ struct ReadingApp: App {
                 print("onChange: failed to save on .inactive case")
             }
         }
-
     }
 }
