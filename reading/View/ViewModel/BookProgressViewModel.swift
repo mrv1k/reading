@@ -8,13 +8,13 @@
 
 import Combine
 
-class BookProgressViewModel: ObservableObject {
+class BookProgressViewModel: ViewModel {
     @Published var completionPercent: Double = 0
     @Published var valueLabel: String = ""
 
     init(book: Book, showLabel: Bool) {
         let completionPercentPublisher = book.publisher(for: \.raw_completionPercent)
-            .map({ Helpers.percentCalculator.rounded($0) })
+            .map { Helpers.percentCalculator.rounded($0) }
 
         completionPercentPublisher.assign(to: &$completionPercent)
 
@@ -29,5 +29,4 @@ class BookProgressViewModel: ObservableObject {
             }
             .assign(to: &$valueLabel)
     }
-
 }

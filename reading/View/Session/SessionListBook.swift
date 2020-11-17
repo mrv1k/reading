@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SessionListBook: View {
+struct SessionListBook: View, ViewModelObserver {
     @Environment(\.managedObjectContext) private var viewContext
 
     @StateObject var viewModel: SessionListBookViewModel

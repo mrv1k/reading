@@ -9,11 +9,19 @@
 import Combine
 import Foundation
 
-protocol AppSettingsProvider {
-    static var singleton: AppSettings { get set }
+protocol AppSettingsViewModel: ObservableObject {
+    static var singleton: AppSettings { get }
 }
 
-class AppSettings: ObservableObject, AppSettingsProvider {
+protocol AppSettingsObserver {
+    var settings: AppSettings { get }
+}
+
+extension AppSettingsObserver {
+    var settings: AppSettings { AppSettings.singleton }
+}
+
+class AppSettings: AppSettingsViewModel {
     static var singleton = AppSettings()
 
     @Published var progressPercentage: Bool
@@ -34,12 +42,4 @@ class AppSettings: ObservableObject, AppSettingsProvider {
             .sink { UserDefaults.standard.set($0, forKey: key.rawValue) }
             .store(in: &cancellables)
     }
-}
-
-protocol AppSettingsConsumer {
-    var settings: AppSettings { get }
-}
-
-extension AppSettingsConsumer {
-    var settings: AppSettings { AppSettings.singleton }
 }

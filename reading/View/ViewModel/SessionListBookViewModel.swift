@@ -6,10 +6,10 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import CoreData
 import Combine
+import CoreData
 
-class SessionListBookViewModel: ObservableObject {
+class SessionListBookViewModel: ViewModel {
     private let book: Book
 
     @Published var pageEndField = ""

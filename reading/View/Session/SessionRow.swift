@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SessionRow: View {
+struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
     @EnvironmentObject var settings: AppSettings
 

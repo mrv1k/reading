@@ -6,10 +6,10 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import Foundation
 import Combine
+import Foundation
 
-class SessionRowViewModel: ObservableObject, Identifiable, AppSettingsConsumer {
+class SessionRowViewModel: ViewModel, Identifiable, AppSettingsObserver {
     private var session: Session
 
     init(session: Session) {
@@ -24,9 +24,11 @@ class SessionRowViewModel: ObservableObject, Identifiable, AppSettingsConsumer {
     var progress: String {
         settings.progressPercentage ? progressPercent : progressPage
     }
+
     var progressPage: String {
         "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
     }
+
     var progressPercent: String {
         "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
     }

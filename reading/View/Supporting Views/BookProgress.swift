@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct BookProgress: View {
+struct BookProgress: View, ViewModelObserver {
     var showLabel: Bool
 
     @StateObject var viewModel: BookProgressViewModel
@@ -21,8 +21,7 @@ struct BookProgress: View {
 
     var body: some View {
         if showLabel {
-            ProgressView(value: viewModel.completionPercent, total: 100)
-            {} // label: () -> _,
+            ProgressView(value: viewModel.completionPercent, total: 100) {} // label: () -> _,
             currentValueLabel: { Text(viewModel.valueLabel) }
         } else {
             ProgressView(value: viewModel.completionPercent, total: 100)
