@@ -7,11 +7,11 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 public class Session: NSManagedObject {
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         setPrimitiveValue(Date(), forKey: "createdAt")
     }

@@ -7,12 +7,16 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 public class Book: NSManagedObject {
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         setPrimitiveValue(Date(), forKey: "createdAt")
+    }
+
+    @objc class func keyPathsForValuesAffectingSessions() -> Set<NSObject> {
+        [#keyPath(Book.sessionsSet) as NSObject]
     }
 }
