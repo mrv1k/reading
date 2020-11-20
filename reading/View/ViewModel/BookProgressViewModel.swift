@@ -9,10 +9,13 @@
 import Combine
 
 class BookProgressViewModel: ViewModel {
+    var showLabel: Bool
     @Published var completionPercent: Double = 0
     @Published var valueLabel: String = ""
 
     init(book: Book, showLabel: Bool) {
+        self.showLabel = showLabel
+
         let completionPercentPublisher = book.publisher(for: \.raw_completionPercent)
             .map { Helpers.percentCalculator.rounded($0) }
 

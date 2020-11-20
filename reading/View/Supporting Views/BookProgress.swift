@@ -9,18 +9,10 @@
 import SwiftUI
 
 struct BookProgress: View, ViewModelObserver {
-    var showLabel: Bool
-
-    @StateObject var viewModel: BookProgressViewModel
-
-    init(book: Book, showLabel: Bool = false) {
-        let viewModel = BookProgressViewModel(book: book, showLabel: showLabel)
-        _viewModel = StateObject(wrappedValue: viewModel)
-        self.showLabel = showLabel
-    }
+    @ObservedObject var viewModel: BookProgressViewModel
 
     var body: some View {
-        if showLabel {
+        if viewModel.showLabel {
             ProgressView(value: viewModel.completionPercent, total: 100) {} // label: () -> _,
             currentValueLabel: { Text(viewModel.valueLabel) }
         } else {
@@ -29,13 +21,13 @@ struct BookProgress: View, ViewModelObserver {
     }
 }
 
-struct BookProgress_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
-
-            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
-
-        }.previewLayout(.sizeThatFits)
-    }
-}
+//struct BookProgress_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
+//
+//            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
+//
+//        }.previewLayout(.sizeThatFits)
+//    }
+//}

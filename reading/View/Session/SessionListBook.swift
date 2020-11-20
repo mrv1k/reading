@@ -11,12 +11,7 @@ import SwiftUI
 struct SessionListBook: View, ViewModelObserver {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @StateObject var viewModel: SessionListBookViewModel
-
-    init(book: Book) {
-        let viewModel = SessionListBookViewModel(book: book)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
         VStack {
@@ -39,19 +34,19 @@ struct SessionListBook: View, ViewModelObserver {
     }
 }
 
-struct SessionListBook_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-
-        return Group {
-            SessionListBook(book: book)
-                .previewLayout(.sizeThatFits)
-
-            NavigationView {
-                SessionListBook(book: book)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-            }
-        }
-        .previewDevice("iPhone SE (2nd generation)")
-    }
-}
+//struct SessionListBook_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//
+//        return Group {
+//            SessionListBook(book: book)
+//                .previewLayout(.sizeThatFits)
+//
+//            NavigationView {
+//                SessionListBook(book: book)
+//                    .frame(maxHeight: .infinity, alignment: .topLeading)
+//            }
+//        }
+//        .previewDevice("iPhone SE (2nd generation)")
+//    }
+//}

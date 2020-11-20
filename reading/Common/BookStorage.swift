@@ -40,7 +40,7 @@ class BookStorage: NSObject, ObservableObject {
             .dropFirst()
             .map { selection -> BookSort in
                 // if current and new sort are the same, toggle sort direction
-                if self.sortSelection == selection {
+                if selection == self.sortSelection {
                     self.sort.isAscending.toggle()
                 } else {
                     self.sort = BookSortFactory.create(selection: selection)

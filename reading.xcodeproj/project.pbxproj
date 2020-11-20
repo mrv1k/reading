@@ -31,11 +31,10 @@
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
 		575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A224F3A16F00D58737 /* PersistenceController.swift */; };
 		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
+		576387E02567637D00F78178 /* SessionCreateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576387DF2567637D00F78178 /* SessionCreateField.swift */; };
 		57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */; };
 		57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57740397252C4316001152B4 /* SimpleSessionCreate.swift */; };
-		577403BE252DB996001152B4 /* SessionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403BD252DB996001152B4 /* SessionList.swift */; };
 		577403C5252DBC61001152B4 /* SessionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403C4252DBC61001152B4 /* SessionRow.swift */; };
-		577403C8252DBCFE001152B4 /* SessionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403C7252DBCFE001152B4 /* SessionDetail.swift */; };
 		577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403CB252DBE14001152B4 /* SessionListBook.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		579730EC2558CCD100393876 /* BookProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579730EB2558CCD100393876 /* BookProgress.swift */; };
@@ -77,11 +76,10 @@
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
 		575936A224F3A16F00D58737 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
+		576387DF2567637D00F78178 /* SessionCreateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreateField.swift; sourceTree = "<group>"; };
 		57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProgressViewModel.swift; sourceTree = "<group>"; };
 		57740397252C4316001152B4 /* SimpleSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSessionCreate.swift; sourceTree = "<group>"; };
-		577403BD252DB996001152B4 /* SessionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionList.swift; sourceTree = "<group>"; };
 		577403C4252DBC61001152B4 /* SessionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRow.swift; sourceTree = "<group>"; };
-		577403C7252DBCFE001152B4 /* SessionDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetail.swift; sourceTree = "<group>"; };
 		577403CB252DBE14001152B4 /* SessionListBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListBook.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		579730EB2558CCD100393876 /* BookProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProgress.swift; sourceTree = "<group>"; };
@@ -186,8 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				5746E92F24F2E0DC0094A27F /* SessionCreate.swift */,
-				577403C7252DBCFE001152B4 /* SessionDetail.swift */,
-				577403BD252DB996001152B4 /* SessionList.swift */,
+				576387DF2567637D00F78178 /* SessionCreateField.swift */,
 				577403CB252DBE14001152B4 /* SessionListBook.swift */,
 				577403C4252DBC61001152B4 /* SessionRow.swift */,
 				57740397252C4316001152B4 /* SimpleSessionCreate.swift */,
@@ -348,7 +345,6 @@
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
 				579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */,
 				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
-				577403C8252DBCFE001152B4 /* SessionDetail.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
 				57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */,
@@ -361,6 +357,7 @@
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
 				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
+				576387E02567637D00F78178 /* SessionCreateField.swift in Sources */,
 				57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */,
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,
@@ -369,7 +366,6 @@
 				57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */,
 				57264C19255E14590017E5F1 /* BookSort.swift in Sources */,
 				575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */,
-				577403BE252DB996001152B4 /* SessionList.swift in Sources */,
 				570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */,
 				57CDD9ED2555FAB90095B8BF /* Helpers.swift in Sources */,
 				5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */,
