@@ -27,7 +27,7 @@ struct SessionListBook: View, ViewModelObserver {
                 }
             }
 
-            ForEach(viewModel.sessionRowViewModels) { sessionRowViewModel in
+            ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
                 SessionRow(viewModel: sessionRowViewModel)
             }
         }

@@ -34,3 +34,24 @@
 //            .previewLayout(.sizeThatFits)
 //    }
 //}
+
+
+//HStack {
+//    TextField("I'm on page", text: $viewModel.pageEndField)
+//        .keyboardType(.numberPad)
+//        .textFieldStyle(RoundedBorderTextFieldStyle())
+//
+//    Button {
+//        viewModel.save(context: viewContext)
+//    } label: {
+//        Image(systemName: "plus.circle.fill").imageScale(.large)
+//    }
+//}
+
+//func save(context: NSManagedObjectContext) {
+//    let session = Session(context: context)
+//    session.book = book
+//    session.pageEnd = Int16(pageEndField)!
+//    try! context.saveOnChanges(session: session)
+//    pageEndField = ""
+//}

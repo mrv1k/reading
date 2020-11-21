@@ -12,4 +12,8 @@ extension Book {
     @objc dynamic var sessions: [Session] {
         sessionsSet?.array as? [Session] ?? []
     }
+
+    @objc dynamic var sessionsReversed: [Session] {
+        sessions.reversed()
+    }
 }

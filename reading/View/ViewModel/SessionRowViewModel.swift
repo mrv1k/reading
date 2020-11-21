@@ -11,13 +11,15 @@ import Foundation
 
 class SessionRowViewModel: ViewModel, Identifiable, AppSettingsObserver {
     private var session: Session
+    @Published var showDayLabelForReverseArray: Bool
 
     init(session: Session) {
+        print("row init")
         self.session = session
+        showDayLabelForReverseArray = session.reverse_showDayLabel
     }
 
     var createdAt: Date { session.createdAt }
-    var showDayLabelForReverseArray: Bool { session.reverse_showDayLabel }
     var weekDay: String { Helpers.dateFormatters.day.string(from: session.createdAt) }
     var monthDay: String { Helpers.dateFormatters.month.string(from: session.createdAt) }
 

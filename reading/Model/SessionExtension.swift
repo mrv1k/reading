@@ -39,5 +39,4 @@ extension Session {
     private func showPreviousDayLabel(_ previous: Date, current: Date) -> Bool {
         !Calendar.current.isDate(previous, inSameDayAs: current)
     }
-
 }
