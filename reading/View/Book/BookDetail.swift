@@ -7,13 +7,9 @@ class BookDetailViewModel: ViewModel {
     var sessionListBook: SessionListBookViewModel
 //    var sessionCreateField: SessionCreateFieldViewModel
 
-    var sessionSetSnapshot: NSOrderedSet?
-
     init(book: Book)
     {
-        print("BookDetail VM")
         self.book = book
-        sessionSetSnapshot = self.book.sessionsSet
 
         self.bookProgress = BookProgressViewModel(book: book, showLabel: true)
         self.sessionListBook = SessionListBookViewModel(book: book)

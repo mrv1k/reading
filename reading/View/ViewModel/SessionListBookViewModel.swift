@@ -20,7 +20,6 @@ class SessionListBookViewModel: ViewModel {
     var cancellables = Set<AnyCancellable>()
 
     init(book: Book) {
-        print("SessionListBook VM")
         self.book = book
 
         let rowViewModels = book.sessions

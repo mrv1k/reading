@@ -34,19 +34,20 @@ struct SessionListBook: View, ViewModelObserver {
     }
 }
 
-//struct SessionListBook_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-//
-//        return Group {
-//            SessionListBook(book: book)
-//                .previewLayout(.sizeThatFits)
-//
-//            NavigationView {
-//                SessionListBook(book: book)
-//                    .frame(maxHeight: .infinity, alignment: .topLeading)
-//            }
-//        }
-//        .previewDevice("iPhone SE (2nd generation)")
-//    }
-//}
+struct SessionListBook_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let viewModel = SessionListBookViewModel(book: book)
+
+        return Group {
+            SessionListBook(viewModel: viewModel)
+                .previewLayout(.sizeThatFits)
+
+            NavigationView {
+                SessionListBook(viewModel: viewModel)
+                    .frame(maxHeight: .infinity, alignment: .topLeading)
+            }
+        }
+        .previewDevice("iPhone SE (2nd generation)")
+    }
+}

@@ -21,13 +21,17 @@ struct BookProgress: View, ViewModelObserver {
     }
 }
 
-//struct BookProgress_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
-//
-//            BookProgress(book: BookSeeder.preview.fetch(bookWith: .sessions))
-//
-//        }.previewLayout(.sizeThatFits)
-//    }
-//}
+struct BookProgress_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let viewModel = BookProgressViewModel(book: book, showLabel: true)
+        let viewModelNoLabel = BookProgressViewModel(book: book, showLabel: false)
+
+        return Group {
+            BookProgress(viewModel: viewModel)
+
+            BookProgress(viewModel: viewModelNoLabel)
+
+        }.previewLayout(.sizeThatFits)
+    }
+}
