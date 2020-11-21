@@ -1,57 +1,39 @@
-////
-////  SessionCreateField.swift
-////  reading
-////
-////  Created by Viktor Khotimchenko on 2020-11-19.
-////  Copyright © 2020 mrv1k. All rights reserved.
-////
 //
-//import SwiftUI
+//  SessionCreateField.swift
+//  reading
 //
-//class SessionCreateFieldViewModel: ViewModel {
-//    private var book: Book
+//  Created by Viktor Khotimchenko on 2020-11-19.
+//  Copyright © 2020 mrv1k. All rights reserved.
 //
-//    init(book: Book) {
-//        self.book = book
-//    }
-//
-//    @Published var input = ""
-//}
-//
-//struct SessionCreateField: View, ViewModelObserver {
-//    let book: Book
-//
-//    @ObservedObject var viewModel: SessionCreateFieldViewModel
-//
-//    var body: some View {
-//        TextField("Placeholder", text: $viewModel.input)
-//    }
-//}
-//
-//struct SessionCreateField_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SessionCreateField(book: BookSeeder.preview.fetch(bookWith: .sessions))
-//            .previewLayout(.sizeThatFits)
-//    }
-//}
 
+import SwiftUI
 
-//HStack {
-//    TextField("I'm on page", text: $viewModel.pageEndField)
-//        .keyboardType(.numberPad)
-//        .textFieldStyle(RoundedBorderTextFieldStyle())
-//
-//    Button {
-//        viewModel.save(context: viewContext)
-//    } label: {
-//        Image(systemName: "plus.circle.fill").imageScale(.large)
-//    }
-//}
+struct SessionCreateField: View, ViewModelObserver {
+    @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var viewModel: SessionCreateFieldViewModel
 
-//func save(context: NSManagedObjectContext) {
-//    let session = Session(context: context)
-//    session.book = book
-//    session.pageEnd = Int16(pageEndField)!
-//    try! context.saveOnChanges(session: session)
-//    pageEndField = ""
-//}
+    var body: some View {
+        HStack {
+            TextField("Better placeholder", text: $viewModel.pageEndInput)
+                .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            Button {
+                viewModel.save(context: viewContext)
+            } label: {
+                Image(systemName: "plus.circle.fill").imageScale(.large)
+            }
+        }
+    }
+}
+
+struct SessionCreateField_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let viewModel = SessionCreateFieldViewModel(book: book)
+
+        SessionCreateField(viewModel: viewModel)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .previewLayout(.sizeThatFits)
+    }
+}

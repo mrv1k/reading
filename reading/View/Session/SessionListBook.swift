@@ -9,27 +9,11 @@
 import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
-    @Environment(\.managedObjectContext) private var viewContext
-
     @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
-        VStack {
-            HStack {
-                TextField("I'm on page", text: $viewModel.pageEndField)
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                Button {
-                    viewModel.save(context: viewContext)
-                } label: {
-                    Image(systemName: "plus.circle.fill").imageScale(.large)
-                }
-            }
-
-            ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
-                SessionRow(viewModel: sessionRowViewModel)
-            }
+        ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
+            SessionRow(viewModel: sessionRowViewModel)
         }
     }
 }

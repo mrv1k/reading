@@ -45,6 +45,7 @@
 		57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */; };
 		57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */; };
 		57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D94744255A104000EB3D80 /* SettingsEditor.swift */; };
+		57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57F4815224FF9490002B6691 /* BookStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4815124FF9490002B6691 /* BookStorage.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentCalculator.swift; sourceTree = "<group>"; };
 		57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		57D94744255A104000EB3D80 /* SettingsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditor.swift; sourceTree = "<group>"; };
+		57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreateFieldViewModel.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57F4815124FF9490002B6691 /* BookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */,
+				57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */,
 				579730EE2558D88D00393876 /* SessionListBookViewModel.swift */,
 				57093B7F2559B1BA00FEC08D /* SessionRowViewModel.swift */,
 				573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */,
@@ -358,6 +361,7 @@
 				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
 				576387E02567637D00F78178 /* SessionCreateField.swift in Sources */,
+				57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */,
 				57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */,
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,

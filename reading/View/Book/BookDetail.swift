@@ -1,19 +1,18 @@
 import SwiftUI
 
 class BookDetailViewModel: ViewModel {
-    private var book: Book
+    var book: Book
 
     var bookProgress: BookProgressViewModel
     var sessionListBook: SessionListBookViewModel
-//    var sessionCreateField: SessionCreateFieldViewModel
+    var sessionCreateField: SessionCreateFieldViewModel
 
-    init(book: Book)
-    {
+    init(book: Book) {
         self.book = book
 
         self.bookProgress = BookProgressViewModel(book: book, showLabel: true)
         self.sessionListBook = SessionListBookViewModel(book: book)
-//        self.sessionCreateField = SessionCreateFieldViewModel(book: book)
+        self.sessionCreateField = SessionCreateFieldViewModel(book: book)
     }
 }
 
@@ -26,11 +25,11 @@ struct BookDetail: View {
 
     var body: some View {
         ScrollView(content: {
-//            BookRow(book: book)
+            BookRow(book: viewModel.book)
 
             BookProgress(viewModel: viewModel.bookProgress)
 
-//            SessionCreateField(book: book)
+            SessionCreateField(viewModel: viewModel.sessionCreateField)
 
             SessionListBook(viewModel: viewModel.sessionListBook)
         })
