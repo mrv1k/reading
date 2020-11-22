@@ -17,35 +17,32 @@ struct SessionRow: View, ViewModelObserver {
     }
 
     var dateHeader: some View {
-        Group {
-            Divider()
-            HStack {
-                Text(viewModel.weekDay).font(.headline)
-                    + Text(" ")
-                    + Text(viewModel.monthDay).foregroundColor(.gray)
-            }
+        HStack {
+            Text(viewModel.weekDay).font(.headline)
+                + Text(" ")
+                + Text(viewModel.monthDay).foregroundColor(.gray)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var body: some View {
-        VStack {
-            if viewModel.showDayLabelForReverseArray {
-                dateHeader
-            }
-            HStack {
-                Text(viewModel.progress)
+        HStack {
+           VStack {
+               Text("#####")
+               Text("5 hashes")
+           }.font(.caption)
 
-                Spacer()
-
-                Group {
-                    Text(viewModel.createdAt, style: timeStyle)
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Avocado Toast").font(.title)
+                    Spacer()
+                    Rectangle().frame(width: 20, height: 20)
                 }
-                .font(.subheadline)
-                .foregroundColor(.gray)
+
+                Text("yada yada yada")
+                    .font(.caption).lineLimit(1)
             }
         }
-        .padding(.top, 1)
     }
 }
 
@@ -58,3 +55,39 @@ struct SessionRow_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+
+// VStack(alignment: .leading) {
+//    if viewModel.showDayLabelForReverseArray {
+//        Divider()
+//        dateHeader
+//    }
+//    HStack {
+//        Text(viewModel.progress)
+//
+//        Spacer()
+//
+//        Text(viewModel.createdAt, style: timeStyle)
+//            .font(.subheadline)
+//            .foregroundColor(.gray)
+//    }
+// }
+////        .padding(.top, 1)
+
+// HStack {
+//    VStack {
+//        Text("#####")
+//        Text("5 hashes")
+//    }.font(.caption)
+//
+//    VStack(alignment: .leading) {
+//        HStack {
+//            Text("Avocado Toast").font(.title)
+//            Spacer()
+//            //                    Text("image")
+//            Rectangle().frame(width: 20, height: 20)
+//        }
+//
+//        Text("yada yada yada")
+//            .font(.caption).lineLimit(1)
+//    }
+// }

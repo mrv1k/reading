@@ -14,7 +14,7 @@ struct SessionCreateField: View, ViewModelObserver {
 
     var body: some View {
         HStack {
-            TextField("Better placeholder", text: $viewModel.pageEndInput)
+            TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
                 .keyboardType(.numberPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
 

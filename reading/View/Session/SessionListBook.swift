@@ -9,29 +9,36 @@
 import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
-    @ObservedObject var viewModel: SessionListBookViewModel
+    @StateObject var viewModel: SessionListBookViewModel
+
+    init(book: Book) {
+        print("list view init")
+        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
+    }
 
     var body: some View {
-        ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
-            SessionRow(viewModel: sessionRowViewModel)
-        }
-    }
-}
-
-struct SessionListBook_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let viewModel = SessionListBookViewModel(book: book)
-
-        return Group {
-            SessionListBook(viewModel: viewModel)
-                .previewLayout(.sizeThatFits)
-
-            NavigationView {
-                SessionListBook(viewModel: viewModel)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
+        VStack {
+            ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
+                SessionRow(viewModel: sessionRowViewModel)
             }
         }
-        .previewDevice("iPhone SE (2nd generation)")
     }
 }
+
+//struct SessionListBook_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//        let viewModel = SessionListBookViewModel(book: book)
+//
+//        return Group {
+//            SessionListBook(viewModel: viewModel)
+//                .previewLayout(.sizeThatFits)
+//
+//            NavigationView {
+//                SessionListBook(viewModel: viewModel)
+//                    .frame(maxHeight: .infinity, alignment: .topLeading)
+//            }
+//        }
+//        .previewDevice("iPhone SE (2nd generation)")
+//    }
+//}

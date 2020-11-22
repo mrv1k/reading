@@ -5,10 +5,10 @@ struct BookCreate: View {
     @Environment(\.presentationMode) private var isActive
 
     @State private var image: Image?
-    @State private var title = ""
+    @State private var title = "title"
     @State private var subtitle: String?
-    @State private var author = ""
-    @State private var pageCount = ""
+    @State private var author = "author"
+    @State private var pageCount = "100"
 
     var hasEmptyRequiredField: Bool {
         title.isEmpty || author.isEmpty || pageCount.isEmpty

@@ -7,47 +7,42 @@
 //
 
 import Combine
-import CoreData
 
 class SessionListBookViewModel: ViewModel {
     private let book: Book
-
-    // TODO: move out
-    @Published var pageEndField = ""
 
     @Published var sessionsReversedRowViewModels = [SessionRowViewModel]()
 
     var cancellables = Set<AnyCancellable>()
 
     init(book: Book) {
+        print("List init")
         self.book = book
 
         let rowViewModels = book.sessions
             .map { (session: Session) in
                 SessionRowViewModel(session: session)
             }
-
         sessionsReversedRowViewModels = rowViewModels.reversed()
 
         sessionsPublisher.store(in: &cancellables)
+    }
+
+    deinit {
+        print("List deinit")
     }
 
     var sessionsPublisher: AnyCancellable {
         book.publisher(for: \.sessions)
             .dropFirst()
             .sink { [weak self] sessions in
-                guard let self = self else { return }
+                print("sink")
+                guard let self = self,
+                      let newSession = sessions.last else { return }
+                print("self and newSess present")
                 // insert last session at the beginning of revesed array
-                let last = SessionRowViewModel(session: sessions.last!)
-                self.sessionsReversedRowViewModels.insert(last, at: 0)
+                let rowViewModel = SessionRowViewModel(session: newSession)
+                self.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
             }
-    }
-
-    func save(context: NSManagedObjectContext) {
-        let session = Session(context: context)
-        session.book = book
-        session.pageEnd = Int16(pageEndField)!
-        try! context.saveOnChanges(session: session)
-        pageEndField = ""
     }
 }

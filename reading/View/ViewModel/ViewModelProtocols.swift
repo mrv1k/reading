@@ -7,8 +7,6 @@
 //
 import Combine
 
-import SwiftUI
-
 protocol ViewModel: ObservableObject {}
 
 protocol ViewModelObserver {
