@@ -12,11 +12,11 @@ class SessionCreateFieldViewModel: ViewModel {
     private var book: Book
 
     @Published var pageEndInput = ""
-    @Published var pageEndPlaceholder = "placeholder"
+    @Published var pageEndPlaceholder = ""
 
     init(book: Book) {
         self.book = book
-        pageEndPlaceholder = "I'm on page \(book.completionPage)"
+        setPlaceholder(page: book.completionPage)
     }
 
     func save(context: NSManagedObjectContext) {
@@ -24,6 +24,11 @@ class SessionCreateFieldViewModel: ViewModel {
         session.book = book
         session.pageEnd = Int16(pageEndInput)!
         try! context.saveOnChanges(session: session)
+        setPlaceholder(page: pageEndInput)
         pageEndInput = ""
+    }
+
+    func setPlaceholder<T>(page: T) {
+        pageEndPlaceholder = "Currently on page \(page)"
     }
 }
