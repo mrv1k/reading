@@ -19,9 +19,14 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
         session.publisher(for: \.reverse_showDayLabel).assign(to: &$showDayLabelForReverseArray)
     }
 
-    var createdAt: Date { session.createdAt }
-    var weekDay: String { Helpers.dateFormatters.day.string(from: session.createdAt) }
-    var monthDay: String { Helpers.dateFormatters.month.string(from: session.createdAt) }
+    var time: String {
+        Helpers.dateFormatters.time.string(from: session.createdAt)
+    }
+
+    var date: String {
+        Calendar.current.isDateInToday(session.createdAt) ? "Today" :
+            Helpers.dateFormatters.date.string(from: session.createdAt)
+    }
 
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
 

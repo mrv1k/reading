@@ -18,10 +18,6 @@ struct SettingsEditor: View {
                 Toggle(isOn: $settings.progressPercentage) {
                     Label("Progress percentage", systemImage: "percent")
                 }
-
-                Toggle(isOn: $settings.relativeTime) {
-                    Label("Relative time", systemImage: "clock")
-                }
             }
         }
         .navigationBarTitle("Settings", displayMode: .inline)

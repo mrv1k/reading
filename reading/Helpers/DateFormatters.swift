@@ -9,15 +9,15 @@
 import Foundation
 
 struct DateFormatterHelper {
-    var day: DateFormatter = {
+    var date: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "E"
+        formatter.dateFormat = "MMMM d"
         return formatter
     }()
 
-    var month: DateFormatter = {
+    var time: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM"
+        formatter.timeStyle = .short
         return formatter
     }()
 }

@@ -11,5 +11,5 @@ enum UserDefaultsKey: String {
     /// Used in: `BookSort`
     case bookSort, sortByTitle, sortByAuthor, sortByCreatedAt
     /// Used in: `AppSettings`
-    case progressPercentage, relativeTime
+    case progressPercentage
 }

@@ -25,15 +25,12 @@ class AppSettings: AppSettingsViewModel {
     static var singleton = AppSettings()
 
     @Published var progressPercentage: Bool
-    @Published var relativeTime: Bool
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
         progressPercentage = UserDefaults.standard.bool(forKey: UserDefaultsKey.progressPercentage.rawValue)
-        relativeTime = UserDefaults.standard.bool(forKey: UserDefaultsKey.relativeTime.rawValue)
 
         subscribeToSaveInUserDefaults(publisher: $progressPercentage, key: .progressPercentage)
-        subscribeToSaveInUserDefaults(publisher: $relativeTime, key: .relativeTime)
     }
 
     func subscribeToSaveInUserDefaults<T>(publisher: Published<T>.Publisher, key: UserDefaultsKey) {
