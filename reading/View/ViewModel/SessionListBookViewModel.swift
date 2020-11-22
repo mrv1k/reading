@@ -7,42 +7,40 @@
 //
 
 import Combine
+import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
     private let book: Book
 
     @Published var sessionsReversedRowViewModels = [SessionRowViewModel]()
-
-    var cancellables = Set<AnyCancellable>()
+    private var newSessionSubscriber: AnyCancellable?
 
     init(book: Book) {
-        print("List init")
         self.book = book
 
-        let rowViewModels = book.sessions
-            .map { (session: Session) in
-                SessionRowViewModel(session: session)
-            }
-        sessionsReversedRowViewModels = rowViewModels.reversed()
+        sessionsReversedRowViewModels = book.sessions
+            .map { SessionRowViewModel(session: $0) }
+            .reversed()
 
-        sessionsPublisher.store(in: &cancellables)
+        newSessionSubscriber = newSessionSubscriberCancellable
     }
 
-    deinit {
-        print("List deinit")
-    }
-
-    var sessionsPublisher: AnyCancellable {
+    private var newSessionsPublisher: AnyPublisher<Session?, Never> {
         book.publisher(for: \.sessions)
             .dropFirst()
-            .sink { [weak self] sessions in
-                print("sink")
-                guard let self = self,
-                      let newSession = sessions.last else { return }
-                print("self and newSess present")
+            .map { $0.last }
+            .eraseToAnyPublisher()
+    }
+
+    private var newSessionSubscriberCancellable: AnyCancellable {
+        newSessionsPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (session: Session?) in
+                // session is nil Book was deleted
+                guard let session = session else { return }
                 // insert last session at the beginning of revesed array
-                let rowViewModel = SessionRowViewModel(session: newSession)
-                self.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
+                let rowViewModel = SessionRowViewModel(session: session)
+                self?.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
             }
     }
 }

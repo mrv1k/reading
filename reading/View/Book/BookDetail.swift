@@ -5,17 +5,14 @@ class BookDetailViewModel: ViewModel {
 
     var bookProgress: BookProgressViewModel
     var sessionCreateField: SessionCreateFieldViewModel
+    var sessionListBook: SessionListBookViewModel
 
     init(book: Book) {
         self.book = book
 
-        self.bookProgress = BookProgressViewModel(book: book, showLabel: true)
-        self.sessionCreateField = SessionCreateFieldViewModel(book: book)
-        print("init")
-    }
-
-    deinit {
-        print("deinit")
+        bookProgress = BookProgressViewModel(book: book, showLabel: true)
+        sessionCreateField = SessionCreateFieldViewModel(book: book)
+        sessionListBook = SessionListBookViewModel(book: book)
     }
 }
 
@@ -24,7 +21,6 @@ struct BookDetail: View {
 
     init(book: Book) {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
-        print("BookDetail init")
     }
 
     var body: some View {
@@ -33,7 +29,7 @@ struct BookDetail: View {
 
             BookProgress(viewModel: viewModel.bookProgress)
 
-            SessionListBook(book: viewModel.book)
+            SessionListBook(viewModel: viewModel.sessionListBook)
 
             SessionCreateField(viewModel: viewModel.sessionCreateField)
         })

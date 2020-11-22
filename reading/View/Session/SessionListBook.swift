@@ -9,12 +9,7 @@
 import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
-    @StateObject var viewModel: SessionListBookViewModel
-
-    init(book: Book) {
-        print("list view init")
-        _viewModel = StateObject(wrappedValue: SessionListBookViewModel(book: book))
-    }
+    @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
         VStack {
@@ -25,19 +20,20 @@ struct SessionListBook: View, ViewModelObserver {
     }
 }
 
- struct SessionListBook_Previews: PreviewProvider {
+struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let viewModel = SessionListBookViewModel(book: book)
 
         return Group {
-            SessionListBook(book: book)
+            SessionListBook(viewModel: viewModel)
                 .previewLayout(.sizeThatFits)
 
             NavigationView {
-                SessionListBook(book: book)
+                SessionListBook(viewModel: viewModel)
                     .frame(maxHeight: .infinity, alignment: .topLeading)
             }
         }
         .previewDevice("iPhone SE (2nd generation)")
     }
- }
+}
