@@ -10,31 +10,21 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
-    private var session: Session
-
     @Published var showDayLabelForReverseArray = false
-
-    init(session: Session) {
-        self.session = session
-        session.publisher(for: \.reverse_showDayLabel).assign(to: &$showDayLabelForReverseArray)
-    }
-
-    var time: String {
-        Helpers.dateFormatters.time.string(from: session.createdAt)
-    }
-
-    var date: String {
-        Calendar.current.isDateInToday(session.createdAt) ? "Today" :
-            Helpers.dateFormatters.date.string(from: session.createdAt)
-    }
-
+    var time: String
+    var date: String
+    var progressPage: String
+    var progressPercent: String
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
 
-    var progressPage: String {
-        "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
-    }
+    init(session: Session) {
+        time = Helpers.dateFormatters.time.string(from: session.createdAt)
+        date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
+            Helpers.dateFormatters.date.string(from: session.createdAt)
 
-    var progressPercent: String {
-        "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
+        progressPage = "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
+        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
+
+        session.publisher(for: \.reverse_showDayLabel).assign(to: &$showDayLabelForReverseArray)
     }
 }
