@@ -12,6 +12,7 @@
 
 import SwiftUI
 
+// TODO: refactor or delete
 struct AppToolbar: ToolbarContent {
     var body: some ToolbarContent {
         ToolbarItemGroup(placement: .bottomBar) {
