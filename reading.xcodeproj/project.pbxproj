@@ -24,6 +24,7 @@
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
 		57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */; };
+		57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
 		573F1CA625644E6600F26F44 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */; };
 		5744CA01255B97A200C09F2B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744CA00255B97A200C09F2B /* AppSettings.swift */; };
@@ -70,6 +71,7 @@
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
 		57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbar.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
 		573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
 		5744CA00255B97A200C09F2B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -135,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				57A2931D250FA9BF001F47A7 /* Common */,
-				57264C17255E13E10017E5F1 /* Helper Models */,
 				57CDD9EB2555FAB90095B8BF /* Helpers */,
 				57C97BFE24D051D000398FA9 /* Model */,
 				5723958124BEF28A007DC1E5 /* Preview Content */,
@@ -153,13 +154,6 @@
 				5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		57264C17255E13E10017E5F1 /* Helper Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Helper Models";
 			sourceTree = "<group>";
 		};
 		57393CD824ED1A3F00DC9C40 /* Extension */ = {
@@ -197,6 +191,7 @@
 		5748B7522558B8A700972F36 /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */,
 				5708D84424C7096F002635BB /* BookCover.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */,
 				579730EB2558CCD100393876 /* BookProgress.swift */,
@@ -359,6 +354,7 @@
 				579730EC2558CCD100393876 /* BookProgress.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
 				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
+				57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
 				576387E02567637D00F78178 /* SessionCreateField.swift in Sources */,
 				57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */,
