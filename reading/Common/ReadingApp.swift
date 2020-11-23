@@ -28,6 +28,37 @@ struct ReadingApp: App {
         WindowGroup {
             NavigationView {
                 BookList()
+                    .toolbar {
+                        ToolbarItemGroup(placement: .bottomBar) {
+                            Button {} label: {
+                                VStack {
+                                    Image(systemName: "scroll")
+                                    Text("Reading Now").font(.caption2).bold()
+                                }
+                            }
+                            Spacer()
+                            Button {} label: {
+                                VStack {
+                                    Image(systemName: "books.vertical")
+                                    Text("Library").font(.caption2).bold()
+                                }
+                            }
+                            Spacer()
+                            Button {} label: {
+                                VStack {
+                                    Image(systemName: "gauge")
+                                    Text("Statistics").font(.caption2).bold()
+                                }
+                            }
+                            Spacer()
+                            Button {} label: {
+                                VStack {
+                                    Image(systemName: "gearshape")
+                                    Text("Settings").font(.caption2).bold()
+                                }
+                            }
+                        }
+                    }
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(settings)

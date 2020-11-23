@@ -22,13 +22,14 @@ class BookProgressViewModel: ViewModel {
         completionPercentPublisher.assign(to: &$completionPercent)
 
         guard showLabel else { return }
-        Publishers.CombineLatest(completionPercentPublisher, book.publisher(for: \.completionPage))
+        completionPercentPublisher.combineLatest(book.publisher(for: \.completionPage))
             .map { (percent: Double, page: Int16) in
                 let percentText = "\(Int(percent))%"
 
                 let pageNoun = page == 1 ? "page" : "pages"
                 let pageText = "\(page) \(pageNoun)"
-                return "\(percentText) / \(pageText)"
+                // TODO: a setting to toggle between percent (default) and pages
+                return "\(percentText) done / \(pageText) of \(book.pageCount) pages"
             }
             .assign(to: &$valueLabel)
     }

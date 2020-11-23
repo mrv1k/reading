@@ -22,9 +22,7 @@ struct SessionRow: View, ViewModelObserver {
 
             HStack {
                 Text(viewModel.progress)
-
                 Spacer()
-
                 Text(viewModel.time)
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -37,8 +35,9 @@ struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
         let session = book.sessions.first!
+        let viewModel = SessionRowViewModel(session: session)
 
-        return SessionRow(viewModel: SessionRowViewModel(session: session))
+        return SessionRow(viewModel: viewModel)
             .previewLayout(.sizeThatFits)
     }
 }

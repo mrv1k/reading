@@ -34,27 +34,23 @@ struct BookList: View {
     var body: some View {
         List {
             ForEach(books) { book in
-                NavigationLink(
-                    destination: BookDetail(book: book),
-                    label: {
-                        BookRow(book: book)
-                    })
+                NavigationLink(destination: BookDetail(book: book),
+                               label: { BookRow(book: book) })
             }
             .onDelete(perform: deleteBook)
         }
-        .animation(.default)
-        .navigationBarItems(
-            leading: NavigationLink(
-                destination: SettingsEditor(),
-                label: {
-                    Image(systemName: "gearshape")
-                        .imageScale(.large)
-                        .padding([.vertical, .trailing])
-                }),
-            trailing: Group {
-                menu
-                navigationLinkProxies
-            })
+//        .navigationBarItems(
+//            leading: NavigationLink(
+//                destination: SettingsEditor(),
+//                label: {
+//                    Image(systemName: "gearshape")
+//                        .imageScale(.large)
+//                        .padding([.vertical, .trailing])
+//                }),
+//            trailing: Group {
+//                menu
+//                navigationLinkProxies
+//            })
         .navigationBarTitle("Books", displayMode: .inline)
     }
 

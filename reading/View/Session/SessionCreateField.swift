@@ -14,6 +14,7 @@ struct SessionCreateField: View, ViewModelObserver {
 
     var body: some View {
         HStack {
+//             TODO: a setting to toggle between page (default) and percent input
             TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
                 .keyboardType(.numberPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
