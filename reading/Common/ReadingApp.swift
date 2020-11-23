@@ -27,29 +27,21 @@ struct ReadingApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationView {
-                    BookList()
-                }
-                .tabItem { Label("Library", systemImage: "books.vertical") }
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(settings)
-                // FIXME: do you really need to pass bookStorage as envObj?
-                .environmentObject(bookStorage)
+                NavigationView { BookList() }
+                    .tabItem { Label("Library", systemImage: "books.vertical") }
+                    .environmentObject(settings)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    // FIXME: do you really need to pass bookStorage as envObj?
+                    .environmentObject(bookStorage)
 
                 NavigationView {
                     Text("Reading Now").navigationBarTitle("Reading Now")
                 }
                 .tabItem { Label("Reading Now", systemImage: "scroll") }
 
-//                NavigationView {
-//                    Text("Statistics").navigationBarTitle("Statistics")
-//                }
-//                .tabItem { Label("Statistics", systemImage: "gauge") }
-
-                NavigationView {
-                    Text("Settings").navigationBarTitle("Settings")
-                }
-                .tabItem { Label("Settings", systemImage: "gearshape") }
+                NavigationView { SettingsEditor() }
+                    .tabItem { Label("Settings", systemImage: "gearshape") }
+                    .environmentObject(settings)
             }
             .edgesIgnoringSafeArea(.top)
         }
