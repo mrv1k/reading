@@ -18,7 +18,7 @@ struct PercentCalculator {
         return Int16((percentage * modifier).rounded())
     }
 
-    func rounded(_ percent: Int16) -> Double {
+    func rounded<AnyInt: BinaryInteger>(_ percent: AnyInt) -> Double {
         (Double(percent) / Double(modifier)).rounded()
     }
 }

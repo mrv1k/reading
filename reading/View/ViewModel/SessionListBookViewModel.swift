@@ -15,9 +15,16 @@ class SessionListBookViewModel: ViewModel {
     private var newSessionSubscriber: AnyCancellable?
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
+        // eagerly map existing sessions
         sessionsReversedRowViewModels = sessions
-            .map { SessionRowViewModel(session: $0) }
             .reversed()
+            .map({ session in
+                SessionRowViewModel(
+                    createdAt: session.createdAt,
+                    progressPage: session.progressPage,
+                    raw_progressPercent: session.raw_progressPercent,
+                    reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
+            })
 
         newSessionPublisher = sessionsPublisher
             .dropFirst()
@@ -30,7 +37,12 @@ class SessionListBookViewModel: ViewModel {
                 // session is nil Book was deleted
                 guard let session = session else { return }
                 // insert last session at the beginning of revesed array
-                let rowViewModel = SessionRowViewModel(session: session)
+                let rowViewModel = SessionRowViewModel(
+                    createdAt: session.createdAt,
+                    progressPage: session.progressPage,
+                    raw_progressPercent: session.raw_progressPercent,
+                    reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
+
                 self?.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
             }
     }

@@ -35,7 +35,11 @@ struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
         let session = book.sessions.first!
-        let viewModel = SessionRowViewModel(session: session)
+        let viewModel = SessionRowViewModel(
+            createdAt: session.createdAt,
+            progressPage: session.progressPage,
+            raw_progressPercent: session.raw_progressPercent,
+            reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
 
         return SessionRow(viewModel: viewModel)
             .previewLayout(.sizeThatFits)

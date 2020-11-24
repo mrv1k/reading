@@ -17,7 +17,7 @@ struct ReadingApp: App {
     @ObservedObject var settings = AppSettings.singleton
 
     init() {
-        persistenceController = PersistenceController.shared
+        persistenceController = PersistenceController.preview
         let viewContext = persistenceController.container.viewContext
 
         let storage = BookStorage(viewContext: viewContext)

@@ -17,14 +17,19 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
     var progressPercent: String
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
 
-    init(session: Session) {
-        time = Helpers.dateFormatters.time.string(from: session.createdAt)
-        date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
-            Helpers.dateFormatters.date.string(from: session.createdAt)
+    init<AnyInt: BinaryInteger>(
+        createdAt: Date,
+        progressPage: AnyInt,
+        raw_progressPercent: AnyInt,
+        reverse_showDayLabelPublisher: AnyPublisher<Bool, Never>
+    ) {
+        time = Helpers.dateFormatters.time.string(from: createdAt)
+        date = Calendar.current.isDateInToday(createdAt) ? "Today" :
+            Helpers.dateFormatters.date.string(from: createdAt)
 
-        progressPage = "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
-        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
+        self.progressPage = "\(progressPage) \(progressPage == 1 ? "page" : "pages")"
+        progressPercent = "\(AnyInt(Helpers.percentCalculator.rounded(raw_progressPercent)))%"
 
-        session.publisher(for: \.reverse_showDayLabel).assign(to: &$showDayLabelForReverseArray)
+        reverse_showDayLabelPublisher.assign(to: &$showDayLabelForReverseArray)
     }
 }
