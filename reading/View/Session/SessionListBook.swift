@@ -12,10 +12,8 @@ struct SessionListBook: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
-        VStack {
-            ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
-                SessionRow(viewModel: sessionRowViewModel)
-            }
+        ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
+            SessionRow(viewModel: sessionRowViewModel)
         }
     }
 }

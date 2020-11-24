@@ -24,17 +24,19 @@ struct BookDetail: View {
     }
 
     var body: some View {
-        ScrollView(showsIndicators: false, content: {
-            BookRow(book: viewModel.book)
+        List {
+            Section {
+                BookProgress(viewModel: viewModel.bookProgress)
+            }
 
-            BookProgress(viewModel: viewModel.bookProgress)
+            Section {
+                SessionCreateField(viewModel: viewModel.sessionCreateField)
+            }
 
             SessionListBook(viewModel: viewModel.sessionListBook)
-
-            SessionCreateField(viewModel: viewModel.sessionCreateField)
-        })
-            .frame(maxHeight: .infinity, alignment: .topLeading)
-            .padding([.horizontal, .top], 20)
+        }
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitle(viewModel.book.title)
     }
 }
 

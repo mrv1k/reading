@@ -17,13 +17,16 @@ struct SessionCreateField: View, ViewModelObserver {
 //             TODO: a setting to toggle between page (default) and percent input
             TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
                 .keyboardType(.numberPad)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            Divider()
 
             Button {
                 viewModel.save(context: viewContext)
             } label: {
                 Image(systemName: "plus.circle.fill").imageScale(.large)
             }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.leading)
         }
     }
 }

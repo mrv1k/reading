@@ -13,13 +13,14 @@ struct SettingsEditor: View {
     @EnvironmentObject private var settings: AppSettings
 
     var body: some View {
-        Form {
+        List {
             Section(header: Text("Session Row")) {
                 Toggle(isOn: $settings.progressPercentage) {
                     Label("Progress percentage", systemImage: "percent")
                 }
             }
         }
+        .listStyle(GroupedListStyle())
         .navigationBarTitle("Settings", displayMode: .inline)
     }
 }

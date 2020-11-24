@@ -16,14 +16,6 @@ struct BookCreate: View {
 
     var body: some View {
         Form {
-            Section(header: Text("COVER")) {
-                HStack {
-                    Spacer()
-                    BookCover()
-                    Spacer()
-                }
-            }
-
             Section(header: Text("INFORMATION")) {
                 TextField("Title", text: $title)
 
@@ -36,7 +28,7 @@ struct BookCreate: View {
             Section {
                 Button(action: {
                     guard let pageCount = Int16(self.pageCount) else {
-                        // pageCountField is invalid
+                        // FIXME: handle pageCountField is invalid
                         return
                     }
 
