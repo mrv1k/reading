@@ -5,24 +5,10 @@ struct BookList: View {
     @EnvironmentObject private var bookStorage: BookStorage
     var books: [Book] { bookStorage.books }
 
-    // Hack. Use programmatic NavigationLink to enable navigation from modal Menu
-    @State private var activeLink: String?
-
-    var navigationLinkProxies: some View {
-        Group {
-            NavigationLink("", destination: SessionCreate(), tag: "SessionCreate", selection: $activeLink)
-            NavigationLink("", destination: BookCreate(), tag: "BookCreate", selection: $activeLink)
-        }
-        .frame(width: 0, height: 0)
-    }
+    @State private var createOpen = false
 
     var menu: some View {
         Menu {
-            Button(action: { activeLink = "SessionCreate" },
-                   label: { Label("New Session", systemImage: "plus") })
-            Button(action: { activeLink = "BookCreate" },
-                   label: { Label("New Book", systemImage: "plus") })
-            Divider()
             BookListSortPicker()
         } label: {
             Image(systemName: "ellipsis.circle")
@@ -33,25 +19,25 @@ struct BookList: View {
 
     var body: some View {
         List {
+            Button { createOpen = true } label: { Label("New Book", systemImage: "plus") }
+                .sheet(isPresented: $createOpen, content: {
+                    BookCreate()
+                })
+
             ForEach(books) { book in
                 NavigationLink(destination: BookDetail(book: book),
                                label: { BookRow(book: book) })
             }
             .onDelete(perform: deleteBook)
         }
-//        .navigationBarItems(
-//            leading: NavigationLink(
-//                destination: SettingsEditor(),
-//                label: {
-//                    Image(systemName: "gearshape")
-//                        .imageScale(.large)
-//                        .padding([.vertical, .trailing])
-//                }),
-//            trailing: Group {
-//                menu
-//                navigationLinkProxies
-//            })
-        .navigationBarTitle("Books", displayMode: .inline)
+        .listStyle(InsetGroupedListStyle())
+        .animation(.default)
+        .navigationBarTitle("Library")
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
+                menu
+            }
+        }
     }
 
     func deleteBook(indexSet: IndexSet) {
