@@ -12,7 +12,9 @@ class BookDetailViewModel: ViewModel {
 
         bookProgress = BookProgressViewModel(book: book, showLabel: true)
         sessionCreateField = SessionCreateFieldViewModel(book: book)
-        sessionListBook = SessionListBookViewModel(book: book)
+
+        let sessionsPublisher = book.publisher(for: \.sessions) .eraseToAnyPublisher()
+        sessionListBook = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
     }
 }
 
@@ -32,6 +34,10 @@ struct BookDetail: View {
             Section {
                 SessionCreateField(viewModel: viewModel.sessionCreateField)
             }
+
+//            Section(header: Text(Date())) {
+//
+//            }
 
             SessionListBook(viewModel: viewModel.sessionListBook)
         }

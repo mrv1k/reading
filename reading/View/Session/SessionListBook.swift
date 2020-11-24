@@ -21,7 +21,8 @@ struct SessionListBook: View, ViewModelObserver {
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let viewModel = SessionListBookViewModel(book: book)
+        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
+        let viewModel = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
 
         return Group {
             SessionListBook(viewModel: viewModel)

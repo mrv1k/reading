@@ -10,30 +10,21 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
-    private let book: Book
-
-    @Published var sessionsReversedRowViewModels = [SessionRowViewModel]()
+    @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
+    private var newSessionsPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
 
-    init(book: Book) {
-        self.book = book
-
-        sessionsReversedRowViewModels = book.sessions
+    init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
+        sessionsReversedRowViewModels = sessions
             .map { SessionRowViewModel(session: $0) }
             .reversed()
 
-        newSessionSubscriber = newSessionSubscriberCancellable
-    }
-
-    private var newSessionsPublisher: AnyPublisher<Session?, Never> {
-        book.publisher(for: \.sessions)
+        newSessionsPublisher = sessionsPublisher
             .dropFirst()
             .map { $0.last }
             .eraseToAnyPublisher()
-    }
 
-    private var newSessionSubscriberCancellable: AnyCancellable {
-        newSessionsPublisher
+        newSessionSubscriber = newSessionsPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] (session: Session?) in
                 // session is nil Book was deleted
