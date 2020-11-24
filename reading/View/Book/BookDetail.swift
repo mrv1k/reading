@@ -35,10 +35,6 @@ struct BookDetail: View {
                 SessionCreateField(viewModel: viewModel.sessionCreateField)
             }
 
-//            Section(header: Text(Date())) {
-//
-//            }
-
             SessionListBook(viewModel: viewModel.sessionListBook)
         }
         .listStyle(InsetGroupedListStyle())
@@ -60,3 +56,14 @@ struct BookDetail_Previews: PreviewProvider {
         }
     }
 }
+
+
+//Section(header: Text(Helpers.dateFormatters.date.string(from: Date()))) {
+//    SessionRow(
+//        viewModel: SessionRowViewModel(
+//            createdAt: Date(),
+//            progressPage: 13,
+//            raw_progressPercent: 130,
+//            reverse_showDayLabelPublisher: SessionSeeder.emptyBoolPublisher)
+//    )
+//}

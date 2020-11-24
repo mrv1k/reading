@@ -6,10 +6,12 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import Combine
 import CoreData
 
 struct SessionSeeder {
     static let preview = SessionSeeder(viewContext: PersistenceController.preview.container.viewContext)
+    static var emptyBoolPublisher = AnyPublisher(Empty<Bool, Never>())
 
     private let context: NSManagedObjectContext
 
