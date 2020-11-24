@@ -11,7 +11,7 @@ import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
     @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
-    private var newSessionsPublisher: AnyPublisher<Session?, Never>
+    private var newSessionPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
@@ -19,12 +19,12 @@ class SessionListBookViewModel: ViewModel {
             .map { SessionRowViewModel(session: $0) }
             .reversed()
 
-        newSessionsPublisher = sessionsPublisher
+        newSessionPublisher = sessionsPublisher
             .dropFirst()
             .map { $0.last }
             .eraseToAnyPublisher()
 
-        newSessionSubscriber = newSessionsPublisher
+        newSessionSubscriber = newSessionPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] (session: Session?) in
                 // session is nil Book was deleted
