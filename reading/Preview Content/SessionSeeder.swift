@@ -35,7 +35,7 @@ struct SessionSeeder {
     }
 
     func insertMany(book: Book) {
-        let sessionEndArray = [31, 60, 83] // , 101
+        let sessionEndArray = [31, 60, 83, 99] 
 
         sessionEndArray.forEach { pageEnd in
             insert(book: book, pageEnd: pageEnd)

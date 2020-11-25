@@ -18,7 +18,7 @@ struct BookSeeder {
     }
 
     enum Data: String, CaseIterable {
-        case sessions = "Title with Sessions"
+        case sessions = "Testing: A Book Full of Sessions"
         case minimum = "Crime and Punishment"
         case everything = "Shoe Dog: A Memoir by the Creator of NIKE"
         case subtitle = "The Swift Programming Language (Swift 5.2 Edition)"

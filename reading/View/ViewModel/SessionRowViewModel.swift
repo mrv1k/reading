@@ -9,10 +9,20 @@
 import Combine
 import Foundation
 
-class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
+class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable, Equatable, Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(time)
+    }
+
+    static func == (lhs: SessionRowViewModel, rhs: SessionRowViewModel) -> Bool {
+        return
+            lhs.time == rhs.time &&
+            lhs.progressPage == rhs.progressPage &&
+            lhs.progressPercent == rhs.progressPercent
+    }
+
     @Published var showDayLabelForReverseArray = false
     var time: String
-    var date: String
     var progressPage: String
     var progressPercent: String
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
@@ -24,8 +34,6 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
         reverse_showDayLabelPublisher: AnyPublisher<Bool, Never>
     ) {
         time = Helpers.dateFormatters.time.string(from: createdAt)
-        date = Calendar.current.isDateInToday(createdAt) ? "Today" :
-            Helpers.dateFormatters.date.string(from: createdAt)
 
         self.progressPage = "\(progressPage) \(progressPage == 1 ? "page" : "pages")"
         progressPercent = "\(AnyInt(Helpers.percentCalculator.rounded(raw_progressPercent)))%"

@@ -12,8 +12,13 @@ struct SessionListBook: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
-        ForEach(viewModel.sessionsReversedRowViewModels) { sessionRowViewModel in
-            SessionRow(viewModel: sessionRowViewModel)
+        ForEach(viewModel.sessionsSections, id: \.self) { section in
+//            Text(sessionRowViewModel.date).font(.footnote).foregroundColor(.gray)
+            Section(header: Text("section")) {
+                ForEach(section) { sessionVM in
+                    SessionRow(viewModel: sessionVM)
+                }
+            }
         }
     }
 }
@@ -25,12 +30,16 @@ struct SessionListBook_Previews: PreviewProvider {
         let viewModel = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
 
         return Group {
-            SessionListBook(viewModel: viewModel)
-                .previewLayout(.sizeThatFits)
+            List {
+                SessionListBook(viewModel: viewModel)
+            }
+            .listStyle(InsetGroupedListStyle())
 
             NavigationView {
-                SessionListBook(viewModel: viewModel)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                List {
+                    SessionListBook(viewModel: viewModel)
+                }
+                .listStyle(InsetGroupedListStyle())
             }
         }
         .previewDevice("iPhone SE (2nd generation)")

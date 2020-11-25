@@ -9,15 +9,48 @@
 import Combine
 import SwiftUI
 
+//        var header: Text {
+//            Text(viewModel.date).font(.footnote).foregroundColor(.gray)
+//        }
+//        var date: String
+//        date = Calendar.current.isDateInToday(createdAt) ? "Today" :
+//            Helpers.dateFormatters.date.string(from: createdAt)
+
 class SessionListBookViewModel: ViewModel {
     @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
+    @Published var sessionsSections: [[SessionRowViewModel]]
+
     private var newSessionPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         // eagerly map existing sessions
-        sessionsReversedRowViewModels = sessions
-            .reversed()
+        let reversedSessions = sessions.reversed()
+
+        var sectionsOfSessions = [[Session]]()
+
+        reversedSessions
+            .forEach { (session) in
+                if session.reverse_showDayLabel {
+                    sectionsOfSessions.append([session])
+                } else {
+                    sectionsOfSessions[sectionsOfSessions.count - 1].append(session)
+                }
+            }
+
+
+        sessionsSections = sectionsOfSessions.map({ (section) in
+            section.map { (session) in
+                SessionRowViewModel(
+                    createdAt: session.createdAt,
+                    progressPage: session.progressPage,
+                    raw_progressPercent: session.raw_progressPercent,
+                    reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
+            }
+        })
+
+
+        sessionsReversedRowViewModels = reversedSessions
             .map({ session in
                 SessionRowViewModel(
                     createdAt: session.createdAt,
