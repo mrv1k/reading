@@ -12,12 +12,9 @@ struct SessionListBook: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionListBookViewModel
 
     var body: some View {
-        ForEach(viewModel.sessionsSections, id: \.self) { section in
-//            Text(sessionRowViewModel.date).font(.footnote).foregroundColor(.gray)
-            Section(header: Text("section")) {
-                ForEach(section) { sessionVM in
-                    SessionRow(viewModel: sessionVM)
-                }
+        ForEach(viewModel.arrayOfSectionDictionaries, id: \.key) { (dictionaryTuple: (Dictionary<String, [SessionRowViewModel]>.Element)) in
+            ForEach(dictionaryTuple.value) { sessionVM in
+                SessionRow(viewModel: sessionVM)
             }
         }
     }

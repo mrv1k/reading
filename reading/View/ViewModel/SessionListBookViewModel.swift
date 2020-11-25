@@ -18,46 +18,67 @@ import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
     @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
-    @Published var sessionsSections: [[SessionRowViewModel]]
+//    @Published var sessionsSections: [[SessionRowViewModel]]
+//    @Published var arrayOfSectionDictionaries: [String: [Session]]
+    @Published var arrayOfSectionDictionaries: [Dictionary<String, [SessionRowViewModel]>.Element]
+//    @Published var arrayOfSectionDictionaries: Array<(key: String, value: Array<Session>)> = []
 
     private var newSessionPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
-        // eagerly map existing sessions
         let reversedSessions = sessions.reversed()
 
-        var sectionsOfSessions = [[Session]]()
+        var sections: [String: [Session]] = [:]
 
-        reversedSessions
-            .forEach { (session) in
+        // note: not reversed as it's sorted after assembling into dictionary
+        sessions
+            .forEach { session in
+                let date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
+                    Helpers.dateFormatters.date.string(from: session.createdAt)
+                print("foreach")
+
                 if session.reverse_showDayLabel {
-                    sectionsOfSessions.append([session])
+                    sections[date] = [session]
                 } else {
-                    sectionsOfSessions[sectionsOfSessions.count - 1].append(session)
+                    if sections[date] != nil {
+                        sections[date]!.append(session)
+                    } else {
+                        sections[date] = [session]
+                    }
                 }
             }
 
+        let sortedSections = sections.sorted(by: { (a, b) -> Bool in
+            a.value.first!.createdAt > b.value.first!.createdAt
+        })
 
-        sessionsSections = sectionsOfSessions.map({ (section) in
-            section.map { (session) in
+        arrayOfSectionDictionaries = sortedSections.map { (section: (key: String, value: [Session])) in
+            print("section")
+            let key = section.key
+            let value = section.value
+//                .map(<#T##transform: (Session) throws -> T##(Session) throws -> T#>)
+                .map { (session: Session) -> SessionRowViewModel in
+                    print("sessionRowVM")
+                    return SessionRowViewModel(
+                        createdAt: session.createdAt,
+                        progressPage: session.progressPage,
+                        raw_progressPercent: session.raw_progressPercent,
+                        reverse_showDayLabelPublisher: AnyPublisher(session.publisher(for: \.reverse_showDayLabel)))
+                }
+            print(section.value.count, value.count)
+
+            return (key, value)
+        }
+
+        sessionsReversedRowViewModels = reversedSessions
+            .map { session in
                 SessionRowViewModel(
                     createdAt: session.createdAt,
                     progressPage: session.progressPage,
                     raw_progressPercent: session.raw_progressPercent,
                     reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
             }
-        })
-
-
-        sessionsReversedRowViewModels = reversedSessions
-            .map({ session in
-                SessionRowViewModel(
-                    createdAt: session.createdAt,
-                    progressPage: session.progressPage,
-                    raw_progressPercent: session.raw_progressPercent,
-                    reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
-            })
 
         newSessionPublisher = sessionsPublisher
             .dropFirst()

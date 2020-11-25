@@ -9,18 +9,7 @@
 import Combine
 import Foundation
 
-class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable, Equatable, Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(time)
-    }
-
-    static func == (lhs: SessionRowViewModel, rhs: SessionRowViewModel) -> Bool {
-        return
-            lhs.time == rhs.time &&
-            lhs.progressPage == rhs.progressPage &&
-            lhs.progressPercent == rhs.progressPercent
-    }
-
+class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
     @Published var showDayLabelForReverseArray = false
     var time: String
     var progressPage: String
