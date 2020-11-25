@@ -9,17 +9,10 @@
 import Combine
 import SwiftUI
 
-//        var header: Text {
-//            Text(viewModel.date).font(.footnote).foregroundColor(.gray)
-//        }
-//        var date: String
-//        date = Calendar.current.isDateInToday(createdAt) ? "Today" :
-//            Helpers.dateFormatters.date.string(from: createdAt)
-
 class SessionListBookViewModel: ViewModel {
     @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
 
-    @Published var arrayOfSectionDictionaries: [Dictionary<String, [SessionRowViewModel]>.Element]
+    @Published var sections: [Dictionary<String, [SessionRowViewModel]>.Element]
 
     private var newSessionPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
@@ -27,7 +20,7 @@ class SessionListBookViewModel: ViewModel {
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         let reversedSessions = sessions.reversed()
 
-        var sections: [String: [Session]] = [:]
+        var tempSections: [String: [Session]] = [:]
 
         // note: not reversed as it's sorted after assembling into dictionary
         // TODO: refactor to work in both directions
@@ -36,29 +29,19 @@ class SessionListBookViewModel: ViewModel {
                 let date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
                     Helpers.dateFormatters.date.string(from: session.createdAt)
 
-                if session.reverse_showDayLabel {
-                    if sections[date] != nil {
-                        sections[date]!.append(session)
-                    } else {
-                        sections[date] = [session]
-                    }
+                if tempSections[date] != nil {
+                    tempSections[date]!.append(session)
                 } else {
-                    if sections[date] != nil {
-                        sections[date]!.append(session)
-                    } else {
-                        sections[date] = [session]
-                    }
+                    tempSections[date] = [session]
                 }
             }
 
         // TODO: refactor to work in both directions
-        let sortedSections = sections.sorted(by: { (a, b) -> Bool in
-            print(a.value.count, b.value.count)
-            return a.value.first!.createdAt > b.value.first!.createdAt
+        let sortedSections = tempSections.sorted(by: { (a, b) -> Bool in
+            a.value.first!.createdAt > b.value.first!.createdAt
         })
-        print(sortedSections.count)
 
-        arrayOfSectionDictionaries = sortedSections.map { (section: (key: String, value: [Session])) in
+        sections = sortedSections.map { (section: (key: String, value: [Session])) in
             let key = section.key
             let value = section.value
                 .map { (session: Session) -> SessionRowViewModel in

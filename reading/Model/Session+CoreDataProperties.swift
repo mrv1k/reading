@@ -22,6 +22,7 @@ extension Session {
     @NSManaged public var pageStart: Int16
     @NSManaged public var progressPage: Int16
     @NSManaged public var raw_progressPercent: Int16
+    // TODO: delete
     @NSManaged public var reverse_showDayLabel: Bool
     @NSManaged public var updatedAt: Date?
     @NSManaged public var book: Book?
