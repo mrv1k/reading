@@ -18,10 +18,8 @@ import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
     @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
-//    @Published var sessionsSections: [[SessionRowViewModel]]
-//    @Published var arrayOfSectionDictionaries: [String: [Session]]
+
     @Published var arrayOfSectionDictionaries: [Dictionary<String, [SessionRowViewModel]>.Element]
-//    @Published var arrayOfSectionDictionaries: Array<(key: String, value: Array<Session>)> = []
 
     private var newSessionPublisher: AnyPublisher<Session?, Never>
     private var newSessionSubscriber: AnyCancellable?
@@ -32,14 +30,18 @@ class SessionListBookViewModel: ViewModel {
         var sections: [String: [Session]] = [:]
 
         // note: not reversed as it's sorted after assembling into dictionary
+        // TODO: refactor to work in both directions
         sessions
             .forEach { session in
                 let date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
                     Helpers.dateFormatters.date.string(from: session.createdAt)
-                print("foreach")
 
                 if session.reverse_showDayLabel {
-                    sections[date] = [session]
+                    if sections[date] != nil {
+                        sections[date]!.append(session)
+                    } else {
+                        sections[date] = [session]
+                    }
                 } else {
                     if sections[date] != nil {
                         sections[date]!.append(session)
@@ -49,25 +51,23 @@ class SessionListBookViewModel: ViewModel {
                 }
             }
 
+        // TODO: refactor to work in both directions
         let sortedSections = sections.sorted(by: { (a, b) -> Bool in
-            a.value.first!.createdAt > b.value.first!.createdAt
+            print(a.value.count, b.value.count)
+            return a.value.first!.createdAt > b.value.first!.createdAt
         })
+        print(sortedSections.count)
 
         arrayOfSectionDictionaries = sortedSections.map { (section: (key: String, value: [Session])) in
-            print("section")
             let key = section.key
             let value = section.value
-//                .map(<#T##transform: (Session) throws -> T##(Session) throws -> T#>)
                 .map { (session: Session) -> SessionRowViewModel in
-                    print("sessionRowVM")
-                    return SessionRowViewModel(
+                    SessionRowViewModel(
                         createdAt: session.createdAt,
                         progressPage: session.progressPage,
                         raw_progressPercent: session.raw_progressPercent,
                         reverse_showDayLabelPublisher: AnyPublisher(session.publisher(for: \.reverse_showDayLabel)))
                 }
-            print(section.value.count, value.count)
-
             return (key, value)
         }
 

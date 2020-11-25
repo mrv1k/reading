@@ -13,8 +13,10 @@ struct SessionListBook: View, ViewModelObserver {
 
     var body: some View {
         ForEach(viewModel.arrayOfSectionDictionaries, id: \.key) { (dictionaryTuple: (Dictionary<String, [SessionRowViewModel]>.Element)) in
-            ForEach(dictionaryTuple.value) { sessionVM in
-                SessionRow(viewModel: sessionVM)
+            Section(header: Text(dictionaryTuple.key)) {
+                ForEach(dictionaryTuple.value) { sessionVM in
+                    SessionRow(viewModel: sessionVM)
+                }
             }
         }
     }
