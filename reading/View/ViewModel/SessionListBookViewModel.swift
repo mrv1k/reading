@@ -20,24 +20,28 @@ class SessionListBookViewModel: ViewModel {
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         let reversedSessions = sessions.reversed()
 
-        var tempSections: [String: [Session]] = [:]
+        var dateSections: [String: [Session]] = [:]
+        let sortNewestFirst = true
+//        var sortComparator: (Date, Date) -> Bool = sortNewestFirst ? (>) : (<)
 
-        // note: not reversed as it's sorted after assembling into dictionary
-        // TODO: refactor to work in both directions
         sessions
             .forEach { session in
-                let date = Calendar.current.isDateInToday(session.createdAt) ? "Today" :
-                    Helpers.dateFormatters.date.string(from: session.createdAt)
+                let isToday = Calendar.current.isDateInToday(session.createdAt)
+                let dateKey = isToday ? "Today" : Helpers.dateFormatters.date.string(from: session.createdAt)
 
-                if tempSections[date] != nil {
-                    tempSections[date]!.append(session)
+                // if key is not initialized, initialize it to session array
+                guard dateSections[dateKey] != nil else {
+                    return dateSections[dateKey] = [session]
+                }
+                if sortNewestFirst {
+                    dateSections[dateKey]!.insert(session, at: 0)
                 } else {
-                    tempSections[date] = [session]
+                    dateSections[dateKey]!.append(session)
                 }
             }
 
         // TODO: refactor to work in both directions
-        let sortedSections = tempSections.sorted(by: { (a, b) -> Bool in
+        let sortedSections = dateSections.sorted(by: { (a, b) -> Bool in
             a.value.first!.createdAt > b.value.first!.createdAt
         })
 
