@@ -10,11 +10,8 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
-//    The element type of a dictionary: a tuple containing an individual key-value pair.
-//    typealias Dictionary<Key, Value>.Element = (key: Key, value: Value)
-
-//    @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
-    @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
+    typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
+    @Published var sections = [SectionElement]()
 
     private var newSessionPublisher: AnyPublisher<Session, Never>?
     private var cancellables = Set<AnyCancellable>()
@@ -22,24 +19,18 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         sections =
             organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
+                .mapValues(transformToViewModels(sessions:))
                 .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
-                .map { (section: (key: String, sessions: [Session])) in
-                    // "Closure tuple parameter does not support destructuring"
-                    let sessions = section.sessions
-                        .map { (session: Session) -> SessionRowViewModel in
-                            SessionRowViewModel(
-                                createdAt: session.createdAt,
-                                progressPage: session.progressPage,
-                                raw_progressPercent: session.raw_progressPercent
-                            )
-                        }
-                    return (section.key, sessions)
-                }
 
         settings.$sessionsIsSortingByNewest
             .dropFirst()
-            .sink { isSortingByNewest in print(isSortingByNewest) }
+            .sink { [weak self] isSortingByNewest in
+                guard let self = self else { return }
+                self.sections.sort(by: isSortingByNewest ? self.sortByNewest : self.sortByOldest)
+            }
             .store(in: &cancellables)
+
+        // TODO: restore UI update when new session is added
 
         let newSessionPublisher = sessionsPublisher
             .dropFirst()
@@ -50,13 +41,13 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     }
 }
 
-extension SessionListBookViewModel {
-    private func makeDateKey(from date: Date) -> String {
+private extension SessionListBookViewModel {
+    func makeDateKey(from date: Date) -> String {
         let isToday = Calendar.current.isDateInToday(date)
         return isToday ? "Today" : Helpers.dateFormatters.date.string(from: date)
     }
 
-    private func organizeInDictionary(
+    func organizeInDictionary(
         _ sessions: [Session],
         by isSortingByNewest: Bool
     ) -> [String: [Session]] {
@@ -71,16 +62,24 @@ extension SessionListBookViewModel {
             result[dateKey]! = section
         }
     }
+
+    func transformToViewModels(sessions: [Session]) -> [SessionRowViewModel] {
+        sessions.map { (session: Session) -> SessionRowViewModel in
+            SessionRowViewModel(
+                createdAt: session.createdAt,
+                progressPage: session.progressPage,
+                raw_progressPercent: session.raw_progressPercent
+            )
+        }
+    }
 }
 
-extension SessionListBookViewModel {
-    typealias SectionTuple = Dictionary<String, [Session]>.Element
-
-    private func sortByNewest(a: SectionTuple, b: SectionTuple) -> Bool {
+private extension SessionListBookViewModel {
+    func sortByNewest(a: SectionElement, b: SectionElement) -> Bool {
         a.value.first!.createdAt > b.value.first!.createdAt
     }
 
-    private func sortByOldest(a: SectionTuple, b: SectionTuple) -> Bool {
+    func sortByOldest(a: SectionElement, b: SectionElement) -> Bool {
         a.value.first!.createdAt < b.value.first!.createdAt
     }
 }

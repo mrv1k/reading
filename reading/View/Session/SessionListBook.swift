@@ -13,16 +13,10 @@ struct SessionListBook: View, ViewModelObserver {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        Group {
-            // FIXME: delete after debug
-            Toggle(isOn: $settings.sessionsIsSortingByNewest) {
-                Label("Sort Newest to Oldest", systemImage: "arrow.up.arrow.down")
-            }
-            ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
-                Section(header: Text(dateHeader)) {
-                    ForEach(rowViewModels) { rowViewModel in
-                        SessionRow(viewModel: rowViewModel)
-                    }
+        ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
+            Section(header: Text(dateHeader)) {
+                ForEach(rowViewModels) { rowViewModel in
+                    SessionRow(viewModel: rowViewModel)
                 }
             }
         }

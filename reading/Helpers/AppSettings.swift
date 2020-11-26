@@ -32,10 +32,6 @@ class AppSettings: AppSettingsViewModel {
         progressPercentage = UserDefaults.standard.bool(forKey: UserDefaultsKey.progressPercentage.rawValue)
         sessionsIsSortingByNewest = UserDefaults.standard.bool(forKey: UserDefaultsKey.sessionsIsSortingByNewest.rawValue)
 
-        // FIXME: delete after debug
-        $sessionsIsSortingByNewest.print().sink { _ in }
-            .store(in: &cancellables)
-
         subscribeToSaveInUserDefaults(publisher: $progressPercentage, key: .progressPercentage)
             .store(in: &cancellables)
         subscribeToSaveInUserDefaults(publisher: $sessionsIsSortingByNewest, key: .sessionsIsSortingByNewest)
