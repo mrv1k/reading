@@ -9,9 +9,7 @@
 import Combine
 import SwiftUI
 
-class SessionListBookViewModel: ViewModel {
-    // TODO: allow user to control this variable through Settings
-    let sortNewestFirst = true
+class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
 
     private var newSessionPublisher: AnyPublisher<Session, Never>?
@@ -20,10 +18,10 @@ class SessionListBookViewModel: ViewModel {
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         var sectionsDictionary = [String: [Session]]()
 
-        sessions.forEach { insertIntoDictionary(session: $0, into: &sectionsDictionary) }
+        sessions.forEach { insert(session: $0, into: &sectionsDictionary) }
 
         sections = sectionsDictionary
-            .sorted(by: sortNewestFirst ? byNewest : byOldest)
+            .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
             .map { (section: (key: String, sessions: [Session])) in
                 // "Closure tuple parameter does not support destructuring"
                 let sessions = section.sessions
@@ -53,17 +51,17 @@ class SessionListBookViewModel: ViewModel {
                     raw_progressPercent: session.raw_progressPercent,
                     reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
 
-//                self.insertIntoDictionary(session: <#T##Session#>)
                 // This is currently reduntant as it safe to use "Today" key to add insert the row
                 // but it will become handy once I add ability to add past sessions
-//                let tmp = self.sortNewestFirst ? self.sections.first : self.sections.last
+                //                var sectionToInsert = self.settings.sessionsIsSortingByNewest ? self.sections.first : self.sections.last
+//                // remember when book is new with no sessions, both .first and .last will retun NIL
+//                print(sectionToInsert)
+//                guard sectionToInsert != nil else {
+////                    let dictionaryElement =
+////                    sections.append(Dictionary<String, [SessionRowViewModel]>.Element)
+//                    return
+//                }
 
-//                print(self.sortNewestFirst)
-//                print(self.sections.last?.key)
-//                print(self.sections.first?.key)
-//                print(tmp?.key)
-//                let dateKey = self.makeDateKey(from: session.createdAt)
-//                self?.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
             }
 
         self.newSessionPublisher = newSessionPublisher
@@ -77,7 +75,7 @@ extension SessionListBookViewModel {
         return isToday ? "Today" : Helpers.dateFormatters.date.string(from: date)
     }
 
-    private func insertIntoDictionary(session: Session, into dictionary: inout [String: [Session]]) {
+    private func insert(session: Session, into dictionary: inout [String: [Session]]) {
         let dateKey = makeDateKey(from: session.createdAt)
         // if key is not initialized, initialize it to session array
         guard dictionary[dateKey] != nil else {
@@ -85,18 +83,19 @@ extension SessionListBookViewModel {
         }
 
         var section = dictionary[dateKey]!
-        sortNewestFirst ? section.insert(session, at: 0) : section.append(session)
+        settings.sessionsIsSortingByNewest ? section.insert(session, at: 0) : section.append(session)
         dictionary[dateKey]! = section
     }
 }
 
 extension SessionListBookViewModel {
     typealias sectionTuple = Dictionary<String, [Session]>.Element
-    private func byNewest(a: sectionTuple, b: sectionTuple) -> Bool {
+
+    private func sortByNewest(a: sectionTuple, b: sectionTuple) -> Bool {
         a.value.first!.createdAt > b.value.first!.createdAt
     }
 
-    private func byOldest(a: sectionTuple, b: sectionTuple) -> Bool {
+    private func sortByOldest(a: sectionTuple, b: sectionTuple) -> Bool {
         a.value.first!.createdAt < b.value.first!.createdAt
     }
 }

@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-protocol AppSettingsViewModel: ObservableObject {
+private protocol AppSettingsViewModel: ObservableObject {
     static var singleton: AppSettings { get }
 }
 
@@ -25,18 +25,26 @@ class AppSettings: AppSettingsViewModel {
     static var singleton = AppSettings()
 
     @Published var progressPercentage: Bool
+    @Published var sessionsIsSortingByNewest: Bool
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
         progressPercentage = UserDefaults.standard.bool(forKey: UserDefaultsKey.progressPercentage.rawValue)
+        sessionsIsSortingByNewest = UserDefaults.standard.bool(forKey: UserDefaultsKey.sessionsIsSortingByNewest.rawValue)
+
+        // FIXME: delete after debug
+        $sessionsIsSortingByNewest.print().sink { _ in }
+            .store(in: &cancellables)
 
         subscribeToSaveInUserDefaults(publisher: $progressPercentage, key: .progressPercentage)
+            .store(in: &cancellables)
+        subscribeToSaveInUserDefaults(publisher: $sessionsIsSortingByNewest, key: .sessionsIsSortingByNewest)
+            .store(in: &cancellables)
     }
 
-    func subscribeToSaveInUserDefaults<T>(publisher: Published<T>.Publisher, key: UserDefaultsKey) {
+    private func subscribeToSaveInUserDefaults<T>(publisher: Published<T>.Publisher, key: UserDefaultsKey) -> AnyCancellable {
         publisher
             .dropFirst()
             .sink { UserDefaults.standard.set($0, forKey: key.rawValue) }
-            .store(in: &cancellables)
     }
 }

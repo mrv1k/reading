@@ -14,9 +14,13 @@ struct SettingsEditor: View {
 
     var body: some View {
         List {
-            Section(header: Text("Session Row")) {
+            Section(header: Text("Sessions")) {
                 Toggle(isOn: $settings.progressPercentage) {
                     Label("Progress percentage", systemImage: "percent")
+                }
+
+                Toggle(isOn: $settings.sessionsIsSortingByNewest) {
+                    Label("Sort Newest to Oldest", systemImage: "arrow.up.arrow.down")
                 }
             }
         }
