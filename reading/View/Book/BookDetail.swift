@@ -13,7 +13,7 @@ class BookDetailViewModel: ViewModel {
         bookProgress = BookProgressViewModel(book: book, showLabel: true)
         sessionCreateField = SessionCreateFieldViewModel(book: book)
 
-        let sessionsPublisher = book.publisher(for: \.sessions) .eraseToAnyPublisher()
+        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
         sessionListBook = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
     }
 }
@@ -56,14 +56,3 @@ struct BookDetail_Previews: PreviewProvider {
         }
     }
 }
-
-
-//Section(header: Text(Helpers.dateFormatters.date.string(from: Date()))) {
-//    SessionRow(
-//        viewModel: SessionRowViewModel(
-//            createdAt: Date(),
-//            progressPage: 13,
-//            raw_progressPercent: 130,
-//            reverse_showDayLabelPublisher: SessionSeeder.emptyBoolPublisher)
-//    )
-//}

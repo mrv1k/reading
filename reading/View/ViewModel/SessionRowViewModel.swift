@@ -10,23 +10,15 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
-    @Published var showDayLabelForReverseArray = false
     var time: String
     var progressPage: String
     var progressPercent: String
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
 
-    init<AnyInt: BinaryInteger>(
-        createdAt: Date,
-        progressPage: AnyInt,
-        raw_progressPercent: AnyInt,
-        reverse_showDayLabelPublisher: AnyPublisher<Bool, Never>
-    ) {
+    init<AnyInt: BinaryInteger>(createdAt: Date, progressPage: AnyInt, raw_progressPercent: AnyInt) {
         time = Helpers.dateFormatters.time.string(from: createdAt)
 
         self.progressPage = "\(progressPage) \(progressPage == 1 ? "page" : "pages")"
         progressPercent = "\(AnyInt(Helpers.percentCalculator.rounded(raw_progressPercent)))%"
-
-        reverse_showDayLabelPublisher.assign(to: &$showDayLabelForReverseArray)
     }
 }

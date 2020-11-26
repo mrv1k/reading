@@ -10,8 +10,9 @@ import SwiftUI
 
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
+
     var body: some View {
-         HStack {
+        HStack {
             Text(viewModel.progress)
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
@@ -26,18 +27,14 @@ struct SessionRow_Previews: PreviewProvider {
         let viewModel = SessionRowViewModel(
             createdAt: session.createdAt,
             progressPage: session.progressPage,
-            raw_progressPercent: session.raw_progressPercent,
-            reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
+            raw_progressPercent: session.raw_progressPercent
+        )
 
         return Group {
             SessionRow(viewModel: viewModel)
 
             SessionRow(
-                viewModel: SessionRowViewModel(
-                    createdAt: Date(),
-                    progressPage: 13,
-                    raw_progressPercent: 130,
-                    reverse_showDayLabelPublisher: SessionSeeder.emptyBoolPublisher)
+                viewModel: SessionRowViewModel(createdAt: Date(), progressPage: 13, raw_progressPercent: 130)
             )
         }.previewLayout(.sizeThatFits)
     }

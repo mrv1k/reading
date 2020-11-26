@@ -13,7 +13,7 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
 
     private var newSessionPublisher: AnyPublisher<Session, Never>?
-    private var newSessionSubscriber: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         var sectionsDictionary = [String: [Session]]()
@@ -29,43 +29,22 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
                         SessionRowViewModel(
                             createdAt: session.createdAt,
                             progressPage: session.progressPage,
-                            raw_progressPercent: session.raw_progressPercent,
-                            reverse_showDayLabelPublisher: AnyPublisher(session.publisher(for: \.reverse_showDayLabel)))
+                            raw_progressPercent: session.raw_progressPercent)
                     }
                 return (section.key, sessions)
             }
+
+        settings.$sessionsIsSortingByNewest
+            .dropFirst()
+            .sink { isSortingByNewest in print(isSortingByNewest) }
+            .store(in: &cancellables)
 
         let newSessionPublisher = sessionsPublisher
             .dropFirst()
             .compactMap { $0.last }
             .eraseToAnyPublisher()
 
-        // TODO: adopt to work with dictionary
-        let newSessionSubscriber = newSessionPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] (session: Session) in
-                guard let self = self else { return }
-                let rowViewModel = SessionRowViewModel(
-                    createdAt: session.createdAt,
-                    progressPage: session.progressPage,
-                    raw_progressPercent: session.raw_progressPercent,
-                    reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
-
-                // This is currently reduntant as it safe to use "Today" key to add insert the row
-                // but it will become handy once I add ability to add past sessions
-                //                var sectionToInsert = self.settings.sessionsIsSortingByNewest ? self.sections.first : self.sections.last
-//                // remember when book is new with no sessions, both .first and .last will retun NIL
-//                print(sectionToInsert)
-//                guard sectionToInsert != nil else {
-////                    let dictionaryElement =
-////                    sections.append(Dictionary<String, [SessionRowViewModel]>.Element)
-//                    return
-//                }
-
-            }
-
         self.newSessionPublisher = newSessionPublisher
-        self.newSessionSubscriber = newSessionSubscriber
     }
 }
 

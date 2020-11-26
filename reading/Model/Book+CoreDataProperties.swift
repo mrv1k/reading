@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-11-11.
+//  Created by Viktor Khotimchenko on 2020-11-26.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -18,6 +18,7 @@ extension Book {
     }
 
     @NSManaged public var author: String
+    @NSManaged public var completionPage: Int16
     @NSManaged public var createdAt: Date
     @NSManaged public var pageCount: Int16
     @NSManaged public var raw_completionPercent: Int16
@@ -25,7 +26,6 @@ extension Book {
     @NSManaged public var sessionCount: Int16
     @NSManaged public var title: String
     @NSManaged public var updatedAt: Date?
-    @NSManaged public var completionPage: Int16
     @NSManaged public var sessionsSet: NSOrderedSet?
 
 }
