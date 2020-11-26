@@ -10,15 +10,17 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
+//    The element type of a dictionary: a tuple containing an individual key-value pair.
+//    typealias Dictionary<Key, Value>.Element = (key: Key, value: Value)
+
+//    @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
     @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
 
     private var newSessionPublisher: AnyPublisher<Session, Never>?
     private var cancellables = Set<AnyCancellable>()
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
-        var sectionsDictionary = [String: [Session]]()
-
-        sessions.forEach { insert(session: $0, into: &sectionsDictionary) }
+        let sectionsDictionary = organizeInDictionaryByDates(sessions: sessions)
 
         sections = sectionsDictionary
             .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
@@ -54,27 +56,28 @@ extension SessionListBookViewModel {
         return isToday ? "Today" : Helpers.dateFormatters.date.string(from: date)
     }
 
-    private func insert(session: Session, into dictionary: inout [String: [Session]]) {
-        let dateKey = makeDateKey(from: session.createdAt)
-        // if key is not initialized, initialize it to session array
-        guard dictionary[dateKey] != nil else {
-            return dictionary[dateKey] = [session]
-        }
+    private func organizeInDictionaryByDates(sessions: [Session]) -> [String: [Session]] {
+        sessions.reduce(into: [:]) { (result: inout [String: [Session]], session: Session) in
+            let dateKey = makeDateKey(from: session.createdAt)
 
-        var section = dictionary[dateKey]!
-        settings.sessionsIsSortingByNewest ? section.insert(session, at: 0) : section.append(session)
-        dictionary[dateKey]! = section
+            // if key is empty, initialize it to session array
+            guard result[dateKey] != nil else { return result[dateKey] = [session] }
+
+            var section = result[dateKey]!
+            settings.sessionsIsSortingByNewest ? section.insert(session, at: 0) : section.append(session)
+            result[dateKey]! = section
+        }
     }
 }
 
 extension SessionListBookViewModel {
-    typealias sectionTuple = Dictionary<String, [Session]>.Element
+    typealias SectionTuple = Dictionary<String, [Session]>.Element
 
-    private func sortByNewest(a: sectionTuple, b: sectionTuple) -> Bool {
+    private func sortByNewest(a: SectionTuple, b: SectionTuple) -> Bool {
         a.value.first!.createdAt > b.value.first!.createdAt
     }
 
-    private func sortByOldest(a: sectionTuple, b: sectionTuple) -> Bool {
+    private func sortByOldest(a: SectionTuple, b: SectionTuple) -> Bool {
         a.value.first!.createdAt < b.value.first!.createdAt
     }
 }
