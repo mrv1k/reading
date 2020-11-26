@@ -10,19 +10,21 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
-    @Published var sessionsReversedRowViewModels: [SessionRowViewModel]
+    // TODO: delete
+    @Published var sessionsReversedRowViewModels = [SessionRowViewModel]()
 
-    @Published var sections: [Dictionary<String, [SessionRowViewModel]>.Element]
+    @Published var sections = [Dictionary<String, [SessionRowViewModel]>.Element]()
 
-    private var newSessionPublisher: AnyPublisher<Session?, Never>
+    private var newSessionPublisher: AnyPublisher<Session?, Never>?
     private var newSessionSubscriber: AnyCancellable?
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
         let reversedSessions = sessions.reversed()
 
         var dateSections: [String: [Session]] = [:]
-        let sortNewestFirst = true
-//        var sortComparator: (Date, Date) -> Bool = sortNewestFirst ? (>) : (<)
+
+        // TODO: allow user to control this variable
+        let sortNewestFirst = false
 
         sessions
             .forEach { session in
@@ -40,23 +42,21 @@ class SessionListBookViewModel: ViewModel {
                 }
             }
 
-        // TODO: refactor to work in both directions
-        let sortedSections = dateSections.sorted(by: { (a, b) -> Bool in
-            a.value.first!.createdAt > b.value.first!.createdAt
-        })
-
-        sections = sortedSections.map { (section: (key: String, value: [Session])) in
-            let key = section.key
-            let value = section.value
-                .map { (session: Session) -> SessionRowViewModel in
-                    SessionRowViewModel(
-                        createdAt: session.createdAt,
-                        progressPage: session.progressPage,
-                        raw_progressPercent: session.raw_progressPercent,
-                        reverse_showDayLabelPublisher: AnyPublisher(session.publisher(for: \.reverse_showDayLabel)))
-                }
-            return (key, value)
-        }
+        sections = dateSections
+            .sorted(by: sortNewestFirst ? byNewest : byOldest)
+            .map { (section: (key: String, value: [Session])) in
+                // "Closure tuple parameter does not support destructuring"
+                let key = section.key
+                let value = section.value
+                    .map { (session: Session) -> SessionRowViewModel in
+                        SessionRowViewModel(
+                            createdAt: session.createdAt,
+                            progressPage: session.progressPage,
+                            raw_progressPercent: session.raw_progressPercent,
+                            reverse_showDayLabelPublisher: AnyPublisher(session.publisher(for: \.reverse_showDayLabel)))
+                    }
+                return (key, value)
+            }
 
         sessionsReversedRowViewModels = reversedSessions
             .map { session in
@@ -67,12 +67,13 @@ class SessionListBookViewModel: ViewModel {
                     reverse_showDayLabelPublisher: session.publisher(for: \.reverse_showDayLabel).eraseToAnyPublisher())
             }
 
-        newSessionPublisher = sessionsPublisher
+        let newSessionPublisher = sessionsPublisher
             .dropFirst()
             .map { $0.last }
             .eraseToAnyPublisher()
 
-        newSessionSubscriber = newSessionPublisher
+        // TODO: adopt to work with dictionary
+        let newSessionSubscriber = newSessionPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] (session: Session?) in
                 // session is nil Book was deleted
@@ -86,5 +87,17 @@ class SessionListBookViewModel: ViewModel {
 
                 self?.sessionsReversedRowViewModels.insert(rowViewModel, at: 0)
             }
+
+        self.newSessionPublisher = newSessionPublisher
+        self.newSessionSubscriber = newSessionSubscriber
+    }
+
+    typealias sectionTuple = Dictionary<String, [Session]>.Element
+    private func byNewest(a: sectionTuple, b: sectionTuple) -> Bool {
+        a.value.first!.createdAt > b.value.first!.createdAt
+    }
+
+    private func byOldest(a: sectionTuple, b: sectionTuple) -> Bool {
+        a.value.first!.createdAt < b.value.first!.createdAt
     }
 }
