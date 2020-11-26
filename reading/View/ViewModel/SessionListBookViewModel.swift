@@ -20,21 +20,21 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     private var cancellables = Set<AnyCancellable>()
 
     init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
-        let sectionsDictionary = organizeInDictionaryByDates(sessions: sessions)
-
-        sections = sectionsDictionary
-            .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
-            .map { (section: (key: String, sessions: [Session])) in
-                // "Closure tuple parameter does not support destructuring"
-                let sessions = section.sessions
-                    .map { (session: Session) -> SessionRowViewModel in
-                        SessionRowViewModel(
-                            createdAt: session.createdAt,
-                            progressPage: session.progressPage,
-                            raw_progressPercent: session.raw_progressPercent)
-                    }
-                return (section.key, sessions)
-            }
+        sections =
+            organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
+                .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
+                .map { (section: (key: String, sessions: [Session])) in
+                    // "Closure tuple parameter does not support destructuring"
+                    let sessions = section.sessions
+                        .map { (session: Session) -> SessionRowViewModel in
+                            SessionRowViewModel(
+                                createdAt: session.createdAt,
+                                progressPage: session.progressPage,
+                                raw_progressPercent: session.raw_progressPercent
+                            )
+                        }
+                    return (section.key, sessions)
+                }
 
         settings.$sessionsIsSortingByNewest
             .dropFirst()
@@ -56,7 +56,10 @@ extension SessionListBookViewModel {
         return isToday ? "Today" : Helpers.dateFormatters.date.string(from: date)
     }
 
-    private func organizeInDictionaryByDates(sessions: [Session]) -> [String: [Session]] {
+    private func organizeInDictionary(
+        _ sessions: [Session],
+        by isSortingByNewest: Bool
+    ) -> [String: [Session]] {
         sessions.reduce(into: [:]) { (result: inout [String: [Session]], session: Session) in
             let dateKey = makeDateKey(from: session.createdAt)
 
@@ -64,7 +67,7 @@ extension SessionListBookViewModel {
             guard result[dateKey] != nil else { return result[dateKey] = [session] }
 
             var section = result[dateKey]!
-            settings.sessionsIsSortingByNewest ? section.insert(session, at: 0) : section.append(session)
+            isSortingByNewest ? section.insert(session, at: 0) : section.append(session)
             result[dateKey]! = section
         }
     }
