@@ -8,12 +8,43 @@
 
 import SwiftUI
 
+extension View {
+    func eraseToAnyView() -> AnyView {
+        AnyView(self)
+    }
+}
+
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
+    @Environment(\.editMode) var editMode
+
+    @State var progressTextEdit = false
+    @State var stub = ""
+
+    var text: some View {
+        Text(viewModel.progress)
+    }
+
+    var textOrTextField: some View {
+        guard let editMode = editMode?.wrappedValue else {
+            return text.eraseToAnyView()
+        }
+
+        if editMode == .active && progressTextEdit {
+            return TextField(viewModel.progress, text: $stub).eraseToAnyView()
+        } else {
+            return text
+                .onLongPressGesture {
+                    progressTextEdit.toggle()
+                }
+                .eraseToAnyView()
+        }
+    }
 
     var body: some View {
         HStack {
-            Text(viewModel.progress)
+            textOrTextField
+                .background(Color.green)
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
         }
