@@ -10,20 +10,20 @@ import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionListBookViewModel
-    @Binding var editMode: EditMode
-
-    var conditionalSessionCreateField: some View {
-        switch editMode {
-        case .active: return AnyView(
-            SessionCreateField(viewModel: viewModel.sessionCreateFieldViewModel)
-        )
-        default: return AnyView(EmptyView())
-        }
-    }
+//    @Binding var editMode: EditMode
+//
+//    var conditionalSessionCreateField: some View {
+//        switch editMode {
+//        case .active: return AnyView(
+//            SessionCreateField(viewModel: viewModel.sessionCreateFieldViewModel)
+//        )
+//        default: return AnyView(EmptyView())
+//        }
+//    }
 
     var body: some View {
         Group {
-            conditionalSessionCreateField
+//            conditionalSessionCreateField
 
             ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
                 Section(header: Text(dateHeader)) {

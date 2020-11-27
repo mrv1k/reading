@@ -65,7 +65,7 @@ struct BookDetail: View {
                     BookProgress(viewModel: viewModel.bookProgress)
                 }
 
-                SessionListBook(viewModel: viewModel.sessionListBook, editMode: $editMode)
+                SessionListBook(viewModel: viewModel.sessionListBook)
             }
             .listStyle(InsetGroupedListStyle())
 

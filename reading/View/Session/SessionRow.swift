@@ -21,30 +21,34 @@ struct SessionRow: View, ViewModelObserver {
     @State var progressTextEdit = false
     @State var stub = ""
 
-    var text: some View {
+    // FIXME: currently becasue of any view the whole list is being rerendered
+    var text: AnyView {
         Text(viewModel.progress)
+            .onLongPressGesture {
+                editMode?.wrappedValue = .active
+                progressTextEdit = true
+            }
+            .eraseToAnyView()
+    }
+
+    var editModeActive: Bool {
+        guard let editMode = editMode?.wrappedValue else { return false }
+        return editMode == .active
     }
 
     var textOrTextField: some View {
-        guard let editMode = editMode?.wrappedValue else {
-            return text.eraseToAnyView()
-        }
-
-        if editMode == .active && progressTextEdit {
+        if editModeActive && progressTextEdit {
+            print(editModeActive, progressTextEdit)
             return TextField(viewModel.progress, text: $stub).eraseToAnyView()
         } else {
+            print("esle", viewModel.progress)
             return text
-                .onLongPressGesture {
-                    progressTextEdit.toggle()
-                }
-                .eraseToAnyView()
         }
     }
 
     var body: some View {
         HStack {
             textOrTextField
-                .background(Color.green)
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
         }
