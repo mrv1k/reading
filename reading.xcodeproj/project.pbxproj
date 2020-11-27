@@ -12,6 +12,7 @@
 		570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */; };
 		570EE4DA2530383D003B75FE /* Session+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */; };
 		5715C62324C364E4006709C5 /* BookCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5715C62224C364E4006709C5 /* BookCreate.swift */; };
+		5716A745257178980097C605 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 5716A744257178980097C605 /* Introspect */; };
 		5716CDAA24D140960017E2E2 /* Book+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */; };
 		5716CDAB24D140960017E2E2 /* Book+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */; };
 		571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571D643A24D14F65009F7AA8 /* BookSeeder.swift */; };
@@ -103,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5716A745257178980097C605 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +281,9 @@
 			dependencies = (
 			);
 			name = reading;
+			packageProductDependencies = (
+				5716A744257178980097C605 /* Introspect */,
+			);
 			productName = "read-ing";
 			productReference = 5723957624BEF289007DC1E5 /* reading.app */;
 			productType = "com.apple.product-type.application";
@@ -307,6 +312,9 @@
 				Base,
 			);
 			mainGroup = 5723956D24BEF289007DC1E5;
+			packageReferences = (
+				5716A743257178980097C605 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = 5723957724BEF289007DC1E5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -512,6 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mrv1k.reading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -535,6 +544,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mrv1k.reading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -565,6 +575,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5716A743257178980097C605 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5716A744257178980097C605 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5716A743257178980097C605 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */ = {
