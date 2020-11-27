@@ -6,19 +6,27 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import Introspect
 import SwiftUI
 
 struct SessionCreateField: View, ViewModelObserver {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var viewModel: SessionCreateFieldViewModel
 
-    var body: some View {
-        HStack {
-//             TODO: a setting to toggle between page (default) and percent input
-            TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
-                .keyboardType(.numberPad)
+    @State private var becomeFirstResponderProxy = {}
 
-            // FIXME: rewrite to  use EditButton done to save
+    var body: some View {
+//        HStack {
+//             TODO: a setting to toggle between page (default) and percent input
+        TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
+            .keyboardType(.numberPad)
+            .introspectTextField { textField in
+                becomeFirstResponderProxy = { textField.becomeFirstResponder() }
+                becomeFirstResponderProxy()
+            }
+            .onAppear { becomeFirstResponderProxy() }
+
+        // FIXME: rewrite to  use EditButton done to save
 //            Button {
 //                viewModel.save(context: viewContext)
 //            } label: {
@@ -26,7 +34,7 @@ struct SessionCreateField: View, ViewModelObserver {
 //            }
 //            .buttonStyle(PlainButtonStyle())
 //            .padding(.leading)
-        }
+//        }
     }
 }
 
