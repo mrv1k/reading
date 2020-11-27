@@ -20,25 +20,49 @@ class BookDetailViewModel: ViewModel {
 
 struct BookDetail: View {
     @StateObject var viewModel: BookDetailViewModel
+    @State var showCreateField = false
+    @State private var editMode = EditMode.inactive
 
     init(book: Book) {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
     }
 
     var body: some View {
-        List {
-            Section {
-                BookProgress(viewModel: viewModel.bookProgress)
-            }
+        ZStack {
+            List {
+                Section {
+                    BookProgress(viewModel: viewModel.bookProgress)
+                }
 
-            Section {
-                SessionCreateField(viewModel: viewModel.sessionCreateField)
-            }
+                if showCreateField {
+                    Section {
+                        SessionCreateField(viewModel: viewModel.sessionCreateField)
+                    }
+                }
 
-            SessionListBook(viewModel: viewModel.sessionListBook)
+                SessionListBook(viewModel: viewModel.sessionListBook)
+            }
+            .listStyle(InsetGroupedListStyle())
+
+            VStack {
+                Spacer()
+                HStack {
+                    Button {
+                        print("toggle")
+                        showCreateField = true
+                        editMode = .active
+                    } label: {
+                        Label("New Session", systemImage: "plus.circle.fill")
+                            .font(Font.title3.bold())
+                            .padding(.all)
+                    }
+                    Spacer()
+                }
+            }
         }
-        .listStyle(InsetGroupedListStyle())
         .navigationBarTitle(viewModel.book.title)
+        .toolbar { EditButton() }
+        .environment(\.editMode, $editMode)
     }
 }
 

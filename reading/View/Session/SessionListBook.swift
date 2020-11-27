@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionListBookViewModel
-    @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
