@@ -18,15 +18,14 @@ struct SessionCreateField: View, ViewModelObserver {
             TextField(viewModel.pageEndPlaceholder, text: $viewModel.pageEndInput)
                 .keyboardType(.numberPad)
 
-            Divider()
-
-            Button {
-                viewModel.save(context: viewContext)
-            } label: {
-                Image(systemName: "plus.circle.fill").imageScale(.large)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .padding(.leading)
+            // FIXME: rewrite to  use EditButton done to save
+//            Button {
+//                viewModel.save(context: viewContext)
+//            } label: {
+//                Image(systemName: "plus.circle.fill").imageScale(.large)
+//            }
+//            .buttonStyle(PlainButtonStyle())
+//            .padding(.leading)
         }
     }
 }

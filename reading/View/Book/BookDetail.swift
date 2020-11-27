@@ -20,12 +20,51 @@ class BookDetailViewModel: ViewModel {
 
 struct BookDetail: View {
     @StateObject var viewModel: BookDetailViewModel
-    @State var showCreateField = false
     @State private var editMode = EditMode.inactive
 
     init(book: Book) {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
     }
+
+    var addButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Button {
+                    editMode = .active
+                } label: {
+                    Label("New Session", systemImage: "plus.circle.fill")
+                        .font(Font.title3.bold())
+                        .padding(.all)
+                }
+                Spacer()
+            }
+        }
+    }
+
+    var conditionalAddButton: some View {
+        switch editMode {
+        case .inactive: return AnyView(addButton)
+        default: return AnyView(EmptyView())
+        }
+    }
+
+    var conditionalEditButton: some View {
+        switch editMode {
+        case .active: return AnyView(EditButton())
+        default: return AnyView(EmptyView())
+        }
+    }
+
+    var conditionalSessionCreateField: some View {
+        switch editMode {
+        case .active: return AnyView(
+            SessionCreateField(viewModel: viewModel.sessionCreateField)
+        )
+        default: return AnyView(EmptyView())
+        }
+    }
+
 
     var body: some View {
         ZStack {
@@ -34,34 +73,16 @@ struct BookDetail: View {
                     BookProgress(viewModel: viewModel.bookProgress)
                 }
 
-                if showCreateField {
-                    Section {
-                        SessionCreateField(viewModel: viewModel.sessionCreateField)
-                    }
-                }
+                conditionalSessionCreateField
 
                 SessionListBook(viewModel: viewModel.sessionListBook)
             }
             .listStyle(InsetGroupedListStyle())
 
-            VStack {
-                Spacer()
-                HStack {
-                    Button {
-                        print("toggle")
-                        showCreateField = true
-                        editMode = .active
-                    } label: {
-                        Label("New Session", systemImage: "plus.circle.fill")
-                            .font(Font.title3.bold())
-                            .padding(.all)
-                    }
-                    Spacer()
-                }
-            }
+            conditionalAddButton
         }
         .navigationBarTitle(viewModel.book.title)
-        .toolbar { EditButton() }
+        .toolbar { conditionalEditButton }
         .environment(\.editMode, $editMode)
     }
 }
