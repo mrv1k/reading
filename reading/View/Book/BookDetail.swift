@@ -13,8 +13,10 @@ class BookDetailViewModel: ViewModel {
         bookProgress = BookProgressViewModel(book: book, showLabel: true)
         sessionCreateField = SessionCreateFieldViewModel(book: book)
 
-        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
-        sessionListBook = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
+//        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
+        sessionListBook = SessionListBookViewModel(
+            sessions: book.sessions,
+            sessionCreateFieldViewModel: sessionCreateField)
     }
 }
 
@@ -26,7 +28,7 @@ struct BookDetail: View {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
     }
 
-    var addButton: some View {
+    var newSessionButton: some View {
         VStack {
             Spacer()
             HStack {
@@ -44,7 +46,7 @@ struct BookDetail: View {
 
     var conditionalAddButton: some View {
         switch editMode {
-        case .inactive: return AnyView(addButton)
+        case .inactive: return AnyView(newSessionButton)
         default: return AnyView(EmptyView())
         }
     }
@@ -56,16 +58,6 @@ struct BookDetail: View {
         }
     }
 
-    var conditionalSessionCreateField: some View {
-        switch editMode {
-        case .active: return AnyView(
-            SessionCreateField(viewModel: viewModel.sessionCreateField)
-        )
-        default: return AnyView(EmptyView())
-        }
-    }
-
-
     var body: some View {
         ZStack {
             List {
@@ -73,9 +65,7 @@ struct BookDetail: View {
                     BookProgress(viewModel: viewModel.bookProgress)
                 }
 
-                conditionalSessionCreateField
-
-                SessionListBook(viewModel: viewModel.sessionListBook)
+                SessionListBook(viewModel: viewModel.sessionListBook, editMode: $editMode)
             }
             .listStyle(InsetGroupedListStyle())
 

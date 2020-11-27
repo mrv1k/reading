@@ -10,13 +10,16 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
+    var sessionCreateFieldViewModel: SessionCreateFieldViewModel
+
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
-    private var newSessionPublisher: AnyPublisher<Session, Never>?
     private var cancellables = Set<AnyCancellable>()
 
-    init(sessions: [Session], sessionsPublisher: AnyPublisher<[Session], Never>) {
+    init(sessions: [Session], sessionCreateFieldViewModel: SessionCreateFieldViewModel) {
+        self.sessionCreateFieldViewModel = sessionCreateFieldViewModel
+
         sections =
             organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
                 .mapValues(transformToViewModels(sessions:))
@@ -30,14 +33,7 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
             }
             .store(in: &cancellables)
 
-        // TODO: restore UI update when new session is added
-
-        let newSessionPublisher = sessionsPublisher
-            .dropFirst()
-            .compactMap { $0.last }
-            .eraseToAnyPublisher()
-
-        self.newSessionPublisher = newSessionPublisher
+        // FIXME: restore UI update when new session is added
     }
 }
 
