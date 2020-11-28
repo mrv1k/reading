@@ -21,33 +21,32 @@ struct BookDetail: View {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
     }
 
-    var newSessionButton: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Button {
-                    viewModel.editMode = .active
-                } label: {
-                    Label("New Session", systemImage: "plus.circle.fill")
-                        .font(Font.title3.bold())
-                        .padding(.all)
-                }
-                Spacer()
+    var addSessionButton: some View {
+        HStack {
+            Button {
+                viewModel.editMode = .active
+            } label: {
+                Label("New Session", systemImage: "plus.circle.fill")
+                    .font(Font.title3.bold())
+                    .padding(.all)
+                    .padding(.top, 0)
             }
+            Spacer()
         }
+        .background(Color(UIColor.systemGray6))
     }
 
-    var conditionalAddButton: some View {
+    var AddButtonWhenEditInactive: some View {
         Group {
             if viewModel.editMode == .inactive {
-                newSessionButton
+                addSessionButton
             } else {
                 EmptyView()
             }
         }
     }
 
-    var conditionalEditButton: some View {
+    var EditButtonWhenEditActive: some View {
         Group {
             if viewModel.editMode == .active {
                 EditButton()
@@ -58,7 +57,7 @@ struct BookDetail: View {
     }
 
     var body: some View {
-        ZStack {
+        VStack(alignment: .leading, spacing: 0) {
             List {
                 Section {
                     BookProgress(viewModel: viewModel.bookProgress)
@@ -68,10 +67,10 @@ struct BookDetail: View {
             }
             .listStyle(InsetGroupedListStyle())
 
-            conditionalAddButton
+            AddButtonWhenEditInactive
         }
         .navigationBarTitle(viewModel.book.title)
-        .toolbar { conditionalEditButton }
+        .toolbar { EditButtonWhenEditActive }
         .environment(\.editMode, $viewModel.editMode)
     }
 }
