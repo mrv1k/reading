@@ -10,16 +10,12 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
-    var sessionCreateFieldViewModel: SessionCreateFieldViewModel
-
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(sessions: [Session], sessionCreateFieldViewModel: SessionCreateFieldViewModel) {
-        self.sessionCreateFieldViewModel = sessionCreateFieldViewModel
-
+    init(sessions: [Session]) {
         sections =
             organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
                 .mapValues(transformToViewModels(sessions:))
@@ -35,6 +31,10 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
 
         // FIXME: restore UI update when new session is added
     }
+
+//    func setPlaceholder<T>(page: T) {
+//        pageEndPlaceholder = "Currently on page \(page)"
+//    }
 }
 
 private extension SessionListBookViewModel {

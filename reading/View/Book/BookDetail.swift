@@ -4,25 +4,20 @@ class BookDetailViewModel: ViewModel {
     var book: Book
 
     var bookProgress: BookProgressViewModel
-    var sessionCreateField: SessionCreateFieldViewModel
     var sessionListBook: SessionListBookViewModel
+
+    @Published var editMode = EditMode.inactive
 
     init(book: Book) {
         self.book = book
 
         bookProgress = BookProgressViewModel(book: book, showLabel: true)
-        sessionCreateField = SessionCreateFieldViewModel(book: book)
-
-//        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
-        sessionListBook = SessionListBookViewModel(
-            sessions: book.sessions,
-            sessionCreateFieldViewModel: sessionCreateField)
+        sessionListBook = SessionListBookViewModel(sessions: book.sessions)
     }
 }
 
 struct BookDetail: View {
     @StateObject var viewModel: BookDetailViewModel
-    @State private var editMode = EditMode.inactive
 
     init(book: Book) {
         _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
@@ -33,7 +28,7 @@ struct BookDetail: View {
             Spacer()
             HStack {
                 Button {
-                    editMode = .active
+                    viewModel.editMode = .active
                 } label: {
                     Label("New Session", systemImage: "plus.circle.fill")
                         .font(Font.title3.bold())
@@ -45,16 +40,22 @@ struct BookDetail: View {
     }
 
     var conditionalAddButton: some View {
-        switch editMode {
-        case .inactive: return AnyView(newSessionButton)
-        default: return AnyView(EmptyView())
+        Group {
+            if viewModel.editMode == .inactive {
+                newSessionButton
+            } else {
+                EmptyView()
+            }
         }
     }
 
     var conditionalEditButton: some View {
-        switch editMode {
-        case .active: return AnyView(EditButton())
-        default: return AnyView(EmptyView())
+        Group {
+            if viewModel.editMode == .active {
+                EditButton()
+            } else {
+                EmptyView()
+            }
         }
     }
 
@@ -73,7 +74,7 @@ struct BookDetail: View {
         }
         .navigationBarTitle(viewModel.book.title)
         .toolbar { conditionalEditButton }
-        .environment(\.editMode, $editMode)
+        .environment(\.editMode, $viewModel.editMode)
     }
 }
 
