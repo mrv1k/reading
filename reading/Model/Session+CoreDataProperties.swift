@@ -2,7 +2,7 @@
 //  Session+CoreDataProperties.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-11-26.
+//  Created by Viktor Khotimchenko on 2020-11-28.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 //
@@ -23,6 +23,7 @@ extension Session {
     @NSManaged public var progressPage: Int16
     @NSManaged public var raw_progressPercent: Int16
     @NSManaged public var updatedAt: Date?
+    @NSManaged public var uuid: UUID
     @NSManaged public var book: Book?
 
 }

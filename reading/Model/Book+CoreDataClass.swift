@@ -13,6 +13,7 @@ import Foundation
 public class Book: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
+        setPrimitiveValue(UUID(), forKey: "uuid")
         setPrimitiveValue(Date(), forKey: "createdAt")
     }
 
