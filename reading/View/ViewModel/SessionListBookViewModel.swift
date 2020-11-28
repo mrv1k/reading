@@ -34,10 +34,27 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
 
         // FIXME: restore UI update when new session is added
 
-        editModePublisher
+        $editMode
             .dropFirst()
-            .print()
-            .sink { _ in
+            .sink { editMode in
+                if editMode == .active {
+//                    let dateKey = "Today"
+                    let placeholder = SessionRowViewModel(
+                        createdAt: Date(),
+                        progressPage: 1,
+                        raw_progressPercent: 10)
+
+                    if self.settings.sessionsIsSortingByNewest {
+                        var section = self.sections.first!.value
+                        section.insert(placeholder, at: 0)
+                        self.sections[0].value = section
+                    }
+                    else {
+                        var section = self.sections.last!.value
+                        section.append(placeholder)
+                        self.sections[self.sections.count - 1].value = section
+                    }
+                }
             }
             .store(in: &cancellables)
     }
