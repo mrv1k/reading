@@ -4,7 +4,6 @@ class BookDetailViewModel: ViewModel {
     var book: Book
 
     var bookProgress: BookProgressViewModel
-    var sessionListBook: SessionListBookViewModel
 
     @Published var editMode = EditMode.inactive
 
@@ -12,7 +11,6 @@ class BookDetailViewModel: ViewModel {
         self.book = book
 
         bookProgress = BookProgressViewModel(book: book, showLabel: true)
-        sessionListBook = SessionListBookViewModel(sessions: book.sessions)
     }
 }
 
@@ -66,7 +64,7 @@ struct BookDetail: View {
                     BookProgress(viewModel: viewModel.bookProgress)
                 }
 
-                SessionListBook(viewModel: viewModel.sessionListBook)
+                SessionListBook(sessions: viewModel.book.sessions, editModePublisher: viewModel.$editMode)
             }
             .listStyle(InsetGroupedListStyle())
 

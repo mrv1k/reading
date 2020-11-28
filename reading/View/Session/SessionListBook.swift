@@ -7,9 +7,6 @@
 //
 
 import SwiftUI
-
-struct SessionListBook: View, ViewModelObserver {
-    @ObservedObject var viewModel: SessionListBookViewModel
 //    @Binding var editMode: EditMode
 //
 //    var conditionalSessionCreateField: some View {
@@ -20,10 +17,23 @@ struct SessionListBook: View, ViewModelObserver {
 //        default: return AnyView(EmptyView())
 //        }
 //    }
+//            conditionalSessionCreateField
+
+struct SessionListBook: View, ViewModelObserver {
+    @StateObject var viewModel: SessionListBookViewModel
+//    @Environment(\.editMode) var editMode
+//    if editMode?.wrappedValue == .active {
+
+
+    init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
+        let viewModel = SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher)
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+
+
 
     var body: some View {
         Group {
-//            conditionalSessionCreateField
 
             ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
                 Section(header: Text(dateHeader)) {

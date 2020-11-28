@@ -10,12 +10,15 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
+    @Published var editMode = EditMode.inactive
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(sessions: [Session]) {
+    init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
+        editModePublisher.assign(to: &$editMode)
+
         sections =
             organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
                 .mapValues(transformToViewModels(sessions:))
