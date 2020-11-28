@@ -13,7 +13,7 @@ import Foundation
 public class Session: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
-        setPrimitiveValue(UUID(), forKey: "uuid")
+        setPrimitiveValue(UUID(), forKey: "id")
         setPrimitiveValue(Date(), forKey: "createdAt")
     }
 }

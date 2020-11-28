@@ -23,7 +23,7 @@ extension Session {
     @NSManaged public var progressPage: Int16
     @NSManaged public var raw_progressPercent: Int16
     @NSManaged public var updatedAt: Date?
-    @NSManaged public var uuid: UUID
+    @NSManaged public var id: UUID
     @NSManaged public var book: Book?
 
 }

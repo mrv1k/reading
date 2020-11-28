@@ -21,11 +21,11 @@ import SwiftUI
 
 struct SessionListBook: View, ViewModelObserver {
     @StateObject var viewModel: SessionListBookViewModel
-//    @Environment(\.editMode) var editMode
-//    if editMode?.wrappedValue == .active {
 
     init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
-        self._viewModel = StateObject(wrappedValue: SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher))
+        self._viewModel = StateObject(
+            wrappedValue: SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher)
+        )
     }
 
     var body: some View {

@@ -4,6 +4,7 @@
         <attribute name="author" attributeType="String"/>
         <attribute name="completionPage" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pageCount" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="raw_completionPercent" attributeType="Integer 16" minValueString="0" maxValueString="1000" defaultValueString="0.0" usesScalarValueType="YES">
             <userInfo>
@@ -14,11 +15,11 @@
         <attribute name="sessionCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="sessionsSet.@count" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
-        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="sessionsSet" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Session" inverseName="book" inverseEntity="Session"/>
     </entity>
     <entity name="Session" representedClassName=".Session" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pageEnd" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="pageStart" attributeType="Integer 16" minValueString="0" maxValueString="32767" usesScalarValueType="YES"/>
         <attribute name="progressPage" attributeType="Integer 16" minValueString="1" maxValueString="32767" usesScalarValueType="YES"/>
@@ -28,7 +29,6 @@
             </userInfo>
         </attribute>
         <attribute name="updatedAt" optional="YES" attributeType="Date" derived="YES" derivationExpression="now()" usesScalarValueType="NO"/>
-        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>

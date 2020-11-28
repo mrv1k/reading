@@ -34,9 +34,9 @@ struct ReadingApp: App {
                     .environmentObject(bookStorage)
 
                 NavigationView {
-                    Text("Reading Now").navigationBarTitle("Reading Now")
+                    Text("Active").navigationBarTitle("Active")
                 }
-                .tabItem { Label("Reading Now", systemImage: "scroll") }
+                .tabItem { Label("Active", systemImage: "scroll") }
 
                 NavigationView { SettingsEditor() }
                     .tabItem { Label("Settings", systemImage: "gearshape") }
