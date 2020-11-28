@@ -24,17 +24,12 @@ struct SessionListBook: View, ViewModelObserver {
 //    @Environment(\.editMode) var editMode
 //    if editMode?.wrappedValue == .active {
 
-
     init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
-        let viewModel = SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher)
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._viewModel = StateObject(wrappedValue: SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher))
     }
-
-
 
     var body: some View {
         Group {
-
             ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
                 Section(header: Text(dateHeader)) {
                     ForEach(rowViewModels) { rowViewModel in
@@ -46,7 +41,7 @@ struct SessionListBook: View, ViewModelObserver {
     }
 }
 
-//struct SessionListBook_Previews: PreviewProvider {
+// struct SessionListBook_Previews: PreviewProvider {
 //    static var previews: some View {
 //        let book = BookSeeder.preview.fetch(bookWith: .sessions)
 //        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
@@ -67,4 +62,4 @@ struct SessionListBook: View, ViewModelObserver {
 //        }
 //        .previewDevice("iPhone SE (2nd generation)")
 //    }
-//}
+// }

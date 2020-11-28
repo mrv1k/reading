@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
-    @Published var editMode = EditMode.inactive
+    @Published var editMode = EditMode.inactive // default value only to use self
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
@@ -33,6 +33,13 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
             .store(in: &cancellables)
 
         // FIXME: restore UI update when new session is added
+
+        editModePublisher
+            .dropFirst()
+            .print()
+            .sink { _ in
+            }
+            .store(in: &cancellables)
     }
 
 //    func setPlaceholder<T>(page: T) {

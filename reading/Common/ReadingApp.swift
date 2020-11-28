@@ -20,8 +20,7 @@ struct ReadingApp: App {
         persistenceController = PersistenceController.preview
         let viewContext = persistenceController.container.viewContext
 
-        let storage = BookStorage(viewContext: viewContext)
-        _bookStorage = StateObject(wrappedValue: storage)
+        _bookStorage = StateObject(wrappedValue: BookStorage(viewContext: viewContext))
     }
 
     var body: some Scene {

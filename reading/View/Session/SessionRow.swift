@@ -16,7 +16,7 @@ extension View {
 
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
-    @Environment(\.editMode) var editMode
+//    @Environment(\.editMode) var editMode
 
     @State var progressTextEdit = false
     @State var stub = ""
@@ -25,30 +25,30 @@ struct SessionRow: View, ViewModelObserver {
     var text: AnyView {
         Text(viewModel.progress)
             .onLongPressGesture {
-                editMode?.wrappedValue = .active
+//                editMode?.wrappedValue = .active
                 progressTextEdit = true
             }
             .eraseToAnyView()
     }
 
-    var editModeActive: Bool {
-        guard let editMode = editMode?.wrappedValue else { return false }
-        return editMode == .active
-    }
+//    var editModeActive: Bool {
+//        guard let editMode = editMode?.wrappedValue else { return false }
+//        return editMode == .active
+//    }
 
-    var textOrTextField: some View {
-        if editModeActive && progressTextEdit {
-            print(editModeActive, progressTextEdit)
-            return TextField(viewModel.progress, text: $stub).eraseToAnyView()
-        } else {
-            print("esle", viewModel.progress)
-            return text
-        }
-    }
+//    var textOrTextField: some View {
+//        if editModeActive && progressTextEdit {
+//            print(editModeActive, progressTextEdit)
+//            return TextField(viewModel.progress, text: $stub).eraseToAnyView()
+//        } else {
+//            print("esle", viewModel.progress)
+//            return text
+//        }
+//    }
 
     var body: some View {
         HStack {
-            textOrTextField
+            text
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
         }
