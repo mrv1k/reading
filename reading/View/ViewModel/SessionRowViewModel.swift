@@ -10,19 +10,42 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
-    let session: Session
+    @Published var session: Session
 
     var time: String
-    var progressPage: String
-    var progressPercent: String
-    var progress: String { settings.progressPercentage ? progressPercent : progressPage }
+
+    @Published var progressPage = ""
+    @Published var progressPercent = ""
+    @Published var settignsProgressPercentage = false
+    
+    var progress: String {
+        get { settignsProgressPercentage ? progressPercent : progressPage }
+        set {
+            if settignsProgressPercentage {
+                progressPercent = newValue
+            } else {
+                progressPage = newValue
+            }
+        }
+    }
 
     init(session: Session) {
         self.session = session
 
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
-        progressPage = "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
-        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
+        AppSettings.singleton.$progressPercentage.assign(to: &$settignsProgressPercentage)
+
+        $session.map(\.progressPage)
+            .map { page in "\(page) \(page == 1 ? "page" : "pages")" }
+            .assign(to: &$progressPage)
+
+        $session.map(\.progressPercent)
+            .map { "\($0)%" }
+            .assign(to: &$progressPercent)
+
+//        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
     }
 }
+
+// refactor: add transient progressPercent attribute to Session entity
