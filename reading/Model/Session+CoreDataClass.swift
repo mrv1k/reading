@@ -22,6 +22,7 @@ public class Session: NSManagedObject {
     }
 
     @objc dynamic var progressPercent: Int {
-        Int(Helpers.percentCalculator.rounded(raw_progressPercent))
+        get { Int(Helpers.percentCalculator.rounded(raw_progressPercent)) }
+        set { raw_progressPercent = Int16(newValue * 10) }
     }
 }
