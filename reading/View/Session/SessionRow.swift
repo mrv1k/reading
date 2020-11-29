@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-//extension View {
+// extension View {
 //    func eraseToAnyView() -> AnyView {
 //        AnyView(self)
 //    }
-//}
+// }
 
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
@@ -25,12 +25,14 @@ struct SessionRow: View, ViewModelObserver {
 
     var body: some View {
         HStack {
-            Text(viewModel.progress)
-//            TextField(
-//                viewModel.progress,
-//                text: $viewModel.progress,
-//                onCommit: {})
-//                .keyboardType(.numberPad)
+            VStack {
+                Text(viewModel.progressText)
+                TextField(
+                    viewModel.progressText,
+                    text: $viewModel.progressBinding,
+                    onCommit: {})
+                    .keyboardType(.numberPad)
+            }
             // .id?
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
