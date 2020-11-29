@@ -20,15 +20,15 @@ protocol AppSettingsObserver {
 class AppSettings: AppSettingsViewModel {
     static var singleton = AppSettings()
 
-    @Published var progressPercentage: Bool
+    @Published var sessionIsInPercents: Bool
     @Published var sessionsIsSortingByNewest: Bool
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
-        progressPercentage = UserDefaults.standard.bool(forKey: UserDefaultsKey.progressPercentage.rawValue)
+        sessionIsInPercents = UserDefaults.standard.bool(forKey: UserDefaultsKey.sessionIsInPercents.rawValue)
         sessionsIsSortingByNewest = UserDefaults.standard.bool(forKey: UserDefaultsKey.sessionsIsSortingByNewest.rawValue)
 
-        subscribeToSaveInUserDefaults(publisher: $progressPercentage, key: .progressPercentage)
+        subscribeToSaveInUserDefaults(publisher: $sessionIsInPercents, key: .sessionIsInPercents)
             .store(in: &cancellables)
         subscribeToSaveInUserDefaults(publisher: $sessionsIsSortingByNewest, key: .sessionsIsSortingByNewest)
             .store(in: &cancellables)
