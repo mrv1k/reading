@@ -33,30 +33,29 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
             .store(in: &cancellables)
 
         // FIXME: restore UI update when new session is added
-
-        $editMode
-            .dropFirst()
-            .sink { editMode in
-                if editMode == .active {
-//                    let dateKey = "Today"
-                    let placeholder = SessionRowViewModel(
-                        createdAt: Date(),
-                        progressPage: 1,
-                        raw_progressPercent: 10)
-
-                    if self.settings.sessionsIsSortingByNewest {
-                        var section = self.sections.first!.value
-                        section.insert(placeholder, at: 0)
-                        self.sections[0].value = section
-                    }
-                    else {
-                        var section = self.sections.last!.value
-                        section.append(placeholder)
-                        self.sections[self.sections.count - 1].value = section
-                    }
-                }
-            }
-            .store(in: &cancellables)
+//        $editMode
+//            .dropFirst()
+//            .sink { editMode in
+//                if editMode == .active {
+////                    let dateKey = "Today"
+//                    let placeholder = SessionRowViewModel(
+//                        createdAt: Date(),
+//                        progressPage: 1,
+//                        raw_progressPercent: 10)
+//
+//                    if self.settings.sessionsIsSortingByNewest {
+//                        var section = self.sections.first!.value
+//                        section.insert(placeholder, at: 0)
+//                        self.sections[0].value = section
+//                    }
+//                    else {
+//                        var section = self.sections.last!.value
+//                        section.append(placeholder)
+//                        self.sections[self.sections.count - 1].value = section
+//                    }
+//                }
+//            }
+//            .store(in: &cancellables)
     }
 
 //    func setPlaceholder<T>(page: T) {
@@ -88,21 +87,17 @@ private extension SessionListBookViewModel {
 
     func transformToViewModels(sessions: [Session]) -> [SessionRowViewModel] {
         sessions.map { (session: Session) -> SessionRowViewModel in
-            SessionRowViewModel(
-                createdAt: session.createdAt,
-                progressPage: session.progressPage,
-                raw_progressPercent: session.raw_progressPercent
-            )
+            SessionRowViewModel(session: session)
         }
     }
 }
 
 private extension SessionListBookViewModel {
     func sortByNewest(a: SectionElement, b: SectionElement) -> Bool {
-        a.value.first!.createdAt > b.value.first!.createdAt
+        a.value.first!.session.createdAt > b.value.first!.session.createdAt
     }
 
     func sortByOldest(a: SectionElement, b: SectionElement) -> Bool {
-        a.value.first!.createdAt < b.value.first!.createdAt
+        a.value.first!.session.createdAt < b.value.first!.session.createdAt
     }
 }

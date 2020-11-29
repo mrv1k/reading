@@ -55,22 +55,22 @@ struct SessionRow: View, ViewModelObserver {
     }
 }
 
-struct SessionRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let session = book.sessions.first!
-        let viewModel = SessionRowViewModel(
-            createdAt: session.createdAt,
-            progressPage: session.progressPage,
-            raw_progressPercent: session.raw_progressPercent
-        )
-
-        return Group {
-            SessionRow(viewModel: viewModel)
-
-            SessionRow(
-                viewModel: SessionRowViewModel(createdAt: Date(), progressPage: 13, raw_progressPercent: 130)
-            )
-        }.previewLayout(.sizeThatFits)
-    }
-}
+//struct SessionRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//        let session = book.sessions.first!
+//        let viewModel = SessionRowViewModel(
+//            createdAt: session.createdAt,
+//            progressPage: session.progressPage,
+//            raw_progressPercent: session.raw_progressPercent
+//        )
+//
+//        return Group {
+//            SessionRow(viewModel: viewModel)
+//
+//            SessionRow(
+//                viewModel: SessionRowViewModel(createdAt: Date(), progressPage: 13, raw_progressPercent: 130)
+//            )
+//        }.previewLayout(.sizeThatFits)
+//    }
+//}

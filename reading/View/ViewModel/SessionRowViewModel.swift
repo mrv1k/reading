@@ -10,18 +10,19 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
-    var createdAt: Date
+    let session: Session
+
     var time: String
     var progressPage: String
     var progressPercent: String
     var progress: String { settings.progressPercentage ? progressPercent : progressPage }
 
-    init<AnyInt: BinaryInteger>(createdAt: Date, progressPage: AnyInt, raw_progressPercent: AnyInt) {
-        /// Required to support sorting in parent ViewModel
-        self.createdAt = createdAt
-        time = Helpers.dateFormatters.time.string(from: createdAt)
+    init(session: Session) {
+        self.session = session
 
-        self.progressPage = "\(progressPage) \(progressPage == 1 ? "page" : "pages")"
-        progressPercent = "\(AnyInt(Helpers.percentCalculator.rounded(raw_progressPercent)))%"
+        time = Helpers.dateFormatters.time.string(from: session.createdAt)
+
+        progressPage = "\(session.progressPage) \(session.progressPage == 1 ? "page" : "pages")"
+        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
     }
 }
