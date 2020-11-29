@@ -10,6 +10,8 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
+    var settings: AppSettings { AppSettings.singleton }
+
     @Published var session: Session
 
     var time: String
@@ -34,7 +36,8 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
 
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
-        AppSettings.singleton.$progressPercentage.assign(to: &$settignsProgressPercentage)
+//        $settings.map(\.progressPercentage).print().assign(to: &$settignsProgressPercentage)
+        settings.$progressPercentage.print().assign(to: &$settignsProgressPercentage)
 
         $session.map(\.progressPage)
             .map { page in "\(page) \(page == 1 ? "page" : "pages")" }
@@ -43,8 +46,6 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
         $session.map(\.progressPercent)
             .map { "\($0)%" }
             .assign(to: &$progressPercent)
-
-//        progressPercent = "\(Int(Helpers.percentCalculator.rounded(session.raw_progressPercent)))%"
     }
 }
 

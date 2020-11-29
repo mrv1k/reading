@@ -10,6 +10,8 @@ import Combine
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
+    var settings: AppSettings { AppSettings.singleton }
+
     @Published var editMode = EditMode.inactive // default value only to use self
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()

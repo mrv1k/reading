@@ -17,11 +17,6 @@ protocol AppSettingsObserver {
     var settings: AppSettings { get }
 }
 
-// FIXME: rewrite so it publishes updates
-extension AppSettingsObserver {
-    var settings: AppSettings { AppSettings.singleton }
-}
-
 class AppSettings: AppSettingsViewModel {
     static var singleton = AppSettings()
 
