@@ -6,10 +6,7 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import Foundation
-
-extension Book {
-    @objc dynamic var sessions: [Session] {
-        sessionsSet?.array as? [Session] ?? []
-    }
-}
+// FIXME: delete file?
+//import Foundation
+//
+//extension Book {}

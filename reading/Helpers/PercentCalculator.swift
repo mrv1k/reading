@@ -24,8 +24,8 @@ struct PercentCalculator {
 }
 
 fileprivate func getModifierFromCoreDataAttributes() -> Float {
-    let bookAttribute = getAttribute(description: Book.entity(), attribute: "raw_completionPercent")
-    let sessionAttribute = getAttribute(description: Session.entity(), attribute: "raw_progressPercent")
+    let bookAttribute = getAttribute(description: Book.entity(), attribute: #keyPath(Book.raw_completionPercent))
+    let sessionAttribute = getAttribute(description: Session.entity(), attribute: #keyPath(Session.raw_progressPercent))
 
     guard let bookModifier = Float(bookAttribute),
           let sessionModifier = Float(sessionAttribute)

@@ -20,4 +20,8 @@ public class Book: NSManagedObject {
     @objc class func keyPathsForValuesAffectingSessions() -> Set<NSObject> {
         [#keyPath(Book.sessionsSet) as NSObject]
     }
+
+    @objc dynamic var sessions: [Session] {
+        sessionsSet?.array as? [Session] ?? []
+    }
 }
