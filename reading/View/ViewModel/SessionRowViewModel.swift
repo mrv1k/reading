@@ -57,14 +57,5 @@ extension SessionRowViewModel {
             default: return ""
             }
         }
-
-        // FIXME: use
-        func getNumber() -> Int {
-            switch self {
-            case let .page(progress): return Int(progress)
-            case let .percent(progress): return progress
-            default: return 0
-            }
-        }
     }
 }

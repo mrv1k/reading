@@ -25,15 +25,20 @@ struct SessionRow: View, ViewModelObserver {
 
     var body: some View {
         HStack {
-            VStack {
-                Text(viewModel.progressText)
+            ZStack(alignment: .leading) {
                 TextField(
                     viewModel.progressText,
                     text: $viewModel.progressInput,
                     onCommit: {})
+                    .layoutPriority(1)
                     .keyboardType(.numberPad)
+                HStack(spacing: 0) {
+                    Text(viewModel.progressInput).hidden()
+                    // TODO: make dynamic
+                    Text("%")
+                }
             }
-            // .id?
+
             Spacer()
             Text(viewModel.time).font(.caption).foregroundColor(.gray)
         }
