@@ -29,7 +29,7 @@ struct SessionRow: View, ViewModelObserver {
                 Text(viewModel.progressText)
                 TextField(
                     viewModel.progressText,
-                    text: $viewModel.progressBinding,
+                    text: $viewModel.progressInput,
                     onCommit: {})
                     .keyboardType(.numberPad)
             }

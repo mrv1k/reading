@@ -11,47 +11,60 @@ import Foundation
 
 class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
     var settings: AppSettings { AppSettings.singleton }
+    @Published private var isInPercents = false
+
     @Published var session: Session
     var time = ""
-
-    @Published var isInPercents = false
-    @Published private var progressPage = 0
-    @Published private var progressPercent = 0
-    private var progressPercentText = ""
-    private var progressPageText = ""
-
-    var progressText: String {
-        get { isInPercents ? progressPercentText : progressPageText }
-        set(progress) {
-            if isInPercents {
-                progressPercentText = "\(progress)%"
-            } else {
-                progressPageText = "\(progress) \(progress == "1" ? "page" : "pages")"
-            }
-        }
-    }
-
-    var progressBinding: String {
-        get { String(isInPercents ? progressPercent : progressPage) }
-        set {
-            guard let progress = Int(newValue) else { return }
-            if isInPercents {
-                progressPercent = progress
-            } else {
-                progressPage = progress
-            }
-            progressText = String(progress)
-        }
-    }
+    @Published var progressInput = ""
+    @Published private var progress = Progress.empty
+    var progressText: String { progress.getText() }
 
     init(session: Session) {
         self.session = session
+        time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
         settings.$sessionIsInPercents.assign(to: &$isInPercents)
-        progressPercent = session.progressPercent
-        progressPage = Int(session.progressPage)
-        progressText = String(isInPercents ? session.progressPercent : Int(session.progressPage))
 
-        time = Helpers.dateFormatters.time.string(from: session.createdAt)
+        progressInput = String(isInPercents ? session.progressPercent : Int(session.progressPage))
+
+        $progressInput.combineLatest($isInPercents)
+            .map { (input, isInPercents) -> Progress in
+                guard let number = Int(input) else { return .empty }
+                return Progress(number, isInPercents: isInPercents)
+            }
+            .assign(to: &$progress)
+    }
+}
+
+extension SessionRowViewModel {
+    enum Progress {
+        case empty
+        case page(Int)
+        case percent(Int)
+
+        init(_ progress: Int, isInPercents: Bool) {
+            if isInPercents {
+                self = .percent(progress)
+            } else {
+                self = .page(progress)
+            }
+        }
+
+        func getText() -> String {
+            switch self {
+            case let .page(progress): return "\(progress) \(progress == 1 ? "page" : "pages")"
+            case let .percent(progress): return "\(progress)%"
+            default: return ""
+            }
+        }
+
+        // FIXME: use
+        func getNumber() -> Int {
+            switch self {
+            case let .page(progress): return Int(progress)
+            case let .percent(progress): return progress
+            default: return 0
+            }
+        }
     }
 }
