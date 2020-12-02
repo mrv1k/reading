@@ -36,8 +36,9 @@ struct SessionRow: View, ViewModelObserver {
 
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()
-                    Text(viewModel.progressTrailingText)
-                }.opacity(viewModel.progressTrailingTextHidden ? 0 : 1)
+                    Text(viewModel.progressTrailingText).foregroundColor(.gray)
+                }
+                .opacity(viewModel.progressTrailingTextHidden ? 0 : 1)
             }
 
             Spacer()
