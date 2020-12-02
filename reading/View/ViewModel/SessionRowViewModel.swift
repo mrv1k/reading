@@ -10,11 +10,11 @@ import Combine
 import Foundation
 
 class SessionRowViewModel: ViewModel, Identifiable {
-    @Published private var isInPercents = false
-
     @Published var session: Session
+    @Published var isNewSession: Bool
     var time = ""
 
+    @Published private var isInPercents = false
     @Published var progressPage = ""
     @Published var progressPercent = ""
     var progressPlaceholder = ""
@@ -32,8 +32,9 @@ class SessionRowViewModel: ViewModel, Identifiable {
     var progressTrailingText: String { isInPercents ? "%" : (progressPage == "1" ? " page" : " pages") }
     @Published var progressTrailingTextHidden = false
 
-    init(session: Session) {
+    init(session: Session, isNewSession: Bool = false) {
         self.session = session
+        self.isNewSession = isNewSession
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
         AppSettings.singleton.$sessionIsInPercents.assign(to: &$isInPercents)

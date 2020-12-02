@@ -6,33 +6,35 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import Introspect
 import SwiftUI
-
-// extension View {
-//    func eraseToAnyView() -> AnyView {
-//        AnyView(self)
-//    }
-// }
 
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
-//    @Environment(\.editMode) var editMode
 
-//    var editModeActive: Bool {
-//        guard let editMode = editMode?.wrappedValue else { return false }
-//        return editMode == .active
-//    }
+    var textField: some View {
+        TextField(
+            viewModel.progressPlaceholder,
+            text: $viewModel.progressInput,
+            onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
+                print("onCommit")
+        }
+//        .keyboardType(.numberPad)
+    }
+
+    @ViewBuilder var textField2: some View {
+        if viewModel.isNewSession {
+            textField
+                .introspectTextField { $0.becomeFirstResponder() }
+        } else {
+            textField
+        }
+    }
 
     var body: some View {
         HStack {
             ZStack(alignment: .leading) {
-                TextField(
-                    viewModel.progressPlaceholder,
-                    text: $viewModel.progressInput,
-                    onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
-                        print("onCommit")
-                }
-//                .keyboardType(.numberPad)
+                textField2
 
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()

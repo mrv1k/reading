@@ -11,12 +11,11 @@ import CoreData
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
-    @Published var isSortingByNewest = false /// `self`
-
     var viewContext: NSManagedObjectContext
     @Published var editMode = EditMode.inactive ///  `self`
-    @Published var newSession: Session?
+//    @Published var newSession: Session?
 
+    @Published var isSortingByNewest = false /// `self`
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
@@ -46,31 +45,27 @@ class SessionListBookViewModel: ViewModel {
             .store(in: &cancellables)
 
         // FIXME: restore UI update when new session is added
-//        $editMode
-//            .dropFirst()
-//            .sink { editMode in
-//                if editMode == .active {
-        ////                    let dateKey = "Today"
-//                    newSession = Session(context: context)
-//                    let placeholder = SessionRowViewModel(
-//                        createdAt: Date(),
-//                        progressPage: 1,
-//                        raw_progressPercent: 10
-//                    )
-//
-//                    if self.settings.sessionsIsSortingByNewest {
-//                        var section = self.sections.first!.value
-//                        section.insert(placeholder, at: 0)
-//                        self.sections[0].value = section
-//                    }
-//                    else {
-//                        var section = self.sections.last!.value
-//                        section.append(placeholder)
-//                        self.sections[self.sections.count - 1].value = section
-//                    }
-//                }
-//            }
-//            .store(in: &cancellables)
+        $editMode
+            .dropFirst()
+            .sink { editMode in
+                if editMode == .active {
+
+                    let newSession = Session(context: self.viewContext)
+                    let placeholder = SessionRowViewModel(session: newSession, isNewSession: true)
+
+                    if self.isSortingByNewest {
+                        var section = self.sections.first!.value
+                        section.insert(placeholder, at: 0)
+                        self.sections[0].value = section
+                    }
+                    else {
+                        var section = self.sections.last!.value
+                        section.append(placeholder)
+                        self.sections[self.sections.count - 1].value = section
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
 
 //    func setPlaceholder<T>(page: T) {
