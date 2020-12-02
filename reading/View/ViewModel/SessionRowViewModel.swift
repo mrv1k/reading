@@ -18,9 +18,19 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
     @Published var progressPage = ""
     @Published var progressPercent = ""
 
-    @Published var progressInput = ""
-    @Published var progressSymbol = ""
-//    @Published var progressText = ""
+    var progressInput: String {
+        get { isInPercents ? progressPercent : progressPage }
+        set {
+            if isInPercents {
+                progressPercent = newValue
+            } else {
+                progressPage = newValue
+            }
+        }
+    }
+    var progressTrailingText: String {
+        isInPercents ? "%" : (progressPage == "1" ? " page" : " pages")
+    }
 
     var progressPlaceholder: String { "stub" }
 
@@ -28,13 +38,10 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
         self.session = session
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
-        $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
-        $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)
-
         settings.$sessionIsInPercents.assign(to: &$isInPercents)
 
-        progressInput = isInPercents ? progressPercent : progressPage
-        progressSymbol = isInPercents ? "%" : (progressPage == "1" ? " page" : " pages")
+        $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
+        $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)
     }
 }
 

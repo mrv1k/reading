@@ -34,7 +34,7 @@ struct SessionRow: View, ViewModelObserver {
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()
                     // TODO: make dynamic
-                    Text(viewModel.progressSymbol)
+                    Text(viewModel.progressTrailingText)
                 }
             }
 
