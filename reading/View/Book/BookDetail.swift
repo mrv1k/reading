@@ -15,6 +15,7 @@ class BookDetailViewModel: ViewModel {
 }
 
 struct BookDetail: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @StateObject var viewModel: BookDetailViewModel
 
     init(book: Book) {
@@ -63,7 +64,9 @@ struct BookDetail: View {
                     BookProgress(viewModel: viewModel.bookProgress)
                 }
 
-                SessionListBook(sessions: viewModel.book.sessions, editModePublisher: viewModel.$editMode)
+                SessionListBook(viewContext: viewContext,
+                                sessions: viewModel.book.sessions,
+                                editModePublisher: viewModel.$editMode)
             }
             .listStyle(InsetGroupedListStyle())
 

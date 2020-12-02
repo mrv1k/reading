@@ -6,35 +6,30 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import CoreData
 import SwiftUI
-//    @Binding var editMode: EditMode
-//
-//    var conditionalSessionCreateField: some View {
-//        switch editMode {
-//        case .active: return AnyView(
-//            SessionCreateField(viewModel: viewModel.sessionCreateFieldViewModel)
-//        )
-//        default: return AnyView(EmptyView())
-//        }
-//    }
-//            conditionalSessionCreateField
 
 struct SessionListBook: View, ViewModelObserver {
     @StateObject var viewModel: SessionListBookViewModel
 
-    init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
+    init(viewContext: NSManagedObjectContext,
+         sessions: [Session],
+         editModePublisher: Published<EditMode>.Publisher)
+    {
         self._viewModel = StateObject(
-            wrappedValue: SessionListBookViewModel(sessions: sessions, editModePublisher: editModePublisher)
+            wrappedValue: SessionListBookViewModel(
+                viewContext: viewContext,
+                sessions: sessions,
+                editModePublisher: editModePublisher
+            )
         )
     }
 
     var body: some View {
-        Group {
-            ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
-                Section(header: Text(dateHeader)) {
-                    ForEach(rowViewModels) { rowViewModel in
-                        SessionRow(viewModel: rowViewModel)
-                    }
+        ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
+            Section(header: Text(dateHeader)) {
+                ForEach(rowViewModels) { rowViewModel in
+                    SessionRow(viewModel: rowViewModel)
                 }
             }
         }

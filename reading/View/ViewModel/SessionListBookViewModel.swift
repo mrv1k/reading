@@ -7,6 +7,7 @@
 //
 
 import Combine
+import CoreData
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel, AppSettingsObserver {
@@ -16,9 +17,17 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
+    var viewContext: NSManagedObjectContext
+    @Published var newSession: Session?
+
     private var cancellables = Set<AnyCancellable>()
 
-    init(sessions: [Session], editModePublisher: Published<EditMode>.Publisher) {
+    init(
+        viewContext: NSManagedObjectContext,
+        sessions: [Session],
+        editModePublisher: Published<EditMode>.Publisher
+    ) {
+        self.viewContext = viewContext
         editModePublisher.assign(to: &$editMode)
 
         sections =
@@ -39,11 +48,13 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
 //            .dropFirst()
 //            .sink { editMode in
 //                if editMode == .active {
-////                    let dateKey = "Today"
+        ////                    let dateKey = "Today"
+//                    newSession = Session(context: context)
 //                    let placeholder = SessionRowViewModel(
 //                        createdAt: Date(),
 //                        progressPage: 1,
-//                        raw_progressPercent: 10)
+//                        raw_progressPercent: 10
+//                    )
 //
 //                    if self.settings.sessionsIsSortingByNewest {
 //                        var section = self.sections.first!.value
