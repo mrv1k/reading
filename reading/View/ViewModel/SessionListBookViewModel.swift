@@ -10,15 +10,15 @@ import Combine
 import CoreData
 import SwiftUI
 
-class SessionListBookViewModel: ViewModel, AppSettingsObserver {
-    var settings: AppSettings { AppSettings.singleton }
-
-    @Published var editMode = EditMode.inactive // default value only to use self
-    typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
-    @Published var sections = [SectionElement]()
+class SessionListBookViewModel: ViewModel {
+    @Published var isSortingByNewest = false /// `self`
 
     var viewContext: NSManagedObjectContext
+    @Published var editMode = EditMode.inactive ///  `self`
     @Published var newSession: Session?
+
+    typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
+    @Published var sections = [SectionElement]()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -30,12 +30,14 @@ class SessionListBookViewModel: ViewModel, AppSettingsObserver {
         self.viewContext = viewContext
         editModePublisher.assign(to: &$editMode)
 
-        sections =
-            organizeInDictionary(sessions, by: settings.sessionsIsSortingByNewest)
-                .mapValues(transformToViewModels(sessions:))
-                .sorted(by: settings.sessionsIsSortingByNewest ? sortByNewest : sortByOldest)
+        AppSettings.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
 
-        settings.$sessionsIsSortingByNewest
+        sections =
+            organizeInDictionary(sessions, by: isSortingByNewest)
+                .mapValues(transformToViewModels(sessions:))
+                .sorted(by: isSortingByNewest ? sortByNewest : sortByOldest)
+
+        $isSortingByNewest
             .dropFirst()
             .sink { [weak self] isSortingByNewest in
                 guard let self = self else { return }

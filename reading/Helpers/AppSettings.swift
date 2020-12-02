@@ -9,15 +9,7 @@
 import Combine
 import Foundation
 
-private protocol AppSettingsViewModel: ObservableObject {
-    static var singleton: AppSettings { get }
-}
-
-protocol AppSettingsObserver {
-    var settings: AppSettings { get }
-}
-
-class AppSettings: AppSettingsViewModel {
+class AppSettings: ViewModel {
     static var singleton = AppSettings()
 
     @Published var sessionIsInPercents: Bool

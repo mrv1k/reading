@@ -9,8 +9,7 @@
 import Combine
 import Foundation
 
-class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
-    var settings: AppSettings { AppSettings.singleton }
+class SessionRowViewModel: ViewModel, Identifiable {
     @Published private var isInPercents = false
 
     @Published var session: Session
@@ -37,7 +36,7 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
         self.session = session
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
-        settings.$sessionIsInPercents.assign(to: &$isInPercents)
+        AppSettings.singleton.$sessionIsInPercents.assign(to: &$isInPercents)
 
         $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
         $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)
