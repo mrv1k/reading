@@ -29,13 +29,15 @@ struct SessionRow: View, ViewModelObserver {
                 TextField(
                     viewModel.progressPlaceholder,
                     text: $viewModel.progressInput,
-                    onCommit: {})
-                    .keyboardType(.numberPad)
+                    onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
+                        print("onCommit")
+                }
+//                .keyboardType(.numberPad)
+
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()
-                    // TODO: make dynamic
                     Text(viewModel.progressTrailingText)
-                }
+                }.opacity(viewModel.progressTrailingTextHidden ? 0 : 1)
             }
 
             Spacer()

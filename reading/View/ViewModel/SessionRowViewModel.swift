@@ -31,6 +31,7 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
     var progressTrailingText: String {
         isInPercents ? "%" : (progressPage == "1" ? " page" : " pages")
     }
+    @Published var progressTrailingTextHidden = false
 
     var progressPlaceholder: String { "stub" }
 
@@ -42,6 +43,10 @@ class SessionRowViewModel: ViewModel, AppSettingsObserver, Identifiable {
 
         $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
         $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)
+    }
+
+    func hideProgressTrailingTextOnEditing(isEditing: Bool) {
+        progressTrailingTextHidden = isEditing
     }
 }
 
