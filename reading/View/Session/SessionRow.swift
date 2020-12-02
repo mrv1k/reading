@@ -27,15 +27,14 @@ struct SessionRow: View, ViewModelObserver {
         HStack {
             ZStack(alignment: .leading) {
                 TextField(
-                    viewModel.progressText,
+                    viewModel.progressPlaceholder,
                     text: $viewModel.progressInput,
                     onCommit: {})
-                    .layoutPriority(1)
                     .keyboardType(.numberPad)
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()
                     // TODO: make dynamic
-                    Text("%")
+                    Text(viewModel.progressSymbol)
                 }
             }
 
