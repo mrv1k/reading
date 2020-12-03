@@ -30,7 +30,6 @@ class SessionRowViewModel: ViewModel, Identifiable {
     }
 
     var progressTrailingText: String { isInPercents ? "%" : (progressPage == "1" ? " page" : " pages") }
-    @Published var progressTrailingTextHidden = false
 
     init(session: Session, isNewSession: Bool = false) {
         self.session = session
@@ -48,8 +47,5 @@ class SessionRowViewModel: ViewModel, Identifiable {
         progressPlaceholder = (isInPercents ? progressPercent : progressPage) + progressTrailingText
     }
 
-    func hideProgressTrailingTextOnEditing(isEditing: Bool) {
-        progressTrailingTextHidden = isEditing
-    }
 }
 

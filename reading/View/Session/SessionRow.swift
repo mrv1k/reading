@@ -21,26 +21,27 @@ extension View {
 }
 
 struct SessionRow: View, ViewModelObserver {
+    @Environment(\.editMode) var editMode
     @ObservedObject var viewModel: SessionRowViewModel
+
+    var editModeValue: EditMode { editMode?.wrappedValue ?? .inactive }
 
     var body: some View {
         HStack {
             ZStack(alignment: .leading) {
                 TextField(
                     viewModel.progressPlaceholder,
-                    text: $viewModel.progressInput,
-                    onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
-                    print("onCommit")
-                }
-                .ifConditional(viewModel.isNewSession) { textField in
-                    textField.introspectTextField { textField in textField.becomeFirstResponder() }
-                }
+                    text: $viewModel.progressInput)
+                    .disabled(editModeValue == .inactive)
+                    .ifConditional(viewModel.isNewSession) { textField in
+                        textField.introspectTextField { $0.becomeFirstResponder() }
+                    }
 
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()
                     Text(viewModel.progressTrailingText).foregroundColor(.gray)
+                        .opacity(editModeValue == .inactive ? 1 : 0)
                 }
-                .opacity(viewModel.progressTrailingTextHidden ? 0 : 1)
             }
 
             Spacer()
