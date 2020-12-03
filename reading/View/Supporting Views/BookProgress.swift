@@ -9,7 +9,11 @@
 import SwiftUI
 
 struct BookProgress: View, ViewModelObserver {
-    @ObservedObject var viewModel: BookProgressViewModel
+    @StateObject var viewModel: BookProgressViewModel
+
+    init(book: Book, showLabel: Bool = false) {
+        _viewModel = StateObject(wrappedValue: BookProgressViewModel(book: book, showLabel: showLabel))
+    }
 
     var body: some View {
         if viewModel.showLabel {
@@ -24,13 +28,11 @@ struct BookProgress: View, ViewModelObserver {
 struct BookProgress_Previews: PreviewProvider {
     static var previews: some View {
         let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let viewModel = BookProgressViewModel(book: book, showLabel: true)
-        let viewModelNoLabel = BookProgressViewModel(book: book, showLabel: false)
 
         return Group {
-            BookProgress(viewModel: viewModel)
+            BookProgress(book: book, showLabel: true)
 
-            BookProgress(viewModel: viewModelNoLabel)
+            BookProgress(book: book)
 
         }.previewLayout(.sizeThatFits)
     }

@@ -24,7 +24,7 @@ class SessionListBookViewModel: ViewModel {
 
     init(
         viewContext: NSManagedObjectContext,
-        sessions: [Session],
+        book: Book,
         editModePublisher: Published<EditMode>.Publisher
     ) {
         self.viewContext = viewContext
@@ -33,7 +33,7 @@ class SessionListBookViewModel: ViewModel {
         AppSettings.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
 
         sections =
-            organizeInDictionary(sessions, by: isSortingByNewest)
+            organizeInDictionary(book.sessions, by: isSortingByNewest)
                 .mapValues(transformToViewModels(sessions:))
                 .sorted(by: isSortingByNewest ? sortByNewest : sortByOldest)
 
@@ -50,8 +50,8 @@ class SessionListBookViewModel: ViewModel {
             .dropFirst()
             .sink { editMode in
                 if editMode == .active {
-                    // FIXME: book is nil
                     let session = Session(context: self.viewContext)
+                    session.book = book
                     let sessionRow = SessionRowViewModel(session: session, isNewSession: true)
                     self.newSessionRow = sessionRow
 

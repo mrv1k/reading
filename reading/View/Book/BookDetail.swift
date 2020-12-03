@@ -3,14 +3,10 @@ import SwiftUI
 class BookDetailViewModel: ViewModel {
     var book: Book
 
-    var bookProgress: BookProgressViewModel
-
     @Published var editMode = EditMode.inactive
 
     init(book: Book) {
         self.book = book
-
-        bookProgress = BookProgressViewModel(book: book, showLabel: true)
     }
 }
 
@@ -37,13 +33,12 @@ struct BookDetail: View {
         .background(Color(UIColor.systemGray6))
     }
 
+    @ViewBuilder
     var AddButtonWhenEditInactive: some View {
-        Group {
-            if viewModel.editMode == .inactive {
-                addSessionButton
-            } else {
-                EmptyView()
-            }
+        if viewModel.editMode == .inactive {
+            addSessionButton
+        } else {
+            EmptyView()
         }
     }
 
@@ -51,11 +46,11 @@ struct BookDetail: View {
         VStack(alignment: .leading, spacing: 0) {
             List {
                 Section {
-                    BookProgress(viewModel: viewModel.bookProgress)
+                    BookProgress(book: viewModel.book)
                 }
 
                 SessionListBook(viewContext: viewContext,
-                                sessions: viewModel.book.sessions,
+                                book: viewModel.book,
                                 editModePublisher: viewModel.$editMode)
             }
             .listStyle(InsetGroupedListStyle())
