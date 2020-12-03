@@ -13,11 +13,12 @@ import SwiftUI
 class SessionListBookViewModel: ViewModel {
     var viewContext: NSManagedObjectContext
     @Published var editMode = EditMode.inactive ///  `self`
-//    @Published var newSession: Session?
 
     @Published var isSortingByNewest = false /// `self`
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
+
+    var newSessionRow: SessionRowViewModel?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -44,24 +45,36 @@ class SessionListBookViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
-        // FIXME: restore UI update when new session is added
         $editMode
             .dropFirst()
             .sink { editMode in
                 if editMode == .active {
-
-                    let newSession = Session(context: self.viewContext)
-                    let placeholder = SessionRowViewModel(session: newSession, isNewSession: true)
+                    // FIXME: book is nil
+                    let session = Session(context: self.viewContext)
+                    let sessionRow = SessionRowViewModel(session: session, isNewSession: true)
+                    self.newSessionRow = sessionRow
 
                     if self.isSortingByNewest {
                         var section = self.sections.first!.value
-                        section.insert(placeholder, at: 0)
+                        section.insert(sessionRow, at: 0)
                         self.sections[0].value = section
-                    }
-                    else {
+                    } else {
                         var section = self.sections.last!.value
-                        section.append(placeholder)
+                        section.append(sessionRow)
                         self.sections[self.sections.count - 1].value = section
+                    }
+                } else {
+                    guard let newSessionRow = self.newSessionRow else { return }
+                    if newSessionRow.progressInput.isEmpty {
+                        if self.isSortingByNewest {
+                            var section = self.sections.first!.value
+                            section.removeFirst()
+                            self.sections[0].value = section
+                        } else {
+                            var section = self.sections.last!.value
+                            section.removeLast()
+                            self.sections[self.sections.count - 1].value = section
+                        }
                     }
                 }
             }
@@ -111,3 +124,18 @@ private extension SessionListBookViewModel {
         a.value.first!.session.createdAt < b.value.first!.session.createdAt
     }
 }
+
+//private extension SessionListBookViewModel {
+//    func testAdd(row: SessionRowViewModel, into section: [SectionElement]) {
+//
+//        var section = self.sections.first!.value
+//        section.insert(sessionRow, at: 0)
+//        self.sections[0].value = section
+//    }
+//
+//    func testRemove(row: SessionRowViewModel, from section: [SectionElement]) {
+////        var section = self.sections.first!.value
+////        section.insert(sessionRow, at: 0)
+////        self.sections[0].value = section
+//    }
+//}

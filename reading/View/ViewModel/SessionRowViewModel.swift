@@ -42,6 +42,9 @@ class SessionRowViewModel: ViewModel, Identifiable {
         $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
         $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)
 
+        if isNewSession {
+            progressInput = ""
+        }
         progressPlaceholder = (isInPercents ? progressPercent : progressPage) + progressTrailingText
     }
 
@@ -50,26 +53,3 @@ class SessionRowViewModel: ViewModel, Identifiable {
     }
 }
 
-// extension SessionRowViewModel {
-//    enum Progress {
-//        case empty
-//        case page(Int)
-//        case percent(Int)
-//
-//        init(_ progress: Int, isInPercents: Bool) {
-//            if isInPercents {
-//                self = .percent(progress)
-//            } else {
-//                self = .page(progress)
-//            }
-//        }
-//
-//        func getText() -> String {
-//            switch self {
-//            case let .page(progress): return "\(progress) \(progress == 1 ? "page" : "pages")"
-//            case let .percent(progress): return "\(progress)%"
-//            default: return ""
-//            }
-//        }
-//    }
-// }
