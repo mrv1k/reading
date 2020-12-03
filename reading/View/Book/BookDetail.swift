@@ -1,31 +1,22 @@
 import SwiftUI
 
 class BookDetailViewModel: ViewModel {
-    var book: Book
-
-    @Published var editMode = EditMode.inactive
-
-    init(book: Book) {
-        self.book = book
-    }
+    @Published var isAddSessionActive = false
 }
 
 struct BookDetail: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject var viewModel: BookDetailViewModel
-
-    init(book: Book) {
-        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
-    }
+    let book: Book
+    @StateObject var viewModel = BookDetailViewModel()
 
     var addSessionButton: some View {
         HStack {
             Button {
-                viewModel.editMode = .active
+                viewModel.isAddSessionActive.toggle()
             } label: {
                 Label("New Session", systemImage: "plus.circle.fill")
                     .font(Font.title3.bold())
-                    .padding(.all)
+                    .padding()
                     .padding(.top, 0)
             }
             Spacer()
@@ -34,9 +25,9 @@ struct BookDetail: View {
     }
 
     @ViewBuilder
-    var AddButtonWhenEditInactive: some View {
-        if viewModel.editMode == .inactive {
-            addSessionButton
+    var EditButton2: some View {
+        if !viewModel.isAddSessionActive {
+            EditButton()
         } else {
             EmptyView()
         }
@@ -46,20 +37,22 @@ struct BookDetail: View {
         VStack(alignment: .leading, spacing: 0) {
             List {
                 Section {
-                    BookProgress(book: viewModel.book)
+                    BookProgress(book: book)
                 }
 
                 SessionListBook(viewContext: viewContext,
-                                book: viewModel.book,
-                                editModePublisher: viewModel.$editMode)
+                                book: book,
+                                isAddSessionActivePublisher: viewModel.$isAddSessionActive)
             }
             .listStyle(InsetGroupedListStyle())
 
-            AddButtonWhenEditInactive
+            if !viewModel.isAddSessionActive {
+                addSessionButton
+            }
         }
-        .navigationBarTitle(viewModel.book.title)
-        .toolbar { EditButton() }
-        .environment(\.editMode, $viewModel.editMode)
+//        .environment(\.editMode, $viewModel.editMode)
+        .navigationBarTitle(book.title)
+        .toolbar { EditButton2 }
     }
 }
 

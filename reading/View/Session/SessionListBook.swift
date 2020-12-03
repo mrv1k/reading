@@ -12,12 +12,12 @@ import SwiftUI
 struct SessionListBook: View, ViewModelObserver {
     @StateObject var viewModel: SessionListBookViewModel
 
-    init(viewContext: NSManagedObjectContext, book: Book, editModePublisher: Published<EditMode>.Publisher) {
+    init(viewContext: NSManagedObjectContext, book: Book, isAddSessionActivePublisher: Published<Bool>.Publisher) {
         self._viewModel = StateObject(
             wrappedValue: SessionListBookViewModel(
                 viewContext: viewContext,
                 book: book,
-                editModePublisher: editModePublisher
+                isAddSessionActivePublisher: isAddSessionActivePublisher
             )
         )
     }

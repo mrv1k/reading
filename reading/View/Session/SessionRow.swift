@@ -32,7 +32,7 @@ struct SessionRow: View, ViewModelObserver {
                 TextField(
                     viewModel.progressPlaceholder,
                     text: $viewModel.progressInput)
-                    .disabled(editModeValue == .inactive)
+                    .disabled(editModeValue == .inactive && !viewModel.isNewSession)
                     .ifConditional(viewModel.isNewSession) { textField in
                         textField.introspectTextField { $0.becomeFirstResponder() }
                     }

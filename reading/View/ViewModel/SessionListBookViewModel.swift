@@ -12,9 +12,10 @@ import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
     var viewContext: NSManagedObjectContext
-    @Published var editMode = EditMode.inactive ///  `self`
+    private var book: Book
+     @Published var addSessionActive = false /// `self.`
 
-    @Published var isSortingByNewest = false /// `self`
+    @Published var isSortingByNewest = false /// `self.`
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
@@ -25,10 +26,13 @@ class SessionListBookViewModel: ViewModel {
     init(
         viewContext: NSManagedObjectContext,
         book: Book,
-        editModePublisher: Published<EditMode>.Publisher
+        isAddSessionActivePublisher: Published<Bool>.Publisher
     ) {
         self.viewContext = viewContext
-        editModePublisher.assign(to: &$editMode)
+        self.book = book
+        isAddSessionActivePublisher.assign(to: &$addSessionActive)
+
+//        editModePublisher.assign(to: &$editMode)
 
         AppSettings.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
 
@@ -46,10 +50,10 @@ class SessionListBookViewModel: ViewModel {
             .store(in: &cancellables)
 
         // FIXME: because it relies only on edit mode, shows up even when new session button wasnt pressed
-        $editMode
+        $addSessionActive
             .dropFirst()
-            .sink { editMode in
-                if editMode == .active {
+            .sink { active in
+                if active {
                     let session = Session(context: self.viewContext)
                     session.book = book
                     let sessionRow = SessionRowViewModel(session: session, isNewSession: true)
