@@ -9,32 +9,32 @@
 import Introspect
 import SwiftUI
 
+// https://forums.swift.org/t/conditionally-apply-modifier-in-swiftui/32815/17
+extension View {
+    @ViewBuilder func ifConditional<T>(_ condition: Bool, transform: (Self) -> T) -> some View where T: View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
 struct SessionRow: View, ViewModelObserver {
     @ObservedObject var viewModel: SessionRowViewModel
-
-    var textField: some View {
-        TextField(
-            viewModel.progressPlaceholder,
-            text: $viewModel.progressInput,
-            onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
-                print("onCommit")
-        }
-//        .keyboardType(.numberPad)
-    }
-
-    @ViewBuilder var textField2: some View {
-        if viewModel.isNewSession {
-            textField
-                .introspectTextField { $0.becomeFirstResponder() }
-        } else {
-            textField
-        }
-    }
 
     var body: some View {
         HStack {
             ZStack(alignment: .leading) {
-                textField2
+                TextField(
+                    viewModel.progressPlaceholder,
+                    text: $viewModel.progressInput,
+                    onEditingChanged: viewModel.hideProgressTrailingTextOnEditing) {
+                    print("onCommit")
+                }
+                .ifConditional(viewModel.isNewSession) { textField in
+                    textField.introspectTextField { textField in textField.becomeFirstResponder() }
+                }
 
                 HStack(spacing: 0) {
                     Text(viewModel.progressInput).hidden()

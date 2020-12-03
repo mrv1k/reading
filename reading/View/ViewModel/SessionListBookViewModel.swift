@@ -45,6 +45,7 @@ class SessionListBookViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
+        // FIXME: because it relies only on edit mode, shows up even when new session button wasnt pressed
         $editMode
             .dropFirst()
             .sink { editMode in

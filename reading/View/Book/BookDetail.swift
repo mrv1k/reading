@@ -47,16 +47,6 @@ struct BookDetail: View {
         }
     }
 
-    var EditButtonWhenEditActive: some View {
-        Group {
-            if viewModel.editMode == .active {
-                EditButton()
-            } else {
-                EmptyView()
-            }
-        }
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             List {
@@ -73,7 +63,7 @@ struct BookDetail: View {
             AddButtonWhenEditInactive
         }
         .navigationBarTitle(viewModel.book.title)
-        .toolbar { EditButtonWhenEditActive }
+        .toolbar { EditButton() }
         .environment(\.editMode, $viewModel.editMode)
     }
 }
