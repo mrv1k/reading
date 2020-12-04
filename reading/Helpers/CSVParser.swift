@@ -11,6 +11,17 @@ import Foundation
 import SwiftCSV
 
 struct CSVParser {
+    struct CSVBook {
+        let title: String
+        let author: String
+        let pageCount: String
+    }
+
+    struct CSVSession {
+        let pageEnd: String
+        let createdAt: String
+    }
+
     init(viewContext: NSManagedObjectContext) {
         guard let bundle = Bundle.main.path(forResource: "V.07.19", ofType: "csv") else {
             fatalError("Couldn't locate the file")
@@ -38,19 +49,10 @@ struct CSVParser {
             let recordedDayKey = csv.header
                 .first { $0.lowercased().contains("date") } ?? notFoundKey
 
-            var sessionsByBooks = [String: [CSVRow]]()
-
-            struct CSVBook {
-                let title: String
-                let author: String
-                let pageCount: String
-            }
-
             var books = [String: CSVBook]()
+            var sessions = [String: [CSVSession]]()
 
-
-            typealias CSVRow = [String: String]
-            csv.namedRows.forEach { (row: CSVRow) in
+            csv.namedRows.forEach { (row: [String: String]) in
                 let title = row[titleKey]! // FIXME: force unwrap
 
                 if books[title] == nil {
@@ -65,14 +67,14 @@ struct CSVParser {
                     books[title] = book
                 }
 
+                if sessions[title] == nil {
+                    sessions[title] = []
+                }
 
-//                let pageEnd = row[pageEndKey]!
-//                let createdAt = row[recordedDayKey]!
+                let pageEnd = row[pageEndKey]!
+                let createdAt = row[recordedDayKey]!
 
-//                if sessionsByBooks[title] == nil {
-//                    sessionsByBooks[title] = []
-//                }
-//                sessionsByBooks[title]!.append(sessionRow)
+                sessions[title]!.append(CSVSession(pageEnd: pageEnd, createdAt: createdAt))
             }
 
             books.forEach { csvBook in
@@ -80,19 +82,19 @@ struct CSVParser {
                 book.title = csvBook.value.title
                 book.author = csvBook.value.author
                 book.pageCount = Int16(csvBook.value.pageCount)!
+
+                sessions[csvBook.key]!.forEach { (csvSession) in
+                    let session = Session(context: viewContext)
+                    session.book = book
+                    session.pageEnd = Int16(csvSession.pageEnd)!
+                    session.computeMissingAttributes()
+
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd MMM yyyy"
+                    session.createdAt = dateFormatter.date(from: csvSession.createdAt) ?? session.createdAt
+
+                }
             }
-
-
-//            sessionsByBooks.forEach { title, myRow in
-//                let book = Book(context: viewContext)
-//                book.title = title
-//                book.author = "stub"
-//                book.pageCount = Int16(100)
-//                print(title, myRow.count)
-//            }
-
-//            sessions.reduce(into: [:]) { (result: inout [String: [Session]], session: Session) in
-//                guard result[dateKey] != nil else { return result[dateKey] = [session] }
         } catch let parseError as CSVParseError {
             print(parseError)
             fatalError("errors from parsing invalid formed CSV")
