@@ -15,14 +15,14 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 
-        print(CSVParser())
+        CSVParser(viewContext: viewContext)
 
-        let bookSeeder = BookSeeder(viewContext: viewContext)
-        let sessionSeeder = SessionSeeder(viewContext: viewContext)
-        bookSeeder.insertAll()
+//        let bookSeeder = BookSeeder(viewContext: viewContext)
+//        let sessionSeeder = SessionSeeder(viewContext: viewContext)
+//        bookSeeder.insertAll()
 
-        let testBook = bookSeeder.fetch(bookWith: .sessions)
-        sessionSeeder.insertMany(book: testBook)
+//        let testBook = bookSeeder.fetch(bookWith: .sessions)
+//        sessionSeeder.insertMany(book: testBook)
 
 
         do {
