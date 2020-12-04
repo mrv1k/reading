@@ -19,8 +19,32 @@ struct CSVParser {
         do {
             let csv = try CSV(url: fileURL)
             print(csv.header)
-            print(csv.namedRows.first)
-//            Optional(["End Page": "20", "Day": "1", "Book ": "\"Варкрафт: Хроники. Энциклопедия. Том 1\" by Blizzard Entertainment", "Total Pages": "176", "Start Page": "20", "Pages Read": "0", "Read": "11%", "Date": "01 Jul 2019"])
+            print(csv.namedRows.first!)
+            print()
+
+            let bookKey = csv.header
+                .filter { $0.lowercased().contains("book") }
+                .first!
+
+            typealias CSVRow = [String: String]
+            var sessionsByBooks = [String: [CSVRow]]()
+
+            let bookCSV = csv.namedRows.forEach { (row: CSVRow) in
+                let title = row[bookKey]!
+
+                guard sessionsByBooks[title] != nil else {
+                    sessionsByBooks[title] = [row]
+                    return
+                }
+                sessionsByBooks[title]!.append(row)
+            }
+
+            sessionsByBooks.forEach {
+                print($0.key, $0.value.count)
+            }
+
+//            sessions.reduce(into: [:]) { (result: inout [String: [Session]], session: Session) in
+//                guard result[dateKey] != nil else { return result[dateKey] = [session] }
         } catch let parseError as CSVParseError {
             print(parseError)
             fatalError("errors from parsing invalid formed CSV")
