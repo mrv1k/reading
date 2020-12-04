@@ -39,6 +39,7 @@
 		577403C5252DBC61001152B4 /* SessionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403C4252DBC61001152B4 /* SessionRow.swift */; };
 		577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403CB252DBE14001152B4 /* SessionListBook.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
+		578F5AE42579DE1200468DCF /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 578F5AE32579DE1200468DCF /* SwiftCSV */; };
 		579730EC2558CCD100393876 /* BookProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579730EB2558CCD100393876 /* BookProgress.swift */; };
 		579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579730EE2558D88D00393876 /* SessionListBookViewModel.swift */; };
 		579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */; };
@@ -105,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5716A745257178980097C605 /* Introspect in Frameworks */,
+				578F5AE42579DE1200468DCF /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +285,7 @@
 			name = reading;
 			packageProductDependencies = (
 				5716A744257178980097C605 /* Introspect */,
+				578F5AE32579DE1200468DCF /* SwiftCSV */,
 			);
 			productName = "read-ing";
 			productReference = 5723957624BEF289007DC1E5 /* reading.app */;
@@ -314,6 +317,7 @@
 			mainGroup = 5723956D24BEF289007DC1E5;
 			packageReferences = (
 				5716A743257178980097C605 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				578F5AE22579DE1200468DCF /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 			);
 			productRefGroup = 5723957724BEF289007DC1E5 /* Products */;
 			projectDirPath = "";
@@ -585,6 +589,14 @@
 				minimumVersion = 0.1.1;
 			};
 		};
+		578F5AE22579DE1200468DCF /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -592,6 +604,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5716A743257178980097C605 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
+		};
+		578F5AE32579DE1200468DCF /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 578F5AE22579DE1200468DCF /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
 		};
 /* End XCSwiftPackageProductDependency section */
 
