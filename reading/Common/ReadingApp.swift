@@ -34,7 +34,37 @@ struct ReadingApp: App {
                     .environmentObject(bookStorage)
 
                 NavigationView {
-                    Text("Active").navigationBarTitle("Active")
+                    ScrollView {
+                        VStack {
+                            HStack {
+                                Text("Favorites").font(.title2).bold()
+                                Spacer()
+                            }
+                            GroupBox(
+                                label: Label("Heart Rate", systemImage: "heart.fill")
+                                    .foregroundColor(.red)
+                                    .padding(.bottom)
+                            ) {
+                                HStack {
+                                    Text("Your hear rate is 90 BPM.")
+                                    Spacer()
+                                }
+                            }
+
+                            GroupBox(
+                                label: Label("Heart Rate", systemImage: "heart.fill")
+                                    .foregroundColor(.red)
+                                    .padding(.bottom)
+                            ) {
+                                HStack {
+                                    Text("Your hear rate is 90 BPM.")
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .navigationBarTitle("Active")
                 }
                 .tabItem { Label("Active", systemImage: "scroll") }
 
