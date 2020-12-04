@@ -22,42 +22,52 @@ struct CSVParser {
             print(csv.header)
             print()
 
+            let notFoundKey = ""
             let titleKey = csv.header
-                .first { $0.lowercased().contains("book")}!
+                .first { $0.lowercased().contains("book") } ?? notFoundKey
 
             let authorKey = csv.header
-                .first { $0.lowercased().contains("author")}
+                .first { $0.lowercased().contains("author") } ?? notFoundKey
 
             let pagesCountKey = csv.header
-                .first { $0.lowercased().contains("total pages")}!
+                .first { $0.lowercased().contains("total pages") } ?? notFoundKey
 
-//            bookToCSVMap
-            _ = [
-                #keyPath(Book.title): titleKey,
-                #keyPath(Book.author): authorKey,
-                #keyPath(Book.pageCount): pagesCountKey
-            ]
+            let pageEndKey = csv.header
+                .first { $0.lowercased().contains("end page") } ?? notFoundKey
 
-            typealias CSVRow = [String: String]
+            let recordedDayKey = csv.header
+                .first { $0.lowercased().contains("date") } ?? notFoundKey
+
             var sessionsByBooks = [String: [CSVRow]]()
 
+            typealias CSVRow = [String: String]
             csv.namedRows.forEach { (row: CSVRow) in
                 let title = row[titleKey]!
+                let author = row[authorKey] ?? "Unknown"
+                let pageCount = row[pagesCountKey]!
 
-                guard sessionsByBooks[title] != nil else {
-                    sessionsByBooks[title] = [row]
-                    return
+
+                let pageEnd = row[pageEndKey]!
+                let createdAt = row[recordedDayKey]!
+
+                var sessionRow = [
+                    #keyPath(Session.pageEnd): pageEnd,
+                    #keyPath(Session.createdAt): createdAt
+                ]
+
+                if sessionsByBooks[title] == nil {
+                    sessionsByBooks[title] = []
                 }
-                sessionsByBooks[title]!.append(row)
+                sessionsByBooks[title]!.append(sessionRow)
             }
 
-            sessionsByBooks.forEach { (title, csvRow) in
+            sessionsByBooks.forEach { title, myRow in
                 let book = Book(context: viewContext)
                 book.title = title
-                book.author = "Unknown"
-                let temp = csvRow.first![pagesCountKey]!
+                book.author = myRow
+                let temp = myRow.first![pagesCountKey]!
                 book.pageCount = Int16(temp)!
-                print(title, csvRow.count)
+                print(title, myRow.count)
             }
 
 //            sessions.reduce(into: [:]) { (result: inout [String: [Session]], session: Session) in
