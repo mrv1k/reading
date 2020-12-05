@@ -7,37 +7,24 @@
 //
 
 import Combine
-import CoreData
 import SwiftUI
 
 class SessionListBookViewModel: ViewModel {
-    var viewContext: NSManagedObjectContext
-    private var book: Book
-     @Published var addSessionActive = false /// `self.`
+    @Published var sessions: [Session]
 
     @Published var isSortingByNewest = false /// `self.`
     typealias SectionElement = Dictionary<String, [SessionRowViewModel]>.Element
     @Published var sections = [SectionElement]()
 
-    var newSessionRow: SessionRowViewModel?
-
     private var cancellables = Set<AnyCancellable>()
 
-    init(
-        viewContext: NSManagedObjectContext,
-        book: Book,
-        isAddSessionActivePublisher: Published<Bool>.Publisher
-    ) {
-        self.viewContext = viewContext
-        self.book = book
-        isAddSessionActivePublisher.assign(to: &$addSessionActive)
-
-//        editModePublisher.assign(to: &$editMode)
+    init(sessions: [Session]) {
+        self.sessions = sessions
 
         AppSettings.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
 
         sections =
-            organizeInDictionary(book.sessions, by: isSortingByNewest)
+            organizeInDictionary(sessions, by: isSortingByNewest)
                 .mapValues(transformToViewModels(sessions:))
                 .sorted(by: isSortingByNewest ? sortByNewest : sortByOldest)
 
@@ -49,46 +36,30 @@ class SessionListBookViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
-        // FIXME: because it relies only on edit mode, shows up even when new session button wasnt pressed
-        $addSessionActive
-            .dropFirst()
-            .sink { active in
-                if active {
-                    let session = Session(context: self.viewContext)
-                    session.book = book
-                    let sessionRow = SessionRowViewModel(session: session, isNewSession: true)
-                    self.newSessionRow = sessionRow
-
-                    if self.isSortingByNewest {
-                        var section = self.sections.first!.value
-                        section.insert(sessionRow, at: 0)
-                        self.sections[0].value = section
-                    } else {
-                        var section = self.sections.last!.value
-                        section.append(sessionRow)
-                        self.sections[self.sections.count - 1].value = section
-                    }
-                } else {
-                    guard let newSessionRow = self.newSessionRow else { return }
-                    if newSessionRow.progressInput.isEmpty {
-                        if self.isSortingByNewest {
-                            var section = self.sections.first!.value
-                            section.removeFirst()
-                            self.sections[0].value = section
-                        } else {
-                            var section = self.sections.last!.value
-                            section.removeLast()
-                            self.sections[self.sections.count - 1].value = section
-                        }
-                    }
-                }
-            }
-            .store(in: &cancellables)
+        // FIXME:
+//        $sessions.sink(receiveValue:)
+//        $addSessionActive
+//            .dropFirst()
+//            .sink { active in
+//                if active {
+//                    let session = Session(context: self.viewContext)
+//                    session.book = book
+//                    let sessionRow = SessionRowViewModel(session: session, isNewSession: true)
+//                    self.newSessionRow = sessionRow
+//
+//                    if self.isSortingByNewest {
+//                        var section = self.sections.first!.value
+//                        section.insert(sessionRow, at: 0)
+//                        self.sections[0].value = section
+//                    } else {
+//                        var section = self.sections.last!.value
+//                        section.append(sessionRow)
+//                        self.sections[self.sections.count - 1].value = section
+//                    }
+//                }
+//            }
+//            .store(in: &cancellables)
     }
-
-//    func setPlaceholder<T>(page: T) {
-//        pageEndPlaceholder = "Currently on page \(page)"
-//    }
 }
 
 private extension SessionListBookViewModel {
@@ -129,18 +100,3 @@ private extension SessionListBookViewModel {
         a.value.first!.session.createdAt < b.value.first!.session.createdAt
     }
 }
-
-//private extension SessionListBookViewModel {
-//    func testAdd(row: SessionRowViewModel, into section: [SectionElement]) {
-//
-//        var section = self.sections.first!.value
-//        section.insert(sessionRow, at: 0)
-//        self.sections[0].value = section
-//    }
-//
-//    func testRemove(row: SessionRowViewModel, from section: [SectionElement]) {
-////        var section = self.sections.first!.value
-////        section.insert(sessionRow, at: 0)
-////        self.sections[0].value = section
-//    }
-//}

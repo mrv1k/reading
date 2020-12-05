@@ -1,7 +1,9 @@
+import Introspect
 import SwiftUI
 
 class BookDetailViewModel: ViewModel {
-    @Published var isAddSessionActive = false
+    @Published var newSessionButtonHidden = false
+    @Published var newSessionInput = ""
 }
 
 struct BookDetail: View {
@@ -12,25 +14,15 @@ struct BookDetail: View {
     var addSessionButton: some View {
         HStack {
             Button {
-                viewModel.isAddSessionActive.toggle()
+                viewModel.newSessionButtonHidden = true
             } label: {
                 Label("New Session", systemImage: "plus.circle.fill")
                     .font(Font.title3.bold())
-                    .padding()
-                    .padding(.top, 0)
+                    .padding() // keep padding here to increase tap area
             }
             Spacer()
         }
         .background(Color(UIColor.systemGray6))
-    }
-
-    @ViewBuilder
-    var EditButton2: some View {
-        if !viewModel.isAddSessionActive {
-            EditButton()
-        } else {
-            EmptyView()
-        }
     }
 
     var body: some View {
@@ -40,19 +32,31 @@ struct BookDetail: View {
                     BookProgress(book: book)
                 }
 
-                SessionListBook(viewContext: viewContext,
-                                book: book,
-                                isAddSessionActivePublisher: viewModel.$isAddSessionActive)
+                SessionListBook(sessions: book.sessions)
+            }
+            .onTapGesture {
+                if viewModel.newSessionButtonHidden {
+                    viewModel.newSessionButtonHidden = false
+                }
             }
             .listStyle(InsetGroupedListStyle())
 
-            if !viewModel.isAddSessionActive {
-                addSessionButton
+            HStack {
+                if viewModel.newSessionButtonHidden {
+                    HStack {
+                        TextField("hello", text: $viewModel.newSessionInput)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .introspectTextField { $0.becomeFirstResponder() }
+
+                        Image(systemName: "paperplane.circle.fill").font(.title)
+                    }
+                    .padding()
+                } else {
+                    addSessionButton
+                }
             }
         }
-//        .environment(\.editMode, $viewModel.editMode)
         .navigationBarTitle(book.title)
-        .toolbar { EditButton2 }
     }
 }
 

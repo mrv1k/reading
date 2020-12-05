@@ -38,6 +38,7 @@
 		57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57740397252C4316001152B4 /* SimpleSessionCreate.swift */; };
 		577403C5252DBC61001152B4 /* SessionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403C4252DBC61001152B4 /* SessionRow.swift */; };
 		577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403CB252DBE14001152B4 /* SessionListBook.swift */; };
+		57803F3B257B000E00672574 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57803F3A257B000E00672574 /* ViewExtension.swift */; };
 		578B08D924C1737D00500C41 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B08D824C1737D00500C41 /* BookRow.swift */; };
 		578F5AE42579DE1200468DCF /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 578F5AE32579DE1200468DCF /* SwiftCSV */; };
 		578F5AF82579E72100468DCF /* V.07.19.csv in Resources */ = {isa = PBXBuildFile; fileRef = 578F5AF52579E72100468DCF /* V.07.19.csv */; };
@@ -90,6 +91,7 @@
 		57740397252C4316001152B4 /* SimpleSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSessionCreate.swift; sourceTree = "<group>"; };
 		577403C4252DBC61001152B4 /* SessionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRow.swift; sourceTree = "<group>"; };
 		577403CB252DBE14001152B4 /* SessionListBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListBook.swift; sourceTree = "<group>"; };
+		57803F3A257B000E00672574 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		578B08D824C1737D00500C41 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
 		578F5AF52579E72100468DCF /* V.07.19.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = V.07.19.csv; sourceTree = "<group>"; };
 		578F5AF62579E72100468DCF /* J.07.19.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = J.07.19.csv; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */,
+				57803F3A257B000E00672574 /* ViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
 				57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
+				57803F3B257B000E00672574 /* ViewExtension.swift in Sources */,
 				576387E02567637D00F78178 /* SessionCreateField.swift in Sources */,
 				57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */,
 				57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */,

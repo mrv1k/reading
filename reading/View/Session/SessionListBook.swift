@@ -12,14 +12,8 @@ import SwiftUI
 struct SessionListBook: View, ViewModelObserver {
     @StateObject var viewModel: SessionListBookViewModel
 
-    init(viewContext: NSManagedObjectContext, book: Book, isAddSessionActivePublisher: Published<Bool>.Publisher) {
-        self._viewModel = StateObject(
-            wrappedValue: SessionListBookViewModel(
-                viewContext: viewContext,
-                book: book,
-                isAddSessionActivePublisher: isAddSessionActivePublisher
-            )
-        )
+    init(sessions: [Session]) {
+        self._viewModel = StateObject(wrappedValue: SessionListBookViewModel(sessions: sessions))
     }
 
     var body: some View {
@@ -33,25 +27,24 @@ struct SessionListBook: View, ViewModelObserver {
     }
 }
 
-// struct SessionListBook_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-//        let sessionsPublisher = book.publisher(for: \.sessions).eraseToAnyPublisher()
-//        let viewModel = SessionListBookViewModel(sessions: book.sessions, sessionsPublisher: sessionsPublisher)
-//
-//        return Group {
-//            List {
-//                SessionListBook(viewModel: viewModel)
-//            }
-//            .listStyle(InsetGroupedListStyle())
-//
-//            NavigationView {
-//                List {
-//                    SessionListBook(viewModel: viewModel)
-//                }
-//                .listStyle(InsetGroupedListStyle())
-//            }
-//        }
-//        .previewDevice("iPhone SE (2nd generation)")
-//    }
-// }
+struct SessionListBook_Previews: PreviewProvider {
+    static var previews: some View {
+        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        let sessions = book.sessions
+
+        return Group {
+            List {
+                SessionListBook(sessions: sessions)
+            }
+            .listStyle(InsetGroupedListStyle())
+
+            NavigationView {
+                List {
+                    SessionListBook(sessions: sessions)
+                }
+                .listStyle(InsetGroupedListStyle())
+            }
+        }
+        .previewDevice("iPhone SE (2nd generation)")
+    }
+}
