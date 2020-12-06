@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="author" attributeType="String"/>
+        <attribute name="completed" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="completionPage" attributeType="Integer 16" minValueString="0" maxValueString="32767" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
@@ -33,7 +34,7 @@
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="194"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="209"/>
         <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="164"/>
     </elements>
 </model>

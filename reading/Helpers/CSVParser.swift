@@ -83,7 +83,7 @@ struct CSVParser {
                 book.author = csvBook.value.author
                 book.pageCount = Int16(csvBook.value.pageCount)!
 
-                sessions[csvBook.key]!.forEach { (csvSession) in
+                sessions[csvBook.key]!.forEach { csvSession in
                     let session = Session(context: viewContext)
                     session.book = book
                     session.pageEnd = Int16(csvSession.pageEnd)!
@@ -92,7 +92,6 @@ struct CSVParser {
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "dd MMM yyyy"
                     session.createdAt = dateFormatter.date(from: csvSession.createdAt) ?? session.createdAt
-
                 }
             }
         } catch let parseError as CSVParseError {

@@ -25,5 +25,9 @@ public extension Session {
 
         book.completionPage += progressPage
         book.raw_completionPercent += raw_progressPercent
+
+        if book.completionPage == book.pageCount {
+            book.completed = true
+        }
     }
 }
