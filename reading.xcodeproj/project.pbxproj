@@ -24,6 +24,7 @@
 		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
+		572BA58E257EECC500BAB6CB /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572BA58D257EECC500BAB6CB /* Repository.swift */; };
 		57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */; };
 		57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
@@ -96,6 +97,7 @@
 		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
+		572BA58D257EECC500BAB6CB /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbar.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */,
 				57294EEF2535E6B5007BE15D /* SessionExtension.swift */,
 				57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */,
+				572BA58D257EECC500BAB6CB /* Repository.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */,
 				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
 				57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */,
+				572BA58E257EECC500BAB6CB /* Repository.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				578F5AFD2579E7E800468DCF /* CSVParser.swift in Sources */,
 				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
