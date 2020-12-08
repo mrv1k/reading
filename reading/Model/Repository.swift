@@ -125,3 +125,24 @@ extension ProxyBookRepository: BookRepositoryInterface {
         }
     }
 }
+
+class UnitOfWork {
+    private let context: NSManagedObjectContext
+
+    let proxyBookRepository: ProxyBookRepository
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        self.proxyBookRepository = ProxyBookRepository(context: context)
+    }
+
+    @discardableResult func saveChanges() -> Result<Bool, Error> {
+        do {
+            try context.save()
+            return .success(true)
+        } catch {
+            context.rollback()
+            return .failure(error)
+        }
+    }
+}
