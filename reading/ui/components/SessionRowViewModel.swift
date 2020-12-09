@@ -24,7 +24,7 @@ class SessionRowViewModel: ViewModel, Identifiable {
         self.session = session
         time = Helpers.dateFormatters.time.string(from: session.createdAt)
 
-        AppSettings.singleton.$sessionIsInPercents.assign(to: &$isInPercents)
+        AppSettingsEditorViewModel.singleton.$sessionIsInPercents.assign(to: &$isInPercents)
 
         $session.map(\.progressPage).map { String($0) }.assign(to: &$progressPage)
         $session.map(\.progressPercent).map { String($0) }.assign(to: &$progressPercent)

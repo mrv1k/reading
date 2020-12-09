@@ -1,5 +1,5 @@
 //
-//  AppSettings.swift
+//  AppSettingsEditorViewModel.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-11-10.
@@ -9,8 +9,8 @@
 import Combine
 import Foundation
 
-class AppSettings: ViewModel {
-    static var singleton = AppSettings()
+class AppSettingsEditorViewModel: ViewModel {
+    static var singleton = AppSettingsEditorViewModel()
 
     @Published var sessionIsInPercents: Bool
     @Published var sessionsIsSortingByNewest: Bool

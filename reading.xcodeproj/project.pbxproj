@@ -21,22 +21,17 @@
 		5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958D24C0212E007DC1E5 /* BookDetail.swift */; };
 		5723959024C021A8007DC1E5 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookList.swift */; };
 		57264C19255E14590017E5F1 /* BookSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57264C18255E14590017E5F1 /* BookSort.swift */; };
-		57294EE82535E679007BE15D /* BookExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EE72535E679007BE15D /* BookExtension.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
 		572BA58E257EECC500BAB6CB /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572BA58D257EECC500BAB6CB /* Repository.swift */; };
 		57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */; };
-		57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
 		573F1CA625644E6600F26F44 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */; };
-		5744CA01255B97A200C09F2B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744CA00255B97A200C09F2B /* AppSettings.swift */; };
-		5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5746E92F24F2E0DC0094A27F /* SessionCreate.swift */; };
+		5744CA01255B97A200C09F2B /* AppSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744CA00255B97A200C09F2B /* AppSettingsViewModel.swift */; };
 		5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748A7FD24FFE4270041C511 /* BookListModal.swift */; };
 		575936A324F3A16F00D58737 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A224F3A16F00D58737 /* PersistenceController.swift */; };
-		575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* ReadingApp.swift */; };
-		576387E02567637D00F78178 /* SessionCreateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576387DF2567637D00F78178 /* SessionCreateField.swift */; };
+		575936AA24F3A3A000D58737 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575936A924F3A3A000D58737 /* AppView.swift */; };
 		57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */; };
-		57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57740397252C4316001152B4 /* SimpleSessionCreate.swift */; };
 		577403C5252DBC61001152B4 /* SessionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403C4252DBC61001152B4 /* SessionRow.swift */; };
 		577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577403CB252DBE14001152B4 /* SessionListBook.swift */; };
 		57803F3B257B000E00672574 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57803F3A257B000E00672574 /* ViewExtension.swift */; };
@@ -51,12 +46,10 @@
 		579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */; };
 		57C065A6257DDD38004FC1BB /* readingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C065A5257DDD38004FC1BB /* readingTests.swift */; };
 		57C065B6257DDD44004FC1BB /* readingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C065B5257DDD44004FC1BB /* readingUITests.swift */; };
-		57C70BAC2538CD020017D65D /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C70BAB2538CD020017D65D /* Playground.swift */; };
 		57CDD9ED2555FAB90095B8BF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9EC2555FAB90095B8BF /* Helpers.swift */; };
 		57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */; };
 		57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */; };
-		57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D94744255A104000EB3D80 /* SettingsEditor.swift */; };
-		57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */; };
+		57D94745255A104000EB3D80 /* AppSettingsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D94744255A104000EB3D80 /* AppSettingsEditor.swift */; };
 		57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */; };
 		57F4815224FF9490002B6691 /* BookStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4815124FF9490002B6691 /* BookStorage.swift */; };
 /* End PBXBuildFile section */
@@ -94,22 +87,17 @@
 		5723958D24C0212E007DC1E5 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		5723958F24C021A7007DC1E5 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		57264C18255E14590017E5F1 /* BookSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSort.swift; sourceTree = "<group>"; };
-		57294EE72535E679007BE15D /* BookExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookExtension.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
 		572BA58D257EECC500BAB6CB /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
-		57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbar.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
 		573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
-		5744CA00255B97A200C09F2B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		5746E92F24F2E0DC0094A27F /* SessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreate.swift; sourceTree = "<group>"; };
+		5744CA00255B97A200C09F2B /* AppSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsViewModel.swift; sourceTree = "<group>"; };
 		5748A7FD24FFE4270041C511 /* BookListModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModal.swift; sourceTree = "<group>"; };
 		575936A224F3A16F00D58737 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		575936A924F3A3A000D58737 /* ReadingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingApp.swift; sourceTree = "<group>"; };
-		576387DF2567637D00F78178 /* SessionCreateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreateField.swift; sourceTree = "<group>"; };
+		575936A924F3A3A000D58737 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookProgressViewModel.swift; sourceTree = "<group>"; };
-		57740397252C4316001152B4 /* SimpleSessionCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSessionCreate.swift; sourceTree = "<group>"; };
 		577403C4252DBC61001152B4 /* SessionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRow.swift; sourceTree = "<group>"; };
 		577403CB252DBE14001152B4 /* SessionListBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListBook.swift; sourceTree = "<group>"; };
 		57803F3A257B000E00672574 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
@@ -127,12 +115,10 @@
 		57C065B3257DDD44004FC1BB /* readingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = readingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57C065B5257DDD44004FC1BB /* readingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readingUITests.swift; sourceTree = "<group>"; };
 		57C065B7257DDD44004FC1BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		57C70BAB2538CD020017D65D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 		57CDD9EC2555FAB90095B8BF /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentCalculator.swift; sourceTree = "<group>"; };
 		57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
-		57D94744255A104000EB3D80 /* SettingsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditor.swift; sourceTree = "<group>"; };
-		57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCreateFieldViewModel.swift; sourceTree = "<group>"; };
+		57D94744255A104000EB3D80 /* AppSettingsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsEditor.swift; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57F4815124FF9490002B6691 /* BookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,14 +150,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57093B792559B0A400FEC08D /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				57D94744255A104000EB3D80 /* SettingsEditor.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 		5723956D24BEF289007DC1E5 = {
 			isa = PBXGroup;
 			children = (
@@ -195,81 +173,29 @@
 		5723957824BEF289007DC1E5 /* reading */ = {
 			isa = PBXGroup;
 			children = (
-				57A2931D250FA9BF001F47A7 /* Common */,
-				57CDD9EB2555FAB90095B8BF /* Helpers */,
-				57C97BFE24D051D000398FA9 /* Model */,
-				5723958124BEF28A007DC1E5 /* Preview Content */,
-				57955C1524ED03A000D178CA /* View */,
+				57BC70692581387500D848AF /* domain */,
+				57BC706A2581387E00D848AF /* persistence */,
+				57BC709725813F9600D848AF /* resources */,
+				57BC70682581384000D848AF /* ui */,
+				57CDD9EB2555FAB90095B8BF /* utils */,
 			);
 			path = reading;
 			sourceTree = "<group>";
 		};
-		5723958124BEF28A007DC1E5 /* Preview Content */ = {
+		5748B7522558B8A700972F36 /* components */ = {
 			isa = PBXGroup;
 			children = (
-				578F5AF42579E5EC00468DCF /* csv */,
-				571D643A24D14F65009F7AA8 /* BookSeeder.swift */,
-				57C70BAB2538CD020017D65D /* Playground.swift */,
-				57294EF52535EABF007BE15D /* SessionSeeder.swift */,
-				5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		57393CD824ED1A3F00DC9C40 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */,
-				57803F3A257B000E00672574 /* ViewExtension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		5748B72F2558B80200972F36 /* Book */ = {
-			isa = PBXGroup;
-			children = (
-				5715C62224C364E4006709C5 /* BookCreate.swift */,
-				5723958D24C0212E007DC1E5 /* BookDetail.swift */,
-				5723958F24C021A7007DC1E5 /* BookList.swift */,
-				5748A7FD24FFE4270041C511 /* BookListModal.swift */,
-				578B08D824C1737D00500C41 /* BookRow.swift */,
-			);
-			path = Book;
-			sourceTree = "<group>";
-		};
-		5748B7302558B80600972F36 /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				5746E92F24F2E0DC0094A27F /* SessionCreate.swift */,
-				576387DF2567637D00F78178 /* SessionCreateField.swift */,
-				577403CB252DBE14001152B4 /* SessionListBook.swift */,
-				577403C4252DBC61001152B4 /* SessionRow.swift */,
-				57740397252C4316001152B4 /* SimpleSessionCreate.swift */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
-		5748B7522558B8A700972F36 /* Supporting Views */ = {
-			isa = PBXGroup;
-			children = (
-				57374C8B256B5C2A00DD7AB3 /* AppToolbar.swift */,
 				5708D84424C7096F002635BB /* BookCover.swift */,
 				579A987D24EFDFE500F80EC7 /* BookListSortPicker.swift */,
 				579730EB2558CCD100393876 /* BookProgress.swift */,
-			);
-			path = "Supporting Views";
-			sourceTree = "<group>";
-		};
-		5748B75A2558BD8B00972F36 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
 				57684BEC255CAE9C00F1C839 /* BookProgressViewModel.swift */,
-				57D99EF22568A378002AB58D /* SessionCreateFieldViewModel.swift */,
+				578B08D824C1737D00500C41 /* BookRow.swift */,
+				577403CB252DBE14001152B4 /* SessionListBook.swift */,
 				579730EE2558D88D00393876 /* SessionListBookViewModel.swift */,
+				577403C4252DBC61001152B4 /* SessionRow.swift */,
 				57093B7F2559B1BA00FEC08D /* SessionRowViewModel.swift */,
-				573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */,
 			);
-			path = ViewModel;
+			path = components;
 			sourceTree = "<group>";
 		};
 		578F5AF42579E5EC00468DCF /* csv */ = {
@@ -282,28 +208,80 @@
 			path = csv;
 			sourceTree = "<group>";
 		};
-		57955C1524ED03A000D178CA /* View */ = {
+		57BC70682581384000D848AF /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				57093B792559B0A400FEC08D /* Settings */,
-				5748B72F2558B80200972F36 /* Book */,
-				5748B7302558B80600972F36 /* Session */,
-				5748B7522558B8A700972F36 /* Supporting Views */,
-				5748B75A2558BD8B00972F36 /* ViewModel */,
+				575936A924F3A3A000D58737 /* AppView.swift */,
+				5748B7522558B8A700972F36 /* components */,
+				57BC707925813C1800D848AF /* pages */,
 			);
-			path = View;
+			path = ui;
 			sourceTree = "<group>";
 		};
-		57A2931D250FA9BF001F47A7 /* Common */ = {
+		57BC70692581387500D848AF /* domain */ = {
+			isa = PBXGroup;
+			children = (
+				572BA58D257EECC500BAB6CB /* Repository.swift */,
+			);
+			path = domain;
+			sourceTree = "<group>";
+		};
+		57BC706A2581387E00D848AF /* persistence */ = {
+			isa = PBXGroup;
+			children = (
+				57264C18255E14590017E5F1 /* BookSort.swift */,
+				57F4815124FF9490002B6691 /* BookStorage.swift */,
+				575936A224F3A16F00D58737 /* PersistenceController.swift */,
+				57294EEF2535E6B5007BE15D /* SessionExtension.swift */,
+				57BC707125813A9100D848AF /* models */,
+				57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */,
+			);
+			path = persistence;
+			sourceTree = "<group>";
+		};
+		57BC707125813A9100D848AF /* models */ = {
+			isa = PBXGroup;
+			children = (
+				5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */,
+				5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */,
+				570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */,
+				570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		57BC707925813C1800D848AF /* pages */ = {
+			isa = PBXGroup;
+			children = (
+				57D94744255A104000EB3D80 /* AppSettingsEditor.swift */,
+				5744CA00255B97A200C09F2B /* AppSettingsViewModel.swift */,
+				5715C62224C364E4006709C5 /* BookCreate.swift */,
+				5723958D24C0212E007DC1E5 /* BookDetail.swift */,
+				5723958F24C021A7007DC1E5 /* BookList.swift */,
+				5748A7FD24FFE4270041C511 /* BookListModal.swift */,
+			);
+			path = pages;
+			sourceTree = "<group>";
+		};
+		57BC709725813F9600D848AF /* resources */ = {
 			isa = PBXGroup;
 			children = (
 				5723958724BEF28A007DC1E5 /* Info.plist */,
-				57F4815124FF9490002B6691 /* BookStorage.swift */,
-				575936A224F3A16F00D58737 /* PersistenceController.swift */,
-				575936A924F3A3A000D58737 /* ReadingApp.swift */,
 				5723957F24BEF28A007DC1E5 /* Assets.xcassets */,
+				5723958224BEF28A007DC1E5 /* Preview Assets.xcassets */,
+				578F5AF42579E5EC00468DCF /* csv */,
+				57BC70C2258146A400D848AF /* dev */,
 			);
-			path = Common;
+			path = resources;
+			sourceTree = "<group>";
+		};
+		57BC70C2258146A400D848AF /* dev */ = {
+			isa = PBXGroup;
+			children = (
+				571D643A24D14F65009F7AA8 /* BookSeeder.swift */,
+				57294EF52535EABF007BE15D /* SessionSeeder.swift */,
+			);
+			path = dev;
 			sourceTree = "<group>";
 		};
 		57C065A4257DDD38004FC1BB /* readingTests */ = {
@@ -324,34 +302,19 @@
 			path = readingUITests;
 			sourceTree = "<group>";
 		};
-		57C97BFE24D051D000398FA9 /* Model */ = {
+		57CDD9EB2555FAB90095B8BF /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				5716CDA824D140960017E2E2 /* Book+CoreDataClass.swift */,
-				5716CDA924D140960017E2E2 /* Book+CoreDataProperties.swift */,
-				57294EE72535E679007BE15D /* BookExtension.swift */,
-				570EE4D72530383D003B75FE /* Session+CoreDataClass.swift */,
-				570EE4D82530383D003B75FE /* Session+CoreDataProperties.swift */,
-				57294EEF2535E6B5007BE15D /* SessionExtension.swift */,
-				57E95B1224D04C6200AF1FD9 /* reading.xcdatamodeld */,
-				572BA58D257EECC500BAB6CB /* Repository.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		57CDD9EB2555FAB90095B8BF /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				5744CA00255B97A200C09F2B /* AppSettings.swift */,
-				57264C18255E14590017E5F1 /* BookSort.swift */,
+				57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */,
 				578F5AFC2579E7E800468DCF /* CSVParser.swift */,
 				57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */,
 				57CDD9EC2555FAB90095B8BF /* Helpers.swift */,
 				57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */,
 				57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */,
-				57393CD824ED1A3F00DC9C40 /* Extension */,
+				57803F3A257B000E00672574 /* ViewExtension.swift */,
+				573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */,
 			);
-			path = Helpers;
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,36 +460,29 @@
 			files = (
 				5748A7FE24FFE4270041C511 /* BookListModal.swift in Sources */,
 				577403C5252DBC61001152B4 /* SessionRow.swift in Sources */,
-				57D94745255A104000EB3D80 /* SettingsEditor.swift in Sources */,
+				57D94745255A104000EB3D80 /* AppSettingsEditor.swift in Sources */,
 				57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */,
 				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
 				57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */,
 				572BA58E257EECC500BAB6CB /* Repository.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				578F5AFD2579E7E800468DCF /* CSVParser.swift in Sources */,
-				5746E93024F2E0DC0094A27F /* SessionCreate.swift in Sources */,
 				579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */,
 				5708D84524C7096F002635BB /* BookCover.swift in Sources */,
 				5715C62324C364E4006709C5 /* BookCreate.swift in Sources */,
 				579A987E24EFDFE500F80EC7 /* BookListSortPicker.swift in Sources */,
-				57740398252C4316001152B4 /* SimpleSessionCreate.swift in Sources */,
-				575936AA24F3A3A000D58737 /* ReadingApp.swift in Sources */,
-				5744CA01255B97A200C09F2B /* AppSettings.swift in Sources */,
+				575936AA24F3A3A000D58737 /* AppView.swift in Sources */,
+				5744CA01255B97A200C09F2B /* AppSettingsViewModel.swift in Sources */,
 				570EE4D92530383D003B75FE /* Session+CoreDataClass.swift in Sources */,
 				573F1CA625644E6600F26F44 /* ViewModelProtocols.swift in Sources */,
 				571D643B24D14F65009F7AA8 /* BookSeeder.swift in Sources */,
 				579730EC2558CCD100393876 /* BookProgress.swift in Sources */,
 				5723959024C021A8007DC1E5 /* BookList.swift in Sources */,
-				57C70BAC2538CD020017D65D /* Playground.swift in Sources */,
-				57374C8C256B5C2A00DD7AB3 /* AppToolbar.swift in Sources */,
 				57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */,
 				57803F3B257B000E00672574 /* ViewExtension.swift in Sources */,
-				576387E02567637D00F78178 /* SessionCreateField.swift in Sources */,
-				57D99EF32568A378002AB58D /* SessionCreateFieldViewModel.swift in Sources */,
 				57CDD9F12555FB6C0095B8BF /* PercentCalculator.swift in Sources */,
 				57E95B1424D04C6200AF1FD9 /* reading.xcdatamodeld in Sources */,
 				5723958E24C0212E007DC1E5 /* BookDetail.swift in Sources */,
-				57294EE82535E679007BE15D /* BookExtension.swift in Sources */,
 				577403CC252DBE14001152B4 /* SessionListBook.swift in Sources */,
 				57CDD9F42555FB9E0095B8BF /* DateFormatters.swift in Sources */,
 				57264C19255E14590017E5F1 /* BookSort.swift in Sources */,
@@ -699,16 +655,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"reading/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"reading/resources/dev\"";
 				DEVELOPMENT_TEAM = HYDQYSX5D6;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = reading/Common/Info.plist;
+				INFOPLIST_FILE = reading/resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mrv1k.reading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -723,16 +679,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"reading/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"reading/resources/dev\"";
 				DEVELOPMENT_TEAM = HYDQYSX5D6;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = reading/Common/Info.plist;
+				INFOPLIST_FILE = reading/resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.mrv1k.reading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

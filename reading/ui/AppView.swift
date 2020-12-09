@@ -1,5 +1,5 @@
 //
-//  ReadingApp.swift
+//  AppView.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-08-24.
@@ -9,12 +9,12 @@
 import SwiftUI
 
 @main
-struct ReadingApp: App {
+struct AppView: App {
     @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController: PersistenceController
     @StateObject var bookStorage: BookStorage
-    @ObservedObject var settings = AppSettings.singleton
+    @ObservedObject var settings = AppSettingsEditorViewModel.singleton
 
     init() {
         persistenceController = PersistenceController.preview
@@ -68,7 +68,7 @@ struct ReadingApp: App {
                 }
                 .tabItem { Label("Active", systemImage: "scroll") }
 
-                NavigationView { SettingsEditor() }
+                NavigationView { AppSettingsEditor() }
                     .tabItem { Label("Settings", systemImage: "gearshape") }
                     .environmentObject(settings)
             }

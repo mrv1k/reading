@@ -21,7 +21,7 @@ class SessionListBookViewModel: ViewModel {
     init(sessions: [Session]) {
         self.sessions = sessions
 
-        AppSettings.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
+        AppSettingsEditorViewModel.singleton.$sessionsIsSortingByNewest.assign(to: &$isSortingByNewest)
 
         sections =
             organizeInDictionary(sessions, by: isSortingByNewest)

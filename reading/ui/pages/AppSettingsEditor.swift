@@ -1,5 +1,5 @@
 //
-//  SettingsEditor.swift
+//  AppSettingsEditor.swift
 //  reading
 //
 //  Created by Viktor Khotimchenko on 2020-11-09.
@@ -9,8 +9,8 @@
 import Combine
 import SwiftUI
 
-struct SettingsEditor: View {
-    @EnvironmentObject private var settings: AppSettings
+struct AppSettingsEditor: View {
+    @EnvironmentObject private var settings: AppSettingsEditorViewModel
 
     var body: some View {
         List {
@@ -33,10 +33,10 @@ struct SettingsEditor_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                SettingsEditor()
+                AppSettingsEditor()
             }
         }
-        .environmentObject(AppSettings.singleton)
+        .environmentObject(AppSettingsEditorViewModel.singleton)
         .previewDevice("iPhone SE (2nd generation)")
     }
 }
