@@ -28,15 +28,17 @@ class DomainBookRepositoryTests: XCTestCase {
     }
 
     func test_createsABook() throws {
-        let domain = DomainBook(title: "title", author: "author", pageCount: 100)
+        let expected = DomainBook(title: "title", author: "author", pageCount: 100)
 
-        let created = repository.create(domainBook: domain)
+        let created = repository.create(domainBook: expected)
         XCTAssertTrue(created)
 
         let fetchRequest: NSFetchRequest = Book.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title = %@", domain.title)
+        fetchRequest.predicate = NSPredicate(format: "title = %@", expected.title)
+        let response = try! viewContext.fetch(fetchRequest).first!
 
-        let fetched = try! viewContext.fetch(fetchRequest).first!
-        XCTAssertTrue(fetched.title == domain.title, "Core data title must match domain title")
+        XCTAssertTrue(response.title == expected.title, "`title` property must be persisted as is")
+        XCTAssertTrue(response.author == expected.author, "`author` property must be persisted as is")
+        XCTAssertTrue(response.pageCount == expected.pageCount, "`pageCount` property must be persisted as is")
     }
 }

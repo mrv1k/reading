@@ -6,8 +6,8 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 protocol DomainBookRepositoryInterface {
     func create(domainBook: DomainBook) -> Bool
@@ -26,5 +26,20 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         cdBook.author = domainBook.author
         cdBook.pageCount = Int16(domainBook.pageCount)
         return true
+    }
+}
+
+protocol DomainModelConvertable {
+    associatedtype DomainModel
+    func toDomainModel() -> DomainModel
+}
+
+extension Book: DomainModelConvertable {
+    func toDomainModel() -> DomainBook {
+        DomainModel(
+            id: id,
+            title: title,
+            author: author,
+            pageCount: Int(pageCount))
     }
 }

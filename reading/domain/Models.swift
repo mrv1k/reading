@@ -9,7 +9,8 @@
 import Foundation
 
 struct DomainBook {
-    var title: String
-    var author: String
-    var pageCount: Int
+    var id: UUID?
+    let title: String
+    let author: String
+    let pageCount: Int
 }
