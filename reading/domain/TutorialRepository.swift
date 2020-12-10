@@ -24,7 +24,7 @@ enum CoreDataError: Error {
 }
 
 /// Now let's write a concrete implementation of how a generic Core Data repository:
-class CoreDataRepository<T: NSManagedObject>: TutorialRepository {
+class TutorialCoreDataRepository<T: NSManagedObject>: TutorialRepository {
     typealias Entity = T
 
     private let managedObjectContext: NSManagedObjectContext
@@ -83,22 +83,18 @@ extension Book: DomainModel {
 
 /// Now let's build a concrete domain facing repository on top of our existing generic one that handles domain objects instead:
 protocol BookRepositoryInterface {
-//    var repository: CoreDataRepository<ProxyBook> { get }
-
     func getBooks(sortDescriptor: [NSSortDescriptor]?) -> Result<[ProxyBook], Error>
 
     func create(proxyBook: ProxyBook) -> Result<Bool, Error>
 }
 
-class ProxyBookRepository: ObservableObject {
-    private let repository: CoreDataRepository<Book>
+class ProxyBookRepository: ObservableObject, BookRepositoryInterface {
+    private let repository: TutorialCoreDataRepository<Book>
 
     init(context: NSManagedObjectContext) {
-        repository = CoreDataRepository<Book>(managedObjectContext: context)
+        repository = TutorialCoreDataRepository<Book>(managedObjectContext: context)
     }
-}
 
-extension ProxyBookRepository: BookRepositoryInterface {
     func getBooks(sortDescriptor: [NSSortDescriptor]?) -> Result<[ProxyBook], Error> {
         let result = repository.get(predicate: nil, sortDescriptors: sortDescriptor)
         switch result {
@@ -133,7 +129,7 @@ class UnitOfWork {
 
     init(context: NSManagedObjectContext) {
         self.context = context
-        self.proxyBookRepository = ProxyBookRepository(context: context)
+        proxyBookRepository = ProxyBookRepository(context: context)
     }
 
     @discardableResult func saveChanges() -> Result<Bool, Error> {

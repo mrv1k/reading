@@ -24,7 +24,6 @@ struct PersistenceController {
 //        let testBook = bookSeeder.fetch(bookWith: .sessions)
 //        sessionSeeder.insertMany(book: testBook)
 
-
         do {
             try viewContext.save()
         } catch {
@@ -41,12 +40,12 @@ struct PersistenceController {
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "reading")
 
-        let description = container.persistentStoreDescriptions.first
+        let description = NSPersistentStoreDescription()
         if inMemory {
-            description?.url = URL(fileURLWithPath: "/dev/null")
+            description.url = URL(fileURLWithPath: "/dev/null")
         }
 
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -62,12 +61,5 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-
-        // NotificationCenter.default
-        //     .publisher(for: .NSManagedObjectContextDidSave, object: container.viewContext)
-        //     .sink(receiveValue: { notification in
-        //         print(notification)
-        //     })
-        //     .store(in: &cancellableSet)
     }
 }
