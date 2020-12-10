@@ -11,6 +11,7 @@ import Foundation
 
 protocol DomainBookRepositoryInterface {
     func create(domainBook: DomainBook) -> DomainBook
+    func get(id: UUID?) -> DomainBook?
 }
 
 struct DomainBookRepository: DomainBookRepositoryInterface {
@@ -26,6 +27,17 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         cdBook.author = domainBook.author
         cdBook.pageCount = Int16(domainBook.pageCount)
         return cdBook.toDomainModel()
+    }
+
+    func get(id: UUID?) -> DomainBook? {
+        let result = repository.get(id: id)
+        switch result {
+        case .success(let book):
+            return book.toDomainModel()
+        case .failure:
+            // FIXME: handle errors
+            fatalError("Unhandled core data repository failure")
+        }
     }
 }
 
