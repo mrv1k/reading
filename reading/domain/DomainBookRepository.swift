@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 protocol DomainBookRepositoryInterface {
-    func create(domainBook: DomainBook) -> Bool
+    func create(domainBook: DomainBook) -> DomainBook
 }
 
 struct DomainBookRepository: DomainBookRepositoryInterface {
@@ -20,12 +20,12 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         repository = CoreDataRepository(context: context)
     }
 
-    func create(domainBook: DomainBook) -> Bool {
+    func create(domainBook: DomainBook) -> DomainBook {
         let cdBook = repository.create()
         cdBook.title = domainBook.title
         cdBook.author = domainBook.author
         cdBook.pageCount = Int16(domainBook.pageCount)
-        return true
+        return cdBook.toDomainModel()
     }
 }
 

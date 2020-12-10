@@ -6,9 +6,9 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import CoreData
 @testable import reading
 import XCTest
-import CoreData
 
 // persistenceController = PersistenceController.preview
 // let persistenceController: PersistenceController
@@ -29,16 +29,9 @@ class DomainBookRepositoryTests: XCTestCase {
 
     func test_createsABook() throws {
         let expected = DomainBook(title: "title", author: "author", pageCount: 100)
+        let result = repository.create(domainBook: expected)
 
-        let created = repository.create(domainBook: expected)
-        XCTAssertTrue(created)
-
-        let fetchRequest: NSFetchRequest = Book.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title = %@", expected.title)
-        let response = try! viewContext.fetch(fetchRequest).first!
-
-        let result = response.toDomainModel()
-        XCTAssertTrue(result == expected, "Persisting domain model must save properties as is")
-        XCTAssertNotNil(result.persistenceID, "Persiting domain model must write ID")
+        XCTAssertTrue(result == expected, "Persisted domain model must save properties as is")
+        XCTAssertNotNil(result.persistenceID, "Persiting domain model must set `persistenceID`")
     }
 }
