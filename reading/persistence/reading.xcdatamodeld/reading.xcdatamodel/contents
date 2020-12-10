@@ -34,7 +34,7 @@
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sessionsSet" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="209"/>
-        <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="164"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="223"/>
+        <element name="Session" positionX="113.484375" positionY="-18.6015625" width="128" height="178"/>
     </elements>
 </model>
