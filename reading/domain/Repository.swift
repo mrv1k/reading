@@ -20,8 +20,9 @@ protocol Repository {
 }
 
 enum RepositoryError: Error {
-    case idIsNil
-    case fetchFailed(with: Error)
+    case nilID
+    case failedRequest(with: Error)
+    case typecast
     case emptyResult
 }
 
@@ -37,18 +38,21 @@ class CoreDataRepository<CDEntity: NSManagedObject>: Repository {
     }
 
     func get(id: UUID?) -> Result<CDEntity, RepositoryError> {
-        guard let id = id else { return .failure(.idIsNil) }
+        guard let id = id else { return .failure(.nilID) }
 
         let fetchRequest: NSFetchRequest = CDEntity.fetchRequest()
         fetchRequest.fetchLimit = 1
         fetchRequest.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
 
         do {
-            let response = try context.fetch(fetchRequest) as! [CDEntity]
-            guard let result = response.first else { return .failure(.emptyResult) }
-            return .success(result)
+            if let response = try context.fetch(fetchRequest) as? [CDEntity] {
+                guard let result = response.first else { return .failure(.emptyResult) }
+                return .success(result)
+            } else {
+                return .failure(.typecast)
+            }
         } catch {
-            return .failure(.fetchFailed(with: error))
+            return .failure(.failedRequest(with: error))
         }
     }
 }
