@@ -70,16 +70,16 @@ struct ProxyBook {
     var pageCount: Int
 }
 
-protocol DomainModel {
-    associatedtype DomainModelType
-    func toDomainModel() -> DomainModelType
-}
+//protocol DomainModel {
+//    associatedtype DomainModelType
+//    func toDomainModel() -> DomainModelType
+//}
 
-extension Book: DomainModel {
-    func toDomainModel() -> ProxyBook {
-        ProxyBook(title: title, author: author, pageCount: Int(pageCount))
-    }
-}
+//extension Book: DomainModel {
+//    func toDomainModel() -> ProxyBook {
+//        ProxyBook(title: title, author: author, pageCount: Int(pageCount))
+//    }
+//}
 
 /// Now let's build a concrete domain facing repository on top of our existing generic one that handles domain objects instead:
 protocol BookRepositoryInterface {
@@ -100,7 +100,10 @@ class ProxyBookRepository: ObservableObject, BookRepositoryInterface {
         switch result {
         case .success(let books):
             let proxyBooks = books.map { book -> ProxyBook in
-                book.toDomainModel()
+//                book.toDomainModel()
+                ProxyBook(title: book.title,
+                          author: book.author,
+                          pageCount: Int(book.pageCount))
             }
             return .success(proxyBooks)
         case .failure(let error):

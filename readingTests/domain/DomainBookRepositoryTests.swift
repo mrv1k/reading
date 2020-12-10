@@ -37,8 +37,8 @@ class DomainBookRepositoryTests: XCTestCase {
         fetchRequest.predicate = NSPredicate(format: "title = %@", expected.title)
         let response = try! viewContext.fetch(fetchRequest).first!
 
-        XCTAssertTrue(response.title == expected.title, "`title` property must be persisted as is")
-        XCTAssertTrue(response.author == expected.author, "`author` property must be persisted as is")
-        XCTAssertTrue(response.pageCount == expected.pageCount, "`pageCount` property must be persisted as is")
+        let result = response.toDomainModel()
+        XCTAssertTrue(result == expected, "Persisting domain model must save properties as is")
+        XCTAssertNotNil(result.persistenceID, "Persiting domain model must write ID")
     }
 }

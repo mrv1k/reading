@@ -37,9 +37,10 @@ protocol DomainModelConvertable {
 extension Book: DomainModelConvertable {
     func toDomainModel() -> DomainBook {
         DomainModel(
-            id: id,
             title: title,
             author: author,
-            pageCount: Int(pageCount))
+            pageCount: Int(pageCount),
+            persistenceID: id
+        )
     }
 }

@@ -8,9 +8,15 @@
 
 import Foundation
 
-struct DomainBook {
-    var id: UUID?
+struct DomainBook: Equatable {
     let title: String
     let author: String
     let pageCount: Int
+    var persistenceID: UUID? = nil
+
+    static func == (lhs: DomainBook, rhs: DomainBook) -> Bool {
+        return lhs.title == rhs.title &&
+            lhs.author == rhs.author &&
+            lhs.pageCount == rhs.pageCount
+    }
 }
