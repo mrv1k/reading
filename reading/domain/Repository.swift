@@ -14,18 +14,16 @@ protocol Repository {
 
     func create() -> Entity
     func get(id: UUID?) -> Result<Entity, RepositoryError>
-    func getAll(
-        sortDescriptors: [NSSortDescriptor], matching predicate: NSPredicate?
-    ) -> Result<[Entity], RepositoryError>
+    func getAll(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate?) -> Result<[Entity], RepositoryError>
     //    func update(id: UUID) -> Entity
     //    func delete(id: UUID) -> Entity
 }
 
 enum RepositoryError: Error {
-    case nilID
-    case failedRequest(with: Error)
+    case requestFailed(with: Error)
     case typecast
-    case emptyResult
+    case idIsMissing
+    case notFound
 }
 
 struct CoreDataRepository<Entity: NSManagedObject>: Repository {
@@ -39,43 +37,40 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
         Entity(context: context)
     }
 
-    func get(id: UUID?) -> Result<Entity, RepositoryError> {
-        guard let id = id else { return .failure(.nilID) }
+    typealias GetResult = Result<Entity, RepositoryError>
+    func get(id: UUID?) -> GetResult {
+        guard let id = id else { return .failure(.idIsMissing) }
 
-        let fetchRequest: NSFetchRequest = Entity.fetchRequest()
-        fetchRequest.fetchLimit = 1
-        fetchRequest.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
+        let request: NSFetchRequest = Entity.fetchRequest()
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
 
-        do {
-            if let response = try context.fetch(fetchRequest) as? [Entity] {
-                guard let result = response.first else { return .failure(.emptyResult) }
-                return .success(result)
-            } else {
-                return .failure(.typecast)
+        let response = fetch(request)
+            .flatMap { (response: [Entity]) -> GetResult in
+                guard let found = response.first else { return .failure(.notFound) }
+                return .success(found)
             }
-        } catch {
-            return .failure(.failedRequest(with: error))
-        }
+
+        return response
     }
 
-    func getAll(
-        sortDescriptors: [NSSortDescriptor],
-        matching predicate: NSPredicate? = nil
-    ) -> Result<[Entity], RepositoryError> {
-        let fetchRequest: NSFetchRequest = Entity.fetchRequest()
-        fetchRequest.sortDescriptors = sortDescriptors
-        fetchRequest.predicate = predicate
+    func getAll(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Result<[Entity], RepositoryError> {
+        let request: NSFetchRequest = Entity.fetchRequest()
+        request.sortDescriptors = sortDescriptors
+        request.predicate = predicate
 
-        // FIXME: copypasta
+        let response = fetch(request)
+        return response
+    }
+
+    typealias AbstractRequest = NSFetchRequest<NSFetchRequestResult>
+    private func fetch(_ request: AbstractRequest) -> Result<[Entity], RepositoryError> {
         do {
-            if let response = try context.fetch(fetchRequest) as? [Entity] {
-                return .success(response)
-            } else {
-                return .failure(.typecast)
-            }
-
+            let rawResponse = try context.fetch(request)
+            guard let response = rawResponse as? [Entity] else { return .failure(.typecast) }
+            return .success(response)
         } catch {
-            return .failure(.failedRequest(with: error))
+            return .failure(.requestFailed(with: error))
         }
     }
 }

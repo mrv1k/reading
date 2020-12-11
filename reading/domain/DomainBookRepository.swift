@@ -12,6 +12,7 @@ import Foundation
 protocol DomainBookRepositoryInterface {
     func create(domainBook: DomainBook) -> DomainBook
     func get(id: UUID?) -> DomainBook?
+    func getAll() -> [DomainBook]
 }
 
 struct DomainBookRepository: DomainBookRepositoryInterface {
@@ -43,15 +44,13 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
     func getAll() -> [DomainBook] {
         let stub: [NSSortDescriptor] = []
         let result = repository.getAll(sortDescriptors: stub)
-        
 
         switch result {
         case .success(let books):
             return books.map { $0.toDomainModel() }
         case .failure:
-            // FIXME: copypasta from get(id:)
             // FIXME: handle errors
-            fatalError("Unhandled core data repository failure")
+            return []
         }
     }
 }
