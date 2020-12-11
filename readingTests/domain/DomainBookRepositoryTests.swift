@@ -10,12 +10,6 @@ import CoreData
 @testable import reading
 import XCTest
 
-// persistenceController = PersistenceController.preview
-// let persistenceController: PersistenceController
-// let viewContext = persistenceController.container.viewContext
-
-class LoginFormViewModel {}
-
 class DomainBookRepositoryTests: XCTestCase {
     var persistenceController: PersistenceController!
     var viewContext: NSManagedObjectContext!

@@ -11,11 +11,12 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
+    // FIXME: currently pollutes unit tests
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-
-        CSVParser(viewContext: viewContext)
+//        TODO: finish developing
+        _ = CSVParser(viewContext: viewContext)
 
 //        let bookSeeder = BookSeeder(viewContext: viewContext)
 //        let sessionSeeder = SessionSeeder(viewContext: viewContext)

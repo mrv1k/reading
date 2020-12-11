@@ -26,7 +26,7 @@ enum RepositoryError: Error {
     case emptyResult
 }
 
-class CoreDataRepository<CDEntity: NSManagedObject>: Repository {
+struct CoreDataRepository<CDEntity: NSManagedObject>: Repository {
     private let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
