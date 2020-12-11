@@ -16,6 +16,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 //        TODO: finish developing
+        // Weird. Fires, but doesn't pollute unit tests 
         _ = CSVParser(viewContext: viewContext)
 
 //        let bookSeeder = BookSeeder(viewContext: viewContext)
@@ -41,9 +42,9 @@ struct PersistenceController {
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "reading")
 
-        let description = NSPersistentStoreDescription()
+        let description = container.persistentStoreDescriptions.first
         if inMemory {
-            description.url = URL(fileURLWithPath: "/dev/null")
+            description?.url = URL(fileURLWithPath: "/dev/null")
         }
 
         container.loadPersistentStores(completionHandler: { _, error in
