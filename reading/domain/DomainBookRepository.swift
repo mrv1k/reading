@@ -21,7 +21,7 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         repository = CoreDataRepository(context: context)
     }
 
-    func create(domainBook: DomainBook) -> DomainBook {
+    @discardableResult func create(domainBook: DomainBook) -> DomainBook {
         let cdBook = repository.create()
         cdBook.title = domainBook.title
         cdBook.author = domainBook.author
@@ -35,6 +35,21 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         case .success(let book):
             return book.toDomainModel()
         case .failure:
+            // FIXME: handle errors
+            fatalError("Unhandled core data repository failure")
+        }
+    }
+
+    func getAll() -> [DomainBook] {
+        let stub: [NSSortDescriptor] = []
+        let result = repository.getAll(sortDescriptors: stub)
+        
+
+        switch result {
+        case .success(let books):
+            return books.map { $0.toDomainModel() }
+        case .failure:
+            // FIXME: copypasta from get(id:)
             // FIXME: handle errors
             fatalError("Unhandled core data repository failure")
         }

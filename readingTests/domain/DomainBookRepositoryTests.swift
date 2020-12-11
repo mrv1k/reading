@@ -25,8 +25,8 @@ class DomainBookRepositoryTests: XCTestCase {
         let expected = DomainBook(title: "title", author: "author", pageCount: 100)
         let result = repository.create(domainBook: expected)
 
-        XCTAssertTrue(result == expected, "Persisted domain model must save properties as is")
-        XCTAssertNotNil(result.persistenceID, "Persiting domain model must set `persistenceID`")
+        XCTAssertTrue(result == expected, "Saves properties without mutations")
+        XCTAssertNotNil(result.persistenceID, "Set `persistenceID` as indicator of getting persisted")
     }
 
     func test_shouldGetABook() {
@@ -34,7 +34,19 @@ class DomainBookRepositoryTests: XCTestCase {
         let created = repository.create(domainBook: input)
 
         let result = repository.get(id: created.persistenceID)
-        XCTAssertNotNil(result, "Expected result")
-        XCTAssertNoThrow(result, "Domain repository should handle errors")
+        XCTAssertNotNil(result)
+        XCTAssertNoThrow(result, "Expected to handle errors")
+    }
+
+    func test_shouldGetAllBooks() {
+        let inputBooks = [DomainBook(title: "titleA", author: "authorA", pageCount: 100),
+                          DomainBook(title: "titleB", author: "authorB", pageCount: 200),
+                          DomainBook(title: "titleC", author: "authorC", pageCount: 300)]
+
+        inputBooks.forEach { repository.create(domainBook: $0) }
+
+        let result = repository.getAll()
+
+        XCTAssertEqual(result.count, inputBooks.count, "Returns all persisted books")
     }
 }
