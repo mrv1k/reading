@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct DomainBook: Equatable {
+struct DomainBook: Equatable, Identifiable {
+    var id: UUID { persistenceID ?? UUID() }
+
     let title: String
     let author: String
     let pageCount: Int

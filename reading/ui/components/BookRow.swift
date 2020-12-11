@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 struct BookRow: View {
-    var book: Book
+    var book: DomainBook
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -19,14 +19,15 @@ struct BookRow: View {
     }
 }
 
-struct BookRow_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            BookRow(book: BookSeeder.preview.fetch(bookWith: .titleA))
-                .previewLayout(.sizeThatFits)
-
-            BookRow(book: BookSeeder.preview.fetch(bookWith: .subtitle))
-                .previewLayout(.sizeThatFits)
-        }
-    }
-}
+// FIXME: enable preview
+//struct BookRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            BookRow(book: BookSeeder.preview.fetch(bookWith: .titleA))
+//                .previewLayout(.sizeThatFits)
+//
+//            BookRow(book: BookSeeder.preview.fetch(bookWith: .subtitle))
+//                .previewLayout(.sizeThatFits)
+//        }
+//    }
+//}

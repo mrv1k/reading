@@ -4,6 +4,8 @@ struct BookCreate: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var isActive
 
+    var repository: DomainBookRepository
+
     @State private var image: Image?
     @State private var title = "title"
     @State private var subtitle: String?
@@ -27,21 +29,8 @@ struct BookCreate: View {
 
             Section {
                 Button(action: {
-                    guard let pageCount = Int16(self.pageCount) else {
-                        // FIXME: handle pageCountField is invalid
-                        return
-                    }
-
-                    let book = Book(context: self.viewContext)
-                    book.title = title
-                    book.author = author
-                    book.pageCount = pageCount
-
-                    do {
-                        try self.viewContext.saveOnChanges()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+                    let domainBook = DomainBook(title: title, author: author, pageCount: Int(pageCount)!)
+                    repository.create(domainBook: domainBook)
 
                     self.isActive.wrappedValue.dismiss()
                 }) {
@@ -55,9 +44,9 @@ struct BookCreate: View {
     }
 }
 
-struct BookCreate_Previews: PreviewProvider {
-    static var previews: some View {
-        BookCreate()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct BookCreate_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BookCreate()
+//            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}

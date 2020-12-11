@@ -4,13 +4,14 @@
 //
 //  Created by Viktor Khotimchenko on 2020-09-02.
 //  Copyright © 2020 mrv1k. All rights reserved.
-//  inspired by: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-proje
+//  inspired by: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-project/
 //
 
 import Combine
 import CoreData
 import Foundation
 
+// FIXME: no longer used, reintegrate back into the code
 class BookStorage: NSObject, ObservableObject {
     @Published var books = [Book]()
     private let booksController: NSFetchedResultsController<Book>

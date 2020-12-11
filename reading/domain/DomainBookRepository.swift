@@ -12,7 +12,7 @@ import Foundation
 protocol DomainBookRepositoryInterface {
     func create(domainBook: DomainBook) -> DomainBook
     func get(id: UUID?) -> DomainBook?
-    func getAll() -> [DomainBook]
+    func getAll(sort: [NSSortDescriptor]) -> [DomainBook]
 }
 
 struct DomainBookRepository: DomainBookRepositoryInterface {
@@ -41,9 +41,8 @@ struct DomainBookRepository: DomainBookRepositoryInterface {
         }
     }
 
-    func getAll() -> [DomainBook] {
-        let stub: [NSSortDescriptor] = []
-        let result = repository.getAll(sortDescriptors: stub)
+    func getAll(sort: [NSSortDescriptor] = []) -> [DomainBook] {
+        let result = repository.getAll(sortDescriptors: sort)
 
         switch result {
         case .success(let books):
