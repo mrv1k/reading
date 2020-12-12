@@ -13,27 +13,24 @@ struct AppView: App {
     @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController: PersistenceController
-//    @StateObject var bookStorage: BookStorage
     @ObservedObject var settings = AppSettingsEditorViewModel.singleton
-    var repository: DomainBookRepository
+
+    @StateObject var unitOfWork: UnitOfWork
 
     init() {
         persistenceController = PersistenceController.preview
         let viewContext = persistenceController.container.viewContext
-        repository = DomainBookRepository(context: viewContext)
-
-//        _bookStorage = StateObject(wrappedValue: BookStorage(viewContext: viewContext))
+        _unitOfWork = StateObject(wrappedValue: UnitOfWork(context: viewContext))
     }
 
     var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationView { BookList(repository: repository) }
+                NavigationView { BookList() }
                     .tabItem { Label("Library", systemImage: "books.vertical") }
                     .environmentObject(settings)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    // FIXME: do you really need to pass bookStorage as envObj?
-//                    .environmentObject(bookStorage)
+                    .environmentObject(unitOfWork)
 
                 NavigationView {
                     ScrollView {

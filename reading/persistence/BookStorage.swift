@@ -11,7 +11,26 @@ import Combine
 import CoreData
 import Foundation
 
-// FIXME: no longer used, reintegrate back into the code
+class UnitOfWork: ObservableObject {
+    let repository: DomainBookRepository
+
+    private let context: NSManagedObjectContext
+    private let bookStorage: BookStorage
+
+    @Published var books = [DomainBook]()
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        repository = DomainBookRepository(context: context)
+        bookStorage = BookStorage(viewContext: context)
+        bookStorage.$books
+            .map { (books: [Book]) in
+                books.map { $0.toDomainModel() }
+            }
+            .assign(to: &$books)
+    }
+}
+
 class BookStorage: NSObject, ObservableObject {
     @Published var books = [Book]()
     private let booksController: NSFetchedResultsController<Book>

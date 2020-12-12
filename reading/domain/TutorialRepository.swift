@@ -125,7 +125,7 @@ class ProxyBookRepository: ObservableObject, BookRepositoryInterface {
     }
 }
 
-class UnitOfWork {
+class TutorialUnitOfWork {
     private let context: NSManagedObjectContext
 
     let proxyBookRepository: ProxyBookRepository

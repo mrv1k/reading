@@ -2,16 +2,13 @@ import SwiftUI
 
 struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
-//    @EnvironmentObject private var bookStorage: BookStorage
-//    var books: [Book] { bookStorage.books }
-//    var books: [DomainBook]
-    var repository: DomainBookRepository
-    var books: [DomainBook] {
-        repository.getAll()
-    }
+    @EnvironmentObject private var unitOfWork: UnitOfWork
+
+    var books: [DomainBook] { unitOfWork.books }
 
     @State private var createOpen = false
 
+//    FIXME: re-enable
 //    var menu: some View {
 //        Menu {
 //            BookListSortPicker()
@@ -24,13 +21,9 @@ struct BookList: View {
 
     var body: some View {
         List {
-            Button("mek") {
-                print(repository.getAll().count)
-            }
-
             Button { createOpen = true } label: { Label("New Book", systemImage: "plus") }
                 .sheet(isPresented: $createOpen, content: {
-                    BookCreate(repository: repository)
+                    BookCreate(repository: unitOfWork.repository)
                 })
 
             ForEach(books) { book in
