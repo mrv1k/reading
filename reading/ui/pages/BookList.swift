@@ -4,7 +4,7 @@ struct BookList: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var unitOfWork: UnitOfWork
 
-    var books: [DomainBook] { unitOfWork.books }
+    var books: [DomainBook]
 
     @State private var createOpen = false
 
@@ -30,7 +30,6 @@ struct BookList: View {
                 NavigationLink(destination: EmptyView(), // BookDetail(book: book)
                                label: { BookRow(book: book) })
             }
-//            .onDelete(perform: deleteBook)
         }
         .listStyle(InsetGroupedListStyle())
         .animation(.default)
@@ -41,37 +40,20 @@ struct BookList: View {
 //            }
 //        }
     }
-
-//    func deleteBook(indexSet: IndexSet) {
-//        withAnimation {
-//            for index in indexSet {
-//                viewContext.delete(self.books[index])
-//            }
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nsError = error as NSError
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//            }
-//        }
-//    }
 }
 
-//struct BookList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let viewContext = PersistenceController.preview.container.viewContext
-//
-//        return Group {
-//            BookList()
-//                .previewDisplayName("No Navigation")
-//
-//            NavigationView {
-//                BookList()
-//            }
-//        }
-//        .environment(\.managedObjectContext, viewContext)
-////        .environmentObject(BookStorage(viewContext: viewContext))
-//    }
-//}
+struct BookList_Previews: PreviewProvider {
+    static var previews: some View {
+        let books = [
+            DomainBook(title: "titleA", author: "authorA", pageCount: 100),
+            DomainBook(title: "titleB", author: "authorB", pageCount: 200)
+        ]
+
+        return Group {
+            NavigationView {
+                BookList(books: books)
+            }
+        }
+        .previewDevice("iPhone SE (2nd generation)")
+    }
+}
