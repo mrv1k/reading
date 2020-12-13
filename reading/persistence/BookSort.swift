@@ -99,19 +99,3 @@ extension BookSortFactory {
         }
     }
 }
-
-struct InitialBookSort {
-    static var sort: BookSort {
-        let selection: BookSortSelection
-
-        // Try to load saved sort
-        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-            selection = BookSortSelection(rawValue: savedSort)!
-        } else {
-            selection = .title
-        }
-        return BookSortFactory.create(selection: selection)
-    }
-
-    private init() {}
-}

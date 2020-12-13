@@ -35,7 +35,7 @@ class CDBookControllerContainer: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
 
     @Published var sortSelection: BookSortSelection
-    var sortDirectionImage = InitialBookSort.sort.directionImage
+    var sortImage: String
     private var sort: BookSort
 
     private let controller: NSFetchedResultsController<Book>
@@ -45,6 +45,7 @@ class CDBookControllerContainer: NSObject, ObservableObject {
         let initialSort = createInitialBookSort()
         sort = initialSort
         sortSelection = initialSort.selection
+        sortImage = initialSort.directionImage
 
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
         fetchRequest.sortDescriptors = [initialSort.descriptor]
@@ -64,9 +65,10 @@ class CDBookControllerContainer: NSObject, ObservableObject {
     private var sortMenuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
-            .map { newSelection -> BookSort in
+            .compactMap { [weak self] newSelection -> BookSort? in
+                guard let self = self else { return nil }
                 let oldSelection = self.sortSelection
-                // if current and new sort are the same, toggle sort direction
+                // if new and old match, toggle sort direction
                 if newSelection == oldSelection {
                     self.sort.isAscending.toggle()
                 } else {
@@ -74,10 +76,7 @@ class CDBookControllerContainer: NSObject, ObservableObject {
                 }
                 return self.sort
             }
-            .sink { [weak self] sort in
-                self?.sortDirectionImage = sort.directionImage
-                self?.refreshFetchWith(descriptor: sort.descriptor)
-            }
+            .sink(receiveValue: refreshFetch(sort:))
     }
 
     private func performFetch() {
@@ -89,8 +88,9 @@ class CDBookControllerContainer: NSObject, ObservableObject {
         }
     }
 
-    private func refreshFetchWith(descriptor: NSSortDescriptor) {
-        controller.fetchRequest.sortDescriptors = [descriptor]
+    private func refreshFetch(sort: BookSort) {
+        sortImage = sort.directionImage
+        controller.fetchRequest.sortDescriptors = [sort.descriptor]
         performFetch()
     }
 }

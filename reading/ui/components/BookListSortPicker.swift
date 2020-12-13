@@ -17,7 +17,7 @@ struct BookListSortPicker: View {
         Picker("Sorting options", selection: $unitOfWork.cdBookController.sortSelection) {
             ForEach(BookSortSelection.allCases) { sort in
                 if sort == controller.sortSelection {
-                    Label(sort.rawValue, systemImage: controller.sortDirectionImage).tag(sort)
+                    Label(sort.rawValue, systemImage: controller.sortImage).tag(sort)
                 } else {
                     Text(sort.rawValue).tag(sort)
                 }
