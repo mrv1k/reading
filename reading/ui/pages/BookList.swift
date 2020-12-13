@@ -8,17 +8,6 @@ struct BookList: View {
 
     @State private var createOpen = false
 
-//    FIXME: re-enable
-//    var menu: some View {
-//        Menu {
-//            BookListSortPicker()
-//        } label: {
-//            Image(systemName: "ellipsis.circle")
-//                .imageScale(.large)
-//                .padding([.vertical, .leading])
-//        }
-//    }
-
     var body: some View {
         List {
             Button { createOpen = true } label: { Label("New Book", systemImage: "plus") }
@@ -34,11 +23,21 @@ struct BookList: View {
         .listStyle(InsetGroupedListStyle())
         .animation(.default)
         .navigationBarTitle("Library")
-//        .toolbar {
-//            ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
-//                menu
-//            }
-//        }
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
+                menu
+            }
+        }
+    }
+
+    var menu: some View {
+        Menu {
+            BookListSortPicker()
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+                .padding([.vertical, .leading])
+        }
     }
 }
 

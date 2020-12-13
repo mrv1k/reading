@@ -13,49 +13,55 @@ import Foundation
 
 class UnitOfWork: ObservableObject {
     let repository: DomainBookRepository
+    var cdBookController: CDBookControllerContainer
+    @Published var domainBooks = [DomainBook]()
 
     private let context: NSManagedObjectContext
-    private let bookStorage: BookStorage
-
-    @Published var books = [DomainBook]()
 
     init(context: NSManagedObjectContext) {
         self.context = context
         repository = DomainBookRepository(context: context)
-        bookStorage = BookStorage(viewContext: context)
-        bookStorage.$books
-            .map { (books: [Book]) in
-                books.map { $0.toDomainModel() }
+        cdBookController = CDBookControllerContainer(viewContext: context)
+
+        cdBookController.$cdBooks
+            .map { (cdBooks: [Book]) in
+                cdBooks.map { $0.toDomainModel() }
             }
-            .assign(to: &$books)
+            .assign(to: &$domainBooks)
     }
 }
 
-class BookStorage: NSObject, ObservableObject {
-    @Published var books = [Book]()
-    private let booksController: NSFetchedResultsController<Book>
+class CDBookControllerContainer: NSObject, ObservableObject {
+    @Published var cdBooks = [Book]()
 
-    private var sort = InitialBookSort.sort
-    @Published var sortSelection = InitialBookSort.sort.selection
-    @Published var directionImage = InitialBookSort.sort.directionImage
-    private var cancellables = Set<AnyCancellable>()
+    @Published var sortSelection: BookSortSelection
+    @Published var sortDirectionImage = InitialBookSort.sort.directionImage
+    @Published private var sort: BookSort
+
+    private let controller: NSFetchedResultsController<Book>
+    private var _sortMenuSelectionHandler: AnyCancellable?
 
     init(viewContext: NSManagedObjectContext) {
+        let initialSort = createInitialBookSort()
+        sort = initialSort
+        sortSelection = initialSort.selection
+
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [sort.descriptor]
-        booksController = NSFetchedResultsController(
+        fetchRequest.sortDescriptors = [initialSort.descriptor]
+
+        controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: viewContext,
             sectionNameKeyPath: nil, cacheName: nil)
         super.init()
 
-        booksController.delegate = self
+        controller.delegate = self
         performFetch()
 
-        menuSelectionHandler.store(in: &cancellables)
+        _sortMenuSelectionHandler = sortMenuSelectionHandler
     }
 
-    var menuSelectionHandler: AnyCancellable {
+    private var sortMenuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
             .map { selection -> BookSort in
@@ -67,31 +73,42 @@ class BookStorage: NSObject, ObservableObject {
                 }
                 return self.sort
             }
-            .sink(receiveValue: { sort in
-                self.refreshFetchWith(descriptor: sort.descriptor)
-                self.directionImage = sort.directionImage
-            })
+            .sink { [weak self] sort in
+                self?.refreshFetchWith(descriptor: sort.descriptor)
+                self?.sortDirectionImage = sort.directionImage
+            }
     }
 
     private func performFetch() {
         do {
-            try booksController.performFetch()
-            books = booksController.fetchedObjects ?? []
+            try controller.performFetch()
+            cdBooks = controller.fetchedObjects ?? []
         } catch {
             print(#function, "failed")
         }
     }
 
     private func refreshFetchWith(descriptor: NSSortDescriptor) {
-        booksController.fetchRequest.sortDescriptors = [descriptor]
+        controller.fetchRequest.sortDescriptors = [descriptor]
         performFetch()
     }
 }
 
-extension BookStorage: NSFetchedResultsControllerDelegate {
+extension CDBookControllerContainer: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard let refetchedBooks = controller.fetchedObjects as? [Book]
-        else { return }
-        books = refetchedBooks
+        guard let refetchedBooks = controller.fetchedObjects as? [Book] else { return }
+        cdBooks = refetchedBooks
     }
+}
+
+private func createInitialBookSort() -> BookSort {
+    let selection = loadSavedSortSelection() ?? .title
+    return BookSortFactory.create(selection: selection)
+}
+
+private func loadSavedSortSelection() -> BookSortSelection? {
+    if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
+        return BookSortSelection(rawValue: savedSort)
+    }
+    return nil
 }
