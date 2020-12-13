@@ -41,7 +41,7 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     func get(id: UUID?) -> GetResult {
         guard let id = id else { return .failure(.idIsMissing) }
 
-        let request: NSFetchRequest = Entity.fetchRequest()
+        let request = Entity.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
 
@@ -55,7 +55,7 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     }
 
     func getAll(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Result<[Entity], RepositoryError> {
-        let request: NSFetchRequest = Entity.fetchRequest()
+        let request = Entity.fetchRequest()
         request.sortDescriptors = sortDescriptors
         request.predicate = predicate
 

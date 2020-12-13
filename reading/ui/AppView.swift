@@ -26,7 +26,7 @@ struct AppView: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationView { BookList(books: unitOfWork.books) }
+                NavigationView { BookList(books: unitOfWork.domainBooks) }
                     .tabItem { Label("Library", systemImage: "books.vertical") }
                     .environmentObject(settings)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)

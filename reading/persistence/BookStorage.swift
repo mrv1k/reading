@@ -35,8 +35,8 @@ class CDBookControllerContainer: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
 
     @Published var sortSelection: BookSortSelection
-    @Published var sortDirectionImage = InitialBookSort.sort.directionImage
-    @Published private var sort: BookSort
+    var sortDirectionImage = InitialBookSort.sort.directionImage
+    private var sort: BookSort
 
     private let controller: NSFetchedResultsController<Book>
     private var _sortMenuSelectionHandler: AnyCancellable?
@@ -64,18 +64,19 @@ class CDBookControllerContainer: NSObject, ObservableObject {
     private var sortMenuSelectionHandler: AnyCancellable {
         $sortSelection
             .dropFirst()
-            .map { selection -> BookSort in
+            .map { newSelection -> BookSort in
+                let oldSelection = self.sortSelection
                 // if current and new sort are the same, toggle sort direction
-                if selection == self.sortSelection {
+                if newSelection == oldSelection {
                     self.sort.isAscending.toggle()
                 } else {
-                    self.sort = BookSortFactory.create(selection: selection)
+                    self.sort = BookSortFactory.create(selection: newSelection)
                 }
                 return self.sort
             }
             .sink { [weak self] sort in
-                self?.refreshFetchWith(descriptor: sort.descriptor)
                 self?.sortDirectionImage = sort.directionImage
+                self?.refreshFetchWith(descriptor: sort.descriptor)
             }
     }
 
