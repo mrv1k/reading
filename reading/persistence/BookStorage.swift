@@ -36,7 +36,7 @@ class CDBookControllerContainer: NSObject, ObservableObject {
         didSet { oldSortSelectionPublisher.send(oldValue) }
     }
 
-    let oldSortSelectionPublisher = CurrentValueSubject<BookSortSelection, Never>(initalSort.selection)
+    let oldSortSelectionPublisher = PassthroughSubject<BookSortSelection, Never>()
 
     var sortImage: String = initalSort.directionImage
     @Published private var sort: BookSort = initalSort
@@ -45,7 +45,6 @@ class CDBookControllerContainer: NSObject, ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init(viewContext: NSManagedObjectContext) {
-//        sortSelection = Self.initalSort.selection
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
         fetchRequest.sortDescriptors = [Self.initalSort.descriptor]
 
@@ -86,21 +85,23 @@ extension CDBookControllerContainer: NSFetchedResultsControllerDelegate {
 
 extension CDBookControllerContainer {
     enum SortAction {
-        case toggleDirection(BookSortSelection)
+        case toggleDirection
         case change(BookSortSelection)
     }
 
     var determineSortActionChain: AnyPublisher<BookSort, Never> {
-        oldSortSelectionPublisher.print()
+        oldSortSelectionPublisher
             .zip($sortSelection)
-            .dropFirst()
-            .map { (old, new) -> SortAction in old == new ? .toggleDirection(old) : .change(new) }
-            .map { (action) -> BookSort in
+            .drop(untilOutputFrom: oldSortSelectionPublisher)
+            .map { (old, new) -> SortAction in old == new ? .toggleDirection : .change(new) }
+            .combineLatest($sort)
+            .map { (action, sort) -> BookSort in
                 switch action {
-                case .toggleDirection(let selection):
-                    var sort = BookSortFactory.create(selection: selection)
-                    sort.isAscending.toggle()
-                    return sort
+                case .toggleDirection:
+                    var copy = sort
+                    // FIXME: make ascending var private
+                    copy.isAscending.toggle()
+                    return copy
                 case .change(let selection):
                     return BookSortFactory.create(selection: selection)
                 }
@@ -110,7 +111,6 @@ extension CDBookControllerContainer {
 
     var syncUI: AnyCancellable {
         $sort
-            .print()
             .dropFirst()
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] sort in
