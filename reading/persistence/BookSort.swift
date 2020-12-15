@@ -99,3 +99,17 @@ extension BookSortFactory {
         }
     }
 }
+
+extension CDBookControllerContainer {
+    static var initalSort: BookSort = {
+        let selection = loadSavedSelection() ?? .title
+        return BookSortFactory.create(selection: selection)
+    }()
+
+    static private func loadSavedSelection() -> BookSortSelection? {
+        if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
+            return BookSortSelection(rawValue: savedSort)
+        }
+        return nil
+    }
+}

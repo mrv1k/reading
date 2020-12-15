@@ -24,9 +24,7 @@ class UnitOfWork: ObservableObject {
         cdBookController = CDBookControllerContainer(viewContext: context)
 
         cdBookController.$cdBooks
-            .map { (cdBooks: [Book]) in
-                cdBooks.map { $0.toDomainModel() }
-            }
+            .map { cdBooks in cdBooks.map { cdBook in cdBook.toDomainModel() } }
             .assign(to: &$domainBooks)
     }
 }
@@ -34,21 +32,22 @@ class UnitOfWork: ObservableObject {
 class CDBookControllerContainer: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
 
-    @Published var sortSelection: BookSortSelection
-    var sortImage: String
-    private var sort: BookSort
+    @Published var sortSelection = initalSort.selection {
+        didSet { oldSortSelectionPublisher.send(oldValue) }
+    }
+
+    let oldSortSelectionPublisher = CurrentValueSubject<BookSortSelection, Never>(initalSort.selection)
+
+    var sortImage: String = initalSort.directionImage
+    @Published private var sort: BookSort = initalSort
 
     private let controller: NSFetchedResultsController<Book>
-    private var _sortMenuSelectionHandler: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewContext: NSManagedObjectContext) {
-        let initialSort = createInitialBookSort()
-        sort = initialSort
-        sortSelection = initialSort.selection
-        sortImage = initialSort.directionImage
-
+//        sortSelection = Self.initalSort.selection
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [initialSort.descriptor]
+        fetchRequest.sortDescriptors = [Self.initalSort.descriptor]
 
         controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -59,24 +58,8 @@ class CDBookControllerContainer: NSObject, ObservableObject {
         controller.delegate = self
         performFetch()
 
-        _sortMenuSelectionHandler = sortMenuSelectionHandler
-    }
-
-    private var sortMenuSelectionHandler: AnyCancellable {
-        $sortSelection
-            .dropFirst()
-            .compactMap { [weak self] newSelection -> BookSort? in
-                guard let self = self else { return nil }
-                let oldSelection = self.sortSelection
-                // if new and old match, toggle sort direction
-                if newSelection == oldSelection {
-                    self.sort.isAscending.toggle()
-                } else {
-                    self.sort = BookSortFactory.create(selection: newSelection)
-                }
-                return self.sort
-            }
-            .sink(receiveValue: refreshFetch(sort:))
+        determineSortActionChain.assign(to: &$sort)
+        syncUI.store(in: &cancellables)
     }
 
     private func performFetch() {
@@ -88,8 +71,7 @@ class CDBookControllerContainer: NSObject, ObservableObject {
         }
     }
 
-    private func refreshFetch(sort: BookSort) {
-        sortImage = sort.directionImage
+    private func refreshFetch(sortDescriptor: NSSortDescriptor) {
         controller.fetchRequest.sortDescriptors = [sort.descriptor]
         performFetch()
     }
@@ -102,14 +84,38 @@ extension CDBookControllerContainer: NSFetchedResultsControllerDelegate {
     }
 }
 
-private func createInitialBookSort() -> BookSort {
-    let selection = loadSavedSortSelection() ?? .title
-    return BookSortFactory.create(selection: selection)
-}
-
-private func loadSavedSortSelection() -> BookSortSelection? {
-    if let savedSort = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue) {
-        return BookSortSelection(rawValue: savedSort)
+extension CDBookControllerContainer {
+    enum SortAction {
+        case toggleDirection(BookSortSelection)
+        case change(BookSortSelection)
     }
-    return nil
+
+    var determineSortActionChain: AnyPublisher<BookSort, Never> {
+        oldSortSelectionPublisher.print()
+            .zip($sortSelection)
+            .dropFirst()
+            .map { (old, new) -> SortAction in old == new ? .toggleDirection(old) : .change(new) }
+            .map { (action) -> BookSort in
+                switch action {
+                case .toggleDirection(let selection):
+                    var sort = BookSortFactory.create(selection: selection)
+                    sort.isAscending.toggle()
+                    return sort
+                case .change(let selection):
+                    return BookSortFactory.create(selection: selection)
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+
+    var syncUI: AnyCancellable {
+        $sort
+            .print()
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] sort in
+                self?.sortImage = sort.directionImage
+                self?.refreshFetch(sortDescriptor: sort.descriptor)
+            })
+    }
 }
