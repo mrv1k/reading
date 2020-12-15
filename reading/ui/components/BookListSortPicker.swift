@@ -13,13 +13,15 @@ struct BookListSortPicker: View {
 
     var controller: CDBookControllerContainer { unitOfWork.cdBookController }
 
+    var chevron: String { controller.sort.isAscending ? "chevron.up" : "chevron.down" }
+
     var body: some View {
         Picker("Sorting options", selection: $unitOfWork.cdBookController.sortSelection) {
-            ForEach(BookSortSelection.allCases) { sort in
-                if sort == controller.sortSelection {
-                    Label(sort.rawValue, systemImage: controller.sortImage).tag(sort)
+            ForEach(CDBookSort.Selection.allCases) { selection in
+                if selection == controller.sortSelection {
+                    Label(selection.rawValue, systemImage: chevron).tag(selection)
                 } else {
-                    Text(sort.rawValue).tag(sort)
+                    Text(selection.rawValue).tag(selection)
                 }
             }
         }

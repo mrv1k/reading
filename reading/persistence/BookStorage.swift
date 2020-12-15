@@ -32,21 +32,18 @@ class UnitOfWork: ObservableObject {
 class CDBookControllerContainer: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
 
-    @Published var sortSelection = initalSort.selection {
+    @Published var sort = CDBookSort.loadedSort
+    @Published var sortSelection = CDBookSort.loadedSelection {
         didSet { oldSortSelectionPublisher.send(oldValue) }
     }
 
-    let oldSortSelectionPublisher = PassthroughSubject<BookSortSelection, Never>()
-
-    var sortImage: String = initalSort.directionImage
-    @Published private var sort: BookSort = initalSort
-
     private let controller: NSFetchedResultsController<Book>
+    private let oldSortSelectionPublisher = PassthroughSubject<CDBookSort.Selection, Never>()
     private var cancellables = Set<AnyCancellable>()
 
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [Self.initalSort.descriptor]
+        fetchRequest.sortDescriptors = [CDBookSort.loadedSort.descriptor]
 
         controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -85,25 +82,23 @@ extension CDBookControllerContainer: NSFetchedResultsControllerDelegate {
 
 extension CDBookControllerContainer {
     enum SortAction {
-        case toggleDirection
-        case change(BookSortSelection)
+        case toggleDirection(CDBookSort.Selection)
+        case change(CDBookSort.Selection)
     }
 
-    var determineSortActionChain: AnyPublisher<BookSort, Never> {
+    var determineSortActionChain: AnyPublisher<CDBookSort.Sort, Never> {
         oldSortSelectionPublisher
             .zip($sortSelection)
             .drop(untilOutputFrom: oldSortSelectionPublisher)
-            .map { (old, new) -> SortAction in old == new ? .toggleDirection : .change(new) }
+            .map { (old, new) -> SortAction in old == new ? .toggleDirection(old) : .change(new) }
             .combineLatest($sort)
-            .map { (action, sort) -> BookSort in
+            .map { (action, sort) -> CDBookSort.Sort in
                 switch action {
-                case .toggleDirection:
-                    var copy = sort
-                    // FIXME: make ascending var private
-                    copy.isAscending.toggle()
-                    return copy
-                case .change(let selection):
-                    return BookSortFactory.create(selection: selection)
+                case .toggleDirection(let old):
+                    let reversed = !sort.isAscending
+                    return CDBookSort.factory.create(selection: old, ascending: reversed)
+                case .change(let new):
+                    return CDBookSort.factory.create(selection: new)
                 }
             }
             .eraseToAnyPublisher()
@@ -114,7 +109,6 @@ extension CDBookControllerContainer {
             .dropFirst()
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] sort in
-                self?.sortImage = sort.directionImage
                 self?.refreshFetch(sortDescriptor: sort.descriptor)
             })
     }
