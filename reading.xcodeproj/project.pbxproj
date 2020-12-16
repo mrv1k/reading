@@ -27,7 +27,6 @@
 		5723959024C021A8007DC1E5 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5723958F24C021A7007DC1E5 /* BookList.swift */; };
 		57294EF02535E6B5007BE15D /* SessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EEF2535E6B5007BE15D /* SessionExtension.swift */; };
 		57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57294EF52535EABF007BE15D /* SessionSeeder.swift */; };
-		572BA58E257EECC500BAB6CB /* TutorialRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572BA58D257EECC500BAB6CB /* TutorialRepository.swift */; };
 		57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */; };
 		57393CDC24ED1AD700DC9C40 /* CoreDataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */; };
 		573F1CA625644E6600F26F44 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */; };
@@ -98,7 +97,6 @@
 		5723958F24C021A7007DC1E5 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		57294EEF2535E6B5007BE15D /* SessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExtension.swift; sourceTree = "<group>"; };
 		57294EF52535EABF007BE15D /* SessionSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSeeder.swift; sourceTree = "<group>"; };
-		572BA58D257EECC500BAB6CB /* TutorialRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRepository.swift; sourceTree = "<group>"; };
 		57329E0C255DEE73000ECEB1 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		57393CDB24ED1AD700DC9C40 /* CoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExtension.swift; sourceTree = "<group>"; };
 		573F1CA525644E6600F26F44 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
@@ -129,6 +127,7 @@
 		57CDD9F02555FB6C0095B8BF /* PercentCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentCalculator.swift; sourceTree = "<group>"; };
 		57CDD9F32555FB9E0095B8BF /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		57D94744255A104000EB3D80 /* AppSettingsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsEditor.swift; sourceTree = "<group>"; };
+		57DD0EFA258AB19400C3D6C1 /* unit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = unit.xctestplan; sourceTree = "<group>"; };
 		57E95B1324D04C6200AF1FD9 /* reading.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = reading.xcdatamodel; sourceTree = "<group>"; };
 		57F4815124FF9490002B6691 /* CDBookStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDBookStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -242,7 +241,6 @@
 				57BC70E72581BEC000D848AF /* DomainBookRepository.swift */,
 				57BC70EC2581BF6000D848AF /* Models.swift */,
 				57BC70E22581BE0600D848AF /* Repository.swift */,
-				572BA58D257EECC500BAB6CB /* TutorialRepository.swift */,
 			);
 			path = domain;
 			sourceTree = "<group>";
@@ -317,6 +315,7 @@
 		57C065A4257DDD38004FC1BB /* readingTests */ = {
 			isa = PBXGroup;
 			children = (
+				57DD0EFA258AB19400C3D6C1 /* unit.xctestplan */,
 				5706EB502589BF490004B3DA /* persistence */,
 				57BC71082581C02500D848AF /* domain */,
 				57C065A7257DDD38004FC1BB /* Info.plist */,
@@ -497,7 +496,6 @@
 				57684BED255CAE9C00F1C839 /* BookProgressViewModel.swift in Sources */,
 				57093B802559B1BA00FEC08D /* SessionRowViewModel.swift in Sources */,
 				57329E0D255DEE73000ECEB1 /* UserDefaultsKey.swift in Sources */,
-				572BA58E257EECC500BAB6CB /* TutorialRepository.swift in Sources */,
 				57294EF62535EABF007BE15D /* SessionSeeder.swift in Sources */,
 				578F5AFD2579E7E800468DCF /* CSVParser.swift in Sources */,
 				579730EF2558D88D00393876 /* SessionListBookViewModel.swift in Sources */,
