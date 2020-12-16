@@ -1,8 +1,8 @@
 //
-//  BookStorage.swift
+//  CDBookStorage.swift
 //  reading
 //
-//  Created by Viktor Khotimchenko on 2020-09-02.
+//  Created by Viktor Khotimchenko on 2020-12-15.
 //  Copyright © 2020 mrv1k. All rights reserved.
 //  inspired by: https://www.donnywals.com/fetching-objects-from-core-data-in-a-swiftui-project/
 //
@@ -11,33 +11,14 @@ import Combine
 import CoreData
 import Foundation
 
-class UnitOfWork: ObservableObject {
-    let repository: DomainBookRepository
-    var cdBookStorage: CDBookStorage
-    @Published var domainBooks = [DomainBook]()
-
-    private let context: NSManagedObjectContext
-
-    init(context: NSManagedObjectContext) {
-        self.context = context
-        repository = DomainBookRepository(context: context)
-        cdBookStorage = CDBookStorage(viewContext: context)
-
-        cdBookStorage.$cdBooks
-            .map { cdBooks in cdBooks.map { cdBook in cdBook.toDomainModel() } }
-            .assign(to: &$domainBooks)
-    }
-}
-
 class CDBookStorage: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
+    private let controller: NSFetchedResultsController<Book>
 
     @Published var sort = CDBookSort.loaded
     @Published var sortSelection = CDBookSort.loaded.selection {
         didSet { oldSortSelectionPublisher.send(oldValue) }
     }
-
-    private let controller: NSFetchedResultsController<Book>
     private let oldSortSelectionPublisher = CurrentValueSubject<CDBookSort.Selection, Never>(CDBookSort.loaded.selection)
     private var cancellables = Set<AnyCancellable>()
 
