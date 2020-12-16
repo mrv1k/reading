@@ -22,23 +22,21 @@ struct CDBookSort {
 
         var ascendingKey: UserDefaultsKey {
             switch self {
-            // FIXME: rename to better show that they are for asc/desc order
-            case .author: return .sortByAuthor
-            case .createdAt: return .sortByCreatedAt
-            case .title: return .sortByTitle
+            case .author: return .sortByAuthorAscending
+            case .createdAt: return .sortByCreatedAtAscending
+            case .title: return .sortByTitleAscending
             }
         }
     }
 
-    static let factory = Factory()
+    static var factory = Factory()
+    static var loaded = factory.loadSort()
 
-    static let loadedSelection: Selection = factory.loadSelection()
-    static let loadedSort: Sort = factory.loadSort()
-
-    struct Factory {
+    // TODO: would be a smart idea to just convert Factory to a Manager and use that instead of saving on every change
+    class Factory {
         fileprivate init() {}
 
-        func create(selection: Selection, ascending: Bool? = nil) -> Sort {
+        func create(selection: Selection, ascending: Bool? = nil, save: Bool = true) -> Sort {
             let isAscending = ascending != nil ? ascending! : loadAscending(selection: selection)
 
             let sort: Sort
@@ -48,26 +46,26 @@ struct CDBookSort {
             case .createdAt: sort = ByCreatedAt(isAscending: isAscending)
             }
             // Sort creation means sort is in use. Safe to save
-            // FIXME: should not fire on first load
-            saveSelection(selection: selection)
-            saveAscending(sort.isAscending, selection: selection)
+            if save {
+                saveSelection(selection: selection)
+                saveAscending(sort.isAscending, selection: selection)
+            }
             return sort
         }
 
         private func saveSelection(selection: Selection) {
-            UserDefaults.standard.set(selection.rawValue, forKey: UserDefaultsKey.bookSort.rawValue)
+            UserDefaults.standard.set(selection.rawValue, forKey: UserDefaultsKey.cdBookSort.rawValue)
         }
 
         fileprivate func loadSelection() -> Selection {
-            guard let rawSelection = UserDefaults.standard.string(forKey: UserDefaultsKey.bookSort.rawValue)
+            guard let rawSelection = UserDefaults.standard.string(forKey: UserDefaultsKey.cdBookSort.rawValue)
             else { return .title }
             return Selection(rawValue: rawSelection)!
         }
 
         fileprivate func loadSort() -> Sort {
             let selection = loadSelection()
-            let ascending = loadAscending(selection: selection)
-            return create(selection: selection, ascending: ascending)
+            return create(selection: selection, save: false)
         }
 
         private func saveAscending(_ value: Bool, selection: Selection) {
@@ -82,6 +80,7 @@ struct CDBookSort {
 
 extension CDBookSort {
     struct ByTitle: Sort {
+        let selection: Selection = .title
         var isAscending: Bool
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(
@@ -92,6 +91,7 @@ extension CDBookSort {
     }
 
     struct ByAuthor: Sort {
+        let selection: Selection = .author
         var isAscending: Bool
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(
@@ -102,6 +102,7 @@ extension CDBookSort {
     }
 
     struct ByCreatedAt: Sort {
+        let selection: Selection = .createdAt
         var isAscending: Bool
         var descriptor: NSSortDescriptor {
             NSSortDescriptor(keyPath: \Book.createdAt, ascending: isAscending)
@@ -110,6 +111,7 @@ extension CDBookSort {
 }
 
 protocol CDBookSortProtocol {
+    var selection: CDBookSort.Selection { get }
     var isAscending: Bool { get set }
     var descriptor: NSSortDescriptor { get }
 }

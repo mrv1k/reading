@@ -8,8 +8,8 @@
 
 /// Key collection for UserDefaults
 enum UserDefaultsKey: String {
-    /// Used in: `BookSort`
-    case bookSort, sortByTitle, sortByAuthor, sortByCreatedAt
+    /// Used in: `CDBookSort`
+    case cdBookSort, sortByTitleAscending, sortByAuthorAscending, sortByCreatedAtAscending
     /// Used in: `AppSettings`
     case sessionIsInPercents, sessionsIsSortingByNewest
 }

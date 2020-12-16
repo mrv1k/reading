@@ -11,12 +11,12 @@ import SwiftUI
 struct BookListSortPicker: View {
     @EnvironmentObject private var unitOfWork: UnitOfWork
 
-    var controller: CDBookControllerContainer { unitOfWork.cdBookController }
+    var controller: CDBookStorage { unitOfWork.cdBookStorage }
 
     var chevron: String { controller.sort.isAscending ? "chevron.up" : "chevron.down" }
 
     var body: some View {
-        Picker("Sorting options", selection: $unitOfWork.cdBookController.sortSelection) {
+        Picker("Sorting options", selection: $unitOfWork.cdBookStorage.sortSelection) {
             ForEach(CDBookSort.Selection.allCases) { selection in
                 if selection == controller.sortSelection {
                     Label(selection.rawValue, systemImage: chevron).tag(selection)
