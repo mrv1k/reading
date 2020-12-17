@@ -1,6 +1,5 @@
-# Custom additions
-# A file where I can play around without leaving the project
-Playground.swift
+# Ignore UserDefaults output in test folder
+readingTests/**/*.swift.plist
 
 # Xcode
 #
