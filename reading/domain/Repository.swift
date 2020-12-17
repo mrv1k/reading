@@ -34,14 +34,19 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     }
 
     func create() -> Entity {
-        Entity(context: context)
+        let name = String(describing: Entity.self)
+        let entity = NSEntityDescription.insertNewObject(forEntityName: name, into: context)
+        return entity as! Entity
     }
 
     typealias GetResult = Result<Entity, RepositoryError>
+    typealias AbstractRequest = NSFetchRequest<NSFetchRequestResult>
+
     func get(id: UUID?) -> GetResult {
         guard let id = id else { return .failure(.idIsMissing) }
 
-        let request = Entity.fetchRequest()
+        let name = String(describing: Entity.self)
+        let request: AbstractRequest = NSFetchRequest(entityName: name)
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
 
@@ -55,7 +60,8 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     }
 
     func getAll(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Result<[Entity], RepositoryError> {
-        let request = Entity.fetchRequest()
+        let name = String(describing: Entity.self)
+        let request: AbstractRequest = NSFetchRequest(entityName: name)
         request.sortDescriptors = sortDescriptors
         request.predicate = predicate
 
@@ -63,7 +69,6 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
         return response
     }
 
-    typealias AbstractRequest = NSFetchRequest<NSFetchRequestResult>
     private func fetch(_ request: AbstractRequest) -> Result<[Entity], RepositoryError> {
         do {
             let rawResponse = try context.fetch(request)
