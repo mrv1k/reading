@@ -16,11 +16,19 @@ class CDBookStorageTests: XCTestCase {
     // Supporting types
     var persistenceController: PersistenceController!
     var repository: DomainBookRepository!
+    var userDefaults: UserDefaults!
 
     override func setUpWithError() throws {
         persistenceController = PersistenceController(inMemory: true)
         let viewContext = persistenceController.container.viewContext
         repository = DomainBookRepository(context: viewContext)
+
+        // replace standard user defaults and reload restored sort
+        userDefaults = UserDefaults(suiteName: #file)
+        userDefaults.removePersistentDomain(forName: #file)
+        CDBookSort.factory = CDBookSort.Factory(userDefaults: userDefaults)
+        CDBookSort.restored = CDBookSort.factory.loadSort()
+
         storage = CDBookStorage(viewContext: viewContext)
     }
 
@@ -38,34 +46,25 @@ class CDBookStorageTests: XCTestCase {
         XCTAssert(storage.cdBooks.count == inputBooks.count, "Expected all persited books to be returned")
     }
 
-    func test_loadsBooksInDefaultSortOrderWhenNoSavedSortIsFound() {
-        let inputBooks = [DomainBook(title: "titleA", author: "authorA", pageCount: 100),
-                          DomainBook(title: "titleB", author: "authorB", pageCount: 200),
-                          DomainBook(title: "titleC", author: "authorC", pageCount: 300)]
-        inputBooks.forEach { repository.create(domainBook: $0) }
-        try! persistenceController.container.viewContext.save()
+    /**
+     Default ascending for all sorts is `false`
+     Title `false` is Z to A - weird
+     Author `false` is Z to A - weird
+     Date `false` is newest first - good
+     `Question`: Should I have different sort direction defaults?
 
-        // ascending == false
-        // (ASC = <); (DESC >)
-        let expectedBooks = inputBooks.sorted { $0.title > $1.title }
-
-        let result = storage.cdBooks.map { $0.toDomainModel() }
-
-        result.enumerated().forEach { index, foundBook in
-            let expectedBook = expectedBooks[index]
-            XCTAssert(foundBook == expectedBook, "expected: \(expectedBook.title), found: \(foundBook.title)")
-        }
+     not implemented
+     Page Count `false` is largest up top - debatable (10 to 1)
+     Completion % `false` is completed up to - bad, users would have to scroll to get to currently reading books
+     */
+    func test_usesTitleAsDefaultSort() {
+        XCTAssert(storage.sort.selection == .title)
+        XCTAssert(storage.sort.isAscending == false)
     }
-
-    // change to author - sorts by author
 
     // change to author again - reverse author sort
 
     // change to createdAt
 
     // change back to author - restores reversed sort
-
-    //    didSet { oldSortSelectionPublisher.send(oldValue) }
-
-//    convertSelectionToSortChain
 }
