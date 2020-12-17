@@ -67,7 +67,7 @@ extension CDBookStorage {
         case change(CDBookSort.Selection)
     }
 
-    var convertSelectionToSortChain: AnyPublisher<CDBookSort.Sort, Never> {
+    private var convertSelectionToSortChain: AnyPublisher<CDBookSort.Sort, Never> {
         oldSortSelectionPublisher.zip($sortSelection)
             .dropFirst()
             .map { (old, new) -> SortAction in old == new ? .toggleDirection : .change(new) }
@@ -84,8 +84,9 @@ extension CDBookStorage {
             .eraseToAnyPublisher()
     }
 
-    var sortRefreshFetcher: AnyCancellable {
+    private var sortRefreshFetcher: AnyCancellable {
         $sort
+            .dropFirst()
             .map(\.descriptor)
             .receive(on: RunLoop.main)
             .sink(receiveValue: refreshFetch(sortDescriptor:))

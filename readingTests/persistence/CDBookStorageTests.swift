@@ -6,6 +6,7 @@
 //  Copyright © 2020 mrv1k. All rights reserved.
 //
 
+import Combine
 import CoreData
 @testable import reading
 import XCTest
@@ -17,6 +18,7 @@ class CDBookStorageTests: XCTestCase {
     var persistenceController: PersistenceController!
     var repository: DomainBookRepository!
     var userDefaults: UserDefaults!
+    var cancellables: Set<AnyCancellable>!
 
     override func setUpWithError() throws {
         persistenceController = PersistenceController(inMemory: true)
@@ -29,6 +31,7 @@ class CDBookStorageTests: XCTestCase {
         CDBookSort.factory = CDBookSort.Factory(userDefaults: userDefaults)
         CDBookSort.restored = CDBookSort.factory.loadSort()
 
+        cancellables = []
         storage = CDBookStorage(viewContext: viewContext)
     }
 
@@ -37,13 +40,8 @@ class CDBookStorageTests: XCTestCase {
     }
 
     func test_loadsAllStoredBooks() throws {
-        let inputBooks = [DomainBook(title: "titleA", author: "authorA", pageCount: 100),
-                          DomainBook(title: "titleB", author: "authorB", pageCount: 200),
-                          DomainBook(title: "titleC", author: "authorC", pageCount: 300)]
-        inputBooks.forEach { repository.create(domainBook: $0) }
-        try! persistenceController.container.viewContext.save()
-
-        XCTAssert(storage.cdBooks.count == inputBooks.count, "Expected all persited books to be returned")
+        let created = createAndSaveBooks()
+        XCTAssert(storage.cdBooks.count == created.count, "Expected all persited books to be returned")
     }
 
     /**
@@ -62,9 +60,57 @@ class CDBookStorageTests: XCTestCase {
         XCTAssert(storage.sort.isAscending == false)
     }
 
-    // change to author again - reverse author sort
+    // (ASC == <); (DESC == >)
+    // xas - xctassert suggestion
+    // FIXME: works but depends on title being default sort
+//    func test_sortsByTitle() {
+//        let initial = createAndSaveBooks()
+//        let expected = initial.sorted { $0.title > $1.title }
+//
+//        let result = storage.cdBooks.map { $0.toDomainModel() }
+//
+//        zip(expected, result).forEach { expectedBook, resultBook in
+//            XCTAssert(expectedBook == resultBook, "expected: \(expectedBook.title), found: \(resultBook.title)")
+//        }
+//    }
 
-    // change to createdAt
+    func test_sortByAuthor() {
+        // GIVEN
+        let initial = createAndSaveBooks()
+        let expected = initial.sorted { $0.author > $1.author }
 
-    // change back to author - restores reversed sort
+        // WHEN
+        storage.sortSelection = .author
+
+        // THEN
+        let controllerRefreshed = expectation(description: "expect controller to re-fetch books with new sort")
+        storage.$cdBooks.dropFirst()
+            .sink { cdBooks in
+                let result = cdBooks.map { $0.toDomainModel() }
+
+                zip(expected, result).forEach { expectedBook, resultBook in
+                    XCTAssert(expectedBook == resultBook, "expected: \(expectedBook.title), found: \(resultBook.title)")
+                }
+
+                controllerRefreshed.fulfill()
+            }
+            .store(in: &cancellables)
+
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+//    func test_sortByTitle() {}
+//    func test_sortByDate() {}
+//    test_sortByDate() {}
+//    test_sortByDate() {}
+//    test_sortByDate() {}
+
+    @discardableResult func createAndSaveBooks() -> [DomainBook] {
+        let inputBooks = [DomainBook(title: "B", author: "Y", pageCount: 200),
+                          DomainBook(title: "A", author: "Z", pageCount: 100),
+                          DomainBook(title: "C", author: "X", pageCount: 300)]
+        inputBooks.forEach { repository.create(domainBook: $0) }
+        try! persistenceController.container.viewContext.save()
+        return inputBooks
+    }
 }
