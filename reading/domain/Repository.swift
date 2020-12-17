@@ -40,13 +40,10 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     }
 
     typealias GetResult = Result<Entity, RepositoryError>
-    typealias AbstractRequest = NSFetchRequest<NSFetchRequestResult>
-
     func get(id: UUID?) -> GetResult {
         guard let id = id else { return .failure(.idIsMissing) }
 
-        let name = String(describing: Entity.self)
-        let request: AbstractRequest = NSFetchRequest(entityName: name)
+        let request = createRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id == %@", argumentArray: [id])
 
@@ -60,8 +57,7 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
     }
 
     func getAll(sortDescriptors: [NSSortDescriptor], predicate: NSPredicate? = nil) -> Result<[Entity], RepositoryError> {
-        let name = String(describing: Entity.self)
-        let request: AbstractRequest = NSFetchRequest(entityName: name)
+        let request = createRequest()
         request.sortDescriptors = sortDescriptors
         request.predicate = predicate
 
@@ -69,7 +65,9 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
         return response
     }
 
-    private func fetch(_ request: AbstractRequest) -> Result<[Entity], RepositoryError> {
+    typealias GenericRequest = NSFetchRequest<NSFetchRequestResult>
+
+    private func fetch(_ request: GenericRequest) -> Result<[Entity], RepositoryError> {
         do {
             let rawResponse = try context.fetch(request)
             guard let response = rawResponse as? [Entity] else { return .failure(.typecast) }
@@ -77,5 +75,10 @@ struct CoreDataRepository<Entity: NSManagedObject>: Repository {
         } catch {
             return .failure(.requestFailed(with: error))
         }
+    }
+
+    private func createRequest() -> GenericRequest {
+        let name = String(describing: Entity.self)
+        return NSFetchRequest(entityName: name)
     }
 }
