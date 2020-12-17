@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5705823D258B1AEB00B62399 /* CDBookSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5705823C258B1AEB00B62399 /* CDBookSortTests.swift */; };
 		5706EB37258928910004B3DA /* CDBookSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5706EB36258928910004B3DA /* CDBookSort.swift */; };
 		5706EB5D2589BF750004B3DA /* CDBookStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5706EB5C2589BF750004B3DA /* CDBookStorageTests.swift */; };
 		5706EB652589CBBB0004B3DA /* UnitOfWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5706EB642589CBBB0004B3DA /* UnitOfWork.swift */; };
@@ -76,6 +77,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5705823C258B1AEB00B62399 /* CDBookSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDBookSortTests.swift; sourceTree = "<group>"; };
 		5706EB36258928910004B3DA /* CDBookSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDBookSort.swift; sourceTree = "<group>"; };
 		5706EB5C2589BF750004B3DA /* CDBookStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDBookStorageTests.swift; sourceTree = "<group>"; };
 		5706EB642589CBBB0004B3DA /* UnitOfWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitOfWork.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				5706EB5C2589BF750004B3DA /* CDBookStorageTests.swift */,
+				5705823C258B1AEB00B62399 /* CDBookSortTests.swift */,
 			);
 			path = persistence;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 			files = (
 				571A755E2581C11A004E2F5C /* DomainBookRepositoryTests.swift in Sources */,
 				5706EB5D2589BF750004B3DA /* CDBookStorageTests.swift in Sources */,
+				5705823D258B1AEB00B62399 /* CDBookSortTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
