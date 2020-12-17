@@ -28,7 +28,7 @@ struct CDBookSort {
     }
 
     static var factory = Factory()
-    static var loaded = factory.loadSort()
+    static var restored = factory.loadSort()
 
     // TODO: would be a smart idea to just convert Factory to a Manager and use that instead of saving on every change
     class Factory {

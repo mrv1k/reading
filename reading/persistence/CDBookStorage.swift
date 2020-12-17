@@ -15,16 +15,16 @@ class CDBookStorage: NSObject, ObservableObject {
     @Published var cdBooks = [Book]()
     private let controller: NSFetchedResultsController<Book>
 
-    @Published var sort = CDBookSort.loaded
-    @Published var sortSelection = CDBookSort.loaded.selection {
+    @Published var sort = CDBookSort.restored
+    @Published var sortSelection = CDBookSort.restored.selection {
         didSet { oldSortSelectionPublisher.send(oldValue) }
     }
-    private let oldSortSelectionPublisher = CurrentValueSubject<CDBookSort.Selection, Never>(CDBookSort.loaded.selection)
+    private let oldSortSelectionPublisher = CurrentValueSubject<CDBookSort.Selection, Never>(CDBookSort.restored.selection)
     private var cancellables = Set<AnyCancellable>()
 
     init(viewContext: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<Book> = Book.fetchRequest()
-        fetchRequest.sortDescriptors = [CDBookSort.loaded.descriptor]
+        fetchRequest.sortDescriptors = [CDBookSort.restored.descriptor]
 
         controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
