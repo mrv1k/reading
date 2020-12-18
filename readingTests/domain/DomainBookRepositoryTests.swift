@@ -25,7 +25,9 @@ class DomainBookRepositoryTests: XCTestCase {
 
         let result = repository.create(domainBook: input)
 
-        XCTAssertTrue(result == input, "Saves properties without mutations")
+        XCTAssertTrue(result.title == input.title, "Saves properties without mutations")
+        XCTAssertTrue(result.author == input.author, "Saves properties without mutations")
+        XCTAssertTrue(result.pageCount == input.pageCount, "Saves properties without mutations")
         XCTAssertNotNil(result.persistenceID, "Set `persistenceID` as indicator of getting persisted")
     }
 
