@@ -12,20 +12,33 @@ struct DomainSession: Equatable, Identifiable {
     var id: UUID { persistenceID ?? UUID() }
     var persistenceID: UUID? = nil
 
-    var percent: String = "10%"
-    var page: String = "10"
+    var percent: String = "69"
+    var page: String = "33"
     var recordedTime: String = Helpers.dateFormatters.time.string(from: Date())
-//    time = Helpers.dateFormatters.time.string(from: session.createdAt)
+}
+
+enum SessionProgress {
+    case pages
+    case percents
 }
 
 struct SessionRow: View {
-//    @ObservedObject var viewModel: SessionRowViewModel
     let session = DomainSession()
+    var displayProgress: SessionProgress = .pages
+
+    var progress: some View {
+        switch displayProgress {
+        case .pages: return pages
+        case .percents: return percents
+        }
+    }
+
+    var pages: Text { Text(session.page) + Text(" pages").foregroundColor(.gray) }
+    var percents: Text { Text(session.percent) + Text("%").foregroundColor(.gray) }
 
     var body: some View {
         HStack(spacing: 0) {
-            Text(session.page)
-            Text(" pages").foregroundColor(.gray)
+            progress
 
             Spacer()
             Text(session.recordedTime).font(.caption).foregroundColor(.gray)
@@ -36,20 +49,36 @@ struct SessionRow: View {
 struct SessionRow_Previews: PreviewProvider {
     static var previews: some View {
 //        let session = DomainSession()
-//        createdAt: Date(), progressPage: 13, raw_progressPercent: 130
         return Group {
-            SessionRow()
-                .previewLayout(.sizeThatFits)
+            Group {
+                SessionRow()
+                SessionRow(displayProgress: .percents)
+            }
+            .previewLayout(.sizeThatFits)
 
-            List {
-                Section(header: Text("Today")) {
-                    SessionRow()
+            Group {
+                List {
+                    Section(header: Text("Today")) {
+                        SessionRow()
+                    }
+                    Section(header: Text("December 16")) {
+                        SessionRow()
+                    }
+                    Section(header: Text("December 15")) {
+                        SessionRow()
+                    }
                 }
-                Section(header: Text("December 16")) {
-                    SessionRow()
-                }
-                Section(header: Text("December 15")) {
-                    SessionRow()
+
+                List {
+                    Section(header: Text("Today")) {
+                        SessionRow(displayProgress: .percents)
+                    }
+                    Section(header: Text("December 16")) {
+                        SessionRow(displayProgress: .percents)
+                    }
+                    Section(header: Text("December 15")) {
+                        SessionRow(displayProgress: .percents)
+                    }
                 }
             }
             .listStyle(InsetGroupedListStyle())
