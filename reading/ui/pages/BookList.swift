@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct BookList: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var unitOfWork: UnitOfWork
-
     var books: [DomainBook]
 
     @State private var createOpen = false
@@ -16,7 +14,7 @@ struct BookList: View {
                 })
 
             ForEach(books) { book in
-                NavigationLink(destination: EmptyView(), // BookDetail(book: book)
+                NavigationLink(destination: BookDetail(book: book),
                                label: { BookRow(book: book) })
             }
         }
