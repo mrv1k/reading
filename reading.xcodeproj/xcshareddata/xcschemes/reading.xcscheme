@@ -40,7 +40,7 @@
       </CodeCoverageTargets>
       <TestPlans>
          <TestPlanReference
-            reference = "container:readingTests/unit.xctestplan"
+            reference = "container:unit_tests/unit.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
