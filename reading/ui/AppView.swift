@@ -10,27 +10,11 @@ import SwiftUI
 
 @main
 struct AppView: App {
-    @Environment(\.scenePhase) private var scenePhase
-
-    let persistenceController: PersistenceController
-    @ObservedObject var settings = AppSettingsEditorViewModel.singleton
-
-    @StateObject var unitOfWork: UnitOfWork
-
-    init() {
-        persistenceController = PersistenceController.preview
-        let viewContext = persistenceController.container.viewContext
-        _unitOfWork = StateObject(wrappedValue: UnitOfWork(context: viewContext))
-    }
-
     var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationView { BookList(books: unitOfWork.domainBooks) }
+                NavigationView { EmptyView() }
                     .tabItem { Label("Library", systemImage: "books.vertical") }
-                    .environmentObject(settings)
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .environmentObject(unitOfWork)
 
                 NavigationView {
                     ScrollView {
@@ -67,22 +51,10 @@ struct AppView: App {
                 }
                 .tabItem { Label("Active", systemImage: "scroll") }
 
-                NavigationView { AppSettingsEditor() }
+                NavigationView { EmptyView() }
                     .tabItem { Label("Settings", systemImage: "gearshape") }
-                    .environmentObject(settings)
             }
             .edgesIgnoringSafeArea(.top)
-        }
-        .onChange(of: scenePhase, perform: backgroundSave)
-    }
-
-    private func backgroundSave(_ phase: ScenePhase) {
-        if phase == .background {
-            do {
-                try persistenceController.container.viewContext.saveOnChanges()
-            } catch {
-                print("onChange: failed to save on .inactive case")
-            }
         }
     }
 }

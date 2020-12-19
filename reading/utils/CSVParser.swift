@@ -77,23 +77,23 @@ struct CSVParser {
                 sessions[title]!.append(CSVSession(pageEnd: pageEnd, createdAt: createdAt))
             }
 
-            books.forEach { csvBook in
-                let book = Book(context: viewContext)
-                book.title = csvBook.value.title
-                book.author = csvBook.value.author
-                book.pageCount = Int16(csvBook.value.pageCount)!
-
-                sessions[csvBook.key]!.forEach { csvSession in
-                    let session = Session(context: viewContext)
-                    session.book = book
-                    session.pageEnd = Int16(csvSession.pageEnd)!
-                    session.computeMissingAttributes()
-
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd MMM yyyy"
-                    session.createdAt = dateFormatter.date(from: csvSession.createdAt) ?? session.createdAt
-                }
-            }
+//            books.forEach { csvBook in
+//                let book = Book(context: viewContext)
+//                book.title = csvBook.value.title
+//                book.author = csvBook.value.author
+//                book.pageCount = Int16(csvBook.value.pageCount)!
+//
+//                sessions[csvBook.key]!.forEach { csvSession in
+//                    let session = Session(context: viewContext)
+//                    session.book = book
+//                    session.pageEnd = Int16(csvSession.pageEnd)!
+//                    session.computeMissingAttributes()
+//
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "dd MMM yyyy"
+//                    session.createdAt = dateFormatter.date(from: csvSession.createdAt) ?? session.createdAt
+//                }
+//            }
         } catch let parseError as CSVParseError {
             print(parseError)
             fatalError("errors from parsing invalid formed CSV")
