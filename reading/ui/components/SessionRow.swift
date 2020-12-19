@@ -8,13 +8,10 @@
 
 import SwiftUI
 
-struct DomainSession: Equatable, Identifiable {
-    var id: UUID { persistenceID ?? UUID() }
-    var persistenceID: UUID? = nil
-
+struct DomainSession: Equatable {
     var percent: String = "69"
     var page: String = "33"
-    var recordedTime: String = Helpers.dateFormatters.time.string(from: Date())
+    var recordedTime: String = "10:13 PM"
 }
 
 enum SessionProgress {
@@ -47,8 +44,15 @@ struct SessionRow: View {
 }
 
 struct SessionRow_Previews: PreviewProvider {
+//    [31, 60, 83, 90]
+    let sessions = [
+        "Today": DomainSession(),
+        "December 16": DomainSession(),
+        "December 15": DomainSession(),
+        "December 14": DomainSession()
+    ]
+
     static var previews: some View {
-//        let session = DomainSession()
         return Group {
             Group {
                 SessionRow()

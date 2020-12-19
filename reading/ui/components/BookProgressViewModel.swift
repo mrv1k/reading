@@ -13,24 +13,27 @@ class BookProgressViewModel: ViewModel {
     @Published var completionPercent: Double = 0
     @Published var valueLabel: String = ""
 
-    init(book: Book, showLabel: Bool) {
+    init(book: DomainBook, showLabel: Bool) {
         self.showLabel = showLabel
 
-        let completionPercentPublisher = book.publisher(for: \.raw_completionPercent)
-            .map { Helpers.percentCalculator.rounded($0) }
+        var stub = 69
+        let completionPercentPublisher = stub
 
-        completionPercentPublisher.assign(to: &$completionPercent)
+//            book.publisher(for: \.raw_completionPercent)
+//            .map { Helpers.percentCalculator.rounded($0) }
 
-        guard showLabel else { return }
-        completionPercentPublisher.combineLatest(book.publisher(for: \.completionPage))
-            .map { (percent: Double, page: Int16) in
-                let percentText = "\(Int(percent))%"
-
-                let pageNoun = page == 1 ? "page" : "pages"
-                let pageText = "\(page) \(pageNoun)"
-                // TODO: a setting to toggle between percent (default) and pages
-                return "\(percentText) done / \(pageText) of \(book.pageCount) pages"
-            }
-            .assign(to: &$valueLabel)
+//        completionPercentPublisher.assign(to: &$completionPercent)
+//
+//        guard showLabel else { return }
+//        completionPercentPublisher.combineLatest(book.publisher(for: \.completionPage))
+//            .map { (percent: Double, page: Int16) in
+//                let percentText = "\(Int(percent))%"
+//
+//                let pageNoun = page == 1 ? "page" : "pages"
+//                let pageText = "\(page) \(pageNoun)"
+//                // TODO: a setting to toggle between percent (default) and pages
+//                return "\(percentText) done / \(pageText) of \(book.pageCount) pages"
+//            }
+//            .assign(to: &$valueLabel)
     }
 }

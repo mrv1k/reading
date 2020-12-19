@@ -11,7 +11,7 @@ import SwiftUI
 struct BookProgress: View, ViewModelObserver {
     @StateObject var viewModel: BookProgressViewModel
 
-    init(book: Book, showLabel: Bool = false) {
+    init(book: DomainBook, showLabel: Bool = false) {
         _viewModel = StateObject(wrappedValue: BookProgressViewModel(book: book, showLabel: showLabel))
     }
 
@@ -27,7 +27,9 @@ struct BookProgress: View, ViewModelObserver {
 
 struct BookProgress_Previews: PreviewProvider {
     static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+        // TODO: book should have progress prop
+        let book = DomainBook(title: "titleA", author: "authorA", pageCount: 100)
 
         return Group {
             BookProgress(book: book, showLabel: true)

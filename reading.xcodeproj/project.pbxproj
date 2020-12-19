@@ -318,10 +318,10 @@
 		57C065A4257DDD38004FC1BB /* readingTests */ = {
 			isa = PBXGroup;
 			children = (
-				57DD0EFA258AB19400C3D6C1 /* unit.xctestplan */,
-				5706EB502589BF490004B3DA /* persistence */,
-				57BC71082581C02500D848AF /* domain */,
 				57C065A7257DDD38004FC1BB /* Info.plist */,
+				57DD0EFA258AB19400C3D6C1 /* unit.xctestplan */,
+				57BC71082581C02500D848AF /* domain */,
+				5706EB502589BF490004B3DA /* persistence */,
 			);
 			path = readingTests;
 			sourceTree = "<group>";

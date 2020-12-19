@@ -20,7 +20,7 @@ struct SessionListBook: View, ViewModelObserver {
         ForEach(viewModel.sections, id: \.key) { dateHeader, rowViewModels in
             Section(header: Text(dateHeader)) {
                 ForEach(rowViewModels) { rowViewModel in
-                    SessionRow(viewModel: rowViewModel)
+                    SessionRow()
                 }
             }
         }
@@ -29,18 +29,13 @@ struct SessionListBook: View, ViewModelObserver {
 
 struct SessionListBook_Previews: PreviewProvider {
     static var previews: some View {
-        let book = BookSeeder.preview.fetch(bookWith: .sessions)
-        let sessions = book.sessions
+//        let book = BookSeeder.preview.fetch(bookWith: .sessions)
+//        let sessions = book.sessions
 
         return Group {
-            List {
-                SessionListBook(sessions: sessions)
-            }
-            .listStyle(InsetGroupedListStyle())
-
             NavigationView {
                 List {
-                    SessionListBook(sessions: sessions)
+//                    SessionListBook(sessions: sessions)
                 }
                 .listStyle(InsetGroupedListStyle())
             }
