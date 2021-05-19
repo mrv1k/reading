@@ -36,8 +36,6 @@ class SessionListBookViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
-        // FIXME:
-//        $sessions.sink(receiveValue:)
 //        $addSessionActive
 //            .dropFirst()
 //            .sink { active in

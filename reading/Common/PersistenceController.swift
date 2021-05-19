@@ -15,7 +15,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 
-        CSVParser(viewContext: viewContext)
+        _ = CSVParser(viewContext: viewContext)
 
 //        let bookSeeder = BookSeeder(viewContext: viewContext)
 //        let sessionSeeder = SessionSeeder(viewContext: viewContext)

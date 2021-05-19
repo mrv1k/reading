@@ -4,13 +4,23 @@ import SwiftUI
 class BookDetailViewModel: ViewModel {
     @Published var newSessionButtonHidden = false
     @Published var newSessionInput = ""
+    @Published var editMode = EditMode.inactive
+    
+    var sessionCreateFieldViewModel: SessionCreateFieldViewModel
+    init(book: Book) {
+        sessionCreateFieldViewModel = SessionCreateFieldViewModel(book: book)
+    }
 }
 
 struct BookDetail: View {
     @Environment(\.managedObjectContext) private var viewContext
     let book: Book
-    @StateObject var viewModel = BookDetailViewModel()
+    @StateObject var viewModel: BookDetailViewModel
 
+    init(book: Book) {
+        self.book = book
+        _viewModel = StateObject(wrappedValue: BookDetailViewModel(book: book))
+    }
     var addSessionButton: some View {
         HStack {
             Button {
@@ -29,7 +39,7 @@ struct BookDetail: View {
         VStack(alignment: .leading, spacing: 0) {
             List {
                 Section {
-                    BookProgress(book: book)
+                    BookProgress(book: book, showLabel: true)
                 }
 
                 SessionListBook(sessions: book.sessions)
@@ -41,18 +51,14 @@ struct BookDetail: View {
             }
             .listStyle(InsetGroupedListStyle())
 
-            HStack {
-                if viewModel.newSessionButtonHidden {
-                    HStack {
-                        TextField("hello", text: $viewModel.newSessionInput)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .introspectTextField { $0.becomeFirstResponder() }
-
-                        Image(systemName: "paperplane.circle.fill").font(.title)
+            if book.raw_completionPercent < 999 {
+                HStack {
+                    if viewModel.newSessionButtonHidden {
+                        SessionCreateField(viewModel: viewModel.sessionCreateFieldViewModel)
+                            .padding()
+                    } else {
+                        addSessionButton
                     }
-                    .padding()
-                } else {
-                    addSessionButton
                 }
             }
         }
@@ -60,17 +66,17 @@ struct BookDetail: View {
     }
 }
 
-struct BookDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        return Group {
-            BookDetail(book: BookSeeder.preview.fetch(bookWith: .sessions))
-                .previewLayout(.sizeThatFits)
-
-            NavigationView {
-                BookDetail(book: BookSeeder.preview.fetch(bookWith: .sessions))
-                    .navigationBarTitle("", displayMode: .inline)
-            }
-            .previewDevice("iPhone SE (2nd generation)")
-        }
-    }
-}
+//struct BookDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        return Group {
+//            BookDetail(book: BookSeeder.preview.fetch(bookWith: .sessions))
+//                .previewLayout(.sizeThatFits)
+//
+//            NavigationView {
+//                BookDetail(book: BookSeeder.preview.fetch(bookWith: .sessions))
+//                    .navigationBarTitle("", displayMode: .inline)
+//            }
+//            .previewDevice("iPhone SE (2nd generation)")
+//        }
+//    }
+//}
